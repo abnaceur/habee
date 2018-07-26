@@ -7,7 +7,7 @@ There are three branches:
  - Dev
 
 The *Master* branch is used for production. Only the features we know are perfectly working should be merged on *Master*  
-The *Staging* branch is made for test purposes. Once a feature is developed, it is merged on *Staging*.  
+The *Staging* branch is made for testing purposes. Once a feature is developed, it is merged on *Staging*.  
 The *Dev* branch is where new features are developped.
 
 We will use a strategy of *continuous integration*: the code is merged on its mother branch multiple times a day. This will help prevent what is known as "the merge hell".  
@@ -16,7 +16,7 @@ We will also use a continuous *delivery workflow*, where the code on the master 
 
 ## Git Commit messages guidlines
 
-Commit messages should conform to the following rules:
+Commit messages should conform to the following rules:  
 	- Title in capital letters
 	- The title is separated from the body of the message by one empty line
 	- A line should not be longer than 80 characters
