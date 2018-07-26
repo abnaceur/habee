@@ -17,11 +17,11 @@ We will also use a continuous *delivery workflow*, where the code on the master 
 ## Git Commit messages guidlines
 
 Commit messages should conform to the following rules:  
-	- Title in capital letters
-	- The title is separated from the body of the message by one empty line
-	- A line should not be longer than 80 characters
-	- The message must focus on the WHY and WHAT, not HOW.
-
+	- Title in capital letters  
+	- The title is separated from the body of the message by one empty line  
+	- A line should not be longer than 80 characters  
+	- The message must focus on the WHY and WHAT, not HOW.  
+  
 This template can be used for the commit messages:  
 
 > COMMIT MESSAGE TITLE
