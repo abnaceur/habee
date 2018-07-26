@@ -26,6 +26,8 @@ This template can be used for the commit messages:
 
 > COMMIT MESSAGE TITLE
 > 
-> Here, I explain WAT I did (the improvements I made to the code, what I removed
+> Here, I explain WHAT I did (the improvements I made to the code, what I removed
 > from it, etc...)
 > I alos explain WHY I did it.
+  
+A template ready for usage is also avaible in the *misc* floder, at the root of the repo.  
