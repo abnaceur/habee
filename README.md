@@ -5,7 +5,7 @@
 There are three branches:
  - Master - origin
  - Staging - follow master
- - Dev
+ - Develop - follow staging
 
 The *Master* branch is used for production. Only the features we know are perfectly working should be merged on *Master*  
 The *Staging* branch is made for testing purposes. Once a feature is developed, it is merged on *Staging*.  
