@@ -78,15 +78,13 @@ Edit your `/etc/hosts` file:
 
 ## Build the project
 
-Install the dependencies:
-
-1. Navigate to frontoffice
+Navigate to frontoffice
 
 ```bash
 cd frontoffice
 ```
 
-2. install the dependencies
+install the dependencies
 
 ```bash
 # you may need to use sudo
@@ -102,13 +100,13 @@ npm config set user 0
 npm config set unsafe-perm true
 ```
 
-3. Navigate to the backoffice
+Navigate to the backoffice
 
 ```bash
 cd ../backoffice
 ```
 
-4. install the dependencies
+install the dependencies
 
 ```bash
 # you may need to use sudo
@@ -125,14 +123,17 @@ Note: the port 80 must not be used by another application (like Apache or Skype)
 P.S: The build may take some time don't worry be happy and grab a cup of tea :)
 
 ### List of links
+
+```bash
 si.habee.local -> backend ( REST API )
 app.habee.local -> frontend
 app.habeedb.local:3300 -> mongoclient
+```
 
 ### Help
 
 To generate the bundler in app folder :
-```bash.
+```bash
 make build
 ```
 
