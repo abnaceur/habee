@@ -20,7 +20,7 @@ services:
     container_name: habee_backoffice_dev
     build: ./backoffice/
     environment:
-      - VIRTUAL_HOST=si.habee.dev
+      - VIRTUAL_HOST=si.habee.local
     ports:
       - "3000:3000"
     links:
@@ -38,7 +38,7 @@ services:
     container_name: habee_frontoffice_dev
     build: frontoffice/
     environment:
-      - VIRTUAL_HOST=www.habee.dev
+      - VIRTUAL_HOST=app.habee.local
     ports:
       - "8100:8100"
   
@@ -47,7 +47,7 @@ services:
     container_name: mongoclient
     hostname: mongoclient
     environment:
-      - VIRTUAL_HOST=www.habeedb.dev
+      - VIRTUAL_HOST=app.habeedb.local
     depends_on:
       - mongo
     networks:

@@ -125,8 +125,8 @@ P.S: The build may take some time don't worry be happy and grab a cup of tea :)
 ### List of links
 
 ```bash
-si.habee.local -> backend ( REST API )
-app.habee.local -> frontend
+si.habee.local:3000 -> backend ( REST API )
+app.habee.local:8100 -> frontend
 app.habeedb.local:3300 -> mongoclient
 ```
 
