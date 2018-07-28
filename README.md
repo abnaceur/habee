@@ -32,3 +32,9 @@ This template can be used for the commit messages:
 > I alos explain WHY I did it.
   
 A template ready for usage is also avaible in the *misc* floder, at the root of the repo.  
+
+
+ Go to your newly created project: cd ./frontoffice
+       - Get Ionic DevApp for easy device testing: https://bit.ly/ionic-dev-app
+       - Finish setting up Ionic Pro Error Monitoring: https://ionicframework.com/docs/pro/monitoring/#getting-started
+       - Finally, push your code to Ionic Pro to perform real-time updates, and more: git push ionic master

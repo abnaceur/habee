@@ -1,0 +1,8 @@
+{
+  "name": "frontoffice",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "pro_id": "f2139f2a"
+}

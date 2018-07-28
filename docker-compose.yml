@@ -1,0 +1,56 @@
+version: '2'
+
+services:
+
+  version: '2'
+
+networks:
+  mongodb_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      # Change this subnet range if it conflicts with your personal/work network
+        - subnet: 192.168.213.0/24
+          gateway: 192.168.213.1  
+
+services:
+
+  backoffice_dev:
+    container_name: habee_backoffice_dev
+    build: ./backoffice/
+    environment:
+      - VIRTUAL_HOST=si.habee.dev
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+  
+  mongo:
+    container_name: habee_mongo_dev
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+
+  frontoffice_dev:
+    container_name: habee_frontoffice_dev
+    build: frontoffice/
+    environment:
+      - VIRTUAL_HOST=www.habee.dev
+    ports:
+      - "8100:8100"
+  
+  mongoclient:
+    image: mongoclient/mongoclient:latest
+    container_name: mongoclient
+    hostname: mongoclient
+    environment:
+      - VIRTUAL_HOST=www.habeedb.dev
+    depends_on:
+      - mongo
+    networks:
+      - mongodb_net
+    ports:
+      - 3300:3000
