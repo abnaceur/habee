@@ -1,9 +1,10 @@
+
 # Habee repository
 
 ## Git flow
 There are three branches:
- - Master
- - Staging
+ - Master - origin
+ - Staging - follow master
  - Dev
 
 The *Master* branch is used for production. Only the features we know are perfectly working should be merged on *Master*  
