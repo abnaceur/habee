@@ -78,10 +78,10 @@ Edit your `/etc/hosts` file:
 
 ## Build the project
 
-Navigate to frontoffice
+Navigate to frontend
 
 ```bash
-cd frontoffice
+cd frontend
 ```
 
 install the dependencies
@@ -100,10 +100,10 @@ npm config set user 0
 npm config set unsafe-perm true
 ```
 
-Navigate to the backoffice
+Navigate to the backend
 
 ```bash
-cd ../backoffice
+cd ../backend
 ```
 
 install the dependencies

@@ -16,9 +16,9 @@ networks:
 
 services:
 
-  backoffice_dev:
-    container_name: habee_backoffice_dev
-    build: ./backoffice/
+  backend_dev:
+    container_name: habee_backend_dev
+    build: ./backend/
     environment:
       - VIRTUAL_HOST=si.habee.local
     ports:
@@ -34,9 +34,9 @@ services:
     ports:
       - "27017:27017"
 
-  frontoffice_dev:
-    container_name: habee_frontoffice_dev
-    build: frontoffice/
+  frontend_dev:
+    container_name: habee_frontend_dev
+    build: frontend/
     environment:
       - VIRTUAL_HOST=app.habee.local
     ports:
