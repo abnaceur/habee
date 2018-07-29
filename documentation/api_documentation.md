@@ -7,13 +7,13 @@ This api contains a lot of differents routes, more than what would seem necessar
 
 ## Principles of REST API:  
   
-  <pre>
+```
 	- Ressources are used to identify data, not actions nor files.   
 	- HTTP verbs are the action to be executed on the ressources. It should no be contained in the URI.  
 	- A URI can serve data in different formats. The format is determined by the "content negociation" method, which uses __ACCEPT__ headers in HTPP requests.  
 	- A human must be able to understand what a URI is serving, whithout having to read the documentation.  
 	- Returned ressources must reference other ressources by their URI, not by their name. Thus, any user can immediatly query those ressources.
-	</pre>
+```
   
 As said above, we should not follow those rules religiously. Developper experience (ease of use) is more important than a perfectly REST API.
   
@@ -21,14 +21,15 @@ As said above, we should not follow those rules religiously. Developper experien
   
 Each route must be thoroughly documented. Documentation __must__ best exhaustive.  
 In particular, documentation must contain:
+```
 	- The URI used to retrieve the ressource  
 	- The supported returned format (json, html, raw text, etc...), with an exemple for each format.  
 	- A description of the data.
 	- The supported HTTP methods (GET, POST, etc..) and the authentication level necessary for each one of them  
-
+```
 ## Routes
 
-<pre>
+```
 /communities										GET/POST
 /communities/id										GET/POST/UPDATE
 /communities/active									GET
@@ -60,7 +61,7 @@ passions/passionId									GET/POST/UPDATE
 /events/communityId									GET
 /events/communityId/isOver							GET/UPDATE
 /events/communityId/isNotOver						GET/UPDATE
-</pre>
+```
 
 ## /communities
 
@@ -81,7 +82,7 @@ We can look to expand the avaible format later on, if necessary.
 __CRUD__:  
 Crud operations that necessitate to create a new community must be made on this route. In that case, the query must be a POST query, with a body with JSON format containing the following informations:  
 __POST REQUEST EXPECTED FORMAT:__  
-<pre>
+```
 "community": {  
 	"communityId": "String",  
 	"communityName": "String",  
@@ -93,11 +94,11 @@ __POST REQUEST EXPECTED FORMAT:__
 	"clientId": "String",  
 	"communityIsActive": "Integer"  
 }  
-</pre>
+```
 __GET REQUEST RETURNED FORMAT:__  
 The ressource contains only two entries, the number of community and an array containing multiple community objects.  
-<pre>
-"communities": {  
+```
+communities": {  
 	"nbrCommunities": "Integer",  
 	"communities": [  
 		{  
@@ -118,7 +119,7 @@ The ressource contains only two entries, the number of community and an array co
 		}  
 	]  
 }  
-</pre>
+```
   
 Then, it will be up to the server to check the validity of this community,. The server will also accept the community if everything is ok, and reject it if there is a problem (communityId already exists, etc...)
 The logo picture will be given by the client and stored on a specific file on the server. The update of the communityLogo field is made by a POST request on community/id
@@ -137,7 +138,7 @@ This ressource is only returned using the json format.
 We can look to expand the avaible format later on, if necessary.  
   
 __GET REQUEST RESULT FORMAT:__  
-<pre>
+```
 "community": {  
 	"communityId": "Integer",  
 	"communityName": "String",  
@@ -148,7 +149,7 @@ __GET REQUEST RESULT FORMAT:__
 	"companyName": "String",  
 	"communityIsActive": "Integer"  
 }  
-</pre>
+```
 
 ## /communities/active
 
@@ -167,7 +168,7 @@ This ressource is only returned using the json format.
 We can look to expand the avaible format later on, if necessary.  
   
 __GET REQUEST RESULT:__  
-<pre>
+```
 "communities": {  
 	"communities": [  
 		{  
@@ -188,7 +189,7 @@ __GET REQUEST RESULT:__
 		}  
 	]  
 }  
-</pre>
+```
   
 ## /communities/isNotActive
   
@@ -229,7 +230,7 @@ This ressource supports the following http operations: GET & POST.
   
 __GET REQUEST RESULT:__  
 This ressource contains two fields: the number of users in the database, and an array of user objects.  
-<pre>
+```
 "users": {  
 	"nbrOfusers": "Integer",  
 	"users": [  
@@ -242,12 +243,12 @@ This ressource contains two fields: the number of users in the database, and an 
 		}  
 	]  
 }  
-</pre>
+```
   
 __POST REQUEST EXPECTED FORMAT:__  
 This is the minimum data expected to add a new user in the database.  
 All fields in the user datamodel can be filled, but only those ones are necessary for the creation of a new user.  
-<pre>
+```
 "user": {
 	"userId": "String",
 	"dateOfCreation": "String",
@@ -279,7 +280,7 @@ All fields in the user datamodel can be filled, but only those ones are necessar
 	"passedEvents": {
 	}
 }
-</pre>
+```
   
 ## /users/active
   
@@ -361,7 +362,7 @@ __CRUD OPERATIONS:__
 This rout accepts GET, PUT and POST requests.  
   
 __GET RETURNED FORMAT:__  
-<pre>
+```
 "user": {
 	"userId": "String",
 	"dateOfCreation": "String",
@@ -409,7 +410,7 @@ __GET RETURNED FORMAT:__
 		"PassedEvenementsParticipated": ["eventId", "eventId", "eventId"]
 	}
 }
-</pre>
+```
   
 ## /users/id/credentials
   
@@ -427,7 +428,7 @@ __CRUD OPERATIONS__:
 This route supports GET, PUT and POST requests.  
   
 __GET_RETURNED_FORMAT__:  
-<pre>
+```
 "user": {
 	"userId": "String",
 	"dateOfCreation": "String",
@@ -442,13 +443,13 @@ __GET_RETURNED_FORMAT__:
 		"password": "String"
 	}
 }
-</pre>
+```
 
 __UPDATE AND POST EXCPECTED FORMAT__:  
 The route expects only a "user" object, with the userId field, and the updated or posted field(s) specified.  
 The userId is absolutly necessery, otherwise the request will be rejected.
 ex:  
-<pre>
+```
 "user": {
 	"userId": "String",
 	"credentials": {
@@ -461,10 +462,10 @@ ex:
 		"password": "String"
 	}
 }
-</pre>
+```
 
 If a field is empty, it wont be updated. If the credentials field is empty, nothing will be updated. To delete all the credentials (BE CAREFUL!) you have to put all the fields inside credentials to en empty object. For exemple:  
-<pre>
+```
 "user": {
 	"userId": "String",
 	"credentials": {
@@ -477,7 +478,7 @@ If a field is empty, it wont be updated. If the credentials field is empty, noth
 		"password": "{}"
 	}
 }
-</pre>
+```
   
 In the above exemple, all fields inside credentials will be put to NULL.  
   
