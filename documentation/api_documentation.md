@@ -7,11 +7,13 @@ This api contains a lot of differents routes, more than what would seem necessar
 
 ## Principles of REST API:  
   
+  <pre>
 	- Ressources are used to identify data, not actions nor files.   
 	- HTTP verbs are the action to be executed on the ressources. It should no be contained in the URI.  
 	- A URI can serve data in different formats. The format is determined by the "content negociation" method, which uses __ACCEPT__ headers in HTPP requests.  
 	- A human must be able to understand what a URI is serving, whithout having to read the documentation.  
 	- Returned ressources must reference other ressources by their URI, not by their name. Thus, any user can immediatly query those ressources.
+	</pre>
   
 As said above, we should not follow those rules religiously. Developper experience (ease of use) is more important than a perfectly REST API.
   
@@ -26,6 +28,7 @@ In particular, documentation must contain:
 
 ## Routes
 
+<pre>
 /communities										GET/POST
 /communities/id										GET/POST/UPDATE
 /communities/active									GET
@@ -57,27 +60,28 @@ passions/passionId									GET/POST/UPDATE
 /events/communityId									GET
 /events/communityId/isOver							GET/UPDATE
 /events/communityId/isNotOver						GET/UPDATE
+</pre>
 
-#### /communities
+## /communities
 
-ROUTE:  
+__ROUTE__:  
 /communities  
   
-USAGE:   
+__USAGE__:   
 This route is used to get all the communities on Habee, and to post new communities.  
   
-DESCRIPTION OF THE RESSOURCE:  
+__DESCRIPTION OF THE RESSOURCE__:  
 This ressources contains a list of all the communities. Each community contains its name, its communityId, the number of members, the date of creation.It also contains the status of the community: active or not.  
 It does no list all the users since it is supposed to offer an overview of all the communities in Habee. To have a list of all the users, you must do a GET query to /users  
   
-RETURNED FORMAT:  
+__RETURNED FORMAT__:  
 This ressource is only returned using the json format.  
 We can look to expand the avaible format later on, if necessary.  
   
-CRUD:  
+__CRUD__:  
 Crud operations that necessitate to create a new community must be made on this route. In that case, the query must be a POST query, with a body with JSON format containing the following informations:  
-POST REQUEST EXPECTED FORMAT:  
-`
+__POST REQUEST EXPECTED FORMAT:__  
+<pre>
 "community": {  
 	"communityId": "String",  
 	"communityName": "String",  
@@ -89,10 +93,10 @@ POST REQUEST EXPECTED FORMAT:
 	"clientId": "String",  
 	"communityIsActive": "Integer"  
 }  
-`
-GET REQUEST RETURNED FORMAT:  
+</pre>
+__GET REQUEST RETURNED FORMAT:__  
 The ressource contains only two entries, the number of community and an array containing multiple community objects.  
-`
+<pre>
 "communities": {  
 	"nbrCommunities": "Integer",  
 	"communities": [  
@@ -114,26 +118,26 @@ The ressource contains only two entries, the number of community and an array co
 		}  
 	]  
 }  
-`
+</pre>
   
 Then, it will be up to the server to check the validity of this community,. The server will also accept the community if everything is ok, and reject it if there is a problem (communityId already exists, etc...)
 The logo picture will be given by the client and stored on a specific file on the server. The update of the communityLogo field is made by a POST request on community/id
 
-#### /communities/id
+## /communities/id
 
-ROUTE:  
+__ROUTE:__  
 /communities/id  
   
-USAGE:  
+__USAGE:__  
 This ressource is used to access data specific to one community: the community of id: id. The communityId is avaible in pretty much any ressource, and thus is accessbile at almost any time whithout additionnal request.  
 This ressource contains the communityId, its name, the list of administrators, the list of members, the dateOfCreation and the dateOfLastUpdate, the name of the company responsable for this community. It also contains the status of the community: active or not.
   
-SUPPORTED FORMATS:  
+__SUPPORTED FORMATS:__  
 This ressource is only returned using the json format.  
 We can look to expand the avaible format later on, if necessary.  
   
-GET REQUEST RESULT FORMAT:  
-`
+__GET REQUEST RESULT FORMAT:__  
+<pre>
 "community": {  
 	"communityId": "Integer",  
 	"communityName": "String",  
@@ -144,26 +148,26 @@ GET REQUEST RESULT FORMAT:
 	"companyName": "String",  
 	"communityIsActive": "Integer"  
 }  
-`
+</pre>
 
-#### /communities/active
+## /communities/active
 
-ROUTE:  
+__ROUTE:__  
 /communities/active  
   
-USAGE:  
+__USAGE:__  
 This ressource answers to a GET request and list all active communities.  
   
-DESCRIPTION OF THE RESSOURCE:  
+__DESCRIPTION OF THE RESSOURCE:__  
 This ressource is used to give a list of all communities whose communityIsActive field has the value active.
 This ressource contains a single filed, containing an array of objects representing communities.Thoses community objects contain the communityId, the communityName, the nbrOfMembers of the community and the date of creation.
   
-SUPPORTED FORMAT:  
+__SUPPORTED FORMAT:__  
 This ressource is only returned using the json format.  
 We can look to expand the avaible format later on, if necessary.  
   
-GET REQUEST RESULT:  
-`
+__GET REQUEST RESULT:__  
+<pre>
 "communities": {  
 	"communities": [  
 		{  
@@ -184,48 +188,48 @@ GET REQUEST RESULT:
 		}  
 	]  
 }  
-`
+</pre>
   
-#### /communities/isNotActive
+## /communities/isNotActive
   
-ROUTE:  
+__ROUTE:__  
 /communities/isNotActive  
   
-DESCRIPTION OF THE RESSOURCEE:  
+__DESCRIPTION OF THE RESSOURCEE:__  
 This ressource answers to a GET request and list all inactive communities.  
   
-USAGE:  
+__USAGE:__  
 This ressource is used to give a list of all communities whose communityIsActive filed has the value inactive.  
 This ressource contains a single filed, containing an array of objects representing communities.Thoses community objects contain the communityId, the communityName, the nbrOfMembers of the community and the date of creation.
   
-SUPPORTED FORMAT:  
+__SUPPORTED FORMAT:__  
 This ressource is only returned using the json format.  
 We can look to expand the avaible format later on, if necessary.  
   
-DATA:  
+__DATA:__  
 Exactly the same format as /community/active  
   
-### /users
+## /users
   
-ROUTE:  
+__ROUTE:__  
 /users  
   
-DESCRIPTION OF THE RESSOURCE:  
+__DESCRIPTION OF THE RESSOURCE:__  
 This ressource is used to get the list of all users in the database, and to add new users to it with a post request.  
   
-USAGE:  
+__USAGE:__  
 This ressource is used to retrieve a list of all users. All users in the habee database will be listed, no matter their community. For this very reason, the data avaible for each user will be limited.  
   
-SUPPORTED FORMAT:  
+__SUPPORTED FORMAT:__  
 This ressource is only returned using the json format.  
 We can look to expand the avaible format later on, if necessary.  
   
-CRUD:  
+__CRUD:__  
 This ressource supports the following http operations: GET & POST.
   
-GET REQUEST RESULT:  
+__GET REQUEST RESULT:__  
 This ressource contains two fields: the number of users in the database, and an array of user objects.  
-`
+<pre>
 "users": {  
 	"nbrOfusers": "Integer",  
 	"users": [  
@@ -238,12 +242,12 @@ This ressource contains two fields: the number of users in the database, and an 
 		}  
 	]  
 }  
-`
+</pre>
   
-POST REQUEST EXPECTED FORMAT:  
+__POST REQUEST EXPECTED FORMAT:__  
 This is the minimum data expected to add a new user in the database.  
 All fields in the user datamodel can be filled, but only those ones are necessary for the creation of a new user.  
-`
+<pre>
 "user": {
 	"userId": "String",
 	"dateOfCreation": "String",
@@ -275,80 +279,213 @@ All fields in the user datamodel can be filled, but only those ones are necessar
 	"passedEvents": {
 	}
 }
-`
+</pre>
   
-### /users/active
+## /users/active
   
-ROUTE:  
+__ROUTE:__  
 /users/active
   
-USAGE:  
+__USAGE:__  
 This ressource is used to access all the active users, from all the database, no matter the community.  
 For this very reason, the amount of data avaible for each user will be limited.  
   
-CRUD OPERATIONS:  
+__CRUD OPERATIONS:__  
 This route only answers to GET requests.
   
-GET RETURNED FORMAT:  
+__GET RETURNED FORMAT:__  
 This ressource is only returned using the json format.
 The returned data format is the same as the returned data from a GET request to the /users route.  
   
-### /users/isNotActive
+## /users/isNotActive
   
-ROUTE:  
+__ROUTE:__  
 /users/isNotActive
   
-USAGE:  
+__USAGE:__  
 This ressource is used to access all the inactive users, from all the database, no matter the community.  
 For this very reason, the amount of data avaible for each user will be limited.  
   
-CRUD OPERATIONS:  
+__CRUD OPERATIONS:__  
 This route only answers to GET requests.
   
-GET RETURNED FORMAT:  
+__GET RETURNED FORMAT:__  
 This ressource is only returned using the json format.
 The returned data format is the same as the returned data from a GET request to the /users route.  
   
-### /users/administrators
+## /users/administrators
   
-ROUTE:  
+__ROUTE:__  
 /users/administrators
   
-USAGE:  
+__USAGE:__  
 This ressource is used to access all the users whose role is administrator, from all the database, no matter the community.  
 For this very reason, the amount of data avaible for each user will be limited.  
   
-CRUD OPERATIONS:  
+__CRUD OPERATIONS:__  
 This route only answers to GET requests.
   
-GET RETURNED FORMAT:  
+__GET RETURNED FORMAT:__  
 This ressource is only returned using the json format.
 The returned data format is the same as the returned data from a GET request to the /users route.  
   
-### /users/notAdmin
+## /users/notAdmin
   
-ROUTE:  
+__ROUTE:__  
 /users/notAdmin
   
-USAGE:  
+__USAGE:__  
 This ressource is used to access all the users who do not have an administrator role, from all the database, no matter the community.  
 For this very reason, the amount of data avaible for each user will be limited.  
   
-CRUD OPERATIONS:  
+__CRUD OPERATIONS:__  
 This route only answers to GET requests.
   
-GET RETURNED FORMAT:  
+__GET RETURNED FORMAT:__  
 This ressource is only returned using the json format.
 The returned data format is the same as the returned data from a GET request to the /users route.  
   
-### /users/id
+## /users/id
   
-ROUTE:  
+__ROUTE:__  
 /users/id  
   
-USAGE:  
-This ressource is used to access a spceific user, specified by its userId.  
-This route answers to both GET and POST requests.  
+__USAGE:__  
+This ressource is used to access a specific user, specified by its userId.  
+It is used to obtain all the informations relative to a user, and to update the information of this user.  
   
-SUPPORTED FORMATS:  
-This route  C PAS FINI LOL
+__SUPPORTED FORMATS:__  
+This route answers to GET request and accepts POST request with the json format only.  
+  
+__CRUD OPERATIONS:__  
+This rout accepts GET, PUT and POST requests.  
+  
+__GET RETURNED FORMAT:__  
+<pre>
+"user": {
+	"userId": "String",
+	"dateOfCreation": "String",
+	"dateOfLastUpdate": "String",
+	"credentials": {
+		"surname": "String",
+		"firstname": "String",
+		"birthDate": "String",
+		"address": "String",
+		"mail": "String",
+		"phone": "String",
+		"password": "String"
+	},
+	"communities": ["communityId", "communityId"],
+	"profile": [
+		{
+			"communityId": "communityId",
+			"photo": "pathToImage",
+			"username": "String",
+			"isAdmin": "Integer",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String",
+			"userIsActive": "Integer"
+		},
+		{
+			"communityId": "communityId",
+			"photo": "pathToImage",
+			"username": "String",
+			"isAdmin": "Integer",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String",
+			"userIsActive": "Integer"
+		}
+	],
+	"passions": ["passionId", "passionId"],
+	"skills": ["skilId", "skillId"],
+	"currentEvents": {
+		"eventsICreated": ["eventId", "eventId"],
+		"eventsIParticipate": ["eventId", "eventId", "eventId", "eventId"]
+	},
+	"parameters": {
+	},
+	"passedEvents": {
+		"PassedevenementsICreated": ["eventId", "eventId"],
+		"PassedEvenementsParticipated": ["eventId", "eventId", "eventId"]
+	}
+}
+</pre>
+  
+## /users/id/credentials
+  
+__ROUTE__:  
+/users/id/credentials  
+  
+__USAGE__:  
+  
+This route is used to access only the credentials of a user. It can be used when only thoses informations are required, for authentication for exemple, and the rest of the user's data is ireevelant.  
+  
+__SUPPORTED_FORMATS__:  
+This route only supports JSON format, both for GET, PUT and POST request.
+  
+__CRUD OPERATIONS__:  
+This route supports GET, PUT and POST requests.  
+  
+__GET_RETURNED_FORMAT__:  
+<pre>
+"user": {
+	"userId": "String",
+	"dateOfCreation": "String",
+	"dateOfLastUpdate": "String",
+	"credentials": {
+		"surname": "String",
+		"firstname": "String",
+		"birthDate": "String",
+		"address": "String",
+		"mail": "String",
+		"phone": "String",
+		"password": "String"
+	}
+}
+</pre>
+
+__UPDATE AND POST EXCPECTED FORMAT__:  
+The route expects only a "user" object, with the userId field, and the updated or posted field(s) specified.  
+The userId is absolutly necessery, otherwise the request will be rejected.
+ex:  
+<pre>
+"user": {
+	"userId": "String",
+	"credentials": {
+		"surname": "String",
+		"firstname": "String",
+		"birthDate": "String",
+		"address": "String",
+		"mail": "String",
+		"phone": "String",
+		"password": "String"
+	}
+}
+</pre>
+
+If a field is empty, it wont be updated. If the credentials field is empty, nothing will be updated. To delete all the credentials (BE CAREFUL!) you have to put all the fields inside credentials to en empty object. For exemple:  
+<pre>
+"user": {
+	"userId": "String",
+	"credentials": {
+		"surname": "{}",
+		"firstname": "{}",
+		"birthDate": "{}",
+		"address": "{}",
+		"mail": "{}",
+		"phone": "{}",
+		"password": "{}"
+	}
+}
+</pre>
+  
+In the above exemple, all fields inside credentials will be put to NULL.  
+  
+## /users/id/communityId/profile
+  
+__ROUTE__:  
+/users/id/communityId/profile  
+  
+__USAGE__:  
+This route is used to access the profile of a user of the community whose id is communityId.  
+For exemple, /users/usr
