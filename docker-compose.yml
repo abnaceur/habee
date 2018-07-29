@@ -15,12 +15,22 @@ networks:
           gateway: 192.168.213.1  
 
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    container_name: habee_nginx
 
   backend_dev:
     container_name: habee_backend_dev
     build: ./backend/
     environment:
       - VIRTUAL_HOST=si.habee.local
+    volumes : 
+      - ./backend/:/usr/src/app:rw
     ports:
       - "3000:3000"
     links:
@@ -37,6 +47,8 @@ services:
   frontend_dev:
     container_name: habee_frontend_dev
     build: frontend/
+    volumes :
+      - ./frontend/:/usr/src/app:rw
     environment:
       - VIRTUAL_HOST=app.habee.local
     ports:
