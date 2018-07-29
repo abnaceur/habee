@@ -1,3 +1,7 @@
 /data
-/frontoffice/node-modules
-/backoffice/node-modules
+/frontend/node-modules
+/backend/node-modules
+
+*.swp
+*.vim
+commit_msg_template
