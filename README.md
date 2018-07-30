@@ -100,6 +100,7 @@ npm config set user 0
 npm config set unsafe-perm true
 ```
 
+
 Navigate to the backend
 
 ```bash
@@ -118,10 +119,24 @@ npm install
 docker-compose up --build
 ```
 
-Note: the port 80 must not be used by another application (like Apache or Skype).
+Note : the port 80 must not be used by another application (like Apache or Skype).
 
-P.S: The build may take some time don't worry be happy and grab a cup of tea :)
+P.S : The build may take some time don't worry be happy and grab a cup of tea :)
 
+P.S : If you face a "missing node-sass module in usr/app" issue then 
+stop docker and follow this steps
+```bash
+a. In frontend/Dockerfile -> comment line 18 and delet '\' at the end of line 17
+b. in docker-compose.yml line 56 add this line of code
+command: npm rebuild node-sass --force
+```
+
+Now restart docker 
+```bash
+docker-compose up 
+```
+If the error presist plaese contact : contact@naceur-abdeljalil.com
+s
 ### List of links
 
 ```bash
@@ -129,6 +144,15 @@ si.habee.local:3000 -> backend ( REST API )
 app.habee.local:8100 -> frontend
 app.habeedb.local:3300 -> mongoclient
 ```
+
+### Database connection
+
+- Navigate to : app.habeedb.local:3300
+- Create a new connection :
+	- Connection Name (Optional) : Habeedb
+	- Host/Port : 192.168.213.1
+	- Database name : habeedb
+
 
 ### Help
 
