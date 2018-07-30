@@ -42,17 +42,17 @@ In particular, documentation must contain:
 /users/notAdmin										GET
 /users/id											GET/POST
 /users/id/credentials								GET/POST/UPDATE
-/users/id/communityId/profile						GET/POST/UPDATE
-/users/id/communityId/profile/skills				GET/POST/UPDATE
-/users/id/communityId/profile/passions				GET/POST/UPDATE
-/users/id/communityId/profile/currentEvents			GET/POST/UPDATE
-/users/id/communityId/profile/passedEvents			GET/POST/UPDATE
+/users/id/communityId                               GET/POST/UPDATE
+/users/id/communityId/skills				        GET/POST/UPDATE
+/users/id/communityId/passions				        GET/POST/UPDATE
+/users/id/communityId/currentEvents			        GET/POST/UPDATE
+/users/id/communityId/passedEvents			        GET/POST/UPDATE
 
 /passions											GET/POST
 passions/passionId									GET/POST/UPDATE
 /passions/communityId								GET
 
-/skills												GET
+/skills												GET/POST
 /skills/communityId									GET
 
 /events												GET/POST
@@ -482,11 +482,552 @@ If a field is empty, it wont be updated. If the credentials field is empty, noth
   
 In the above exemple, all fields inside credentials will be put to NULL.  
   
-## /users/id/communityId/profile
+## /users/id/communityId
   
 __ROUTE__:  
-/users/id/communityId/profile  
+/users/id/communityId
   
 __USAGE__:  
-This route is used to access the profile of a user of the community whose id is communityId.  
-For exemple, /users/usr
+This route is used to access all the informations of a user relative to the community whose id is communityId.  
+For exemple,  a GET query to /users/usr_jea_2018_0/com_hab_2018_0 will return all the passions, skills, username, avatar, etc... of the user for the community /users/usr_jea_2018_0/com_hab_2018_0   
+  
+__SUPPORTED FORMATS__:  
+This route only supports the json format for all requests, GET, POST, and PUT.  
+  
+  __CRUD_OPERATIONS__:  
+This route supports GET, POST AND PUT operations.
+  
+__GET_RETURNED_FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"dateOfCreation": "String",
+	"dateOfLastUpdate": "String",
+	"credentials": {
+		"surname": "String",
+		"firstname": "String",
+		"birthDate": "String",
+		"mail": "String",
+	},
+	"communities": ["communityId", "communityId"],
+	"profile": {
+		"communityId": "communityId",
+		"photo": "pathToImage",
+		"username": "String",
+		"isAdmin": "Integer"
+	}
+	"passions": ["passionId", "passionId"],
+	"skills": ["skilId", "skillId"],
+	"currentEvents": {
+		"eventsICreated": ["eventId", "eventId"],
+		"eventsIParticipate": ["eventId", "eventId", "eventId", "eventId"]
+	},
+	"parameters": {
+	},
+	"passedEvents": {
+		"PassedevenementsICreated": ["eventId", "eventId"],
+		"PassedEvenementsParticipated": ["eventId", "eventId", "eventId"]
+	}
+}
+```
+  
+The only differences with a query to /users/id are:  
+- the profile is not an arry, but an object containing only the profile og the relevant community.  
+- the passions filed is an array of the passions related to the community only. All other passions have been filtered out.  
+- - the skills field is an array of the skills related to the community only. All other skills have benn filtered out.  
+- The events field only contains the events of this community only. All other events of other communities have benn filtered out. The same goes to passedEvents.  
+  
+__POST AND PUT EXPECTED FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"credentials": {
+		"surname": "String",
+		"firstname": "String",
+		"birthDate": "String",
+		"mail": "String",
+	},
+	"communities": ["communityId", "communityId"],
+	"profile": {
+		"communityId": "communityId",
+		"photo": "pathToImage",
+		"username": "String",
+		"isAdmin": "Integer",
+	}
+	"passions": ["passionId", "passionId"],
+	"skills": ["skilId", "skillId"],
+	"currentEvents": {
+		"eventsICreated": ["eventId", "eventId"],
+		"eventsIParticipate": ["eventId", "eventId", "eventId", "eventId"]
+	},
+	"parameters": {
+	},
+	"passedEvents": {
+		"PassedevenementsICreated": ["eventId", "eventId"],
+		"PassedEvenementsParticipated": ["eventId", "eventId", "eventId"]
+	}
+}
+```
+As always, to complety remove all the elements of a field, you must pass an empty object to the  field. ex: "skills": "{}'  
+If you pass an empty array to the field containing, or if the field is omitted, then nothing will be changed.  
+The only mandatory field is the userId one. All other fields are optionnal.  
+In the case of array, the new array will be appended to the one in the database. All duplicates will be kept, so it's up to you to ensure there is none before querying the database.  
+  
+  
+## /users/id/communityId/skills
+  
+__ROUTE__:  
+/users/id/communityId/skills  
+  
+__USAGE__:  
+This route is only used to access the skills of a user for a specific community. All other fields are considered irrelevant. The idea is to minimize as much as possible the work on the client side by moving it to the server side. It's up to the server to filter the user document to get only those data.
+  
+  __SUPPORTED FORMATS__:  
+    
+This route only supports the json format, both for GET and POST requests.
+  
+  __CRUD OPERATIONS__:  
+  
+This route supports GET, POST and PUT operations.  
+  
+__GET RETURNED FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"dateOfCreation": "String",
+	"dateOfLastUpdate": "String",
+	"skills": ["skilId", "skillId"]
+}
+```
+  
+The skills are filtered out. Only the skills relevant to the community are returned.  
+  
+__POST AND PUT EXPECTED FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"skills": ["skilId", "skillId"]
+}
+```
+The array of skills will be appended to the one in the database. All duplicates will be kept, so it is up to you to ensure there is no duplicate in the array.  
+As always, to complety remove all the elements of the array, you must pass an empty object to the "skills" field. ex: "skills": "{}'  
+If you pass an empty array to the "skills" field, or if the field is omitted, then nothing will be changed.  
+  
+## /users/id/communityId/passions
+  
+  __ROUTE__:  
+/users/id/communityId/passions  
+  
+__USAGE__:  
+This route is used to GET, the passions of a user specific to a community. It is also used to update them with a PUT request or to add the field "passions" if there is none using the POST request.  
+  
+  __SUPPORTED FORMATS__:  
+  
+This route only supports the json format for all requests.  
+We can expand it later on if necessary.  
+  
+__CRUD OPERATIONS__  
+This route supports GET, POST and PUT operations.  
+  
+  __GET RETURNED FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"pasisons": [passionId", "passionId"]
+}
+```
+  
+  __POST AND PUT EXPECTED FORMAT__:  
+    
+```
+"user": {
+	"userId": "String",
+	"pasisons": [passionId", "passionId"]
+}
+```
+The array of passions will be appended to the one in the database. All duplicates will be kept, so it is up to you to ensure there is no duplicate in the array.  
+As always, to complety remove all the elements of the array, you must pass an empty object to the "passions" field. ex: "passions": "{}'  
+If you pass an empty array to the "passions" field, or if the field is omitted, then nothing will be changed.  
+  
+## /users/id/communityId/currentEvents
+  
+__ROUTE__:  
+  
+/users/id/communityId/currentEvents  
+  
+__USAGE__:  
+  
+This route enables us to retrieve only the currentEvents specific to user for a specific community. If the user is part of multiple communities, only the currentEvents of the community whose Id is specified in the route will be used.  
+  
+__CRUD OPERATIONS__:  
+  
+This route supports GET, POST and PUT operations.
+  
+__GET_RETURNED_FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"currentEvents": {
+		"eventsICreated": ["eventId", "eventId"],
+		"eventsIParticipate": ["eventId", "eventId", "eventId", "eventId"]
+	}
+}
+```
+  
+__POST AND UPDATE EXPECTED FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"currentEvents": {
+		"eventsICreated": ["eventId", "eventId"],
+		"eventsIParticipate": ["eventId", "eventId", "eventId", "eventId"]
+	}
+}
+```
+  
+The only required field is the userId. All other fields are optional.  
+If the currentEvents field is omitted, nothing will change. If the eventICreated or/and the eventIParticipate are omitted or empty arrays, nothing will change.  
+All valeus passed to the eventICreated and/or eventIParticipate will be appended to the correpsonding field.
+As always, to complety remove all the elements of the array, you must pass an empty object to the  field. ex: "eventiCreated": "{}'. This will completly remove the corresponding field.  
+  
+##  /users/id/communityId/passedEvents
+  
+__ROUTE__:  
+  
+/users/id/communityId/passedEvents  
+  
+__USAGE__:  
+  
+This route is used only to retrieve the passed events of a user for a specific community.  
+Only passed events are of interest. All other fields will be filtered out.  
+The idea is to give as few work possible to the client, and let the server do the heavy work.  
+  
+__SUPORTED FORMATS__:  
+  
+  This route only supports the json format, for GET, POST and PUT requests.  
+  
+__CRUD OPERATIONS__:  
+  
+This route supports GET, POST and PUT requests.  
+  
+__GET RETURNED FORMAT__:  
+  
+```
+"user": {
+	"userId": "String",
+	"passedEvents": {
+		"PassedevenementsICreated": ["eventId", "eventId"],
+		"PassedEvenementsParticipated": ["eventId", "eventId", "eventId"]
+	}
+}
+```
+  
+__POST AND PUT EXPECTED FORMAT__:  
+  
+
+```
+"user": {
+	"userId": "String",
+	"passedEvents": {
+		"passedEventsICreated": ["eventId", "eventId"],
+		"passedEventsIParticipated": ["eventId", "eventId", "eventId"]
+	}
+}
+```
+The only required field is the userId. All other fields are optional.  
+If the passedEvents field is omitted, nothing will change. If the passedEventICreated or/and the passedEventIParticipate are omitted or empty arrays, nothing will change.  
+All valeus passed to the passedEventICreated and/or passedEventIParticipate will be appended to the correpsonding field.
+As always, to complety remove all the elements of the array, you must pass an empty object to the  field. ex: "passedEventICreated": "{}'. This will completly remove the corresponding field.  
+## /passions
+  
+__ROUTE__:  
+  
+/passions  
+  
+__USAGE__:  
+  
+This route is used to query all the passions in the habee database, no matter their community.   
+__SUPPORTED FORMATS__:  
+  
+  This route only supports the json format.  
+    
+__CRUD OPERATIONS__:  
+  
+This route supports GET, POST and PUT operations.  
+  
+__GET RETURNED FORMAT__:  
+  
+```
+"passions": "{
+	"allPassions": [
+		"passion": {
+			"passionId": "String",
+			"passionForCommunity": "communityId",
+			"passionName": "String",
+			"passionImage": "pathToImage",
+			"subPassions": [
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				},
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				}
+			]
+		},
+		"passion": {
+			"passionId": "String",
+			"passionForCommunity": "communityId",
+			"passionName": "String",
+			"passionImage": "pathToImage",
+			"subPassions": [
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				},
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				}
+			]
+		}
+	]
+}
+```
+A GET request ti this route returns an array of passions.  
+  
+__POST EXPECTED FORMAT__:  
+  
+```
+"passions": "{
+	"allPassions": [
+		"passion": {
+			"passionId": "String",
+			"passionForCommunity": "communityId",
+			"passionName": "String",
+			"passionImage": "pathToImage",
+			"subPassions": [
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				},
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				}
+			]
+		},
+		"passion": {
+			"passionId": "String",
+			"passionForCommunity": "communityId",
+			"passionName": "String",
+			"passionImage": "pathToImage",
+			"subPassions": [
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				},
+				{
+					"subPassionId": "String",
+					"subPassionName": "String",
+					"subPassionCategory": "passionId",
+					"subPassionImage": "pathToImage",
+					"dateOfCreation": "String",
+					"dateOfLastUpdate": "String"
+				}
+			]
+		}
+	]
+}
+```
+You should pass a "passion" object, containg an array "allPassions", containg all the passions you whish to update.  
+For each passion:  
+The only required field is the passionId. All other fields are optional.  
+If a field is omitted, it will not change. If an empty array is passed to a field containing an array, nothing will change.  
+All values passed to an array will be appended to an array. Duplicates will be kept, so it is iup to you to ensure there is none.  
+As always, to complety remove all the elements of the array, you must pass an empty object to the  field. ex: "subPassions": "{}'. This will completly remove the corresponding field.  
+To remove the value of a field, you must pass it an empty object. For exemple: "passionImage": "{}".  
+  
+## /skills
+  
+__ROUTE__:  
+  
+/skills  
+  
+__USAGE__:  
+  
+This route is used to list all skills, no matter the user they blong to and the community the user is from.   
+  
+__SUPPORTED FORMATS__:  
+  
+This route only supports the json format.  
+  
+__CRUD OPERATIONS__:  
+  
+This route supports GET, POST and PUT operations.  
+  
+__GET RETURNED FORMAT__:  
+  
+```
+"skills": {
+	"skills": [
+		"skill" : {
+			"skillId": "String",
+			"skillForUser": "userId",
+			"userCommunity": "communityId",
+			"skillName": "name",
+			"skillImage": "pathToImage",
+			"skillMastery": "String",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String"
+		},
+		"skill" : {
+			"skillId": "String",
+			"skillForUser": "userId",
+			"userCommunity": "communityId",
+			"skillName": "name",
+			"skillImage": "pathToImage",
+			"skillMastery": "String",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String"
+		}
+	]
+}
+```
+  
+__POST AND PUT EXPECTED FORMAT__:  
+  
+```
+"skills": {
+	"skills": [
+		"skill" : {
+			"skillId": "String",
+			"skillForUser": "userId",
+			"userCommunity": "communityId",
+			"skillName": "name",
+			"skillImage": "pathToImage",
+			"skillMastery": "String",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String"
+		},
+		"skill" : {
+			"skillId": "String",
+			"skillForUser": "userId",
+			"userCommunity": "communityId",
+			"skillName": "name",
+			"skillImage": "pathToImage",
+			"skillMastery": "String",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String"
+		}
+	]
+}
+```
+In case of a POST request, you should pass an array of skills you whish to add to to the database as documents. Each skill in the array in the field "skills" will be a new document.  
+The required fields are skillId, skillname, skillForUser (a skill must be related to a user), skillCommunity (the community of the user who has the skill), and the skillMastery (the level of mastery reached by the user on this specfic skill).  
+In case of a PUT request: the only necessary skill in each element of the "skills" field is the "skillId". The server will iterate through the array "skills" and update each skill based on their skillId.  
+A field whithout a value wont be updated. A new value will replace the current one. To delete a value, you must replace if by an empty object. Exemple: "skillImage": "{}".  
+  
+##  /skills/communityId
+  
+__ROUTE__:  
+  
+/skills/communityId  
+  
+__USAGE__:  
+  
+This route returns all the skills in a given community.  
+  
+__SUPPORTED FORMATS__:  
+  
+This route only supports the JSON format.  
+  
+__CRUD OPERATIONS__:  
+  
+This route supports the GET operation.  
+  
+__GET RETURNED FORMAT__:  
+  
+  ```
+"skillsForCommunity": {
+	"communityId": "String",
+	"nbrOfSkills": "Integer",
+	"skills": [
+		"skill" : {
+			"skillId": "String",
+			"skillForUser": "userId",
+			"userCommunity": "communityId",
+			"skillName": "name",
+			"skillImage": "pathToImage",
+			"skillMastery": "String",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String"
+		},
+		"skill" : {
+			"skillId": "String",
+			"skillForUser": "userId",
+			"userCommunity": "communityId",
+			"skillName": "name",
+			"skillImage": "pathToImage",
+			"skillMastery": "String",
+			"dateOfCreation": "String",
+			"dateOfLastUpdate": "String"
+		}
+	]
+}
+```
+  
+# /events
+  
+__ROUTE__:  
+  
+/events  
+  
+__USAGE__:  
+  
+  This route is used to interact with all the events in the Habee database, current and passed, no matter the community they take place in.  
+    
+__SUPPORTED FORMATS__:  
+  
+This route only supports the json format.  
+  
+__CRUD OPERATIONS__:  
+  
+This route only supports the GET operation.  
+  

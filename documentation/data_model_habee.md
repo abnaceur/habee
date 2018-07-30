@@ -1,5 +1,5 @@
 # Data Model of the Habbe project
-<pre>
+```
 "community": {
 	"communityId": "String",
 	"communityName": "String",
@@ -56,8 +56,8 @@
 	"parameters": {
 	},
 	"passedEvents": {
-		"PassedevenementsICreated": ["eventId", "eventId"],
-		"PassedEvenementsParticipated": ["eventId", "eventId", "eventId"]
+		"passedEventsICreated": ["eventId", "eventId"],
+		"passedEventsIParticipated": ["eventId", "eventId", "eventId"]
 	}
 }
 
@@ -88,7 +88,8 @@
 
 "skill" : {
 	"skillId": "String",
-	"skillForCommunity": "communityId",
+	"skillForUser": "userId",
+	"userCommunity": "communityId",
 	"skillName": "name",
 	"skillImage": "pathToImage",
 	"skillMastery": "String",
@@ -112,7 +113,7 @@
 	"participantsId": ["userId", "userId", "userdId"],
 	"eventIsOver": "Boolean"
 }
-</pre>
+```
 
 ## Commentaries
 Les champs passionForCommunity permettent de specifier des passions differentes
@@ -131,13 +132,13 @@ disctinction entre les deux.
 ## IDs formats
 
 There are multiple Ids in Habee:  
-<pre>
+```
 	- communityId
 	- userId
 	- passionId
 	- skillId
 	- eventId
-</pre>
+```
   
 Here are the different formats of the ids.
   
@@ -168,10 +169,11 @@ The X contains the full name of the passion (the sub_pasison of the data model),
 For exemple, if the passion is "footbal", in the category "sport", the the passionId would be: `pas_football_0`.  
   
 __SKILL_ID__:  
-`skl_X_nbr.`
+`skl_X_usr_nbr.`
   
 Same rule as above. X contains the full name of the skill.  
-For exemple `skl_excel_0`.
+usr contains the first three letters of he user who has this skill.
+For exemple `skl_excel_jea_0`.
   
 __EVENT_ID__:  
 `evt_X_year_month_nbr.`  
