@@ -1,13 +1,25 @@
 var createError = require('http-errors');
 var express = require('express');
+require('dotenv').config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var db = require('./config/dbConnection');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// Open connection to the database
+db.once('open', function() {
+  console.log('Connected to mongodb!');
+});
+
+// Catch errors on database connection failure
+db.on('error', function(err){
+  console.log('Error while connecting to database: ', err)
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -114,6 +114,14 @@ install the dependencies
 npm install
 ```
 
+Copy the .env file in the backend
+
+```bash
+# environment variables
+cp .env-template .env
+```
+Go back to the root folder and build the project
+
 ```bash
 # Build the project
 docker-compose up --build
