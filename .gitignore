@@ -1,7 +1,8 @@
-/data
-/frontend/node-modules
-/backend/node-modules
-
+data/
 *.swp
 *.vim
 commit_msg_template
+backend/package-lock.json
+frontend/package-lock.json
+backend/node_modules/
+backend/.env
