@@ -129,6 +129,15 @@ stop docker and follow this steps
 a. In frontend/Dockerfile -> comment line 18 and delet '\' at the end of line 17
 b. in docker-compose.yml line 56 add this line of code
 command: npm rebuild node-sass --force
+
+Once the build finish and the node-sass has been rebuilt
+stop your docker sontainer and :
+
+a. In frontend/Dockerfile -> uncomment line 18 and add '\' at the end of line 17
+b. in docker-compose.yml delete line 56
+
+Start your docker : docker-compose up
+
 ```
 
 Now restart docker 
@@ -154,7 +163,35 @@ app.habeedb.local:3300 -> mongoclient
 	- Database name : habeedb
 
 
+
+
 ### Help
+
+If you face an error with mongdb while running docker related to repair database
+stop your docker and do the following :
+
+```bash
+In docker-compose line 46 add :
+command: mongod --repair
+start your docker.
+Once the build finish and the database has been repaired
+stop your docker sontainer and delete the line of code number 46
+and start your docker.
+```
+
+
+
+If you face this error message in backend "no space left"
+the stop docker and execute this command :
+
+```bash
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+Explanation :
+
+```bash
+ echo fs.inotify.max_user_watches=524288 it increase the number of watches of nodemon as you made some changes in your project and sudo tee -a /etc/sysctl.conf && sudo sysctl -p is sysctl command for configure kernel parameters at runtime
+```
 
 To generate the bundler in app folder :
 ```bash
