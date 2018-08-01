@@ -1,15 +1,42 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
-require('dotenv').config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var db = require('./config/dbConnection');
+var bodyParser = require('body-parser');
 
+// Main app
+var app = express();
+
+
+// Logs
+app.use(logger('dev'));
+
+// Body parser
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+
+// Fix CORS errors
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-headers', 
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods','PUT, POST, GET, PATCH, DELETE');
+    return res.status(200).json({});
+  };
+  next();
+});
+
+// Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
-var app = express();
+var communitiesRouter = require('./routes/communities');
 
 // Open connection to the database
 db.once('open', function() {
@@ -31,8 +58,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// Call routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/communities', communitiesRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

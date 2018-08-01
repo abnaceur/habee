@@ -31,7 +31,7 @@ In particular, documentation must contain:
 
 ```
 /communities										GET/POST
-/communities/id										GET/POST/UPDATE
+/communities/id										GET/POST/UPDATE/DELETE
 /communities/active									GET
 /communities/isNotActive							GET
 
