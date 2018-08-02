@@ -30,16 +30,16 @@ In particular, documentation must contain:
 ## Routes
 
 ```
-/communities										GET/POST
-/communities/id										GET/POST/UPDATE/DELETE
-/communities/active									GET
-/communities/isNotActive							GET
+/communities										GET/POST [DONE]
+/communities/id										GET/UPDATE/ [DONE]
+/communities/active									GET [DONE]
+/communities/isNotActive							GET [DONE]
 
-/users												GET/POST
-/users/isNotActive									GET
-/users/isActive										GET
-/users/administrators								GET
-/users/notAdmin										GET
+/users												GET/POST [DONe]
+/users/isNotActive									GET [DONE]
+/users/isActive										GET [DONE]
+/users/administrators								GET [DONE]
+/users/notAdmin										GET [DONE]
 /users/id											GET/POST
 /users/id/credentials								GET/POST/UPDATE
 /users/id/communityId                               GET/POST/UPDATE

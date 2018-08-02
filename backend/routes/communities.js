@@ -49,7 +49,7 @@ router.get('/', (req, res, next) => {
     .then(communities => {
         if (communities.length === 0) {
             return res.status(404).json({
-                message: "Communities not found!"
+                message: "There are no communities!"
             })
         } else {
         res.status(200).json({
@@ -84,7 +84,10 @@ router.post('/', upload.single('communityLogo'), (req, res, next) => {
     community
     .save()
     .then(res => {
-        console.log(res);
+        res.status(200).jsons({
+            success: "True",
+            community: community 
+        })
     })
     .catch(err => {
         res.status(500).json({
@@ -152,7 +155,7 @@ router.get('/isNotActive', (req, res, next) => {
 });
 
 /*
-** API routes [GET] [DELETE] [PATCH] for /communities/id
+** API routes [GET] [PATCH] for /communities/id
 */
 
 router.get('/:id', (req, res, next) => {
@@ -164,7 +167,7 @@ router.get('/:id', (req, res, next) => {
     .then(com => {
         if (com.length === 0) {
             return res.status(404).json({
-                message: "Community not found!"
+                message: "Community not found or id not valid!"
             })
         } else {
         res.status(200).json({
@@ -201,30 +204,14 @@ router.patch('/:id',upload.single('communityLogo'), (req, res, next) => {
         })
     .exec()
     .then(results => {
-        req.status(200).json({
+        res.status(200).json({
             success: results
         })
     })
     .catch(err => {
-        req.status(500).json({
+        res.status(500).json({
             Error: err
         })
-    });
-});
-
-router.delete('/:id', (req, res, next) => {
-    const id = req.params.id;
-    Community.remove({
-        communityId: id
-    })
-    .exec()
-    .then(results => {
-        res.status(200).json(results);
-    })
-    .catch(err => {
-        res.status(500).json({
-            error: err
-        });
     });
 });
 

@@ -29,13 +29,13 @@
 	"communities": ["communityId", "communityId"],
 	"profile": [
 		{
-			"communityId": "communityId",
-			"photo": "pathToImage",
-			"username": "String",
-			"isAdmin": "Integer",
-			"dateOfCreation": "String",
-			"dateOfLastUpdate": "String",
-			"userIsActive": "Integer"
+			"profileCommunityId": "communityId",
+			"profilePhoto": "pathToImage",
+			"profileUsername": "String",
+			"profileIsAdmin": "Integer",
+			"profiledateOfCreation": "String",
+			"profileDateOfLastUpdate": "String",
+			"profileUserIsActive": "Integer"
 		},
 		{
 			"communityId": "communityId",
