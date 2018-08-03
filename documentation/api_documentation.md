@@ -53,7 +53,8 @@ passions/passionId									GET/POST/UPDATE
 /passions/communityId								GET
 
 /skills												GET/POST
-/skills/communityId									GET
+/skills/community/communityId						GET
+/skills/skillId										GET/UPDATE
 
 /events												GET/POST
 /events/isOver										GET

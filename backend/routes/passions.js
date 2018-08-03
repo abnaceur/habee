@@ -74,20 +74,54 @@ router.get('/', (req, res, next) => {
 
 
 /**
+ * API [GET] foor route /passions/communityId
+ */
+
+router.get('/:id', (req, res, next) => {
+    const id = req.params.id;
+    Passion.find({
+        passionForCommunity: id
+    })
+    .exec()
+    .then(pass => {
+        if (pass.length === 0) {
+            return res.status(404).json({
+                message: "passion by communityId not found or id not valid!"
+            })
+        } else {
+        res.status(200).json({
+            passion: pass,
+            request: {
+                type: "[GET]",
+                url: "http://si.habee.local:3000/passions"
+            }
+        });
+    }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            Error: err
+        });
+    });
+});
+
+
+
+/**
  * API [GET] foor route /passions/id
  */
 
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
-    console.log('id', id);
-     Passion.find({
+    Passion.find({
         passionId: id
     })
     .exec()
     .then(pass => {
         if (pass.length === 0) {
             return res.status(404).json({
-                message: "Community not found or id not valid!"
+                message: "Passion not found or id not valid!"
             })
         } else {
         res.status(200).json({

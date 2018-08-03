@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 
 // Skill schema
 let skillSchema = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     skillId: String,
 	skillForCommunity: String,
 	skillName: String,

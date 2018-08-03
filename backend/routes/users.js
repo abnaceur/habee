@@ -510,6 +510,11 @@ router.patch('/:id/:communityId', (req, res, next) => {
         });
 });
 
+/**
+ * API [GET] for route /users/id/communityId/skills
+ */
+
+ 
 
 
 

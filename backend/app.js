@@ -67,7 +67,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/communities', communitiesRouter);
 app.use('/passions', passionsRouter);
-//app.use('/skills', skillsRouter);
+app.use('/skills', skillsRouter);
 //app.use('/events', eventsRouter);
 
 // catch 404 and forward to error handler

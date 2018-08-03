@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 
 // Passion schema
 let passionSchema = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
 	passionId: String,
 	passionForCommunity: String,
 	passionName: String,

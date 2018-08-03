@@ -31,7 +31,7 @@ const upload = multer({
 });
 
 /*
-** API [GET] [POST] for route /communites
+** API [GET] [POST] for route /communites   
 */
 
 router.get('/', (req, res, next) => {
