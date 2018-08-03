@@ -37,6 +37,9 @@ app.use((req, res, next) => {
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var communitiesRouter = require('./routes/communities');
+var passionsRouter = require('./routes/passions');
+var skillsRouter = require('./routes/skills');
+var eventsRouter = require('./routes/events');
 
 // Open connection to the database
 db.once('open', function() {
@@ -59,11 +62,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Call routes
+// Call routes API
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/communities', communitiesRouter);
-
+app.use('/passions', passionsRouter);
+//app.use('/skills', skillsRouter);
+//app.use('/events', eventsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -12,8 +12,14 @@ let passionSchema = mongoose.Schema({
 			subPassionName: String,
 			subPassionCategory: String,
 			subPassionImage: String,
-			dateOfCreation: Date,
-			dateOfLastUpdate: Date,
+			dateOfCreation: {
+				type: Date,
+				default: Date.now
+			},
+			dateOfLastUpdate: {
+				type: Date,
+				default: Date.now
+			},
 		}
 	]
 });

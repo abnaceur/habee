@@ -35,12 +35,12 @@ In particular, documentation must contain:
 /communities/active									GET [DONE]
 /communities/isNotActive							GET [DONE]
 
-/users												GET/POST [DONe]
+/users												GET/POST [DONE]
 /users/isNotActive									GET [DONE]
 /users/isActive										GET [DONE]
 /users/administrators								GET [DONE]
-/users/notAdmin										GET [DONE]
-/users/id											GET/POST
+/users/notAdmin										GET [DONE]	
+/users/id											GET/UPDATE []
 /users/id/credentials								GET/POST/UPDATE
 /users/id/communityId                               GET/POST/UPDATE
 /users/id/communityId/skills				        GET/POST/UPDATE
@@ -434,7 +434,7 @@ __GET_RETURNED_FORMAT__:
 	"dateOfCreation": "String",
 	"dateOfLastUpdate": "String",
 	"credentials": {
-		"surname": "String",
+		"username": "String",
 		"firstname": "String",
 		"birthDate": "String",
 		"address": "String",

@@ -11,13 +11,13 @@
   },
   "communities": [],
   "profile": [{
-    "profileCummunityId": "com_tes_2016_9",
+    "profileCummunityId": "com_tes_2016_229",
     "profilePhoto": "/path/",
     "profileUsername": "this",
     "profileIsAdmin": 1,
     "profileUserIsActove": 1
   }],
-  "passions": [],
+  "passions": ["5b6450cba2b6c50551c3ffd8"],
   "skills": [],
   "currentEvents": {
     "eventsICreated": [],

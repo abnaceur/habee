@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const community = require('../models/community');
 const mongoose = require('mongoose');
 const multer = require('multer');
 
@@ -53,7 +54,7 @@ router.post('/', upload.single('profilePhoto'), (req, res, next) => {
         communities: req.body.communities,
         profile: req.body.profile,
         profileCummunityId: req.body.profileCummunityId,
-      //  profilePhoto: req.file.path,
+        //  profilePhoto: req.file.path,
         profileUsername: req.body.profileUsername,
         profileIsAdmin: req.body.profileIsAdmin,
         profileUserIsActive: req.body.profileUserIsActove,
@@ -113,8 +114,8 @@ router.get('/', (req, res, next) => {
 });
 
 /*
-** API [GET] for route /users/active
-*/
+ ** API [GET] for route /users/active
+ */
 
 router.get('/active', (req, res, next) => {
     let nb = 0;
@@ -123,9 +124,10 @@ router.get('/active', (req, res, next) => {
         .then(count => {
             nb = count;
         });
-    User.find({ "profile.profileUserIsActive" : true
-    })
-       .select("userId dateOfCreaton communities skills passions")
+    User.find({
+            "profile.profileUserIsActive": true
+        })
+        .select("userId dateOfCreaton communities skills passions")
         .exec()
         .then(users => {
             if (users.length === 0) {
@@ -148,8 +150,8 @@ router.get('/active', (req, res, next) => {
 
 
 /*
-** API [GET] for route /users/isNotActive
-*/
+ ** API [GET] for route /users/isNotActive
+ */
 
 router.get('/isNotActive', (req, res, next) => {
     let nb = 0;
@@ -158,9 +160,10 @@ router.get('/isNotActive', (req, res, next) => {
         .then(count => {
             nb = count;
         });
-    User.find({ "profile.profileUserIsActive" : false
-    })
-       .select("userId dateOfCreaton communities skills passions")
+    User.find({
+            "profile.profileUserIsActive": false
+        })
+        .select("userId dateOfCreaton communities skills passions")
         .exec()
         .then(users => {
             if (users.length === 0) {
@@ -182,8 +185,8 @@ router.get('/isNotActive', (req, res, next) => {
 });
 
 /*
-** API [GET] for route /users/administrators
-*/
+ ** API [GET] for route /users/administrators
+ */
 
 router.get('/administrators', (req, res, next) => {
     let nb = 0;
@@ -192,9 +195,10 @@ router.get('/administrators', (req, res, next) => {
         .then(count => {
             nb = count;
         });
-    User.find({ "profile.profileIsAdmin" : 1
-    })
-       .select("userId dateOfCreaton communities skills passions")
+    User.find({
+            "profile.profileIsAdmin": 1
+        })
+        .select("userId dateOfCreaton communities skills passions")
         .exec()
         .then(users => {
             if (users.length === 0) {
@@ -217,8 +221,8 @@ router.get('/administrators', (req, res, next) => {
 
 
 /*
-** API [GET] for route /users/notAdmin
-*/
+ ** API [GET] for route /users/notAdmin
+ */
 
 router.get('/notAdmin', (req, res, next) => {
     let nb = 0;
@@ -227,9 +231,10 @@ router.get('/notAdmin', (req, res, next) => {
         .then(count => {
             nb = count;
         });
-    User.find({ "profile.profileIsAdmin" : 0
-    })
-       .select("userId dateOfCreaton communities skills passions")
+    User.find({
+            "profile.profileIsAdmin": 0
+        })
+        .select("userId dateOfCreaton communities skills passions")
         .exec()
         .then(users => {
             if (users.length === 0) {
@@ -251,45 +256,45 @@ router.get('/notAdmin', (req, res, next) => {
 });
 
 /*
-**  API [GET] for route /user/:id
+ **  API [GET] for route /user/:id
  */
 
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
-     User.find({
-        userId: id
-    })
-    .exec()
-    .then(usr => {
-        if (usr.length === 0) {
-            return res.status(404).json({
-                message: "User not found or id not valid!"
-            })
-        } else {
-        res.status(200).json({
-            User: usr
+    User.find({
+            userId: id
+        })
+        .exec()
+        .then(usr => {
+            if (usr.length === 0) {
+                return res.status(404).json({
+                    message: "User not found or id not valid!"
+                })
+            } else {
+                res.status(200).json({
+                    User: usr
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                Error: err
+            });
         });
-    }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            Error: err
-        });
-    });
 });
 
 /*
-**  API [PATCH] for route /user/:id
+ **  API [PATCH] for route /user/:id
  */
 
-router.patch('/:id',upload.single('profilePhoto'), (req, res, next) => {
+router.patch('/:id', upload.single('profilePhoto'), (req, res, next) => {
     const id = req.params.id;
-    
-    User.update(
-        { userId: id },
-        {$set: 
-            {
+
+    User.update({
+            userId: id
+        }, {
+            $set: {
                 userId: req.body.userId,
                 credentials: req.body.credentials,
                 username: req.body.username,
@@ -299,15 +304,15 @@ router.patch('/:id',upload.single('profilePhoto'), (req, res, next) => {
                 mail: req.body.mail,
                 phone: req.body.phone,
                 password: req.body.password,
-        
+
                 communities: req.body.communities,
                 profile: req.body.profile,
                 profileCummunityId: req.body.profileCummunityId,
-               // profilePhoto: req.file.path,
+                // profilePhoto: req.file.path,
                 profileUsername: req.body.profileUsername,
                 profileIsAdmin: req.body.profileIsAdmin,
                 profileUserIsActive: req.body.profileUserIsActove,
-        
+
                 passions: req.body.passions,
                 skills: req.body.skills,
                 currentEvents: req.body.currentEvents,
@@ -319,61 +324,61 @@ router.patch('/:id',upload.single('profilePhoto'), (req, res, next) => {
                 PassedEvenementsParticipated: req.body.PassedEvenementsParticipated,
             }
         })
-    .exec()
-    .then(updatedUser => {
-        res.status(200).json({
-            Success: updatedUser
+        .exec()
+        .then(updatedUser => {
+            res.status(200).json({
+                Success: updatedUser
+            })
         })
-    })
-    .catch(err => {
-        res.status(500).json({
-            Error: err
-        })
-    });
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        });
 });
 
 
 /*
-** API [GET] for route /users/id/credentials 
-*/
+ ** API [GET] for route /users/id/credentials 
+ */
 
 router.get('/:id/credentials', (req, res, next) => {
     const id = req.params.id;
-     User.find({
-        userId: id
-    })
-    .select("userId dateOfCreaton dateOfLastUpdate dateOfCreation credentials ")
-    .exec()
-    .then(usr => {
-        if (usr.length === 0) {
-            return res.status(404).json({
-                message: "User not found or id not valid!"
-            })
-        } else {
-        res.status(200).json({
-            User: usr
+    User.find({
+            userId: id
+        })
+        .select("userId dateOfCreaton dateOfLastUpdate dateOfCreation credentials ")
+        .exec()
+        .then(usr => {
+            if (usr.length === 0) {
+                return res.status(404).json({
+                    message: "User not found or id not valid!"
+                })
+            } else {
+                res.status(200).json({
+                    User: usr
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                Error: err
+            });
         });
-    }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            Error: err
-        });
-    });
 });
 
 /*
-* API [PATCH] for route /users/id/credentials 
-*/
+ * API [PATCH] for route /users/id/credentials 
+ */
 
 router.patch('/:id/credentials', (req, res, next) => {
     const id = req.params.id;
-    
-    User.update(
-        { userId: id },
-        {$set: 
-            {
+
+    User.update({
+            userId: id
+        }, {
+            $set: {
                 userId: req.body.userId,
                 credentials: req.body.credentials,
                 username: req.body.username,
@@ -385,68 +390,83 @@ router.patch('/:id/credentials', (req, res, next) => {
                 password: req.body.password,
             }
         })
-    .exec()
-    .then(updatedUser => {
-        res.status(200).json({
-            Success: updatedUser
+        .exec()
+        .then(updatedUser => {
+            res.status(200).json({
+                Success: updatedUser
+            })
         })
-    })
-    .catch(err => {
-        res.status(500).json({
-            Error: err
-        })
-    });
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        });
 });
 
 /*
-** API [GET] for route /users/id/communityId   
-*/
-
-// TODO GET ONLY THE PROFILE FOR THE RIGHT COMMUNTY
+ ** API [GET] for route /users/id/communityId   
+ */
 
 router.get('/:id/:communityId', (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
-     User.find({
-        userId: id  
-    })
-    //.where("profile.profileCummunityId").equals(communityId)
-    .exec()
-    .then(usr => {
-        if (usr.length === 0) {
-            return res.status(404).json({
-                message: "User not found or id not valid!"
-            })
-        } else {
-        res.status(200).json({
-            User: usr
+    let nbProfile = 0;
+
+    community.count().exec()
+        .then(count => {
+            nbProfile = count;
         });
-    }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            Error: err
+
+    User.find({
+            userId: id
+        })
+        .exec()
+        .then(usrs => {
+            if (usrs.length === 0) {
+                return res.status(404).json({
+                    message: "User not found or id not valid!"
+                })
+            } else {
+                Object.entries(usrs).forEach(
+                    ([key, value]) => {
+                        nbProfile = value.profile.length - 1;
+                        while (nbProfile >= 0) {
+                            if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
+                                delete value.profile[nbProfile];
+                            }
+                            nbProfile--;
+                        }
+                    }
+                );
+                res.status(200).json({
+                    User: usrs
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                Error: err
+            });
         });
-    });
 });
 
 /*
-** API [PATCH] for route /users/id/communityId   
-*/
+ ** API [PATCH] for route /users/id/communityId   
+ */
 
 router.patch('/:id/:communityId', (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
-     User.find({
+    User.find({
         userId: id,
-        "profile.profileCummunityId" : communityId  
+        "profile.profileCummunityId": communityId
     })
-    
-    User.update(
-        { userId: id },
-        {$set: 
-            {
+
+    User.update({
+            userId: id
+        }, {
+            $set: {
                 userId: req.body.userId,
                 credentials: req.body.credentials,
                 username: req.body.username,
@@ -456,15 +476,15 @@ router.patch('/:id/:communityId', (req, res, next) => {
                 mail: req.body.mail,
                 phone: req.body.phone,
                 password: req.body.password,
-        
+
                 communities: req.body.communities,
                 profile: req.body.profile,
                 profileCummunityId: req.body.profileCummunityId,
-               // profilePhoto: req.file.path,
+                // profilePhoto: req.file.path,
                 profileUsername: req.body.profileUsername,
                 profileIsAdmin: req.body.profileIsAdmin,
                 profileUserIsActive: req.body.profileUserIsActove,
-        
+
                 passions: req.body.passions,
                 skills: req.body.skills,
                 currentEvents: req.body.currentEvents,
@@ -474,20 +494,20 @@ router.patch('/:id/:communityId', (req, res, next) => {
                 passedEvents: req.body.passedEvents,
                 PassedevenementsICreated: req.body.passedEvents,
                 PassedEvenementsParticipated: req.body.PassedEvenementsParticipated,
-     
+
             }
         })
-    .exec()
-    .then(updatedUser => {
-        res.status(200).json({
-            Success: updatedUser
+        .exec()
+        .then(updatedUser => {
+            res.status(200).json({
+                Success: updatedUser
+            })
         })
-    })
-    .catch(err => {
-        res.status(500).json({
-            Error: err
-        })
-    });
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        });
 });
 
 
