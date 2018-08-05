@@ -36,32 +36,33 @@ In particular, documentation must contain:
 /communities/isNotActive							GET [DONE]
 
 /users												GET/POST [DONE]
-/users/isNotActive									GET [DONE]
+/users/isNotActive									GET [DONE] 
 /users/isActive										GET [DONE]
 /users/administrators								GET [DONE]
 /users/notAdmin										GET [DONE]	
-/users/id											GET/UPDATE []
-/users/id/credentials								GET/POST/UPDATE
-/users/id/communityId                               GET/POST/UPDATE
+/users/id											GET/UPDATE [DONE]
+/users/id/credentials								GET/POST/UPDATE [DONE]
+/users/id/communityId                               GET/POST/UPDATE [DONE]
 /users/id/communityId/skills				        GET/POST/UPDATE
 /users/id/communityId/passions				        GET/POST/UPDATE
 /users/id/communityId/currentEvents			        GET/POST/UPDATE
 /users/id/communityId/passedEvents			        GET/POST/UPDATE
 
-/passions											GET/POST
-passions/passionId									GET/POST/UPDATE
-/passions/communityId								GET
+/passions											GET/POST [DONE]
+passions/passionId									GET/POST/UPDATE [DONE]
+/passions/communityId								GET [DONE]
 
-/skills												GET/POST
-/skills/community/communityId						GET
-/skills/skillId										GET/UPDATE
+/skills												GET/POST [DONE]
+/skills/community/communityId						GET [DONE]
+/skills/skillId										GET/UPDATE [DONE]
 
-/events												GET/POST
-/events/isOver										GET
-/events/isNotOver									GET
-/events/communityId									GET
-/events/communityId/isOver							GET/UPDATE
-/events/communityId/isNotOver						GET/UPDATE
+/events												GET/POST [DONE]
+/events/eventId										GET/UPDATE [DONE]
+/events/all/isOver									GET [DONE]
+/events/isNotOver									GET [DONE]
+/events/community/communityId						GET [DONE]
+/events/communityId/isOver							GET/UPDATE [DONE]
+/events/communityId/isNotOver						GET/UPDATE [DONE]
 ```
 
 ## /communities

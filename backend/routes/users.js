@@ -514,6 +514,52 @@ router.patch('/:id/:communityId', (req, res, next) => {
  * API [GET] for route /users/id/communityId/skills
  */
 
+
+router.get('/:userId/:communityId/skills', (req, res, next) => {
+    const id = req.params.userId;
+    const communityId = req.params.communityId;
+    let nbProfile = 0;
+
+    community.count().exec()
+        .then(count => {
+            nbProfile = count;
+        });
+
+    User.find({
+            userId: id
+        })
+        .exec()
+        .then(usrs => {
+            if (usrs.length === 0) {
+                return res.status(404).json({
+                    message: "User not found or id not valid!"
+                })
+            } else {
+                Object.entries(usrs).forEach(
+                    ([key, value]) => {
+                        nbProfile = value.profile.length - 1;
+                        while (nbProfile >= 0) {
+                            if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
+                                delete value.profile[nbProfile];
+                            }
+                            nbProfile--;
+                        }
+                    }
+                );
+                res.status(200).json({
+                    User: usrs
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                Error: err
+            });
+        });
+});
+
+
  
 
 
