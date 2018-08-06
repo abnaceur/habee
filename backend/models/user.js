@@ -54,12 +54,8 @@ let userSchema = mongoose.Schema({
 			}
 		},
 	],
-	passions: {
-		type: String, ref: 'Passion'
-	},
-	skills: {
-		type: String, ref: 'Skill'
-	},
+	passions: [],
+	skills: [],
 	currentEvents: {
 		eventsICreated: [],
 	    eventsIParticipate: []

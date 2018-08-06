@@ -43,8 +43,8 @@ In particular, documentation must contain:
 /users/id											GET/UPDATE [DONE]
 /users/id/credentials								GET/POST/UPDATE [DONE]
 /users/id/communityId                               GET/POST/UPDATE [DONE]
-/users/id/communityId/skills				        GET/POST/UPDATE
-/users/id/communityId/passions				        GET/POST/UPDATE
+/users/id/communityId/skills				        GET/POST/UPDATE [DONE except PATCH and POST which is related to th user]
+/users/id/communityId/passions				        GET/POST/UPDATE [DONE except PATCH and POST which is related to th user]
 /users/id/communityId/currentEvents			        GET/POST/UPDATE
 /users/id/communityId/passedEvents			        GET/POST/UPDATE
 
@@ -609,6 +609,8 @@ The skills are filtered out. Only the skills relevant to the community are retur
   
 __POST AND PUT EXPECTED FORMAT__:  
   
+This will be the same as POST in /users
+
 ```
 "user": {
 	"userId": "String",
@@ -643,7 +645,7 @@ This route supports GET, POST and PUT operations.
 	"pasisons": [passionId", "passionId"]
 }
 ```
-  
+	
   __POST AND PUT EXPECTED FORMAT__:  
     
 ```

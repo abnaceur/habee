@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const community = require('../models/community');
+const Skill = require('../models/skill');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const utils = require('../utils/userUtils');
+const Passion = require('../models/passion');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -418,7 +421,8 @@ router.get('/:id/:communityId', (req, res, next) => {
         });
 
     User.find({
-            userId: id
+            userId: id,
+
         })
         .exec()
         .then(usrs => {
@@ -439,7 +443,7 @@ router.get('/:id/:communityId', (req, res, next) => {
                     }
                 );
                 res.status(200).json({
-                    User: usrs
+                    Users: usrs
                 });
             }
         })
@@ -514,53 +518,167 @@ router.patch('/:id/:communityId', (req, res, next) => {
  * API [GET] for route /users/id/communityId/skills
  */
 
-
 router.get('/:userId/:communityId/skills', (req, res, next) => {
     const id = req.params.userId;
     const communityId = req.params.communityId;
-    let nbProfile = 0;
 
-    community.count().exec()
-        .then(count => {
-            nbProfile = count;
-        });
-
-    User.find({
-            userId: id
-        })
-        .exec()
-        .then(usrs => {
-            if (usrs.length === 0) {
-                return res.status(404).json({
-                    message: "User not found or id not valid!"
+    User.count({
+        userId: id
+    }, function (err, count) {
+        if (count > 0) {
+            Skill.find({
+                    skillForCommunity: communityId
                 })
-            } else {
-                Object.entries(usrs).forEach(
-                    ([key, value]) => {
-                        nbProfile = value.profile.length - 1;
-                        while (nbProfile >= 0) {
-                            if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
-                                delete value.profile[nbProfile];
+                .exec()
+                .then(skl => {
+                    if (skl.length === 0) {
+                        return res.status(404).json({
+                            message: "Skill not found or communityId not valid!"
+                        })
+                    } else {
+
+                        User.find({
+                            userId: id,
+                
+                        })
+                        .select("userId dateOfCreation dateOfLastUpdate skills profile")
+                        .exec()
+                        .then(usrs => {
+                            if (usrs.length === 0) {
+                                return res.status(404).json({
+                                    message: "User not found or id not valid!"
+                                })
+                            } else {
+                                Object.entries(usrs).forEach(
+                                    ([key, value]) => {
+                                        nbProfile = value.profile.length - 1;
+                                        while (nbProfile >= 0) {
+                                            if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
+                                                delete value.profile[nbProfile];
+                                            }
+                                            nbProfile--;
+                                        }
+                                    }
+                                );
+                                let nbSkills = skl.length;
+                                let skills = [];
+                                while (nbSkills > 0) {
+                                    skills.push(skl[nbSkills - 1]['skillId']);
+                                    nbSkills--;
+                                }
+                                usrs[0]['skills'] = skills;
+                                res.status(200).json({
+                                    User: usrs
+                                });
                             }
-                            nbProfile--;
-                        }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                                Error: err
+                            });
+                        });
                     }
-                );
-                res.status(200).json({
-                    User: usrs
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        Error: err
+                    });
                 });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
+        } else {
+            res.status(404).json({
+                Error: "User does not exist!"
+            })
+        }
+
+    });
+});
+
+/**
+ * API [GET] for route /users/id/communityId/passions
+ */
+
+router.get('/:userId/:communityId/passions', (req, res, next) => {
+    const id = req.params.userId;
+    const communityId = req.params.communityId;
+
+    User.count({
+        userId: id
+    }, function (err, count) {
+        if (count > 0) {
+            Passion.find({
+                passionForCommunity: communityId
+                })
+                .exec()
+                .then(pass => {
+                    if (pass.length === 0) {
+                        return res.status(404).json({
+                            message: "Passion not found or communityId not valid!"
+                        })
+                    } else {
+
+                        User.find({
+                            userId: id,
+                
+                        })
+                        .select("userId dateOfCreation dateOfLastUpdate passions profile")
+                        .exec()
+                        .then(usrs => {
+                            if (usrs.length === 0) {
+                                return res.status(404).json({
+                                    message: "User not found or id not valid!"
+                                })
+                            } else {
+                                Object.entries(usrs).forEach(
+                                    ([key, value]) => {
+                                        nbProfile = value.profile.length - 1;
+                                        while (nbProfile >= 0) {
+                                            if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
+                                                delete value.profile[nbProfile];
+                                            }
+                                            nbProfile--;
+                                        }
+                                    }
+                                );
+                                let nbPassions = pass.length;
+                                let passions = [];
+                                while (nbPassions > 0) {
+                                    passions.push(pass[nbPassions - 1]['passionId']);
+                                    nbPassions--;
+                                }
+                                usrs[0]['passions'] = passions;
+                                res.status(200).json({
+                                    User: usrs
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                                Error: err
+                            });
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        Error: err
+                    });
+                });
+        } else {
+            res.status(404).json({
+                Error: "User does not exist!"
+            })
+        }
+
+    });
 });
 
 
- 
+
+
 
 
 
