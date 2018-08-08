@@ -4,6 +4,7 @@ const Community = require('../models/community');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const authCkeck = require('../middleware/check-auth');
+const communityController = require('../controllers/communityController');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -35,181 +36,31 @@ const upload = multer({
  ** API [GET] [POST] for route /communites   
  */
 
-router.get('/', authCkeck, (req, res, next) => {
-    let nb = 0;
-
-    Community.count().exec()
-        .then(count => {
-            nb = count;
-        });
-    //TODO nbrOfUsers
-    Community.find()
-        //TODO nbrOfUsers
-        .select("communityId communityName dateOfCreation dateOfLastUpdate communityIsActive")
-        .exec()
-        .then(communities => {
-            if (communities.length === 0) {
-                return res.status(404).json({
-                    message: "There are no communities!"
-                })
-            } else {
-                res.status(200).json({
-                    nbrCommunities: nb,
-                    Commuinities: communities
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/', authCkeck, communityController.get_all_communities);
 
 
-router.post('/', authCkeck, upload.single('communityLogo'), (req, res, next) => {
-    const community = new Community({
-        _id: new mongoose.Types.ObjectId,
-        communityId: req.body.communityId,
-        communityName: req.body.communityName,
-        //communityLogo: req.file.path,
-        communityAdmin: req.body.communityAdmin,
-        communityMembers: req.body.communityMembers,
-        companyName: req.body.companyName,
-        clientId: req.body.clientId,
-        communityIsActive: req.body.communityIsActive
-    });
-    community
-        .save()
-        .then(com => {
-            res.status(200).json({
-                community: com
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
+router.post('/', authCkeck, upload.single('communityLogo'), communityController.post_community);
 
 
 /*
  ** API route [GET] for /communities/active
  */
 
-router.get('/active', authCkeck, (req, res, next) => {
-    Community.find({
-            communityIsActive: true
-        })
-        .select("communityId communityName dateOfCreation dateOfLastUpdate communityIsActive")
-        .exec()
-        .then(activeCom => {
-            if (activeCom.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active communities!"
-                })
-            } else {
-                res.status(200).json({
-                    Communities: activeCom
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/active', authCkeck, communityController.get_all_active_communities);
 
 /* 
  ** API route [GET] for /communities/isNotActive
  */
 
 
-router.get('/isNotActive', authCkeck,  (req, res, next) => {
-    Community.find({
-            communityIsActive: false
-        })
-        .select("communityId communityName dateOfCreation dateOfLastUpdate communityIsActive")
-        .exec()
-        .then(isNOtActiveCom => {
-            if (isNOtActiveCom.length === 0) {
-                return res.status(404).json({
-                    message: "There are no deactivated communities!"
-                })
-            } else {
-                res.status(200).json({
-                    Communities: isNOtActiveCom
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/isNotActive', authCkeck, communityController.get_all_notActive_communities);
 
 /*
  ** API routes [GET] [PATCH] for /communities/id
  */
 
-router.get('/:id', authCkeck, (req, res, next) => {
-    const id = req.params.id;
-    Community.find({
-            communityId: id
-        })
-        .exec()
-        .then(com => {
-            if (com.length === 0) {
-                return res.status(404).json({
-                    message: "Community not found or id not valid!"
-                })
-            } else {
-                res.status(200).json({
-                    community: com
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
-});
+router.get('/:id', authCkeck, communityController.get_community_by_id);
 
-router.patch('/:id', authCkeck, upload.single('communityLogo'), (req, res, next) => {
-    const id = req.params.id;
-
-    Community.update({
-            communityId: id
-        }, {
-            $set: {
-                communityId: req.body.communityId,
-                communityName: req.body.communityName,
-                communityLogo: req.file.path,
-                communityAdmin: req.body.communityAdmin,
-                communityMembers: req.body.communityMembers,
-                dateOfCreation: req.body.dateOfCreation,
-                dateOfLastUpdate: req.body.dateOfLastUpdate,
-                companyName: req.body.companyName,
-                clientId: req.body.clientId,
-                communityIsActive: req.body.communityIsActive
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
+router.patch('/:id', authCkeck, upload.single('communityLogo'), communityController.patch_community_by_id);
 
 module.exports = router;

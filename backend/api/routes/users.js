@@ -13,7 +13,7 @@ const Passion = require('../models/passion');
 const Event = require("../models/event");
 const jwt = require ('jsonwebtoken');
 const authCkeck = require('../middleware/check-auth');
-const userController = require('../controllers/usersController');
+const userController = require('../controllers/userController');
 
 //=> End of declared dependencies
 

@@ -4,6 +4,7 @@ const Skill = require('../models/skill');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const authCkeck = require('../middleware/check-auth');
+const skillController = require('../controllers/skillController');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -35,40 +36,7 @@ const upload = multer({
  * API [GET] for route /skills 
  */
 
-router.get('/', authCkeck, (req, res, next) => {
-    Skill.find()
-        .exec()
-        .then(skills => {
-            if (skills.length === 0) {
-                return res.status(404).json({
-                    message: "There are no skills!"
-                })
-            } else {
-                res.status(200).json({
-                    Count: skills.length,
-                    passions: skills.map(skl => {
-                        return {
-                            _id: skl._id,
-                            skillId: skl.skillId,
-                            skillForCommunity: skl.skillForCommunity,
-                            skillName: skl.skillName,
-                            // skillImage: skl.skillImage,
-                            skillMastery: skl.skillMastery,
-                            request: {
-                                Type: "[GET]",
-                                Url: "http://si.habee.local:3000/skills/" + skl.skillId
-                            }
-                        }
-                    })
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/', authCkeck, skillController.get_all_skills);
 
 
 
@@ -77,28 +45,7 @@ router.get('/', authCkeck, (req, res, next) => {
  */
 
 
-router.post('/', authCkeck, upload.any(), (req, res, next) => {
-    const skill = new Skill({
-        _id: new mongoose.Types.ObjectId,
-        skillId: req.body.skillId,
-        skillForCommunity: req.body.skillForCommunity,
-        skillName: req.body.skillName,
-        // skillImage: req.files.path,
-        skillMastery: req.body.skillMastery,
-    });
-    skill
-        .save()
-        .then(result => {
-            res.status(200).json({
-                skill: result
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
+router.post('/', authCkeck, upload.any(), skillController.post_skill);
 
 
 
@@ -106,68 +53,14 @@ router.post('/', authCkeck, upload.any(), (req, res, next) => {
  * API [GET] for route /skills/community/skillForCommunity
  */
 
-router.get('/community/:id', authCkeck, (req, res, next) => {
-    const id = req.params.id;
-    Skill.find({
-            skillForCommunity: id
-        })
-        .exec()
-        .then(skl => {
-            if (skl.length === 0) {
-                return res.status(404).json({
-                    message: "Skill by communityId not found or id not valid!"
-                })
-            } else {
-                res.status(200).json({
-                    Skill: skl,
-                    request: {
-                        type: "[GET]",
-                        url: "http://si.habee.local:3000/skills"
-                    }
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
-});
+router.get('/community/:id', authCkeck, skillController.get_skill_by_communityId);
 
 
 /**
  * API [GET] foor route /skills/id
  */
 
-router.get('/:id', authCkeck, (req, res, next) => {
-    const id = req.params.id;
-    Skill.find({
-            skillId: id
-        })
-        .exec()
-        .then(skl => {
-            if (skl.length === 0) {
-                return res.status(404).json({
-                    message: "Skill not found or id not valid!"
-                })
-            } else {
-                res.status(200).json({
-                    Skill: skl,
-                    request: {
-                        type: "[GET]",
-                        url: "http://si.habee.local:3000/skills"
-                    }
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
-});
+router.get('/:id', authCkeck, skillController.get_skill_by_id);
 
 
 /*
@@ -175,32 +68,6 @@ router.get('/:id', authCkeck, (req, res, next) => {
  */
 
 
-router.patch('/:id', authCkeck, upload.any(), (req, res, next) => {
-    const id = req.params.id;
-
-    Skill.update({
-            skillId: id
-        }, {
-            $set: {
-                skillId: req.body.skillId,
-                skillForCommunity: req.body.skillForCommunity,
-                skillName: req.body.skillName,
-                // skillImage: req.files.path,
-                skillMastery: req.body.skillMastery,
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
-
+router.patch('/:id', authCkeck, upload.any(), skillController.patch_skill);
 
 module.exports = router;

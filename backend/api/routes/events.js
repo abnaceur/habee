@@ -4,6 +4,7 @@ const Event = require('../models/event');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const authCkeck = require('../middleware/check-auth');
+const eventController = require('../controllers/eventController');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -36,46 +37,7 @@ const upload = multer({
  * API [GET] for route /events
  */
 
-router.get('/', authCkeck, (req, res, next) => {
-    Event.find()
-        .exec()
-        .then(events => {
-            if (events.length === 0) {
-                return res.status(404).json({
-                    message: "There are no events!"
-                })
-            } else {
-                res.status(200).json({
-                    Count: events.length,
-                    Events: events.map(event => {
-                        return {
-                            _id: events._id,
-                            eventId: event.eventId,
-                            eventCommunity: event.eventCommunity,
-                            eventName: event.eventName,
-                            eventCreator: event.eventCreator,
-                            eventDescription: event.eventDescription,
-                            eventDate: event.eventDate,
-                            eventDuration: event.eventDuration,
-                            eventLocation: event.eventLocation,
-                            nbrParticipants: event.nbrParticipants,
-                            participantsId: event.participantsId,
-                            eventIsOver: event.eventIsOver,
-                            request: {
-                                Type: "[GET]",
-                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                            }
-                        }
-                    })
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/', authCkeck, eventController.get_all_events);
 
 
 /**
@@ -83,103 +45,21 @@ router.get('/', authCkeck, (req, res, next) => {
  */
 
 
-router.post('/', authCkeck, upload.any(), (req, res, next) => {
-    const event = new Event({
-        _id: new mongoose.Types.ObjectId,
-        eventId: req.body.eventId,
-        eventCommunity: req.body.eventCommunity,
-        eventName: req.body.eventName,
-        eventCreator: req.body.eventCreator,
-        eventDescription: req.body.eventDescription,
-        eventDate: req.body.eventDate,
-        eventDuration: req.body.eventDuration,
-        eventLocation: req.body.eventLocation,
-        nbrParticipants: req.body.nbrParticipants,
-        participantsId: req.body.participantsId,
-        eventIsOver: req.body.eventIsOver,
-    });
-    event
-        .save()
-        .then(result => {
-            res.status(200).json({
-                Success: "true",
-                Event: result
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
+router.post('/', authCkeck, upload.any(), eventController.post_event);
 
 
 /**
- * API [GET] foor route /events/community/eventCommunity
+ * API [GET] for route /events/community/eventCommunity
  */
 
-router.get('/community/:eventCommunity', authCkeck, (req, res, next) => {
-    const id = req.params.eventCommunity;
-    Event.find({
-            eventCommunity: id
-        })
-        .exec()
-        .then(evt => {
-            if (evt.length === 0) {
-                return res.status(404).json({
-                    message: "event by eventCommunity not found or id not valid!"
-                })
-            } else {
-                res.status(200).json({
-                    Event: evt,
-                    request: {
-                        type: "[GET]",
-                        url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/events"
-                    }
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
-});
+router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_community);
 
 
 /**
  * API [GET] foor route /events/eventId
  */
 
-router.get('/:eventId', authCkeck, (req, res, next) => {
-    const id = req.params.eventId;
-    Event.find({
-            eventId: id
-        })
-        .exec()
-        .then(evt => {
-            if (evt.length === 0) {
-                return res.status(404).json({
-                    message: "event by eventId not found or id not valid!"
-                })
-            } else {
-                res.status(200).json({
-                    Event: evt,
-                    request: {
-                        type: "[GET]",
-                        url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/events"
-                    }
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
-});
+router.get('/:eventId', authCkeck, eventController.get_event_by_id);
 
 
 /**
@@ -187,212 +67,43 @@ router.get('/:eventId', authCkeck, (req, res, next) => {
  */
 
 
-router.patch('/:eventId', authCkeck, upload.any(), (req, res, next) => {
-    const id = req.params.eventId;
-
-    Event.update({
-            eventId: id
-        }, {
-            $set: {
-                eventId: req.body.eventId,
-                eventCommunity: req.body.eventCommunity,
-                eventName: req.body.eventName,
-                eventCreator: req.body.eventCreator,
-                eventDescription: req.body.eventDescription,
-                eventDate: req.body.eventDate,
-                eventDuration: req.body.eventDuration,
-                eventLocation: req.body.eventLocation,
-                nbrParticipants: req.body.nbrParticipants,
-                participantsId: req.body.participantsId,
-                eventIsOver: req.body.eventIsOver,
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
+router.patch('/:eventId', authCkeck, upload.any(), eventController.patch_event);
 
 
 /*
  ** API route [GET] for /events/all/isOver
  */
 
-router.get('/all/isover', authCkeck, (req, res, next) => {
-    Event.find({
-            eventIsOver: true
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no due events!"
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/all/isover', authCkeck, eventController.get_all_events_isOver);
 
 
 /*
  ** API route [GET] for /events/all/isNotOver
  */
 
-router.get('/all/isnotover', authCkeck, (req, res, next) => {
-    Event.find({
-            eventIsOver: false
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active events!"
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/all/isnotover', authCkeck, eventController.get_all_events_isNotOver);
 
 
 /*
  ** API [GET] for route /events/community/communityId
  */
 
-router.get('/community/:eventCommunity', authCkeck, (req, res, next) => {
-    const id = req.params.eventCommunity;
-    Event.find({
-            eventCommunity: id
-        })
-        .exec()
-        .then(events => {
-            if (events.length === 0) {
-                return res.status(404).json({
-                    message: "There are no events!"
-                })
-            } else {
-                res.status(200).json({
-                    Count: events.length,
-                    Events: events.map(event => {
-                        return {
-                            _id: events._id,
-                            eventId: event.eventId,
-                            eventCommunity: event.eventCommunity,
-                            eventName: event.eventName,
-                            eventCreator: event.eventCreator,
-                            eventDescription: event.eventDescription,
-                            eventDate: event.eventDate,
-                            eventDuration: event.eventDuration,
-                            eventLocation: event.eventLocation,
-                            nbrParticipants: event.nbrParticipants,
-                            participantsId: event.participantsId,
-                            eventIsOver: event.eventIsOver,
-                            request: {
-                                Type: "[GET]",
-                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                            }
-                        }
-                    })
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+ // TODO THERE ARE A REPETITION
+router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_communityId);
 
 
 /*
  ** API [GET] for route /events/communityId/isOver   
  */
 
-router.get('/:eventCommunity/isover', authCkeck, (req, res, next) => {
-    const id = req.params.eventCommunity;
-    Event.find({
-            eventCommunity: id,
-            eventIsOver: true
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active events in community!" + eventCommunity
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/:eventCommunity/isover', authCkeck, eventController.get_eventIsOver_by_communiyId);
 
 
 /*
  ** API [PATC] for route /events/communityId/isOver   
  */
 
-router.patch('/:eventCommunity/isover', authCkeck, (req, res, next) => {
-    const id = req.params.eventCommunity;
-
-    Event.update({
-            eventCommunity: id,
-            eventIsOver: true
-        }, {
-            $set: {
-                eventId: req.body.eventId,
-                eventCommunity: req.body.eventCommunity,
-                eventName: req.body.eventName,
-                eventCreator: req.body.eventCreator,
-                eventDescription: req.body.eventDescription,
-                eventDate: req.body.eventDate,
-                eventDuration: req.body.eventDuration,
-                eventLocation: req.body.eventLocation,
-                nbrParticipants: req.body.nbrParticipants,
-                participantsId: req.body.participantsId,
-                eventIsOver: req.body.eventIsOver,
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
+router.patch('/:eventCommunity/isover', authCkeck, eventController.patch_eventIsOver_by_communiyId);
 
 
 
@@ -400,70 +111,14 @@ router.patch('/:eventCommunity/isover', authCkeck, (req, res, next) => {
  ** API [GET] for route /events/communityId/isNotOver   
  */
 
-router.get('/:eventCommunity/isnotover', authCkeck, (req, res, next) => {
-    const id = req.params.eventCommunity;
-    Event.find({
-            eventCommunity: id,
-            eventIsOver: false
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active events in community!" + eventCommunity
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/:eventCommunity/isnotover', authCkeck, eventController.get_eventIsNotOver_by_communiyId);
 
 
 /*
  ** API [PATC] for route /events/communityId/isNotOver   
  */
 
-router.patch('/:eventCommunity/isnotover', authCkeck, (req, res, next) => {
-    const id = req.params.eventCommunity;
-
-    Event.update({
-            eventCommunity: id,
-            eventIsOver: false
-        }, {
-            $set: {
-                eventId: req.body.eventId,
-                eventCommunity: req.body.eventCommunity,
-                eventName: req.body.eventName,
-                eventCreator: req.body.eventCreator,
-                eventDescription: req.body.eventDescription,
-                eventDate: req.body.eventDate,
-                eventDuration: req.body.eventDuration,
-                eventLocation: req.body.eventLocation,
-                nbrParticipants: req.body.nbrParticipants,
-                participantsId: req.body.participantsId,
-                eventIsOver: req.body.eventIsOver,
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-});
-
+router.patch('/:eventCommunity/isnotover', authCkeck, eventController.patch_eventIsOver_by_communiyId);
 
 
 
