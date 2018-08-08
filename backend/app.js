@@ -34,12 +34,12 @@ app.use((req, res, next) => {
 });
 
 // Routes
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var communitiesRouter = require('./routes/communities');
-var passionsRouter = require('./routes/passions');
-var skillsRouter = require('./routes/skills');
-var eventsRouter = require('./routes/events');
+var indexRouter = require('./api/routes/index');
+var usersRouter = require('./api/routes/users');
+var communitiesRouter = require('./api/routes/communities');
+var passionsRouter = require('./api/routes/passions');
+var skillsRouter = require('./api/routes/skills');
+var eventsRouter = require('./api/routes/events');
 
 // Open connection to the database
 db.once('open', function() {

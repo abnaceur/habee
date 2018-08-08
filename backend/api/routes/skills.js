@@ -3,6 +3,7 @@ const router = express.Router();
 const Skill = require('../models/skill');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const authCkeck = require('../middleware/check-auth');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -34,7 +35,7 @@ const upload = multer({
  * API [GET] for route /skills 
  */
 
-router.get('/', (req, res, next) => {
+router.get('/', authCkeck, (req, res, next) => {
     Skill.find()
         .exec()
         .then(skills => {
@@ -76,7 +77,7 @@ router.get('/', (req, res, next) => {
  */
 
 
-router.post('/', upload.any(), (req, res, next) => {
+router.post('/', authCkeck, upload.any(), (req, res, next) => {
     const skill = new Skill({
         _id: new mongoose.Types.ObjectId,
         skillId: req.body.skillId,
@@ -105,7 +106,7 @@ router.post('/', upload.any(), (req, res, next) => {
  * API [GET] for route /skills/community/skillForCommunity
  */
 
-router.get('/community/:id', (req, res, next) => {
+router.get('/community/:id', authCkeck, (req, res, next) => {
     const id = req.params.id;
     Skill.find({
             skillForCommunity: id
@@ -139,7 +140,7 @@ router.get('/community/:id', (req, res, next) => {
  * API [GET] foor route /skills/id
  */
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', authCkeck, (req, res, next) => {
     const id = req.params.id;
     Skill.find({
             skillId: id
@@ -169,12 +170,12 @@ router.get('/:id', (req, res, next) => {
 });
 
 
-/**
+/*
  *  API [PATCH] for route /skills/communityId
  */
 
 
-router.patch('/:id', upload.any(), (req, res, next) => {
+router.patch('/:id', authCkeck, upload.any(), (req, res, next) => {
     const id = req.params.id;
 
     Skill.update({

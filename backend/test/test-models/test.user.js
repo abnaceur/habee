@@ -1,13 +1,13 @@
 {
   "userId": "test_id222",
   "credentials": {
-    "username": "Abdeljalil hero for ever",
+    "username": "abdel",
     "firstname": "Abn",
     "birthDate": "12/12/1980",
     "address": "this is an address",
-    "mail": "test@this.com",
+    "email": "abn@habee.com",
     "phone": "00337563546",
-    "password": "check pass"
+    "password": "012345"
   },
   "communities": [],
   "profile": [{

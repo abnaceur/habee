@@ -3,6 +3,7 @@ const router = express.Router();
 const Passion = require('../models/passion');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const authCkeck = require('../middleware/check-auth');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -34,7 +35,7 @@ const upload = multer({
  * API [GET] for route /passions 
  */
 
-router.get('/', (req, res, next) => {
+router.get('/', authCkeck, (req, res, next) => {
     Passion.find()
         .exec()
         .then(passions => {
@@ -77,33 +78,33 @@ router.get('/', (req, res, next) => {
  * API [GET] foor route /passions/communityId
  */
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', authCkeck, (req, res, next) => {
     const id = req.params.id;
     Passion.find({
-        passionForCommunity: id
-    })
-    .exec()
-    .then(pass => {
-        if (pass.length === 0) {
-            return res.status(404).json({
-                message: "passion by communityId not found or id not valid!"
-            })
-        } else {
-        res.status(200).json({
-            passion: pass,
-            request: {
-                type: "[GET]",
-                url: "http://si.habee.local:3000/passions"
+            passionForCommunity: id
+        })
+        .exec()
+        .then(pass => {
+            if (pass.length === 0) {
+                return res.status(404).json({
+                    message: "passion by communityId not found or id not valid!"
+                })
+            } else {
+                res.status(200).json({
+                    passion: pass,
+                    request: {
+                        type: "[GET]",
+                        url: "http://si.habee.local:3000/passions"
+                    }
+                });
             }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                Error: err
+            });
         });
-    }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            Error: err
-        });
-    });
 });
 
 
@@ -112,33 +113,33 @@ router.get('/:id', (req, res, next) => {
  * API [GET] foor route /passions/id
  */
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', authCkeck, (req, res, next) => {
     const id = req.params.id;
     Passion.find({
-        passionId: id
-    })
-    .exec()
-    .then(pass => {
-        if (pass.length === 0) {
-            return res.status(404).json({
-                message: "Passion not found or id not valid!"
-            })
-        } else {
-        res.status(200).json({
-            passion: pass,
-            request: {
-                type: "[GET]",
-                url: "http://si.habee.local:3000/passions"
+            passionId: id
+        })
+        .exec()
+        .then(pass => {
+            if (pass.length === 0) {
+                return res.status(404).json({
+                    message: "Passion not found or id not valid!"
+                })
+            } else {
+                res.status(200).json({
+                    passion: pass,
+                    request: {
+                        type: "[GET]",
+                        url: "http://si.habee.local:3000/passions"
+                    }
+                });
             }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                Error: err
+            });
         });
-    }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            Error: err
-        });
-    });
 });
 
 
@@ -148,18 +149,18 @@ router.get('/:id', (req, res, next) => {
  */
 
 
-router.post('/', upload.any(), (req, res, next) => {
+router.post('/', authCkeck, upload.any(), (req, res, next) => {
     const passion = new Passion({
         _id: new mongoose.Types.ObjectId,
         passionId: req.body.passionId,
         passionForCommunity: req.body.passionForCommunity,
         passionName: req.body.passionName,
-  //      passionImage: req.files.path,
+        //      passionImage: req.files.path,
         subPassions: req.body.subPassions,
         subPassionId: req.body.subPassionId,
         subPassionName: req.body.subPassionName,
         subPassionCategory: req.body.subPassionCategory,
-//        subPassionImage: req.files.path,
+        //        subPassionImage: req.files.path,
     });
     passion
         .save()
@@ -180,7 +181,7 @@ router.post('/', upload.any(), (req, res, next) => {
  */
 
 
-router.patch('/:id', upload.any(), (req, res, next) => {
+router.patch('/:id', authCkeck, upload.any(), (req, res, next) => {
     const id = req.params.id;
 
     Passion.update({
@@ -190,12 +191,12 @@ router.patch('/:id', upload.any(), (req, res, next) => {
                 passionId: req.body.passionId,
                 passionForCommunity: req.body.passionForCommunity,
                 passionName: req.body.passionName,
-         //       passionImage: req.files.path,
+                //       passionImage: req.files.path,
                 subPassions: req.body.subPassions,
                 subPassionId: req.body.subPassionId,
                 subPassionName: req.body.subPassionName,
                 subPassionCategory: req.body.subPassionCategory,
-       //         subPassionImage: req.files.path,
+                //         subPassionImage: req.files.path,
             }
         })
         .exec()

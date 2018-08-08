@@ -3,8 +3,8 @@
  */
 
 {
-    "passionId": "String",
-    "passionForCommunity": "String",
+    "passionId": "passion_id_1",
+    "passionForCommunity": "com_tes_2016_2291",
     "passionName": "String",
     "passionImage": "String",
     "subPassions": [{

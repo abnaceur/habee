@@ -1,45 +1,51 @@
 const express = require('express');
-const router = express.Router();
 const User = require('../models/user');
-const community = require('../models/community');
-const Skill = require('../models/skill');
 const mongoose = require('mongoose');
-const multer = require('multer');
-const utils = require('../utils/userUtils');
-const Passion = require('../models/passion');
+const jwt = require ('jsonwebtoken');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        // Rename the uplaoded file
-        cb(null, new Date().toISOString() + file.originalname);
+exports.login_user = (req, res, next) => {
+    User.find({
+        "credentials.email" : req.body.credentials.email   
+    })
+    .exec()
+    .then(users => {
+        console.log('password', users[0].credentials.email);
+        if (users.length === 0) {
+            return res.status(404).json({
+                message: "There are no users match this emal!" + req.body.credentials.email
+            })
+        } else {
+            //TODO USE BCRYPT TO COMPARE THE VALIDITY OF THE PASZORD
+            if (req.body.credentials.password === users[0].credentials.password)
+            {
+                const token = jwt.sign({
+                    id: req.body.userId,
+                    email: req.body.credentials.email
+                }, process.env.JWT_KEY,
+                {
+                    expiresIn: "1h"
+                }
+            )
+                res.status(200).json({
+                    message: "Auth success",
+                    token: token
+                })
+            } else {
+                res.status(200).json({
+                    message: "Auth failed"
+                })
+            }
+            
     }
-});
+    })
+    .catch(err => {
+        res.status(404).json({
+            Error: err
+        })
+    })
+ };
 
-const fileFilter = (req, file, cb) => {
-    // Define the extension of the file
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png')
-        cb(null, true);
-    else
-        cb(null, false);
-};
-
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
-    fileFilter: fileFilter
-});
-
-/* 
- ** API [GET] [POST] for route /users
- */
-
-
-router.post('/', upload.single('profilePhoto'), (req, res, next) => {
+ exports.post_user = (req, res, next) => {
     // Get community id
 
     const user = new User({
@@ -50,7 +56,7 @@ router.post('/', upload.single('profilePhoto'), (req, res, next) => {
         firstname: req.body.firstname,
         birthDate: req.body.birthDate,
         address: req.body.address,
-        mail: req.body.mail,
+        email: req.body.mail,
         phone: req.body.phone,
         password: req.body.password,
 
@@ -85,9 +91,9 @@ router.post('/', upload.single('profilePhoto'), (req, res, next) => {
                 Error: err
             })
         });
-});
+};
 
-router.get('/', (req, res, next) => {
+exports.get_all_users =  (req, res, next) => {
     let nb = 0;
 
     User.count().exec()
@@ -114,13 +120,9 @@ router.get('/', (req, res, next) => {
                 error: err
             })
         })
-});
+};
 
-/*
- ** API [GET] for route /users/active
- */
-
-router.get('/active', (req, res, next) => {
+exports.get_all_active_users = (req, res, next) => {
     let nb = 0;
 
     User.count().exec()
@@ -149,14 +151,9 @@ router.get('/active', (req, res, next) => {
                 error: err
             })
         })
-});
+};
 
-
-/*
- ** API [GET] for route /users/isNotActive
- */
-
-router.get('/isNotActive', (req, res, next) => {
+exports.get_all_notActive_users =  (req, res, next) => {
     let nb = 0;
 
     User.count().exec()
@@ -185,13 +182,9 @@ router.get('/isNotActive', (req, res, next) => {
                 error: err
             })
         })
-});
+};
 
-/*
- ** API [GET] for route /users/administrators
- */
-
-router.get('/administrators', (req, res, next) => {
+exports.get_all_admins =  (req, res, next) => {
     let nb = 0;
 
     User.count().exec()
@@ -220,14 +213,9 @@ router.get('/administrators', (req, res, next) => {
                 error: err
             })
         })
-});
+};
 
-
-/*
- ** API [GET] for route /users/notAdmin
- */
-
-router.get('/notAdmin', (req, res, next) => {
+exports.get_all_notAdmins = (req, res, next) => {
     let nb = 0;
 
     User.count().exec()
@@ -256,13 +244,9 @@ router.get('/notAdmin', (req, res, next) => {
                 error: err
             })
         })
-});
+};
 
-/*
- **  API [GET] for route /user/:id
- */
-
-router.get('/:id', (req, res, next) => {
+exports.get_user_by_id =  (req, res, next) => {
     const id = req.params.id;
     User.find({
             userId: id
@@ -285,13 +269,9 @@ router.get('/:id', (req, res, next) => {
                 Error: err
             });
         });
-});
+};
 
-/*
- **  API [PATCH] for route /user/:id
- */
-
-router.patch('/:id', upload.single('profilePhoto'), (req, res, next) => {
+exports.patch_user_by_id = (req, res, next) => {
     const id = req.params.id;
 
     User.update({
@@ -304,7 +284,7 @@ router.patch('/:id', upload.single('profilePhoto'), (req, res, next) => {
                 firstname: req.body.firstname,
                 birthDate: req.body.birthDate,
                 address: req.body.address,
-                mail: req.body.mail,
+                email: req.body.mail,
                 phone: req.body.phone,
                 password: req.body.password,
 
@@ -338,14 +318,9 @@ router.patch('/:id', upload.single('profilePhoto'), (req, res, next) => {
                 Error: err
             })
         });
-});
+};
 
-
-/*
- ** API [GET] for route /users/id/credentials 
- */
-
-router.get('/:id/credentials', (req, res, next) => {
+exports.get_credentials_by_id = (req, res, next) => {
     const id = req.params.id;
     User.find({
             userId: id
@@ -369,13 +344,9 @@ router.get('/:id/credentials', (req, res, next) => {
                 Error: err
             });
         });
-});
+};
 
-/*
- * API [PATCH] for route /users/id/credentials 
- */
-
-router.patch('/:id/credentials', (req, res, next) => {
+exports.patch_credentials_by_id = (req, res, next) => {
     const id = req.params.id;
 
     User.update({
@@ -404,13 +375,9 @@ router.patch('/:id/credentials', (req, res, next) => {
                 Error: err
             })
         });
-});
+};
 
-/*
- ** API [GET] for route /users/id/communityId   
- */
-
-router.get('/:id/:communityId', (req, res, next) => {
+exports.get_userId_communityId =  (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     let nbProfile = 0;
@@ -453,13 +420,10 @@ router.get('/:id/:communityId', (req, res, next) => {
                 Error: err
             });
         });
-});
+};
 
-/*
- ** API [PATCH] for route /users/id/communityId   
- */
 
-router.patch('/:id/:communityId', (req, res, next) => {
+exports.patch_userId_communityId = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     User.find({
@@ -512,13 +476,9 @@ router.patch('/:id/:communityId', (req, res, next) => {
                 Error: err
             })
         });
-});
+};
 
-/**
- * API [GET] for route /users/id/communityId/skills
- */
-
-router.get('/:userId/:communityId/skills', (req, res, next) => {
+exports.get_skills_by_userId_communityId =  (req, res, next) => {
     const id = req.params.userId;
     const communityId = req.params.communityId;
 
@@ -593,13 +553,9 @@ router.get('/:userId/:communityId/skills', (req, res, next) => {
         }
 
     });
-});
+};
 
-/**
- * API [GET] for route /users/id/communityId/passions
- */
-
-router.get('/:userId/:communityId/passions', (req, res, next) => {
+exports.get_passions_by_userId_communityId = (req, res, next) => {
     const id = req.params.userId;
     const communityId = req.params.communityId;
 
@@ -674,13 +630,4 @@ router.get('/:userId/:communityId/passions', (req, res, next) => {
         }
 
     });
-});
-
-
-
-
-
-
-
-
-module.exports = router;
+};

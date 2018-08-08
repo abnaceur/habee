@@ -2,8 +2,8 @@
  * This is a test API [GET] and [POST] for rouote /skills
  */
 {
-    "skillId": "skill_id1",
-    "skillForCommunity": "com_hab_2018_1skills",
+    "skillId": "skill1_",
+    "skillForCommunity": "com_tes_2016_229",
     "skillName": "Martial art",
     "skillImage": "/",
     "skillMastery": "6"

@@ -3,6 +3,7 @@ const router = express.Router();
 const Community = require('../models/community');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const authCkeck = require('../middleware/check-auth');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -34,7 +35,7 @@ const upload = multer({
  ** API [GET] [POST] for route /communites   
  */
 
-router.get('/', (req, res, next) => {
+router.get('/', authCkeck, (req, res, next) => {
     let nb = 0;
 
     Community.count().exec()
@@ -66,7 +67,7 @@ router.get('/', (req, res, next) => {
 });
 
 
-router.post('/', upload.single('communityLogo'), (req, res, next) => {
+router.post('/', authCkeck, upload.single('communityLogo'), (req, res, next) => {
     const community = new Community({
         _id: new mongoose.Types.ObjectId,
         communityId: req.body.communityId,
@@ -97,7 +98,7 @@ router.post('/', upload.single('communityLogo'), (req, res, next) => {
  ** API route [GET] for /communities/active
  */
 
-router.get('/active', (req, res, next) => {
+router.get('/active', authCkeck, (req, res, next) => {
     Community.find({
             communityIsActive: true
         })
@@ -126,7 +127,7 @@ router.get('/active', (req, res, next) => {
  */
 
 
-router.get('/isNotActive', (req, res, next) => {
+router.get('/isNotActive', authCkeck,  (req, res, next) => {
     Community.find({
             communityIsActive: false
         })
@@ -154,7 +155,7 @@ router.get('/isNotActive', (req, res, next) => {
  ** API routes [GET] [PATCH] for /communities/id
  */
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', authCkeck, (req, res, next) => {
     const id = req.params.id;
     Community.find({
             communityId: id
@@ -179,7 +180,7 @@ router.get('/:id', (req, res, next) => {
         });
 });
 
-router.patch('/:id', upload.single('communityLogo'), (req, res, next) => {
+router.patch('/:id', authCkeck, upload.single('communityLogo'), (req, res, next) => {
     const id = req.params.id;
 
     Community.update({

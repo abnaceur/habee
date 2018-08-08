@@ -3,6 +3,7 @@ const router = express.Router();
 const Event = require('../models/event');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const authCkeck = require('../middleware/check-auth');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -35,7 +36,7 @@ const upload = multer({
  * API [GET] for route /events
  */
 
-router.get('/', (req, res, next) => {
+router.get('/', authCkeck, (req, res, next) => {
     Event.find()
         .exec()
         .then(events => {
@@ -82,7 +83,7 @@ router.get('/', (req, res, next) => {
  */
 
 
-router.post('/', upload.any(), (req, res, next) => {
+router.post('/', authCkeck, upload.any(), (req, res, next) => {
     const event = new Event({
         _id: new mongoose.Types.ObjectId,
         eventId: req.body.eventId,
@@ -117,7 +118,7 @@ router.post('/', upload.any(), (req, res, next) => {
  * API [GET] foor route /events/community/eventCommunity
  */
 
-router.get('/community/:eventCommunity', (req, res, next) => {
+router.get('/community/:eventCommunity', authCkeck, (req, res, next) => {
     const id = req.params.eventCommunity;
     Event.find({
             eventCommunity: id
@@ -151,7 +152,7 @@ router.get('/community/:eventCommunity', (req, res, next) => {
  * API [GET] foor route /events/eventId
  */
 
-router.get('/:eventId', (req, res, next) => {
+router.get('/:eventId', authCkeck, (req, res, next) => {
     const id = req.params.eventId;
     Event.find({
             eventId: id
@@ -186,7 +187,7 @@ router.get('/:eventId', (req, res, next) => {
  */
 
 
-router.patch('/:eventId', upload.any(), (req, res, next) => {
+router.patch('/:eventId', authCkeck, upload.any(), (req, res, next) => {
     const id = req.params.eventId;
 
     Event.update({
@@ -224,7 +225,7 @@ router.patch('/:eventId', upload.any(), (req, res, next) => {
  ** API route [GET] for /events/all/isOver
  */
 
-router.get('/all/isover', (req, res, next) => {
+router.get('/all/isover', authCkeck, (req, res, next) => {
     Event.find({
             eventIsOver: true
         })
@@ -252,7 +253,7 @@ router.get('/all/isover', (req, res, next) => {
  ** API route [GET] for /events/all/isNotOver
  */
 
-router.get('/all/isnotover', (req, res, next) => {
+router.get('/all/isnotover', authCkeck, (req, res, next) => {
     Event.find({
             eventIsOver: false
         })
@@ -280,7 +281,7 @@ router.get('/all/isnotover', (req, res, next) => {
  ** API [GET] for route /events/community/communityId
  */
 
-router.get('/community/:eventCommunity', (req, res, next) => {
+router.get('/community/:eventCommunity', authCkeck, (req, res, next) => {
     const id = req.params.eventCommunity;
     Event.find({
             eventCommunity: id
@@ -329,7 +330,7 @@ router.get('/community/:eventCommunity', (req, res, next) => {
  ** API [GET] for route /events/communityId/isOver   
  */
 
-router.get('/:eventCommunity/isover', (req, res, next) => {
+router.get('/:eventCommunity/isover', authCkeck, (req, res, next) => {
     const id = req.params.eventCommunity;
     Event.find({
             eventCommunity: id,
@@ -359,7 +360,7 @@ router.get('/:eventCommunity/isover', (req, res, next) => {
  ** API [PATC] for route /events/communityId/isOver   
  */
 
-router.patch('/:eventCommunity/isover', (req, res, next) => {
+router.patch('/:eventCommunity/isover', authCkeck, (req, res, next) => {
     const id = req.params.eventCommunity;
 
     Event.update({
@@ -399,7 +400,7 @@ router.patch('/:eventCommunity/isover', (req, res, next) => {
  ** API [GET] for route /events/communityId/isNotOver   
  */
 
-router.get('/:eventCommunity/isnotover', (req, res, next) => {
+router.get('/:eventCommunity/isnotover', authCkeck, (req, res, next) => {
     const id = req.params.eventCommunity;
     Event.find({
             eventCommunity: id,
@@ -429,7 +430,7 @@ router.get('/:eventCommunity/isnotover', (req, res, next) => {
  ** API [PATC] for route /events/communityId/isNotOver   
  */
 
-router.patch('/:eventCommunity/isnotover', (req, res, next) => {
+router.patch('/:eventCommunity/isnotover', authCkeck, (req, res, next) => {
     const id = req.params.eventCommunity;
 
     Event.update({

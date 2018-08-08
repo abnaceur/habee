@@ -36,6 +36,7 @@ In particular, documentation must contain:
 /communities/isNotActive							GET [DONE]
 
 /users												GET/POST [DONE]
+/users/login										POST
 /users/isNotActive									GET [DONE] 
 /users/isActive										GET [DONE]
 /users/administrators								GET [DONE]

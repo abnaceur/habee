@@ -15,22 +15,22 @@ let userSchema = mongoose.Schema({
 	credentials: {
         username: {
 			type: String,
-	//		required: true,
+			required: true,
 		},
 		firstname: {
 			type: String,
-	//		required: true,
+			required: true,
 		},	
 		birthDate: String,
 		address: String,
-        mail: {
+        email: {
 			type: String,
-	//		required: true,
+			required: true,
 		},
 		phone: String,
         password: {
 			type: String,
-	//		required: true,
+			required: true,
 		},
 	},
 	communities: [],
