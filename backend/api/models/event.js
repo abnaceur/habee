@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 
 // Event schema
 let eventSchema = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     eventId: String,
 	dateOfCreation: {
         type: Date,

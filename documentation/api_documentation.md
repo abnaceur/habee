@@ -30,37 +30,40 @@ In particular, documentation must contain:
 ## Routes
 
 ```
-/communities										GET/POST
-/communities/id										GET/POST/UPDATE
-/communities/active									GET
-/communities/isNotActive							GET
+/communities										GET/POST [DONE]
+/communities/id										GET/UPDATE/ [DONE]
+/communities/active									GET [DONE]
+/communities/isNotActive							GET [DONE]
 
-/users												GET/POST
-/users/isNotActive									GET
-/users/isActive										GET
-/users/administrators								GET
-/users/notAdmin										GET
-/users/id											GET/POST
-/users/id/credentials								GET/POST/UPDATE
-/users/id/communityId                               GET/POST/UPDATE
-/users/id/communityId/skills				        GET/POST/UPDATE
-/users/id/communityId/passions				        GET/POST/UPDATE
+/users												GET/POST [DONE]
+/users/login										POST
+/users/isNotActive									GET [DONE] 
+/users/isActive										GET [DONE]
+/users/administrators								GET [DONE]
+/users/notAdmin										GET [DONE]	
+/users/id											GET/UPDATE [DONE]
+/users/id/credentials								GET/POST/UPDATE [DONE]
+/users/id/communityId                               GET/POST/UPDATE [DONE]
+/users/id/communityId/skills				        GET/POST/UPDATE [DONE except PATCH and POST which is related to th user]
+/users/id/communityId/passions				        GET/POST/UPDATE [DONE except PATCH and POST which is related to th user]
 /users/id/communityId/currentEvents			        GET/POST/UPDATE
 /users/id/communityId/passedEvents			        GET/POST/UPDATE
 
-/passions											GET/POST
-passions/passionId									GET/POST/UPDATE
-/passions/communityId								GET
+/passions											GET/POST [DONE]
+passions/passionId									GET/POST/UPDATE [DONE]
+/passions/communityId								GET [DONE]
 
-/skills												GET/POST
-/skills/communityId									GET
+/skills												GET/POST [DONE]
+/skills/community/communityId						GET [DONE]
+/skills/skillId										GET/UPDATE [DONE]
 
-/events												GET/POST
-/events/isOver										GET
-/events/isNotOver									GET
-/events/communityId									GET
-/events/communityId/isOver							GET/UPDATE
-/events/communityId/isNotOver						GET/UPDATE
+/events												GET/POST [DONE]
+/events/eventId										GET/UPDATE [DONE]
+/events/all/isOver									GET [DONE]
+/events/isNotOver									GET [DONE]
+/events/community/communityId						GET [DONE]
+/events/communityId/isOver							GET/UPDATE [DONE]
+/events/communityId/isNotOver						GET/UPDATE [DONE]
 ```
 
 ## /communities
@@ -434,7 +437,7 @@ __GET_RETURNED_FORMAT__:
 	"dateOfCreation": "String",
 	"dateOfLastUpdate": "String",
 	"credentials": {
-		"surname": "String",
+		"username": "String",
 		"firstname": "String",
 		"birthDate": "String",
 		"address": "String",
@@ -607,6 +610,8 @@ The skills are filtered out. Only the skills relevant to the community are retur
   
 __POST AND PUT EXPECTED FORMAT__:  
   
+This will be the same as POST in /users
+
 ```
 "user": {
 	"userId": "String",
@@ -641,7 +646,7 @@ This route supports GET, POST and PUT operations.
 	"pasisons": [passionId", "passionId"]
 }
 ```
-  
+	
   __POST AND PUT EXPECTED FORMAT__:  
     
 ```

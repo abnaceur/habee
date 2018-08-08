@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 
 // User schema
 let userSchema = mongoose.Schema({
+	_id: mongoose.Schema.Types.ObjectId,
     userId: String,
 	dateOfCreation: {
      type: Date,
@@ -12,24 +13,45 @@ let userSchema = mongoose.Schema({
         default: Date.now,
     },
 	credentials: {
-        surname: String,
-		firstname: String,
+        username: {
+			type: String,
+			required: true,
+		},
+		firstname: {
+			type: String,
+			required: true,
+		},	
 		birthDate: String,
 		address: String,
-        mail: String,
+        email: {
+			type: String,
+			required: true,
+		},
 		phone: String,
-        password: String,
+        password: {
+			type: String,
+			required: true,
+		},
 	},
-	communities: {},
+	communities: [],
 	profile: [
 		{
-			communityId: {},
-			photo: String,
-			username: String,
-			isAdmin: Number,
-			dateOfCreation: Date,
-			dateOfLastUpdate: Date,
-			userIsActive: Number,
+			profileCummunityId: String,
+			//profilePhoto: String, 
+			profileUsername: String,
+			profileIsAdmin: Number,
+			profileDateOfCreation: {
+				type: Date,
+				default: Date.now,
+			},
+			profileDateOfLastUpdate: {
+				type: Date,
+				default: Date.now
+			},
+			profileUserIsActive: {
+				type: Boolean,
+				default: true,
+			}
 		},
 	],
 	passions: [],

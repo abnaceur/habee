@@ -2,14 +2,12 @@ let mongoose = require('mongoose');
 
 // Community schema
 let communitySchema = mongoose.Schema({
-    communityId: {
-        //type: mongoose.SchemaTypes.ObjectId,
-        type: String,
-    },
+    _id: mongoose.Schema.Types.ObjectId,
+    communityId: String,
 	communityName: String,
 	communityLogo: String,
-	communityAdmin: {},
-	communityMembers: {},
+	communityAdmin: [],
+	communityMembers: [],
 	dateOfCreation: {
         type: Date,
         default: Date.now,
@@ -20,7 +18,10 @@ let communitySchema = mongoose.Schema({
     },
 	companyName: String,
 	clientId: String,
-    communityIsActive: Boolean,
+    communityIsActive: {
+        type: Boolean,
+        default: true,
+    }
 });
 
-let Community = module.exports = mongoose.model('Community', communitySchema);
+module.exports = mongoose.model('Community', communitySchema);
