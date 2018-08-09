@@ -201,9 +201,21 @@ Explanation :
  echo fs.inotify.max_user_watches=524288 it increase the number of watches of nodemon as you made some changes in your project and sudo tee -a /etc/sysctl.conf && sudo sysctl -p is sysctl command for configure kernel parameters at runtime
 ```
 
-To generate the bundler in app folder :
+if you face this error message :
+"Error: /usr/lib/x86_64-linux-gnu/libstdc++.so.6: version `CXXABI_1.3.9' not found (required by /usr/src/app/node_modules/bcrypt/lib/binding/bcrypt_lib.node)"
+
+Cause : bcrypt is lib is not compatible.
+Solution : To avoid this error do the following
+
 ```bash
-make build
+# Connect to your container backend
+docker exec -ti habee_backend_dev  bash
+
+# Delete node_modules
+rm -rf node_modules
+
+# Re-install the packages
+npm install
 ```
 
 Start webpack in watch mode
