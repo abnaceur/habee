@@ -39,7 +39,7 @@ exports.login_user = (req, res, next) => {
         })
         .catch(err => {
             res.status(404).json({
-                Error: err
+                Error1: err
             })
         })
 };
