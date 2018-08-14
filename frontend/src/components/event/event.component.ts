@@ -14,7 +14,19 @@ import { Event } from "../../models/event.model";
 export class EventComponent {
   @Input()
   public event: Event = null;
+  private focus: boolean = false;
+  private focusText: string = "En savoir plus";
+  private subscribed: boolean = false;
 
   constructor() {
+  }
+
+  displayMore(): void {
+    if (!this.focus) {
+      this.focusText = "Moins";
+    } else {
+      this.focusText = "En savoir plus";
+    }
+      this.focus = !this.focus;
   }
 }

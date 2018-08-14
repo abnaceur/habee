@@ -1,7 +1,13 @@
-<!-- Generated template for the EventComponent component -->
-	<ion-card>
-		<img src="{{ event.eventImage }}">
-		<div class="card-title">{{ event.eventTitle }}</div>
-		<div class="card-subtitle">{{ event.eventDate }}</div>
-		<div class="card-subtitle">{{ event.eventDescription }}</div>
-	</ion-card>
+<ion-card>
+	<img src="{{ event.eventImage }}">
+	<div class="card-title">{{ event.eventName }}</div>
+	<div class="event-date">{{ event.eventDate }}</div>
+	<div class="event-duration">{{ event.eventDuration }}</div>
+
+	<div *ngIf="focus" class="event-description">{{ event.eventDescription }}</div>
+	<button ion-button *ngIf="focus">Je participe!</button>
+	<button ion-button *ngIf="subscribed">Je ne participe plus!</button>
+	<br *ngIf="focus">
+	<button ion-button (click)="displayMore()">{{ focusText }}</button>
+
+</ion-card>
