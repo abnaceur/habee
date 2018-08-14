@@ -11,11 +11,16 @@ page-login {
 .form-login {
     position: relative;
     height: 300px;
-    top: 195px;
+    top: 210px;
     background: transparent;
 }
 
+.formLogin-email {
+    margin-bottom: 20px;
+}
 
-.form-login1 {
-    background: transparent;
+.authFailedClass {
+    > div{
+        background-color:goldenrod!important;
+    }
 }

@@ -10,36 +10,37 @@ exports.login_user = (req, res, next) => {
         })
         .exec()
         .then(users => {
-            console.log('password', users[0].credentials.email);
+
             if (users.length === 0) {
-                return res.status(404).json({
-                    message: "There are no users match this emal!" + req.body.credentials.email
+                return res.status(200).json({
+                    message: "Auth failed",
+                    code: "404"
                 })
             } else {
-                bcrypt.compare(req.body.credentials.password, users[0].credentials.password, (err, results) => {
-                    if (err) {
-                        res.status(409).json({
-                            message: "Auth failed"
-                        })    
-                    } else {
-                        const token = jwt.sign({
-                            id: req.body.userId,
-                            email: req.body.credentials.email
-                        }, process.env.JWT_KEY, {
-                            expiresIn: process.env.TOKEN_DURATION
-                        })
-                        res.status(200).json({
-                            message: "Auth success",
-                            token: token
-                        })
-                    }
-                });
-                
+                if (bcrypt.compareSync(req.body.credentials.password, users[0].credentials.password) == true) {
+                    const token = jwt.sign({
+                        id: req.body.userId,
+                        email: req.body.credentials.email
+                    }, process.env.JWT_KEY, {
+                        expiresIn: process.env.TOKEN_DURATION
+                    })
+                    res.status(200).json({
+                        message: "Auth success",
+                        code: "200",
+                        userId: users[0].userId,
+                        token: token
+                    })
+                } else {
+                    res.status(200).json({
+                        message: "Auth failed",
+                        code: "409",
+                    })
+                }
             }
         })
         .catch(err => {
             res.status(404).json({
-                Error1: err
+                Error: err
             })
         })
 };
@@ -305,9 +306,7 @@ exports.patch_user_by_id = (req, res, next) => {
                     userId: id
                 }, {
                     $set: {
-                        _id: new mongoose.Types.ObjectId,
                         userId: req.body.userId,
-                        credentials: req.body.credentials,
                         "credentials.username": req.body.username,
                         "credentials.firstname": req.body.firstname,
                         "credentials.birthDate": req.body.birthDate,
@@ -317,7 +316,6 @@ exports.patch_user_by_id = (req, res, next) => {
                         "credentials.password": hash,
 
                         communities: req.body.communities,
-                        profile: req.body.profile,
                         "profile.profileCummunityId": req.body.profileCummunityId,
                         //  "profile.profilePhoto": req.file.path,
                         "profile.profileUsername": req.body.profileUsername,
@@ -326,11 +324,9 @@ exports.patch_user_by_id = (req, res, next) => {
 
                         passions: req.body.passions,
                         skills: req.body.skills,
-                        currentEvents: req.body.currentEvents,
                         "currentEvents.eventsICreated": req.body.eventsICreated,
                         "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
                         parameters: req.body.parameters,
-                        passedEvents: req.body.passedEvents,
                         "passedEvents.PassedevenementsICreated": req.body.passedEvents,
                         "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
                     }

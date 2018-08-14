@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { HomePage } from '../home/home';
 import { Http } from '@angular/http';
 import "rxjs/add/operator/map";
+import { LoginProvider } from '../../providers/login/login';
 
 /**
  * Generated class for the LoginPage page.
@@ -20,7 +21,7 @@ import "rxjs/add/operator/map";
 export class LoginPage {
   authForm: FormGroup;
 
-  constructor(public http: Http, public nav: NavController, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
+  constructor(private toastController: ToastController, public loginProvider: LoginProvider, public http: Http, public nav: NavController, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
     this.nav = nav;
 
     this.authForm = formBuilder.group({
@@ -31,45 +32,22 @@ export class LoginPage {
 
   onSubmit(value: any): void {
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    let data = {
-      userId: "test_id1",
-      credentials: {
-        username: "Abdeljalil hero for ever",
-        firstname: "Abn",
-        birthDate: "12/12/1980",
-        address: "test@admin.com",
-        email: "test@this.com",
-        phone: "00337563546",
-        password: "abdeljalil"
-      }
-    }
-
-    this.http.post('http://si.habee.local:3000/users/login',
-    {
-      userId: "test_id1",
-      credentials: {
-        username: "Abdeljalil hero for ever",
-        firstname: "Abn",
-        birthDate: "12/12/1980",
-        address: "test@admin.com",
-        email: "test@this.com",
-        phone: "00337563546",
-        password: "abdeljalil"
-      }
-    },
-      { headers: headers })
-      .map(response => response.json())
-      .subscribe(data => console.log('data : ', data));
-
-    if (this.authForm.valid) {
-      window.localStorage.setItem('email', value.email);
-      window.localStorage.setItem('password', value.password);
-
-      this.nav.push(HomePage);
-    }
+    this.loginProvider.loginUser(value.email, value.password)
+      .subscribe(response => {
+        if (response.code == "200") {
+          window.localStorage.setItem('email', value.email);
+          window.localStorage.setItem('password', value.password);
+          this.nav.push(HomePage);
+        } else {
+          let authFailedToast = this.toastController.create({
+            message: "E-mail et/ou mot de pass non valid",
+            duration: 2000,
+            position: 'top',
+            cssClass: "authFailedClass"
+          });
+          authFailedToast.present();
+        }
+      });
   }
 
   ionViewDidLoad() {
