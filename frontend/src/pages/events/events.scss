@@ -1,3 +1,32 @@
 page-events {
+    .list {
+        background-color: #EEE;
+    }
+
+    .list-button {
+        background-color: #EEE!important;
+        width: 100%;
+    }
+
+    .fab {
+        contain: layout;
+    }
+
+    button[ion-fab] {
+        overflow: visible;
+        position: relative;
+
+        ion-label {
+            position: absolute;
+            top: -8px;
+            right: 40px;
+
+            color: white;
+            background-color: #039BE5;
+            line-height: 24px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+    }
 
 }
