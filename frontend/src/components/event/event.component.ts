@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterContentInit } from '@angular/core';
 import { Event } from "../../models/event.model";
+import { UserProvider } from "../../providers/user/user";
 
 /**
  * Generated class for the EventComponent component.
@@ -11,7 +12,7 @@ import { Event } from "../../models/event.model";
   selector: 'appEvent',
   templateUrl: 'event.component.html'
 })
-export class EventComponent {
+export class EventComponent implements AfterContentInit {
   @Input()
   public event: Event = null;
   private focus: boolean = false;
@@ -19,7 +20,18 @@ export class EventComponent {
   private subscribed: boolean = false;
   private subscribeText: string = "je participe!";
 
+  private userProvider: UserProvider = new UserProvider();
+  private userName: string;
+  private userIsCreator: boolean;
+
+
   constructor() {
+    this.userName = this.userProvider.getUserName();
+  }
+
+  ngAfterContentInit() {
+    if (this.event != null && this.event != undefined)
+      this.userIsCreator = this.event.eventCreator == this.userName ? true : false;
   }
 
   displayMore(): void {

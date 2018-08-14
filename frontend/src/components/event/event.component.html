@@ -7,7 +7,9 @@
 	<div class="event event-location" *ngIf="focus">Location <strong>{{ event.eventLocation }}</strong></div>
 
 	<div *ngIf="focus" class="event event-description">{{ event.eventDescription }}</div>
-	<button ion-button *ngIf="focus" (click)="subscribe()">{{ subscribeText }}</button>
+	<button ion-button *ngIf="focus" (click)="subscribe()" #subButton>{{ subscribeText }}</button>
 	<button ion-button (click)="displayMore()">{{ focusText }}</button>
+	<br *ngIf="userisCreator">
+	<button ion-button color="danger" *ngIf="userIsCreator">Supprimer Evénement</button>
 
 </ion-card>
