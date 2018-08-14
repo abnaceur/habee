@@ -23,10 +23,11 @@ class Event {
 
     // everythong should be passed in the constructor, but for now, we will only use that to create the pages, it's easier
     constructor(image: string, name: string, description: string, date:string,
-        MaxNbrOfParticipants: number, location: string, duration: string) {
+        MaxNbrOfParticipants: number, location: string, duration: string, creator: string) {
         this.eventNbrOfParticipants = 0;
         this.eventMaxNbrParticipants = MaxNbrOfParticipants;
         this.eventParticipants = [];
+        this.eventCreator = creator;
 
         this.eventDescription = description;
         this.eventLocation = location;

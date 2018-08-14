@@ -13,6 +13,7 @@ export class MyApp {
 
 	rootPage:any = "EventsPage";
 	pages: Array<string>;
+	pagesName: Array<string>;
 
 	constructor(
 		private platform: Platform, 
@@ -24,6 +25,12 @@ export class MyApp {
 			'Profile',
 			'Admin'
 		];
+		this.pagesName = [
+			'Evénements',
+			'Paramètres',
+			"Profile",
+			"Administration"
+		]
 
 		platform.ready().then(() => {
 			// Okay, so the platform is ready and our plugins are available.
@@ -37,4 +44,3 @@ export class MyApp {
 		this.nav.setRoot(page + "Page")
 	}
 }
-

@@ -17,6 +17,7 @@ export class EventComponent {
   private focus: boolean = false;
   private focusText: string = "En savoir plus";
   private subscribed: boolean = false;
+  private subscribeText: string = "je participe!";
 
   constructor() {
   }
@@ -28,5 +29,14 @@ export class EventComponent {
       this.focusText = "En savoir plus";
     }
       this.focus = !this.focus;
+  }
+
+  subscribe(): void {
+    if (!this.subscribed) {
+      this.subscribeText = "Me désinscrire";
+    } else {
+      this.subscribeText = "Je participe!";
+    }
+      this.subscribed = !this.subscribed;
   }
 }

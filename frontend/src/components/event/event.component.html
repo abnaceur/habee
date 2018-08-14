@@ -1,13 +1,13 @@
 <ion-card>
+	<div class="event event-title">{{ event.eventName }}</div>
+	<div class="event event-date">{{ event.eventDate }}</div>
 	<img src="{{ event.eventImage }}">
-	<div class="card-title">{{ event.eventName }}</div>
-	<div class="event-date">{{ event.eventDate }}</div>
-	<div class="event-duration">{{ event.eventDuration }}</div>
+	<div class="event event-duration">{{ event.eventDuration }}</div>
+	<div class="event event-creator" *ngIf="focus">Proposé par <strong>{{ event.eventCreator }}</strong></div>
+	<div class="event event-location" *ngIf="focus">Location <strong>{{ event.eventLocation }}</strong></div>
 
-	<div *ngIf="focus" class="event-description">{{ event.eventDescription }}</div>
-	<button ion-button *ngIf="focus">Je participe!</button>
-	<button ion-button *ngIf="subscribed">Je ne participe plus!</button>
-	<br *ngIf="focus">
+	<div *ngIf="focus" class="event event-description">{{ event.eventDescription }}</div>
+	<button ion-button *ngIf="focus" (click)="subscribe()">{{ subscribeText }}</button>
 	<button ion-button (click)="displayMore()">{{ focusText }}</button>
 
 </ion-card>

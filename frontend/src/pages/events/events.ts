@@ -13,9 +13,9 @@ export class EventsPage {
 	// This will be replaced by events retrieved from the server through http requests.
 	// For now, we will use these hardcoded data
 	constructor(public navCtrl: NavController, public navParams: NavParams) {
-		this.allEvents = [new Event("../../assets/imgs/event1.jpg", "football match", "OM vs PSG. Allez l'OM!!!", "demain",
-			10, "stade velodrome", "2h"), new Event("../../assets/imgs/event2.jpg", "yoga", "Relaxation et bien être", "12/11/2022",
-			3, "sale de yoga", "45min")];
+		this.allEvents = [new Event("../../assets/imgs/event1.jpg", "Football Match", "OM vs PSG. Allez l'OM!!!", "Jeudi 07 Septembre 2019",
+			10, "stade velodrome", "2h", "Abdel"), new Event("../../assets/imgs/event2.jpg", "Yoga", "Relaxation et bien être", "Lundi 12 Octobre 2022",
+			3, "sale de yoga", "45min", "Jean")];
 		console.log("Initialized allEvents");
 		console.log(this.allEvents);
 	}

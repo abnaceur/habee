@@ -1,7 +1,7 @@
 <ion-header>
 
 	<ion-navbar>
-		<ion-title>Events</ion-title>
+		<ion-title>Evénements</ion-title>
 		<button ion-button icon-only menuToggle>
 			<ion-icon name="menu"></ion-icon>
 		</button>
@@ -10,6 +10,5 @@
 </ion-header>
 
 <ion-content class="card-background-page">
-	<h1>ALL EVENTS</h1>
 	<appEvent *ngFor="let event of allEvents" [event]="event"></appEvent>
 </ion-content>
