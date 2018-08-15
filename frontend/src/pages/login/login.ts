@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { HomePage } from '../home/home';
-import { EventsPage } from '../events/events';
 import { Http } from '@angular/http';
 import "rxjs/add/operator/map";
 import { LoginProvider } from '../../providers/login/login';
@@ -37,7 +35,7 @@ export class LoginPage {
       .subscribe(response => {
         if (response.code == "200") {
           console.log('response : ', response);
-          this.nav.push(EventsPage);
+          this.nav.push("TabsPage");
         } else {
           let authFailedToast = this.toastController.create({
             message: "E-mail et/ou mot de pass non valid",

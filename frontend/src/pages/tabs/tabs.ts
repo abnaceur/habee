@@ -11,6 +11,7 @@ export class TabsPage {
 	tab2Root = "MyEventsPage";
 	tab3Root = "ProfilePage";
 	tab4Root = "BargainsPage";
+	tab5Root = "AdminPage";
 
 	constructor(public navCtrl: NavController, public navParams: NavParams) {
 

@@ -7,20 +7,19 @@ import { HttpModule } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login';
 import { LoginProvider } from '../providers/login/login';
 import { TabsPageModule } from "../pages/tabs/tabs.module"
 import { ProfilePageModule } from "../pages/profile/profile.module";
 import { MyEventsPageModule } from "../pages/my-events/my-events.module";
 import { EventsPageModule } from "../pages/events/events.module";
 import { BargainsPageModule } from "../pages/bargains/bargains.module";
+import { LoginPageModule } from "../pages/login/login.module";
 
 
 
 @NgModule({
   declarations: [
     MyApp,
-    LoginPage,
     HomePage,
   ],
   imports: [
@@ -31,12 +30,12 @@ import { BargainsPageModule } from "../pages/bargains/bargains.module";
     MyEventsPageModule,
     EventsPageModule,
     BargainsPageModule,
+    LoginPageModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    LoginPage,
     HomePage
   ],
   providers: [
