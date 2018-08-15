@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { HomePage } from '../home/home';
+import { EventsPage } from '../events/events';
 import { Http } from '@angular/http';
 import "rxjs/add/operator/map";
 import { LoginProvider } from '../../providers/login/login';
@@ -35,10 +36,8 @@ export class LoginPage {
     this.loginProvider.loginUser(value.email, value.password)
       .subscribe(response => {
         if (response.code == "200") {
-          window.localStorage.setItem('email', value.email);
-          window.localStorage.setItem('password', value.password);
           console.log('response : ', response);
-          this.nav.push(HomePage);
+          this.nav.push(EventsPage);
         } else {
           let authFailedToast = this.toastController.create({
             message: "E-mail et/ou mot de pass non valid",

@@ -17,8 +17,8 @@ export class LoginProvider {
   }
 
   loginUser(email, password) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    let header = new Headers();
+    header.append('Content-Type', 'application/json');
 
     return this.http.post(ENV.BASE_URL + '/users/login',
       {
@@ -27,7 +27,7 @@ export class LoginProvider {
           password: password
         }
       },
-      { headers: headers })
+      { headers: header })
       .map(response => response.json());
   }
 }
