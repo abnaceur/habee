@@ -14,7 +14,7 @@ import { MyEventsPageModule } from "../pages/my-events/my-events.module";
 import { EventsPageModule } from "../pages/events/events.module";
 import { BargainsPageModule } from "../pages/bargains/bargains.module";
 import { LoginPageModule } from "../pages/login/login.module";
-
+import { AdminPageModule } from "../pages/admin/admin.module";
 
 
 @NgModule({
@@ -31,6 +31,7 @@ import { LoginPageModule } from "../pages/login/login.module";
     EventsPageModule,
     BargainsPageModule,
     LoginPageModule,
+    AdminPageModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
