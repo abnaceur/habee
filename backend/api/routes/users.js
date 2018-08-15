@@ -99,7 +99,7 @@ router.get('/:id',  userController.get_user_by_id);
  **  API [PATCH] for route /user/:id
  */
 
-router.patch('/:id', authCkeck, upload.single('profilePhoto'), userController.patch_user_by_id);
+router.patch('/:id', upload.single('profilePhoto'), userController.patch_user_by_id);
 
 
 /*

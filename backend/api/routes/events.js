@@ -37,7 +37,7 @@ const upload = multer({
  * API [GET] for route /events
  */
 
-router.get('/', authCkeck, eventController.get_all_events);
+router.get('/', eventController.get_all_events);
 
 
 /**
@@ -45,7 +45,7 @@ router.get('/', authCkeck, eventController.get_all_events);
  */
 
 
-router.post('/', authCkeck, upload.any(), eventController.post_event);
+router.post('/', upload.any(), eventController.post_event);
 
 
 /**

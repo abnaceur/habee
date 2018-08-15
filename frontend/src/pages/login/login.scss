@@ -1,0 +1,26 @@
+page-login {
+
+}
+
+.myview{
+    background-image: url('../assets/imgs/loginPage.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-login {
+    position: relative;
+    height: 300px;
+    top: 210px;
+    background: transparent;
+}
+
+.formLogin-email {
+    margin-bottom: 20px;
+}
+
+.authFailedClass {
+    > div{
+        background-color:goldenrod!important;
+    }
+}

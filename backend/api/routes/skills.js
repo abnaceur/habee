@@ -36,7 +36,7 @@ const upload = multer({
  * API [GET] for route /skills 
  */
 
-router.get('/', authCkeck, skillController.get_all_skills);
+router.get('/', skillController.get_all_skills);
 
 
 
@@ -45,7 +45,7 @@ router.get('/', authCkeck, skillController.get_all_skills);
  */
 
 
-router.post('/', authCkeck, upload.any(), skillController.post_skill);
+router.post('/', upload.any(), skillController.post_skill);
 
 
 
@@ -60,7 +60,7 @@ router.get('/community/:id', authCkeck, skillController.get_skill_by_communityId
  * API [GET] foor route /skills/id
  */
 
-router.get('/:id', authCkeck, skillController.get_skill_by_id);
+router.get('/:id', skillController.get_skill_by_id);
 
 
 /*
@@ -68,6 +68,6 @@ router.get('/:id', authCkeck, skillController.get_skill_by_id);
  */
 
 
-router.patch('/:id', authCkeck, upload.any(), skillController.patch_skill);
+router.patch('/:id', upload.any(), skillController.patch_skill);
 
 module.exports = router;
