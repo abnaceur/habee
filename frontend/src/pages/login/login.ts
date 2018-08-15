@@ -37,6 +37,7 @@ export class LoginPage {
         if (response.code == "200") {
           window.localStorage.setItem('email', value.email);
           window.localStorage.setItem('password', value.password);
+          console.log('response : ', response);
           this.nav.push(HomePage);
         } else {
           let authFailedToast = this.toastController.create({
