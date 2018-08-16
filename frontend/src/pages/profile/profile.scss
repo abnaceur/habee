@@ -1,3 +1,46 @@
 page-profile {
 
 }
+
+.buttons {
+    width: 100px; 
+    height: 22px;
+    font-size: 10px;
+}
+
+.myview{
+    background-image: url('../assets/imgs/MainBackground.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.edit-icon {
+    float: right;
+    right: -8px;
+    border: 0.3px solid blue;
+    z-index: 12;
+    top: 20px;
+    position: relative;
+    cursor: pointer;
+}
+
+.img-avatar {
+    top: -21px;
+    width: 125px;
+    height: 125px;
+    position: relative;
+}
+
+.img-scroll {
+    height: 63px;
+    width: 57px;
+    position: relative;
+    bottom: 10px;  
+}
+
+.img-scroll-add {
+    height: 33px;
+    width: 27px;
+    position: relative;
+    bottom: 20px;  
+}

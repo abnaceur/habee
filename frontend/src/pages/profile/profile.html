@@ -4,15 +4,74 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>profile</ion-title>
-  </ion-navbar>
-
+<ion-header style="height: 50px;">
+   
 </ion-header>
 
+<ion-content class="myview" padding>
+  <ion-grid>
+    <ion-row>
+      
+    </ion-row>
+    <ion-row>
+      <ion-col col-sm-8 col-xs-8 col-8 col-sm>
+        <ion-item style="margin: 10 10 0 0; background: transparent">
+          <ion-avatar item-start>
+              <button class="edit-icon" ion-fab mini><ion-icon name="create"></ion-icon></button>
+              <img style=" top: -16px;
+            width: 125px;
+            height: 125px;
+            position: relative;" 
+            src="../assets/imgs/avatar.png">
+          </ion-avatar>
+        </ion-item>
+      </ion-col>
+      <ion-col style="margin: 10 10 0 0" col-4 col-sm>
+        <div style="position:relative; top: 64px">
+          <div>
+            <button class="buttons" ion-button round >PASSIONS/LOISIRS</button>
+          </div>
+          <div>
+            <button class="buttons" ion-button round >COMPETENCES</button>
+          </div>
+          <div>
+            <button class="buttons" ion-button round >MES STATS</button>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
 
-<ion-content padding>
+    <ion-row style="margin-top: 30px">
+      <ion-col col-12 col-ms>
+              <ion-title text-center>
+                passions/loisirs
+              </ion-title>
+    
+          <ion-scroll  scrollX="true" style="white-space: nowrap; height: 70px;">
+              <img class="img-scroll-add" (click)='AddPassion();' src="../assets/imgs/addIcon.png">
+              <img class="img-scroll" src="../assets/imgs/soccer.png">
+              <img class="img-scroll" src="../assets/imgs/soccer.png">
+              <img class="img-scroll" src="../assets/imgs/soccer.png">
+      
 
+          </ion-scroll>
+        </ion-col>
+
+        <ion-col style="margin-top: 30px" col-12 col-ms>
+            <ion-title text-center>
+              competences
+            </ion-title>
+  
+        <ion-scroll  scrollX="true" style="white-space: nowrap; height: 70px;">
+            <img class="img-scroll-add" (click)='AddPassion();' src="../assets/imgs/addIcon.png">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+    
+
+        </ion-scroll>
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
 </ion-content>

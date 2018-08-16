@@ -1,0 +1,41 @@
+.ion-ios-profile,
+.ion-md-profile {
+  content: url(../assets/imgs/Profile.png);
+}
+
+.ion-ios-events,
+.ion-md-events {
+  content: url(../assets/imgs/AllEvent.png);
+}
+
+.ion-ios-myEvent,
+.ion-md-myEvent {
+  content: url(../assets/imgs/Myevents.png);
+
+}
+
+.ion-ios-bargains,
+.ion-md-bargains {
+  content: url(../assets/imgs/ProposeAnEvent.png)
+}
+
+.ion-ios-settingsHabee,
+.ion-md-settingsHabee {
+  content: url(../assets/imgs/Unknow.png);
+ 
+}
+
+
+.profile {
+    background-image: url('../assets/imgs/loginPage.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.header-icon {
+    position: relative;
+    top: 12px;
+    right: 5px;
+    font-size: 24px;
+    cursor: pointer;
+}

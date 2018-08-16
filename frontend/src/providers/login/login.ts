@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import "rxjs/add/operator/map";
 import { environment as ENV } from '../../environments/environment' ;
 
@@ -17,7 +17,7 @@ export class LoginProvider {
   }
 
   loginUser(email, password) {
-    const header = new Headers();
+    const header = new Headers();z
     header.append('Content-Type', 'application/json');
 
     return this.http.post(ENV.BASE_URL + '/users/login',
