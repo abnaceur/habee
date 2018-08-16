@@ -1,25 +1,24 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { Event } from "../../models/event.model";
+import { Http } from "@angular/http";
+import "rxjs/add/operator/map";
 
-/**
- * Generated class for the EventsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
+ 
+@IonicPage({ name: "EventsPage" })
 @Component({
-  selector: 'page-events',
-  templateUrl: 'events.html',
+	selector: 'page-events',
+	templateUrl: 'events.html'
 })
 export class EventsPage {
+	private allEvents: Event[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+		console.log("Initialized allEvents");
+	}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EventsPage');
-  }
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad EventsPage');
+	}
 
 }
