@@ -20,13 +20,13 @@ export class EventComponent implements AfterContentInit {
   private subscribed: boolean = false;
   private subscribeText: string = "je participe!";
 
-  private userProvider: UserProvider = new UserProvider();
+  //private userProvider: UserProvider = new UserProvider();
   private userName: string;
   private userIsCreator: boolean;
 
 
   constructor() {
-    this.userName = this.userProvider.getUserName();
+    //this.userName = this.userProvider.getUserName();
   }
 
   ngAfterContentInit() {

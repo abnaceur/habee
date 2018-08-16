@@ -6,6 +6,7 @@ import { IonicPage, NavController, NavParams } from "ionic-angular";
 	templateUrl: 'tabs.html'
 })
 export class TabsPage {
+	public tabParams;
 
 	tab1Root = "EventsPage";
 	tab2Root = "MyEventsPage";
@@ -14,6 +15,10 @@ export class TabsPage {
 	tab5Root = "AdminPage";
 
 	constructor(public navCtrl: NavController, public navParams: NavParams) {
-
+		this.tabParams = {
+			userId: this.navParams.get("userId"), 
+			token: this.navParams.get("token")
+		};
+		console.log("UserID: ", this.tabParams.userId);
 	}
 }

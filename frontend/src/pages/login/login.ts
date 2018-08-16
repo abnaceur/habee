@@ -5,13 +5,6 @@ import { Http } from '@angular/http';
 import "rxjs/add/operator/map";
 import { LoginProvider } from '../../providers/login/login';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -35,7 +28,7 @@ export class LoginPage {
       .subscribe(response => {
         if (response.code == "200") {
           console.log('response : ', response);
-          this.nav.push("TabsPage");
+          this.nav.push("TabsPage", response);
         } else {
           let authFailedToast = this.toastController.create({
             message: "E-mail et/ou mot de pass non valid",
