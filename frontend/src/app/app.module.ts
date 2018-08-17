@@ -16,8 +16,8 @@ import { BargainsPageModule } from "../pages/bargains/bargains.module";
 import { LoginPageModule } from "../pages/login/login.module";
 import { AdminPageModule } from "../pages/admin/admin.module";
 import { UserProvider } from '../providers/user/user';
-import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
 import { CommunityProvider } from '../providers/community/community';
+import { EventProvider } from '../providers/event/event';
 
 
 @NgModule({
@@ -48,8 +48,8 @@ import { CommunityProvider } from '../providers/community/community';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LoginProvider,
     UserProvider,
-    RetrieveEventsProvider,
-    CommunityProvider
+    CommunityProvider,
+    EventProvider
   ]
 })
 export class AppModule { }

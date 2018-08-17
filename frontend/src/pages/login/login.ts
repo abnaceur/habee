@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import "rxjs/add/operator/map";
 import { LoginProvider } from '../../providers/login/login';
 

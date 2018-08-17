@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from "@angular/http";
+import { Http, Headers } from "@angular/http";
 import { environment as ENV } from "../../environments/environment";
 
 @Injectable()
@@ -9,8 +9,10 @@ export class CommunityProvider {
     console.log('Hello CommunityProvider Provider');
   }
 
-  getCommunityById(communityId: string) {
-    return this.http.get(ENV.BASE_URL + "/communities" + communityId);
+  getCommunityById(communityId: string, token: string) {
+    console.log("IN COMMUNITY PROVIDER/ retrieve: ", communityId);
+    const headers: Headers = new Headers({"authorization": token});
+    return this.http.get(ENV.BASE_URL + "/communities/" + communityId, {headers: headers});
   }
 
 }

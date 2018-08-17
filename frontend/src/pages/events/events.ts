@@ -4,8 +4,9 @@ import { Event } from "../../models/event.model";
 import { Http } from "@angular/http";
 import "rxjs/add/operator/map";
 import { CommunityProvider } from "../../providers/community/community";
-import { RetrieveEventsProvider } from "../../providers/retrieve-events/retrieve-events";
+import { EventProvider } from "../../providers/event/event";
 import { User } from "../../models/user.model";
+import { UserProvider } from "../../providers/user/user";
 import { Community } from "../../models/community.model";
 
  
@@ -17,25 +18,27 @@ import { Community } from "../../models/community.model";
 export class EventsPage {
 	public userObject;
 	public user: User;
-	public userArray: any[];
+	public responseArray: any[];
 	public currentEvents: string[];
+	public communityObject;
+	public eventsArray: any;
 
 	constructor(
 		public navCtrl: NavController, 
 		public navParams: NavParams, 
 		public http: Http, 
 		public cp: CommunityProvider,
-		public rep: RetrieveEventsProvider
+		public ep: EventProvider,
+		public up: UserProvider
 	) {
 		this.userObject = {
 			userId: this.navParams.get("userId"),
 			token: this.navParams.get("token")
 		};
-
-		rep.getUserById(<string>this.userObject.userId)
+		up.getUserById(<string>this.userObject.userId, <string>this.userObject.token)
 		.subscribe((response) => {
-			this.userArray = response.json();
-			this.user = this.userArray.User[0];
+			this.responseArray = response.json();
+			this.user = this.responseArray.User[0];
 			if (this.user.currentEvents) {
 				this.userObject.eventsICreated = this.user.currentEvents.eventsICreated;
 				this.userObject.eventsIParticipate = this.user.currentEvents.eventsIParticipate;
@@ -43,10 +46,23 @@ export class EventsPage {
 			this.userObject.communityId = this.user.communities[0];
 			this.user = undefined; // free memory of user: safer and speed the application
 
-			//cp.getCommunityById(<string>this.userObject.communityId)
-			//.subscribe((response) => {
-			//	console.log("COMMUNITYID GET: ", response);
-			//})
+			console.log("Community_id: ", this.userObject);
+			cp.getCommunityById(<string>this.userObject.communityId, <string>this.userObject.token)
+			.subscribe((response) => {
+				this.responseArray = response.json();
+				this.communityObject = this.responseArray.community[0];
+				this.currentEvents = this.communityObject.communityCurrentEvents;
+				console.log("events in community: ", this.currentEvents);
+
+				this.currentEvents.forEach((item, index) => {
+					ep.getEventsById(<string>item, <string>this.userObject.token)
+					.subscribe((response) => {
+						console.log(response.json());
+						//this.eventsArray.push(response);
+					})
+				})
+
+			})
 		},
 		(error) => console.log(error)
 		)
