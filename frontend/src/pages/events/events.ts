@@ -3,8 +3,10 @@ import { IonicPage, NavController, NavParams, Item } from "ionic-angular";
 import { Event } from "../../models/event.model";
 import { Http } from "@angular/http";
 import "rxjs/add/operator/map";
+import { CommunityProvider } from "../../providers/community/community";
 import { RetrieveEventsProvider } from "../../providers/retrieve-events/retrieve-events";
 import { User } from "../../models/user.model";
+import { Community } from "../../models/community.model";
 
  
 @IonicPage({ name: "EventsPage" })
@@ -18,25 +20,33 @@ export class EventsPage {
 	public userArray: any[];
 	public currentEvents: string[];
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public rep: RetrieveEventsProvider) {
-		console.log("Initialized allEvents");
+	constructor(
+		public navCtrl: NavController, 
+		public navParams: NavParams, 
+		public http: Http, 
+		public cp: CommunityProvider,
+		public rep: RetrieveEventsProvider
+	) {
 		this.userObject = {
 			userId: this.navParams.get("userId"),
 			token: this.navParams.get("token")
 		};
-		console.log("user in Events: ", this.userObject);
+
 		rep.getUserById(<string>this.userObject.userId)
 		.subscribe((response) => {
 			this.userArray = response.json();
 			this.user = this.userArray.User[0];
-			console.log("in event, did retrieve user: ", this.user);
 			if (this.user.currentEvents) {
-				console.log("EVENTS: user.currentEvents exist");
-				this.currentEvents = this.user.currentEvents.eventsICreated.concat(this.user.currentEvents.eventsIParticipate);
-				// remove duplicates from array
-				this.currentEvents = Array.from(new Set(this.currentEvents));
-				console.log("CURRENT EVENTS: ", this.currentEvents);
+				this.userObject.eventsICreated = this.user.currentEvents.eventsICreated;
+				this.userObject.eventsIParticipate = this.user.currentEvents.eventsIParticipate;
 			}
+			this.userObject.communityId = this.user.communities[0];
+			this.user = undefined; // free memory of user: safer and speed the application
+
+			//cp.getCommunityById(<string>this.userObject.communityId)
+			//.subscribe((response) => {
+			//	console.log("COMMUNITYID GET: ", response);
+			//})
 		},
 		(error) => console.log(error)
 		)

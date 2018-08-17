@@ -1,5 +1,3 @@
-import { NavController, NavParams } from "ionic-angular";
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Http } from "@angular/http";
 import { environment as ENV } from "../../environments/environment";

@@ -21,7 +21,9 @@ let communitySchema = mongoose.Schema({
     communityIsActive: {
         type: Boolean,
         default: true,
-    }
+	},
+	communityCurrentEvents: [],
+	communityPassedEvents: []
 });
 
 module.exports = mongoose.model('Community', communitySchema);

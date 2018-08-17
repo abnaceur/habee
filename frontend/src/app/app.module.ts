@@ -17,6 +17,7 @@ import { LoginPageModule } from "../pages/login/login.module";
 import { AdminPageModule } from "../pages/admin/admin.module";
 import { UserProvider } from '../providers/user/user';
 import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
+import { CommunityProvider } from '../providers/community/community';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-ev
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LoginProvider,
     UserProvider,
-    RetrieveEventsProvider
+    RetrieveEventsProvider,
+    CommunityProvider
   ]
 })
 export class AppModule { }
