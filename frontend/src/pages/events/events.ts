@@ -21,7 +21,7 @@ export class EventsPage {
 	public responseArray: any[];
 	public currentEvents: string[];
 	public communityObject;
-	public eventsArray: any;
+	public eventsArray: any[] = [];
 
 	constructor(
 		public navCtrl: NavController, 
@@ -57,8 +57,9 @@ export class EventsPage {
 				this.currentEvents.forEach((item, index) => {
 					ep.getEventsById(<string>item, <string>this.userObject.token)
 					.subscribe((response) => {
-						console.log(response.json());
-						//this.eventsArray.push(response);
+						// console.log(response.json().Event[0]);
+						this.eventsArray.push(response.json().Event[0]);
+						console.log(this.eventsArray);
 					})
 				})
 
