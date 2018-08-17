@@ -44,7 +44,10 @@ exports.post_community =  (req, res, next) => {
         communityMembers: req.body.communityMembers,
         companyName: req.body.companyName,
         clientId: req.body.clientId,
-        communityIsActive: req.body.communityIsActive
+		communityIsActive: req.body.communityIsActive,
+		communityCurrentEvents: req.body.communityCurrentEvents,
+		communityPassedEvents: req.body.communityPassedEvents
+
     });
     community
         .save()

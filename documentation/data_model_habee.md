@@ -10,7 +10,9 @@
 	"dateOfLastUpdate": "String",
 	"companyName": "Srring",
 	"clientId": "String",
-	"communityIsActive": "Integer"
+	"communityIsActive": "Integer",
+	"communityCurrentEvents": ["eventId", "eventId"],
+	"communityPassedEvents": ["eventId", "eventId", "eventId"]
 }
 
 "user": {
