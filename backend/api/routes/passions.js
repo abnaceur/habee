@@ -36,14 +36,14 @@ const upload = multer({
  * API [GET] for route /passions 
  */
 
-router.get('/', authCkeck, passionController.get_all_passions);
+router.get('/', passionController.get_all_passions);
 
 
 /**
  * API [GET] foor route /passions/communityId
  */
 
-router.get('/:id', authCkeck, passionController.get_passion_by_communityId);
+router.get('/:id', passionController.get_passion_by_communityId);
 
 
 
@@ -60,7 +60,7 @@ router.get('/:id', authCkeck, passionController.get_passion_by_id);
  */
 
 
-router.post('/', authCkeck, upload.any(), passionController.post_passion);
+router.post('/',  upload.any(), passionController.post_passion);
 
 /**
  *  API [PATCH] for route /passions/id

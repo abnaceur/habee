@@ -15,6 +15,9 @@ import { EventsPageModule } from "../pages/events/events.module";
 import { BargainsPageModule } from "../pages/bargains/bargains.module";
 import { LoginPageModule } from "../pages/login/login.module";
 import { AdminPageModule } from "../pages/admin/admin.module";
+import { UserProvider } from '../providers/user/user';
+import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
+import { CommunityProvider } from '../providers/community/community';
 
 
 @NgModule({
@@ -43,7 +46,10 @@ import { AdminPageModule } from "../pages/admin/admin.module";
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    LoginProvider
+    LoginProvider,
+    UserProvider,
+    RetrieveEventsProvider,
+    CommunityProvider
   ]
 })
 export class AppModule { }
