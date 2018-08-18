@@ -15,11 +15,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PassionPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,  public nav: NavController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PassionPage');
   }
 
+  goToSubPassion() {
+    this.nav.push("SubPassionPage");
+  }
 }

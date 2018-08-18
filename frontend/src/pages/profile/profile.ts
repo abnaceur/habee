@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Item } from "ionic-angular";
+import { PassionPage } from '../passion/passion';
 
 
 @IonicPage()
@@ -20,7 +21,7 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
   }
 
-  addPassion() {
+  goToPassion() {
     this.nav.push("PassionPage");
   }
 }
