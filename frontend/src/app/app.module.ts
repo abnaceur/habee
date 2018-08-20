@@ -18,8 +18,7 @@ import { AdminPageModule } from "../pages/admin/admin.module";
 import { UserProvider } from '../providers/user/user';
 import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
 import { CommunityProvider } from '../providers/community/community';
-
-
+import { ProfileProvider } from '../providers/profile/profile';
 
 
 @NgModule({
@@ -51,7 +50,8 @@ import { CommunityProvider } from '../providers/community/community';
     LoginProvider,
     UserProvider,
     RetrieveEventsProvider,
-    CommunityProvider
+    CommunityProvider,
+    ProfileProvider,
   ]
 })
 export class AppModule { }

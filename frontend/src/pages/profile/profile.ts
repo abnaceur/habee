@@ -4,6 +4,7 @@ import { PassionPage } from '../passion/passion';
 import { Http, Headers } from '@angular/http';
 import { environment as ENV } from '../../environments/environment' ;
 import "rxjs/add/operator/map";
+import { ProfileProvider } from '../../providers/profile/profile';
 
 @IonicPage()
 @Component({
@@ -12,7 +13,7 @@ import "rxjs/add/operator/map";
 })
 export class ProfilePage {
   public tabParams;
-  constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams,  public nav: NavController) {
+  constructor(public profileProvider: ProfileProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams,  public nav: NavController) {
     this.tabParams = {
 			userId: this.navParams.get("userId"), 
       token: this.navParams.get("token"),
@@ -29,13 +30,7 @@ export class ProfilePage {
   }
 
   ChangePicture() {
-    console.log('Token 12:', this.tabParams.token);
-    const header = new Headers();
-    header.append('Content-Type', 'application/json');
-    header.append('Accept', 'application/json');
-    header.append('Authorization', 'Bearer ' + this.tabParams.token);
-    this.http.get(ENV.BASE_URL + '/users/' + this.tabParams.userId + '/' + this.tabParams.activeCommunity,
-      { headers: header })
-      .subscribe(response => console.log(response));
-  }
+   this.profileProvider.getUserProfileByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+   .subscribe(response => console.log('respons 23: ', response));
+}
 }
