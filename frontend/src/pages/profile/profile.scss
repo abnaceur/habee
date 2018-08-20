@@ -25,10 +25,11 @@ page-profile {
 }
 
 .img-avatar {
-    top: -21px;
-    width: 125px;
-    height: 125px;
+    top: 21px;
+    width: 148px;
+    height: 148px;
     position: relative;
+    z-index: -12;
 }
 
 .img-scroll {
@@ -43,4 +44,8 @@ page-profile {
     width: 27px;
     position: relative;
     bottom: 20px;  
+}
+
+.scroll-zoom-wrapper {
+    margin-top: 19px;
 }

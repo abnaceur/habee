@@ -11,26 +11,19 @@
 <ion-content class="myview_profile" padding>
   <ion-grid>
     <ion-row>
-
-    </ion-row>
-    <ion-row>
       <ion-col col-sm-8 col-xs-8 col-8 col-sm>
-        <ion-item style="margin: 10 10 0 0; background: transparent">
-          <ion-avatar item-start> 
-            <button class="edit-icon" ion-fab mini>
-              <ion-icon name="create"></ion-icon>
-            </button>
-            <img style=" top: -16px;
-            width: 125px;
-            height: 125px;
-            position: relative;" src="../assets/imgs/avatar.png">
+        
+              <img class="img-avatar" src="../assets/imgs/avatar.png">
+              <ion-chip color="secondary">
+                  <ion-label color="dark">Secondary w/ Dark label</ion-label>
+                </ion-chip>
+              <ion-fab right top>
+                <button (click)="ChangePicture()" ion-fab>
+                  <ion-icon name="create"></ion-icon>
+                </button>
+              </ion-fab>
 
-            <ion-chip color="secondary">
-                <ion-label color="dark">Secondary w/ Dark label</ion-label>
-              </ion-chip>
 
-          </ion-avatar>
-        </ion-item>
       </ion-col>
 
 
@@ -49,14 +42,19 @@
       </ion-col>
     </ion-row>
 
-    <ion-row style="margin-top: 30px">
+    <ion-row style="margin-top: 30px; padding: 0 0 0 0;">
       <ion-col col-12 col-ms>
-        <ion-title text-center>
+        <ion-title text-left>
+          <button  (click)="goToPassion()"  style="display: inline-block" ion-fab top mini>
+            <ion-icon name="add"></ion-icon>
+          </button>
           passions/loisirs
         </ion-title>
 
-        <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px;">
-          <img class="img-scroll-add" (click)='goToPassion();' src="../assets/imgs/addIcon.png">
+              
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
+        min-height: 100px;">
+
           <img class="img-scroll" src="../assets/imgs/soccer.png">
           <img class="img-scroll" src="../assets/imgs/soccer.png">
           <img class="img-scroll" src="../assets/imgs/soccer.png">
@@ -66,22 +64,32 @@
 
         </ion-scroll>
       </ion-col>
-
-      <ion-col style="margin-top: 30px" col-12 col-ms>
-        <ion-title text-center>
-          competences
-        </ion-title>
-
-        <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px;">
-          <img class="img-scroll-add" (click)='AddPassion();' src="../assets/imgs/addIcon.png">
-          <img class="img-scroll" src="../assets/imgs/soccer.png">
-          <img class="img-scroll" src="../assets/imgs/soccer.png">
-          <img class="img-scroll" src="../assets/imgs/soccer.png">
-
-
-        </ion-scroll>
-      </ion-col>
-
     </ion-row>
+
+    <ion-row style="margin-top: 30px; padding: 0 0 0 0;">
+        <ion-col col-12 col-ms>
+          <ion-title text-left>
+              <button (click)="goToPassion()" style="display: inline-block" ion-fab top mini>
+                  <ion-icon name="add"></ion-icon>
+                </button>
+            competences
+          </ion-title>
+  
+          <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
+          min-height: 100px;">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+            <img class="img-scroll" src="../assets/imgs/soccer.png">
+  
+  
+          </ion-scroll>
+        </ion-col>
+      </ion-row>
+
+
+
+
   </ion-grid>
 </ion-content>

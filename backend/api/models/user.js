@@ -3,7 +3,8 @@ let mongoose = require('mongoose');
 // User schema
 let userSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
-    userId: String,
+	userId: String,
+	activeCommunity: String,
 	dateOfCreation: {
      type: Date,
      default: Date.now,

@@ -20,6 +20,8 @@ import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-ev
 import { CommunityProvider } from '../providers/community/community';
 
 
+
+
 @NgModule({
   declarations: [
     MyApp,

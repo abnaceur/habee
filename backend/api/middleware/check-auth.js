@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
 		console.log("ON EST LA");
 		// I changed the index from 1 to 0, otherwise I get authentication error
 		//const token = req.headers.authorization.split(" ")[1];
-		const token = req.headers.authorization.split(" ")[0];
+		const token = req.headers.authorization.split(" ")[1];
         console.log('Token', token);
         const decode = jwt.verify(token, process.env.JWT_KEY);
         req.userData = decode;

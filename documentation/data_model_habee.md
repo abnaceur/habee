@@ -17,6 +17,7 @@
 
 "user": {
 	"userId": "String",
+	"activeCommunity", "String",
 	"dateOfCreation": "String",
 	"dateOfLastUpdate": "String",
 	"credentials": {

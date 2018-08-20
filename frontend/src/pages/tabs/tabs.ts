@@ -17,8 +17,9 @@ export class TabsPage {
 	constructor(public navCtrl: NavController, public navParams: NavParams) {
 		this.tabParams = {
 			userId: this.navParams.get("userId"), 
-			token: this.navParams.get("token")
+			token: this.navParams.get("token"),
+			activeCommunity: this.navParams.get('activeCommunity')
 		};
-		console.log("UserID: ", this.tabParams.userId);
+		console.log("UserID12: ", this.tabParams);
 	}
 }

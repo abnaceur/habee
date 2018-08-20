@@ -11,7 +11,7 @@ export class LoginProvider {
   }
 
   loginUser(email, password) {
-    const header = new Headers();z
+    const header = new Headers();
     header.append('Content-Type', 'application/json');
 
     return this.http.post(ENV.BASE_URL + '/users/login',

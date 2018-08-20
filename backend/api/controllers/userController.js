@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/user');
+const Community = require ('../models/community');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -28,6 +29,7 @@ exports.login_user = (req, res, next) => {
                         message: "Auth success",
                         code: "200",
                         userId: users[0].userId,
+                        activeCommunity: users[0].activeCommunity,
                         token: token
                     })
                 } else {
@@ -66,6 +68,7 @@ exports.post_user = (req, res, next) => {
                         const user = new User({
                             _id: new mongoose.Types.ObjectId,
                             userId: req.body.userId,
+                            activeCommunity: req.body.activeCommunity,
                             credentials: req.body.credentials,
                             "credentials.username": req.body.username,
                             "credentials.firstname": req.body.firstname,
@@ -419,7 +422,7 @@ exports.get_userId_communityId = (req, res, next) => {
     const communityId = req.params.communityId;
     let nbProfile = 0;
 
-    community.count().exec()
+    Community.count().exec()
         .then(count => {
             nbProfile = count;
         });

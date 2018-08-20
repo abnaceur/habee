@@ -35,7 +35,8 @@ export class EventsPage {
 		rep.getUserById(<string>this.userObject.userId)
 		.subscribe((response) => {
 			this.userArray = response.json();
-			this.user = this.userArray.User[0];
+			// I commented because it is hieghlighted as an error during the build
+			//this.user = this.userArray.user[0];
 			if (this.user.currentEvents) {
 				this.userObject.eventsICreated = this.user.currentEvents.eventsICreated;
 				this.userObject.eventsIParticipate = this.user.currentEvents.eventsIParticipate;
