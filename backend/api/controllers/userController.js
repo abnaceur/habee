@@ -299,31 +299,51 @@ exports.get_user_by_id = (req, res, next) => {
 
 exports.patch_user_by_id = (req, res, next) => {
     const id = req.params.id;
-    bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
-        if (err) {
-            return res.status(500).json({
-                Error: err
+    if (req.body.credentials.password === undefined) {
+        User.find({
+                userId: id
             })
-        } else {
-            if (req.body.credentials.password)
-                req.body.credentials.password = hash;
-            User.find({
-                    userId: id
+            .update(req.body)
+            .exec()
+            .then(updatedUser => {
+                res.status(200).json({
+                    Success: updatedUser
                 })
-                .update(req.body)
-                .exec()
-                .then(updatedUser => {
-                    res.status(200).json({
-                        Success: updatedUser
-                    })
+            })
+            .catch(err => {
+                res.status(500).json({
+                    Error: err
                 })
-                .catch(err => {
-                    res.status(500).json({
-                        Error: err
+            });
+
+    } else {
+        bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).json({
+                    Error: err
+                })
+            } else {
+                if (req.body.credentials.password)
+                    req.body.credentials.password = hash;
+                User.find({
+                        userId: id
                     })
-                });
-        }
-    });
+                    .update(req.body)
+                    .exec()
+                    .then(updatedUser => {
+                        res.status(200).json({
+                            Success: updatedUser
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            Error: err
+                        })
+                    });
+            }
+        });
+
+    }
 
 };
 
