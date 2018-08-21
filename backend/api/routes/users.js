@@ -61,7 +61,7 @@ const upload = multer({
 
 router.post('/',  upload.single('profilePhoto'), userController.post_user);
 
-router.get('/', authCkeck, userController.get_all_users);
+router.get('/', userController.get_all_users);
 
 /*
  ** API [GET] for route /users/active
@@ -93,7 +93,7 @@ router.get('/notAdmin', authCkeck, userController.get_all_notAdmins);
  **  API [GET] for route /user/:id
  */
 
-router.get('/:id',  authCkeck, userController.get_user_by_id);
+router.get('/:id',   userController.get_user_by_id);
 
 /*
  **  API [PATCH] for route /user/:id

@@ -12,7 +12,9 @@ import { ProfileProvider } from '../../providers/profile/profile';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+  public userName;
   public tabParams;
+
   constructor(public profileProvider: ProfileProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams,  public nav: NavController) {
     this.tabParams = {
 			userId: this.navParams.get("userId"), 
@@ -23,14 +25,19 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+    this.profileProvider.getUserProfileByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+    .subscribe(response => {
+     this.userName = response.Users[0].profile[0].profileUsername
+    });
   }
+
+  
 
   goToPassion() { 
     this.nav.push("PassionPage");
   }
 
   ChangePicture() {
-   this.profileProvider.getUserProfileByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
-   .subscribe(response => console.log('respons 23: ', response));
+
 }
 }

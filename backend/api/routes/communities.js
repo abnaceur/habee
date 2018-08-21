@@ -39,7 +39,7 @@ const upload = multer({
 router.get('/', authCkeck, communityController.get_all_communities);
 
 
-router.post('/', authCkeck, upload.single('communityLogo'), communityController.post_community);
+router.post('/',  upload.single('communityLogo'), communityController.post_community);
 
 
 /*

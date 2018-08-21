@@ -17,7 +17,7 @@ export class ProfileProvider {
   }
 
   getUserProfileByCommunityId (token, userId, activeCommunity ) {
-    console.log('Token 12:', token);
+    console.log('Token 12:', token, activeCommunity, userId);
     const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Accept', 'application/json');
@@ -25,6 +25,6 @@ export class ProfileProvider {
    
     return this.http.get(ENV.BASE_URL + '/users/' + userId + '/' + activeCommunity,
       { headers: header })
-      .map(response => console.log(response));
+      .map(response => response.json());
   }
 }
