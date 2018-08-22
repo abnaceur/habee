@@ -342,9 +342,7 @@ exports.patch_user_by_id = (req, res, next) => {
                     });
             }
         });
-
     }
-
 };
 
 exports.get_credentials_by_id = (req, res, next) => {

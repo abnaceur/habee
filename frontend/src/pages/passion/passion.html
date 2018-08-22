@@ -15,12 +15,13 @@
 <ion-content padding>
   <ion-grid>
       <ion-row>
-          <ion-col col-4 col-sm>
-            <ion-card (click)='goToSubPassion()' style="width:75px">
-              <img src="../assets/imgs/soccer.png" />
+          
+        <ion-col  *ngFor="let passion of allPassions" col-4 col-sm>
+            <ion-card (click)='goToSubPassion(passion.passionId)' style="width:75px">
+              <img [src]="url + '/' + passion.passionImage" />
               <ion-card-content text-center>
                 <ion-chip color="secondary">
-                  <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
+                  <ion-label style="font-size: 10px" color="dark">{{passion.passionName}}</ion-label>
                 </ion-chip>
               </ion-card-content>
             </ion-card>

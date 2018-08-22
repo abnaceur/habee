@@ -24,6 +24,7 @@ exports.get_all_passions = (req, res, next) => {
                             subPassions: passion.subPassions,
                             subPassionId: passion.subPassionId,
                             subPassionName: passion.subPassionName,
+                            passionImage: passion.passionImage,
                             subPassionCategory: passion.subPassionCategory,
                             subPassionImage: passion.subPassionImage,
                             request: {
@@ -85,10 +86,6 @@ exports.get_passion_by_id = (req, res, next) => {
             } else {
                 res.status(200).json({
                     passion: pass,
-                    request: {
-                        type: "[GET]",
-                        url: "http://si.habee.local:3000/passions"
-                    }
                 });
             }
         })
@@ -106,7 +103,7 @@ exports.post_passion = (req, res, next) => {
         passionId: req.body.passionId,
         passionForCommunity: req.body.passionForCommunity,
         passionName: req.body.passionName,
-        //      passionImage: req.files.path,
+        passionImage: req.file.path,
         subPassions: req.body.subPassions,
         subPassionId: req.body.subPassionId,
         subPassionName: req.body.subPassionName,

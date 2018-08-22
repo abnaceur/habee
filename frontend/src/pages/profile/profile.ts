@@ -13,7 +13,7 @@ import { ProfileProvider } from '../../providers/profile/profile';
 })
 export class ProfilePage {
   public userName;
-  public tabParams;
+    public tabParams;
 
   constructor(public profileProvider: ProfileProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams,  public nav: NavController) {
     this.tabParams = {
@@ -21,7 +21,8 @@ export class ProfilePage {
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get('activeCommunity')
 		};
-		console.log("UserIDss: ", this.tabParams);  }
+    console.log("UserIDss: ", this.tabParams);  
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');

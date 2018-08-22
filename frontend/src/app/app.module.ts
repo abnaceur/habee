@@ -19,6 +19,7 @@ import { UserProvider } from '../providers/user/user';
 import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
 import { CommunityProvider } from '../providers/community/community';
 import { ProfileProvider } from '../providers/profile/profile';
+import { PassionProvider } from '../providers/passion/passion';
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import { ProfileProvider } from '../providers/profile/profile';
     BargainsPageModule,
     LoginPageModule,
     AdminPageModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true})
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -52,6 +53,7 @@ import { ProfileProvider } from '../providers/profile/profile';
     RetrieveEventsProvider,
     CommunityProvider,
     ProfileProvider,
+    PassionProvider,
   ]
 })
 export class AppModule { }
