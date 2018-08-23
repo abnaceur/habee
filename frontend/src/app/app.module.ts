@@ -13,7 +13,6 @@ import { MyEventsPageModule } from "../pages/my-events/my-events.module";
 import { EventsPageModule } from "../pages/events/events.module";
 import { LoginPageModule } from "../pages/login/login.module";
 import { ProposeEventPageModule } from '../pages/propose-event/propose-event.module';
-import { UserProvider } from '../providers/user/user';
 import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
 import { CommunityProvider } from '../providers/community/community';
 import { ProfileProvider } from '../providers/profile/profile';
@@ -46,7 +45,6 @@ import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LoginProvider,
-    UserProvider,
     RetrieveEventsProvider,
     CommunityProvider,
     ProfileProvider,

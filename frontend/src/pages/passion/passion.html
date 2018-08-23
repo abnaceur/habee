@@ -14,115 +14,24 @@
 
 <ion-content class="myview_passion" padding>
   <ion-grid>
-      <ion-row>
-          
-        <ion-col  *ngFor="let passion of allPassions" col-4 col-sm>
-            <ion-card (click)='goToSubPassion(passion.passionId)' style="width:75px">
-              <img [src]="url + '/' + passion.passionImage" />
-              <ion-card-content text-center>
-                <ion-chip color="secondary">
-                  <ion-label style="font-size: 10px" color="dark">{{passion.passionName}}</ion-label>
-                </ion-chip>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-    
-    
-          <ion-col col-4 col-sm>
-            <ion-card style="width:75px">
-              <img src="../assets/imgs/soccer.png" />
-              <ion-card-content text-center>
-                <ion-chip color="primary">
-                  <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
-                </ion-chip>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col col-4 col-sm>
-            <ion-card style="width:75px">
-              <img src="../assets/imgs/soccer.png" />
-              <ion-card-content text-center>
-                <ion-chip color="info">
-                  <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
-                </ion-chip>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-    
-        </ion-row>
-
-
     <ion-row>
-        <ion-col col-4 col-sm>
-          <ion-card style="width:75px">
-            <img src="../assets/imgs/soccer.png" />
-            <ion-card-content text-center>
-              <ion-chip color="secondary">
-                <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
-              </ion-chip>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-  
-  
-        <ion-col col-4 col-sm>
-          <ion-card style="width:75px">
-            <img src="../assets/imgs/soccer.png" />
-            <ion-card-content text-center>
-              <ion-chip color="primary">
-                <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
-              </ion-chip>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col col-4 col-sm>
-          <ion-card style="width:75px">
-            <img src="../assets/imgs/soccer.png" />
-            <ion-card-content text-center>
-              <ion-chip color="info">
-                <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
-              </ion-chip>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-  
-      </ion-row>
 
-    <ion-row>
-      <ion-col col-4 col-sm>
-        <ion-card style="width:75px">
-          <img src="../assets/imgs/soccer.png" />
+      <ion-col text-center *ngFor="let passion of allPassions" col-4 col-sm>
+        <ion-card (click)='goToSubPassion(passion.passionId)' style="width:75px">
+          <img style="min-width: 70px; min-height: 95px;height: 95px;" [src]="url + '/' + passion.passionImage" />
           <ion-card-content text-center>
             <ion-chip color="secondary">
-              <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
+              <ion-label style="font-size: 10px" color="dark">{{passion.passionName}}</ion-label>
             </ion-chip>
           </ion-card-content>
         </ion-card>
       </ion-col>
 
-
-      <ion-col col-4 col-sm>
-        <ion-card style="width:75px">
-          <img src="../assets/imgs/soccer.png" />
-          <ion-card-content text-center>
-            <ion-chip color="primary">
-              <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
-            </ion-chip>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col col-4 col-sm>
-        <ion-card style="width:75px">
-          <img src="../assets/imgs/soccer.png" />
-          <ion-card-content text-center>
-            <ion-chip color="info">
-              <ion-label style="font-size: 10px" color="dark">SPORT</ion-label>
-            </ion-chip>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
 
     </ion-row>
+
+
+
 
   </ion-grid>
 </ion-content>
