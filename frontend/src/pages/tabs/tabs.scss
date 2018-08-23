@@ -1,41 +1,197 @@
-.ion-ios-profile,
-.ion-md-profile {
-  content: url(../assets/imgs/Profile.png);
+.tabs-md .tabbar {
+  background: none;
 }
 
-.ion-ios-events,
-.ion-md-events {
-  content: url(../assets/imgs/AllEvent.png);
+.tabs-ios[tabsPlacement=top] .tabbar {
+  background: transparent;
 }
 
-.ion-ios-myEvent,
-.ion-md-myEvent {
-  content: url(../assets/imgs/Myevents.png);
-
+.tabs-wp .tabbar {
+  background: transparent;
 }
 
-.ion-ios-bargains,
-.ion-md-bargains {
-  content: url(../assets/imgs/ProposeAnEvent.png)
-}
-
-.ion-ios-settingsHabee,
-.ion-md-settingsHabee {
-  content: url(../assets/imgs/Unknow.png);
- 
+.tabs-ios[tabsLayout=title-hide] .tab-button, .tabs-ios .tab-button.icon-only {
+  min-height: 41px;
+  margin-top: -12px;
 }
 
 
-.profile {
-    background-image: url('../assets/imgs/loginPage.png');
+.tabbar,
+.tabs-ios,
+.tabs-md,
+.tabs-wp {
+  .tab-button-icon {
+    padding-left: 70px;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-position: center;
+    height: 60px;
+    width: 60px;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    &:before {
+      display: none;
+    }
+  }
 }
 
-.header-icon {
-    position: relative;
-    top: 12px;
-    right: 5px;
-    font-size: 24px;
-    cursor: pointer;
+.tabs-ios,
+.tabs-wp[tabsLayout=icon-hide] .tab-button,
+.tabs-wp[tabsLayout=title-hide] .tab-button,
+.tabs-wp .tab-button.icon-only,
+.tabs-wp .tab-button.has-title-only {
+  padding: 0px 0px;
+}
+
+.tabs-ios {
+  a[aria-selected=false] {
+    .tab-button-icon[ng-reflect-name=profile],
+    .tab-button-icon[aria-label="profile"] {
+      background-image: url(../assets/imgs/Profile.png);
+    }
+    .tab-button-icon[ng-reflect-name=events],
+    .tab-button-icon[aria-label="events"] {
+      background-image: url(../assets/imgs/AllEvent.png);
+    }
+    .tab-button-icon[ng-reflect-name=myEvents],
+    .tab-button-icon[aria-label="myEvents"] {
+      background-image: url(../assets/imgs/Myevents.png);
+    }
+    .tab-button-icon[ng-reflect-name=proposeEv],
+    .tab-button-icon[aria-label="proposeEv"] {
+      background-image: url(../assets/imgs/ProposeAnEvent.png)
+    }
+    .tab-button-icon[ng-reflect-name=bonsplans],
+    .tab-button-icon[aria-label="bonsplans"] {
+      background-image: url(../assets/imgs/bonsplans.png);
+    }
+  }
+  a[aria-selected=true] {
+    //führ eventuellen text
+    //span {
+    //color: #f00; //whatever colour you want to use for the text
+    //}
+    .tab-button-icon[ng-reflect-name=profile],
+    .tab-button-icon[aria-label=profile] {
+      background-image: url(../assets/imgs/ProfileOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=events],
+    .tab-button-icon[aria-label=events] {
+      background-image: url(../assets/imgs/AllEventOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=myEvents],
+    .tab-button-icon[aria-label=myEvents] {
+      background-image: url(../assets/imgs/Myevents.png);
+    }
+    .tab-button-icon[ng-reflect-name=proposeEv],
+    .tab-button-icon[aria-label=proposeEv] {
+      background-image: url(../assets/imgs/ProposeAnEvent.png)
+    }
+    .tab-button-icon[ng-reflect-name=bonsplans],
+    .tab-button-icon[aria-label=bonsplans] {
+      background-image: url(../assets/imgs/bonsplansOn.png);
+    }
+  }
+}
+
+.tabs-md {
+  a[aria-selected=false] {
+    .tab-button-icon[ng-reflect-name=profile],
+    .tab-button-icon[aria-label="profile"] {
+      background-image: url(../assets/imgs/Profile.png);
+    }
+    .tab-button-icon[ng-reflect-name=events],
+    .tab-button-icon[aria-label="events"] {
+      background-image: url(../assets/imgs/AllEvent.png);
+    }
+    .tab-button-icon[ng-reflect-name=myEvents],
+    .tab-button-icon[aria-label="myEvents"] {
+      background-image: url(../assets/imgs/Myevents.png);
+    }
+    .tab-button-icon[ng-reflect-name=proposeEv],
+    .tab-button-icon[aria-label="proposeEv"] {
+      background-image: url(../assets/imgs/ProposeAnEvent.png)
+    }
+    .tab-button-icon[ng-reflect-name=bonsplans],
+    .tab-button-icon[aria-label="bonsplans"] {
+      background-image: url(../assets/imgs/bonsplans.png);
+    }
+  }
+  a[aria-selected=true] {
+    //führ eventuellen text
+    //span {
+    //color: #f00; //whatever colour you want to use for the text
+    //}
+    .tab-button-icon[ng-reflect-name=profile],
+    .tab-button-icon[aria-label=profile] {
+      background-image: url(../assets/imgs/ProfileOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=events],
+    .tab-button-icon[aria-label=events] {
+      background-image: url(../assets/imgs/AllEventOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=myEvents],
+    .tab-button-icon[aria-label=myEvents] {
+      background-image: url(../assets/imgs/MyeventsOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=proposeEv],
+    .tab-button-icon[aria-label=proposeEv] {
+      background-image: url(../assets/imgs/ProposeAnEventOn.png)
+    }
+    .tab-button-icon[ng-reflect-name=bonsplans],
+    .tab-button-icon[aria-label=bonsplans] {
+      background-image: url(../assets/imgs/bonsplansOn.png);
+    }
+  }
+}
+
+.tabs-wp {
+  a[aria-selected=false] {
+    .tab-button-icon[ng-reflect-name=profile],
+    .tab-button-icon[aria-label="profile"] {
+      background-image: url(../assets/imgs/Profile.png);
+    }
+    .tab-button-icon[ng-reflect-name=events],
+    .tab-button-icon[aria-label="events"] {
+      background-image: url(../assets/imgs/AllEvent.png);
+    }
+    .tab-button-icon[ng-reflect-name=myEvents],
+    .tab-button-icon[aria-label="myEvents"] {
+      background-image: url(../assets/imgs/Myevents.png);
+    }
+    .tab-button-icon[ng-reflect-name=proposeEv],
+    .tab-button-icon[aria-label="proposeEv"] {
+      background-image: url(../assets/imgs/ProposeAnEvent.png)
+    }
+    .tab-button-icon[ng-reflect-name=bonsplans],
+    .tab-button-icon[aria-label="bonsplans"] {
+      background-image: url(../assets/imgs/bonsplans.png);
+    }
+  }
+  a[aria-selected=true] {
+    //führ eventuellen text
+    //span {
+    //color: #f00; //whatever colour you want to use for the text
+    //}
+    .tab-button-icon[ng-reflect-name=profile],
+    .tab-button-icon[aria-label=profile] {
+      background-image: url(../assets/imgs/ProfileOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=events],
+    .tab-button-icon[aria-label=events] {
+      background-image: url(../assets/imgs/AllEventOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=myEvents],
+    .tab-button-icon[aria-label=myEvents] {
+      background-image: url(../assets/imgs/MyeventsOn.png);
+    }
+    .tab-button-icon[ng-reflect-name=proposeEv],
+    .tab-button-icon[aria-label=proposeEv] {
+      background-image: url(../assets/imgs/ProposeAnEventOn.png)
+    }
+    .tab-button-icon[ng-reflect-name=bonsplans],
+    .tab-button-icon[aria-label=bonsplans] {
+      background-image: url(../assets/imgs/bonsplansOn.png);
+    }
+  }
 }
