@@ -39,15 +39,16 @@ export class ProfileProvider {
 
   getUserSubPassionsByCommunityId(response, token, userId, activeCommunity) {
     this.userPassionsList = response.Users[0];
-    const header = this.utils.inihttpHeaderWIthToken(token);
+   
     let UserPassions = [];
+    UserPassions = this.userPassionsList['passions'];
+
     let nbUserPassions = UserPassions.length;
     let getUserSubPassions = [];
 
     let i = 0;
-    UserPassions = this.userPassionsList['passions'];
+
     while (nbUserPassions > 0) {
-      console.log('check');
       this.getSubPassions(token, i, UserPassions).then(data => {
         getUserSubPassions.push(data);
       });
@@ -69,7 +70,7 @@ export class ProfileProvider {
         .map(results => results.json())
         .subscribe(data => {
           data = this.utils.filter_array(data['passion']);
-         this.userSubPassionList = data;
+         this.userSubPassionList = data[0];
           resolve(this.userSubPassionList);
         });
     });
