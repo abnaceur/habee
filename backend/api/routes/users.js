@@ -118,7 +118,7 @@ router.patch('/:id/credentials', authCkeck, userController.patch_credentials_by_
  ** API [GET] for route /users/id/communityId   
  */
 
-router.get('/:id/:communityId',  authCkeck, userController.get_userId_communityId);
+router.get('/:id/:communityId', userController.get_userId_communityId);
 
 /*
  ** API [PATCH] for route /users/id/communityId   

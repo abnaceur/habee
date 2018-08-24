@@ -51,7 +51,8 @@ In particular, documentation must contain:
 
 /passions											GET/POST [DONE]
 passions/passionId									GET/POST/UPDATE [DONE]
-/passions/communityId								GET [DONE]
+/passions/community/communityId						GET [DONE]
+/passions/community/communiyId/subpassionId			GET
 
 /skills												GET/POST [DONE]
 /skills/community/communityId						GET [DONE]

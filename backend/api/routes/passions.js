@@ -52,6 +52,12 @@ router.get('/:id', passionController.get_passion_by_id);
 router.get('/community/:id', passionController.get_passion_by_communityId);
 
 /**
+ * API [GET] foor route /passions/communityId
+ */
+
+router.get('/subpassion/:communityId/:subpassionId', passionController.get_subPassion_by_communityId);
+
+/**
  * API [POST] for route /passions
  */
 

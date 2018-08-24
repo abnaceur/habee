@@ -17,6 +17,7 @@ import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-ev
 import { CommunityProvider } from '../providers/community/community';
 import { ProfileProvider } from '../providers/profile/profile';
 import { PassionProvider } from '../providers/passion/passion';
+import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 
 
@@ -48,7 +49,9 @@ import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
     RetrieveEventsProvider,
     CommunityProvider,
     ProfileProvider,
+    UtilsProvider,
     PassionProvider,
+    UtilsProvider,
   ]
 })
 export class AppModule { }

@@ -10,6 +10,7 @@ let passionSchema = mongoose.Schema({
 	subPassions: [
 		{
 			subPassionId: String,
+			subPassionForCommunity: String,
 			subPassionName: String,
 			subPassionCategory: String,
 			subPassionImage: String,

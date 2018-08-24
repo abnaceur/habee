@@ -416,7 +416,7 @@ exports.get_userId_communityId = (req, res, next) => {
             userId: id,
 
         })
-        .select("userId firstname dateOfCreation dateOfLastUpdate skills profile")
+        .select("userId passions firstname dateOfCreation dateOfLastUpdate skills profile")
         .exec()
         .then(usrs => {
             if (usrs.length === 0) {

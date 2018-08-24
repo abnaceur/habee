@@ -23,6 +23,7 @@ exports.get_all_passions = (req, res, next) => {
                             passionName: passion.passionName,
                             subPassions: passion.subPassions,
                             subPassionId: passion.subPassionId,
+                            subPassionForCommunity: passion.subPassionForCommunity,
                             subPassionName: passion.subPassionName,
                             passionImage: passion.passionImage,
                             subPassionCategory: passion.subPassionCategory,
@@ -42,6 +43,52 @@ exports.get_all_passions = (req, res, next) => {
             })
         })
 };
+
+exports.get_subPassion_by_communityId = (req, res, next) => {
+    const communityId = req.params.communityId;
+    const subPassionId = req.params.subpassionId;
+
+    Passion.find({
+        passionForCommunity: communityId,
+    })
+    .exec()
+    .then(pass => {
+        if (pass.length === 0) {
+            return res.status(404).json({
+                message: "passion by communityId not found or id not valid!"
+            })
+        } else {
+            Object.entries(pass).forEach(
+                ([key, value]) => {
+                    nbSubPassion = value.subPassions.length - 1;
+                    while (nbSubPassion >= 0) {
+                        if (value.subPassions[nbSubPassion]['subPassionForCommunity'] !== communityId) {
+                            delete value.subPassions[nbSubPassion];
+                        } else  if (value.subPassions[nbSubPassion]['subPassionId'] !== subPassionId) {
+                            delete value.subPassions[nbSubPassion];
+                        }
+                        nbSubPassion--;
+                    }
+                }
+            );
+            res.status(200).json({
+                passion: pass[0].subPassions,
+                request: {
+                    type: "[GET]",
+                    url: "http://si.habee.local:3000/passions"
+                }
+            });
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            Error: err
+        });
+    });
+    console.log('test request');
+}
+
 
 exports.get_passion_by_communityId = (req, res, next) => {
     const id = req.params.id;
@@ -103,9 +150,10 @@ exports.post_passion = (req, res, next) => {
         passionId: req.body.passionId,
         passionForCommunity: req.body.passionForCommunity,
         passionName: req.body.passionName,
-        passionImage: req.file.path,
+       // passionImage: req.file.path,
         subPassions: req.body.subPassions,
         subPassionId: req.body.subPassionId,
+        subPassionForCommunity: req.body.subPassionCategory,
         subPassionName: req.body.subPassionName,
         subPassionCategory: req.body.subPassionCategory,
         //        subPassionImage: req.files.path,
@@ -137,6 +185,7 @@ exports.patch_passion = (req, res, next) => {
                 //       passionImage: req.files.path,
                 subPassions: req.body.subPassions,
                 subPassionId: req.body.subPassionId,
+                  subPassionForCommunity: req.body.subPassionCategory,
                 subPassionName: req.body.subPassionName,
                 subPassionCategory: req.body.subPassionCategory,
                 //         subPassionImage: req.files.path,

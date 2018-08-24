@@ -1,12 +1,12 @@
 {
-  "userId": "test_id222",
+  "userId": "test_id1",
   "activeCommunity": "com_tes_2016_9",
   "credentials": {
     "username": "abdel",
     "firstname": "Abn",
     "birthDate": "12/12/1980",
     "address": "this is an address",
-    "email": "abn@habee.com",
+    "email": "abn1@habee.com",
     "phone": "00337563546",
     "password": "0123456789"
   },
@@ -18,7 +18,7 @@
     "profileIsAdmin": 0,
     "profileUserIsActove": 1
   }],
-  "passions": ["5b6450cba2b6c50551c3ffd8"],
+  "passions": ["sub_passionId1"],
   "skills": [],
   "currentEvents": {
     "eventsICreated": [],
@@ -56,6 +56,7 @@
 
 {
   "userId": "test_id222",
+  "activeCommunity": "com_tes_2016_9",
   "credentials": {
     "username": "Abdeljalil hero for ever",
     "firstname": "Abn",
