@@ -6,7 +6,7 @@
     "firstname": "Abn",
     "birthDate": "12/12/1980",
     "address": "this is an address",
-    "email": "abn1@habee.com",
+    "email": "abn@habee.com",
     "phone": "00337563546",
     "password": "0123456789"
   },
@@ -14,11 +14,11 @@
   "profile": [{
     "profileCummunityId": "com_tes_2016_9",
     "profilePhoto": "/path/",
-    "profileUsername": "this",
+    "profileUsername": "Abdeljalil NACEUR",
     "profileIsAdmin": 0,
-    "profileUserIsActove": 1
+    "profileUserIsActive": 1
   }],
-  "passions": ["sub_passionId1"],
+  "passions": ["sub_passionId1", "sub_passionId2"],
   "skills": [],
   "currentEvents": {
     "eventsICreated": [],

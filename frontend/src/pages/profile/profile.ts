@@ -6,6 +6,7 @@ import { environment as ENV } from '../../environments/environment';
 import "rxjs/add/operator/map";
 import { ProfileProvider } from '../../providers/profile/profile';
 
+
 @IonicPage()
 @Component({
   selector: 'page-profile',
@@ -14,7 +15,8 @@ import { ProfileProvider } from '../../providers/profile/profile';
 export class ProfilePage {
   public userName;
   public tabParams;
-  private userInfo;
+  public subPassions;
+  public url = ENV.BASE_URL;
 
   constructor(public profileProvider: ProfileProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
     this.tabParams = {
@@ -34,8 +36,8 @@ export class ProfilePage {
 
     this.profileProvider.getUserPassionsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
       .subscribe(response => {
-        this.profileProvider.getUserSubPassionsByCommunityId(response, this.tabParams.token,this.tabParams.userId, this.tabParams.activeCommunity)
-  ; 
+      this.profileProvider.getUserSubPassionsByCommunityId(response, this.tabParams.token,this.tabParams.userId, this.tabParams.activeCommunity)
+      .then(data => this.subPassions = data);
     });
   }
 

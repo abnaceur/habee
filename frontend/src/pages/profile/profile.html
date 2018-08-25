@@ -50,12 +50,11 @@
           passions/loisirs
         </ion-title>
 
-              
         <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
         min-height: 100px;">
-          <div>
-            <img class="img-scroll" src="../assets/imgs/soccer.png">  
-          </div>
+          <span *ngFor="let subPassion of subPassions"  > 
+              <img class="img-scroll" [src]="url + subPassion.subPassionImage">
+          </span>
         </ion-scroll>
       </ion-col>
     </ion-row>

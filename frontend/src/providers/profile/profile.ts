@@ -14,6 +14,7 @@ import { UtilsProvider } from '../../providers/utils/utils';
 export class ProfileProvider {
   private userPassionsList = [];
   private userSubPassionList;
+  private getUserSubPassions = [];
 
   constructor(public http: Http, public utils: UtilsProvider) {
     console.log('Hello ProfileProvider Provider');
@@ -22,7 +23,7 @@ export class ProfileProvider {
   getUserProfileByCommunityId(token, userId, activeCommunity) {
 
     const header = this.utils.inihttpHeaderWIthToken(token);
-    
+
     return this.http.get(ENV.BASE_URL + '/users/' + userId + '/' + activeCommunity,
       { headers: header })
       .map(response => response.json());
@@ -39,28 +40,28 @@ export class ProfileProvider {
 
   getUserSubPassionsByCommunityId(response, token, userId, activeCommunity) {
     this.userPassionsList = response.Users[0];
-   
     let UserPassions = [];
     UserPassions = this.userPassionsList['passions'];
 
     let nbUserPassions = UserPassions.length;
-    let getUserSubPassions = [];
+
 
     let i = 0;
 
     while (nbUserPassions > 0) {
       this.getSubPassions(token, i, UserPassions).then(data => {
-        getUserSubPassions.push(data);
+        this.getUserSubPassions.push(data);
       });
       nbUserPassions--;
       i++;
     }
-    
-    console.log('userSubPassionList : ', getUserSubPassions);
+    return new Promise(resolve => {
+      resolve(this.getUserSubPassions);
+    });
   }
 
   getSubPassions(token, i, userPassionsList) {
-    
+
     const header = this.utils.inihttpHeaderWIthToken(token);
 
 
@@ -70,11 +71,11 @@ export class ProfileProvider {
         .map(results => results.json())
         .subscribe(data => {
           data = this.utils.filter_array(data['passion']);
-         this.userSubPassionList = data[0];
+          this.userSubPassionList = data[0];
           resolve(this.userSubPassionList);
         });
     });
   }
 
-  
+
 }

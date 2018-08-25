@@ -61,8 +61,9 @@ router.get('/subpassion/:communityId/:subpassionId', passionController.get_subPa
  * API [POST] for route /passions
  */
 
+var cpUpload = upload.fields([{ name: 'subPassionImage', maxCount: 2 }, { name: 'passionImage', maxCount: 2}]);
 
-router.post('/',  upload.single('passionImage'), passionController.post_passion);
+router.post('/',  cpUpload, passionController.post_passion);
 
 /**
  *  API [PATCH] for route /passions/id

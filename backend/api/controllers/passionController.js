@@ -144,19 +144,20 @@ exports.get_passion_by_id = (req, res, next) => {
         });
 };
 
+
 exports.post_passion = (req, res, next) => {
     const passion = new Passion({
         _id: new mongoose.Types.ObjectId,
         passionId: req.body.passionId,
         passionForCommunity: req.body.passionForCommunity,
         passionName: req.body.passionName,
-       // passionImage: req.file.path,
+        //passionImage: req.files['passionImage'][0]['path'] ? req.files['passionImage'][0]['path'] : null,
         subPassions: req.body.subPassions,
         subPassionId: req.body.subPassionId,
         subPassionForCommunity: req.body.subPassionCategory,
         subPassionName: req.body.subPassionName,
         subPassionCategory: req.body.subPassionCategory,
-        //        subPassionImage: req.files.path,
+        //subPassionImage: req.files['subPassionImage'][0]['path'] ? req.files['subPassionImage'][0]['path'] : null,
     });
     passion
         .save()
