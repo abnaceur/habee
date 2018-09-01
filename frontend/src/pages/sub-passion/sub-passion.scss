@@ -1,0 +1,29 @@
+page-sub-passion {
+
+}
+
+
+.scroll-zoom-wrapper {
+    white-space: nowrap;
+}
+
+ion-card {
+    width: 100% !important;
+    display: inline-block;
+}
+
+ion-scroll {
+    width: 400px;
+    min-height: 460px; 
+    height: auto;
+
+        .scroll-content {
+        padding: 0px !important;
+    }    
+}
+
+.myview_subPassion{
+    background-image: url('../assets/imgs/MainBackground_1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}

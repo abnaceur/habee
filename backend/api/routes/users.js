@@ -93,7 +93,7 @@ router.get('/notAdmin', authCkeck, userController.get_all_notAdmins);
  **  API [GET] for route /user/:id
  */
 
-router.get('/:id',  userController.get_user_by_id);
+router.get('/:id',   userController.get_user_by_id);
 
 /*
  **  API [PATCH] for route /user/:id
@@ -118,7 +118,7 @@ router.patch('/:id/credentials', authCkeck, userController.patch_credentials_by_
  ** API [GET] for route /users/id/communityId   
  */
 
-router.get('/:id/:communityId',  authCkeck, userController.get_userId_communityId);
+router.get('/:id/:communityId', userController.get_userId_communityId);
 
 /*
  ** API [PATCH] for route /users/id/communityId   

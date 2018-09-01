@@ -6,24 +6,23 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { LoginProvider } from '../providers/login/login';
 import { TabsPageModule } from "../pages/tabs/tabs.module"
 import { ProfilePageModule } from "../pages/profile/profile.module";
 import { MyEventsPageModule } from "../pages/my-events/my-events.module";
 import { EventsPageModule } from "../pages/events/events.module";
-import { BargainsPageModule } from "../pages/bargains/bargains.module";
 import { LoginPageModule } from "../pages/login/login.module";
-import { AdminPageModule } from "../pages/admin/admin.module";
-import { UserProvider } from '../providers/user/user';
+import { ProposeEventPageModule } from '../pages/propose-event/propose-event.module';
 import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
 import { CommunityProvider } from '../providers/community/community';
-
+import { ProfileProvider } from '../providers/profile/profile';
+import { PassionProvider } from '../providers/passion/passion';
+import { UtilsProvider } from '../providers/utils/utils';
+import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
   ],
   imports: [
     HttpModule,
@@ -32,24 +31,27 @@ import { CommunityProvider } from '../providers/community/community';
     ProfilePageModule,
     MyEventsPageModule,
     EventsPageModule,
-    BargainsPageModule,
     LoginPageModule,
-    AdminPageModule,
-    IonicModule.forRoot(MyApp)
+    ProposeEventPageModule,
+    GoodPlansPageModule,
+    IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true})
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LoginProvider,
-    UserProvider,
     RetrieveEventsProvider,
-    CommunityProvider
+    CommunityProvider,
+    ProfileProvider,
+    UtilsProvider,
+    PassionProvider,
+    UtilsProvider,
+    
   ]
 })
 export class AppModule { }

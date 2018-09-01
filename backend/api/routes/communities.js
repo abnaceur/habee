@@ -36,10 +36,10 @@ const upload = multer({
  ** API [GET] [POST] for route /communites   
  */
 
-router.get('/', authCkeck, communityController.get_all_communities);
+router.get('/', communityController.get_all_communities);
 
 
-router.post('/', authCkeck, upload.single('communityLogo'), communityController.post_community);
+router.post('/',  upload.single('communityLogo'), communityController.post_community);
 
 
 /*

@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/user');
+const Community = require('../models/community');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -28,6 +29,7 @@ exports.login_user = (req, res, next) => {
                         message: "Auth success",
                         code: "200",
                         userId: users[0].userId,
+                        activeCommunity: users[0].activeCommunity,
                         token: token
                     })
                 } else {
@@ -66,6 +68,7 @@ exports.post_user = (req, res, next) => {
                         const user = new User({
                             _id: new mongoose.Types.ObjectId,
                             userId: req.body.userId,
+                            activeCommunity: req.body.activeCommunity,
                             credentials: req.body.credentials,
                             "credentials.username": req.body.username,
                             "credentials.firstname": req.body.firstname,
@@ -296,55 +299,50 @@ exports.get_user_by_id = (req, res, next) => {
 
 exports.patch_user_by_id = (req, res, next) => {
     const id = req.params.id;
-    bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
-        if (err) {
-            return res.status(500).json({
-                Error: err
+    if (req.body.credentials.password === undefined) {
+        User.find({
+                userId: id
             })
-        } else {
-            User.update({
-                    userId: id
-                }, {
-                    $set: {
-                        userId: req.body.userId,
-                        "credentials.username": req.body.username,
-                        "credentials.firstname": req.body.firstname,
-                        "credentials.birthDate": req.body.birthDate,
-                        "credentials.address": req.body.address,
-                        "credentials.email": req.body.mail,
-                        "credentials.phone": req.body.phone,
-                        "credentials.password": hash,
-
-                        communities: req.body.communities,
-                        "profile.profileCummunityId": req.body.profileCummunityId,
-                        //  "profile.profilePhoto": req.file.path,
-                        "profile.profileUsername": req.body.profileUsername,
-                        "profile.profileIsAdmin": req.body.profileIsAdmin,
-                        "profile.profileUserIsActive": req.body.profileUserIsActove,
-
-                        passions: req.body.passions,
-                        skills: req.body.skills,
-                        "currentEvents.eventsICreated": req.body.eventsICreated,
-                        "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
-                        parameters: req.body.parameters,
-                        "passedEvents.PassedevenementsICreated": req.body.passedEvents,
-                        "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
-                    }
+            .update(req.body)
+            .exec()
+            .then(updatedUser => {
+                res.status(200).json({
+                    Success: updatedUser
                 })
-                .exec()
-                .then(updatedUser => {
-                    res.status(200).json({
-                        Success: updatedUser
-                    })
+            })
+            .catch(err => {
+                res.status(500).json({
+                    Error: err
                 })
-                .catch(err => {
-                    res.status(500).json({
-                        Error: err
-                    })
-                });
-        }
-    });
+            });
 
+    } else {
+        bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).json({
+                    Error: err
+                })
+            } else {
+                if (req.body.credentials.password)
+                    req.body.credentials.password = hash;
+                User.find({
+                        userId: id
+                    })
+                    .update(req.body)
+                    .exec()
+                    .then(updatedUser => {
+                        res.status(200).json({
+                            Success: updatedUser
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            Error: err
+                        })
+                    });
+            }
+        });
+    }
 };
 
 exports.get_credentials_by_id = (req, res, next) => {
@@ -382,22 +380,12 @@ exports.patch_credentials_by_id = (req, res, next) => {
                 Error: err
             })
         } else {
-            User.update({
+            if (req.body.credentials.password)
+                req.body.credentials.password = hash;
+            User.find({
                     userId: id
-                }, {
-                    $set: {
-                        _id: new mongoose.Types.ObjectId,
-                        userId: req.body.userId,
-                        credentials: req.body.credentials,
-                        "credentials.username": req.body.username,
-                        "credentials.firstname": req.body.firstname,
-                        "credentials.birthDate": req.body.birthDate,
-                        "credentials.address": req.body.address,
-                        "credentials.email": req.body.mail,
-                        "credentials.phone": req.body.phone,
-                        "credentials.password": hash,
-                    }
                 })
+                .update(req.body)
                 .exec()
                 .then(updatedUser => {
                     res.status(200).json({
@@ -419,7 +407,7 @@ exports.get_userId_communityId = (req, res, next) => {
     const communityId = req.params.communityId;
     let nbProfile = 0;
 
-    community.count().exec()
+    Community.count().exec()
         .then(count => {
             nbProfile = count;
         });
@@ -428,6 +416,7 @@ exports.get_userId_communityId = (req, res, next) => {
             userId: id,
 
         })
+        .select("userId passions firstname dateOfCreation dateOfLastUpdate skills profile")
         .exec()
         .then(usrs => {
             if (usrs.length === 0) {
@@ -474,40 +463,10 @@ exports.patch_userId_communityId = (req, res, next) => {
                 Error: err
             })
         } else {
-            User.update({
-                    userId: id
-                }, {
-                    $set: {
-                        _id: new mongoose.Types.ObjectId,
-                        userId: req.body.userId,
-                        credentials: req.body.credentials,
-                        "credentials.username": req.body.username,
-                        "credentials.firstname": req.body.firstname,
-                        "credentials.birthDate": req.body.birthDate,
-                        "credentials.address": req.body.address,
-                        "credentials.email": req.body.mail,
-                        "credentials.phone": req.body.phone,
-                        "credentials.password": hash,
+            if (req.body.crsedentials.password)
+                req.body.credentials.password = hash;
 
-                        communities: req.body.communities,
-                        profile: req.body.profile,
-                        "profile.profileCummunityId": req.body.profileCummunityId,
-                        //  "profile.profilePhoto": req.file.path,
-                        "profile.profileUsername": req.body.profileUsername,
-                        "profile.profileIsAdmin": req.body.profileIsAdmin,
-                        "profile.profileUserIsActive": req.body.profileUserIsActove,
-
-                        passions: req.body.passions,
-                        skills: req.body.skills,
-                        currentEvents: req.body.currentEvents,
-                        "currentEvents.eventsICreated": req.body.eventsICreated,
-                        "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
-                        parameters: req.body.parameters,
-                        passedEvents: req.body.passedEvents,
-                        "passedEvents.PassedevenementsICreated": req.body.passedEvents,
-                        "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
-                    }
-                })
+            User.update(req.body)
                 .exec()
                 .then(updatedUser => {
                     res.status(200).json({

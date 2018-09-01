@@ -14,6 +14,7 @@ class Profile {
 
 class User {
     userId: string;
+    activeCommunity: string;
     dateOfCreation: string;
     dateOfLastUpdate: string;
     credentials: {

@@ -9,7 +9,6 @@ and make the professional environement a pleasnat place to be in.
 ## Team 
  - Marie
  - Amelie
- - Mathias
  - Jerome
  - Abdeljalil : http://naceur-abdeljalil.com
 
@@ -22,9 +21,12 @@ add/share their skills, passion with otehr members.
 
 ## Technologies :
  - IONIC 3
+ - Angular 5
  - Nodejs v10.7.0
+ - MongoDB
  - Docker 17.12.1-ce
  - Bootstrap 4
+ - JQuery
 
 ## Screenshots
 
@@ -172,6 +174,11 @@ app.habeedb.local:3300 -> mongoclient
 
 
 
+
+### Contributors
+ - Mathias -> 	- Data model v0.0.
+				- API documentation v0.0.
+				- Base tab navigation in frontend. 
 
 ### Help
 

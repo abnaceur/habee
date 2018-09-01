@@ -24,21 +24,20 @@ export class EventsPage {
 		public navCtrl: NavController, 
 		public navParams: NavParams, 
 		public http: Http, 
-		public cp: CommunityProvider,
-		public rep: RetrieveEventsProvider
 	) {
 		this.userObject = {
 			userId: this.navParams.get("userId"),
 			token: this.navParams.get("token")
 		};
 
-		rep.getUserById(<string>this.userObject.userId)
-		.subscribe((response) => {
-			this.userArray = response.json();
-			this.user = this.userArray.User[0];
-			if (this.user.currentEvents) {
-				this.userObject.eventsICreated = this.user.currentEvents.eventsICreated;
-				this.userObject.eventsIParticipate = this.user.currentEvents.eventsIParticipate;
+		//rep.getUserById(<string>this.userObject.userId)
+//		.subscribe((response) => {
+//			this.userArray = response.json();
+			// I commented because it is hieghlighted as an error during the build
+			//this.user = this.userArray.user[0];
+			//if (this.user.currentEvents) {
+			//	this.userObject.eventsICreated = this.user.currentEvents.eventsICreated;
+		/*		this.userObject.eventsIParticipate = this.user.currentEvents.eventsIParticipate;
 			}
 			this.userObject.communityId = this.user.communities[0];
 			this.user = undefined; // free memory of user: safer and speed the application
@@ -49,7 +48,7 @@ export class EventsPage {
 			//})
 		},
 		(error) => console.log(error)
-		)
+		)*/
 	}
 
 	ionViewDidLoad() {

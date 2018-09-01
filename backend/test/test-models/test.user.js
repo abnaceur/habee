@@ -1,5 +1,6 @@
 {
-  "userId": "test_id222",
+  "userId": "test_id1",
+  "activeCommunity": "com_tes_2016_9",
   "credentials": {
     "username": "abdel",
     "firstname": "Abn",
@@ -7,17 +8,17 @@
     "address": "this is an address",
     "email": "abn@habee.com",
     "phone": "00337563546",
-    "password": "012345"
+    "password": "0123456789"
   },
   "communities": [],
   "profile": [{
-    "profileCummunityId": "com_tes_2016_229",
+    "profileCummunityId": "com_tes_2016_9",
     "profilePhoto": "/path/",
-    "profileUsername": "this",
-    "profileIsAdmin": 1,
-    "profileUserIsActove": 1
+    "profileUsername": "Abdeljalil NACEUR",
+    "profileIsAdmin": 0,
+    "profileUserIsActive": 1
   }],
-  "passions": ["5b6450cba2b6c50551c3ffd8"],
+  "passions": ["sub_passionId1", "sub_passionId2"],
   "skills": [],
   "currentEvents": {
     "eventsICreated": [],
@@ -36,6 +37,7 @@
 
 {
   "userId": "test_id1",
+  "activeCommunity": "com_tes_2016_9",
   "credentials": {
     "username": "Abdeljalil hero for ever",
     "firstname": "Abn",
@@ -54,6 +56,7 @@
 
 {
   "userId": "test_id222",
+  "activeCommunity": "com_tes_2016_9",
   "credentials": {
     "username": "Abdeljalil hero for ever",
     "firstname": "Abn",
