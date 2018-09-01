@@ -14,7 +14,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'sub-passion.html',
 })
 export class SubPassionPage {
-  public buttonChangeColor = "light"
+  public buttonChangeColor = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -23,11 +23,11 @@ export class SubPassionPage {
     console.log('ionViewDidLoad SubPassionPage');
   }
 
-  public toggleButtonColor(): void {
-    if(this.buttonChangeColor === 'light') { 
-      this.buttonChangeColor = 'secondary'
+  public toggleButtonColor(buttonChangeColor, index): void {
+    if(buttonChangeColor === 'light' || buttonChangeColor  === undefined) { 
+      this.buttonChangeColor[index] = 'secondary'
     } else {
-      this.buttonChangeColor = 'light'
+      this.buttonChangeColor[index] = 'light'
     }
   }
 

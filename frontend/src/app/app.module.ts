@@ -20,7 +20,6 @@ import { PassionProvider } from '../providers/passion/passion';
 import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 
-
 @NgModule({
   declarations: [
     MyApp,
@@ -52,6 +51,7 @@ import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
     UtilsProvider,
     PassionProvider,
     UtilsProvider,
+    
   ]
 })
 export class AppModule { }

@@ -4,7 +4,7 @@
 
 {
     "eventId": "eventid1",
-    "eventCommunity": "com_hab_2018_0",
+    "eventCommunity": "com_hab_2018_9",
     "eventName": "Soccer,
     "eventCreator": "userId_id0",
     "eventDescription": "This is an evnt descrtiption",

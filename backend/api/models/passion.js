@@ -6,7 +6,7 @@ let passionSchema = mongoose.Schema({
 	passionId: String,
 	passionForCommunity: String,
 	passionName: String,
-	//passionImage: String,
+	passionImage: String,
 	subPassions: [
 		{
 			subPassionId: String,
