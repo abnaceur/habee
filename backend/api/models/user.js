@@ -14,7 +14,7 @@ let userSchema = mongoose.Schema({
         default: Date.now,
     },
 	credentials: {
-        username: {
+        lastname: {
 			type: String,
 			required: true,
 		},

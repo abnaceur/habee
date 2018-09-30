@@ -11,13 +11,11 @@
     "password": "0123456789"
   },
   "communities": [],
-  "profile": [{
     "profileCummunityId": "com_tes_2016_9",
     "profilePhoto": "/path/",
     "profileUsername": "Abdeljalil NACEUR",
     "profileIsAdmin": 0,
-    "profileUserIsActive": 1
-  }],
+    "profileUserIsActive": 1,
   "passions": ["sub_passionId1", "sub_passionId2"],
   "skills": [],
   "currentEvents": {

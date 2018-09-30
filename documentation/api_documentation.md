@@ -49,6 +49,9 @@ In particular, documentation must contain:
 /users/id/communityId/currentEvents			        GET/POST/UPDATE
 /users/id/communityId/passedEvents			        GET/POST/UPDATE
 
+
+/users/community/:communityId						GET/ [used]
+
 /passions											GET/POST [DONE]
 passions/passionId									GET/POST/UPDATE [DONE]
 /passions/community/communityId						GET [DONE]

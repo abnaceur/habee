@@ -47,10 +47,41 @@ exports.login_user = (req, res, next) => {
         })
 };
 
+exports.getAllusersByCommunityId = (req, res, next) => {
+    let communityId = req.params.communityId;
+    User.find({
+        "profile.profileCummunityId" : communityId
+    })
+    .exec()
+    .then(users => {
+        if (users.length === 0) {
+            return res.status(404).json({
+                message: "There are no users !"
+            })
+        } else {
+            res.status(200).json({
+                users: users.map(usr => {
+                    return {
+                        userId:usr.userId,
+                        firstname: usr.credentials.firstname,
+                        lastname: usr.credentials.lastname,
+                        email: usr.credentials.email
+                    }
+                })
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        })
+    })
+}
+
 exports.post_user = (req, res, next) => {
     // Get community id
     User.find({
-            "credentials.email": req.body.credentials.email
+            "credentials.email": req.body.email
         })
         .exec()
         .then(usr => {
@@ -59,7 +90,7 @@ exports.post_user = (req, res, next) => {
                     Message: "Email exists!"
                 })
             } else {
-                bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
                         return res.status(500).json({
                             Error: err
@@ -70,22 +101,23 @@ exports.post_user = (req, res, next) => {
                             userId: req.body.userId,
                             activeCommunity: req.body.activeCommunity,
                             credentials: req.body.credentials,
-                            "credentials.username": req.body.username,
                             "credentials.firstname": req.body.firstname,
+                            "credentials.lastname": req.body.lastname,
                             "credentials.birthDate": req.body.birthDate,
                             "credentials.address": req.body.address,
-                            "credentials.email": req.body.mail,
+                            "credentials.email": req.body.email,
                             "credentials.phone": req.body.phone,
                             "credentials.password": hash,
 
                             communities: req.body.communities,
-                            profile: req.body.profile,
-                            "profile.profileCummunityId": req.body.profileCummunityId,
-                            //  "profile.profilePhoto": req.file.path,
-                            "profile.profileUsername": req.body.profileUsername,
-                            "profile.profileIsAdmin": req.body.profileIsAdmin,
-                            "profile.profileUserIsActive": req.body.profileUserIsActove,
-
+                            profile: [{
+                                profileCummunityId: req.body.profileCummunityId,
+                                //"profile.profilePhoto": req.file.path,
+                                profileUsername: req.body.profileUsername,
+                                profileIsAdmin: req.body.profileIsAdmin,
+                                profileUserIsActive: req.body.profileUserIsActove,
+                            }],
+                    
                             passions: req.body.passions,
                             skills: req.body.skills,
                             currentEvents: req.body.currentEvents,
@@ -416,9 +448,9 @@ exports.get_userId_communityId = (req, res, next) => {
             userId: id,
 
         })
-        .select("userId passions firstname dateOfCreation dateOfLastUpdate skills profile")
         .exec()
         .then(usrs => {
+            console.log(usrs);
             if (usrs.length === 0) {
                 return res.status(404).json({
                     message: "User not found or id not valid!"

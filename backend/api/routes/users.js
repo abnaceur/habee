@@ -63,6 +63,13 @@ router.post('/',  upload.single('profilePhoto'), userController.post_user);
 
 router.get('/', userController.get_all_users);
 
+
+/*
+ ** API [GET] for route /users/active
+ */
+
+router.get('/community/:communityId', userController.getAllusersByCommunityId);
+
 /*
  ** API [GET] for route /users/active
  */
