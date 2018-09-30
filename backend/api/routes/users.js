@@ -131,7 +131,7 @@ router.get('/:id/:communityId', userController.get_userId_communityId);
  ** API [PATCH] for route /users/id/communityId   
  */
 
-router.patch('/:id/:communityId',  authCkeck, userController.patch_userId_communityId);
+router.put('/:id/:communityId',  authCkeck, userController.put_userId_communityId);
 
 /**
  * API [GET] for route /users/id/communityId/skills

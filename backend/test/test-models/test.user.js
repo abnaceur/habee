@@ -2,15 +2,13 @@
   "userId": "test_id1",
   "activeProfileRole": "1",
   "activeCommunity": "com_tes_2016_9",
-  "credentials": {
-    "username": "abdel",
+    "lastname": "abdel",
     "firstname": "Abn",
     "birthDate": "12/12/1980",
     "address": "this is an address",
     "email": "abn@habee.com",
     "phone": "00337563546",
-    "password": "0123456789"
-  },
+    "password": "0123456789",
   "communities": [],
     "profileCummunityId": "com_tes_2016_9",
     "profilePhoto": "/path/",

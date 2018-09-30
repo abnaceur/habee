@@ -117,7 +117,7 @@ exports.post_user = (req, res, next) => {
                             communities: req.body.communities,
                             profile: [{
                                 profileCummunityId: req.body.profileCummunityId,
-                                profilePhoto: req.file.path == undefined ? "uplaods/": req.file.path,
+                                profilePhoto: !req.file.path ? "uplaods/": req.file.path,
                                 profileUsername: req.body.profileUsername,
                                 profileIsAdmin: req.body.profileIsAdmin,
                                 profileUserIsActive: req.body.profileUserIsActive,
@@ -486,37 +486,30 @@ exports.get_userId_communityId = (req, res, next) => {
 };
 
 
-exports.patch_userId_communityId = (req, res, next) => {
+exports.put_userId_communityId = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     User.find({
         userId: id,
         "profile.profileCummunityId": communityId
+    }).exec()
+    .then(usr => {
+        console.log("here : ", usr[0]._id)
+        User.findByIdAndUpdate(usr[0]._id, 
+            req.body, 
+            {
+                new : false,  
+            }, function (err, results) {
+            if (err) return handleError(err);
+            res.send(results);
+          });
     })
-
-    bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
-        if (err) {
-            return res.status(500).json({
-                Error: err
-            })
-        } else {
-            if (req.body.crsedentials.password)
-                req.body.credentials.password = hash;
-
-            User.update(req.body)
-                .exec()
-                .then(updatedUser => {
-                    res.status(200).json({
-                        Success: updatedUser
-                    })
-                })
-                .catch(err => {
-                    res.status(500).json({
-                        Error: err
-                    })
-                });
-        }
+    .catch(err => {
+        res.status(500).json({
+            Error: err
+        })
     });
+
 };
 
 exports.get_skills_by_userId_communityId = (req, res, next) => {
