@@ -1,5 +1,6 @@
 {
   "userId": "test_id1",
+  "activeProfileRole": "1",
   "activeCommunity": "com_tes_2016_9",
   "credentials": {
     "username": "abdel",
@@ -16,6 +17,7 @@
     "profileUsername": "Abdeljalil NACEUR",
     "profileIsAdmin": 0,
     "profileUserIsActive": 1,
+    "profileUserIsDeleted": false,
   "passions": ["sub_passionId1", "sub_passionId2"],
   "skills": [],
   "currentEvents": {

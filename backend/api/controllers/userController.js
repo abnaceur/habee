@@ -50,7 +50,8 @@ exports.login_user = (req, res, next) => {
 exports.getAllusersByCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
     User.find({
-        "profile.profileCummunityId" : communityId
+        "profile.profileCummunityId" : communityId,
+        "profile.profileUserIsDeleted": false,
     })
     .exec()
     .then(users => {
@@ -65,7 +66,9 @@ exports.getAllusersByCommunityId = (req, res, next) => {
                         userId:usr.userId,
                         firstname: usr.credentials.firstname,
                         lastname: usr.credentials.lastname,
-                        email: usr.credentials.email
+                        email: usr.credentials.email,
+                        profileIsActive: usr.profile[0].profileUserIsActive,
+                        profileRole: usr.profile[0].profileIsAdmin,
                     }
                 })
             });
@@ -79,7 +82,7 @@ exports.getAllusersByCommunityId = (req, res, next) => {
 }
 
 exports.post_user = (req, res, next) => {
-    // Get community id
+    console.log(req);
     User.find({
             "credentials.email": req.body.email
         })
@@ -100,22 +103,25 @@ exports.post_user = (req, res, next) => {
                             _id: new mongoose.Types.ObjectId,
                             userId: req.body.userId,
                             activeCommunity: req.body.activeCommunity,
-                            credentials: req.body.credentials,
-                            "credentials.firstname": req.body.firstname,
-                            "credentials.lastname": req.body.lastname,
-                            "credentials.birthDate": req.body.birthDate,
-                            "credentials.address": req.body.address,
-                            "credentials.email": req.body.email,
-                            "credentials.phone": req.body.phone,
-                            "credentials.password": hash,
+                            activeProfileRole: req.body.profileIsAdmin,
+                            credentials: {
+                                firstname: req.body.firstname,
+                                lastname: req.body.lastname,
+                                birthDate: req.body.birthDate,
+                                address: req.body.address,
+                                email: req.body.email,
+                                phone: req.body.phone,
+                                password: hash,
+                            },
 
                             communities: req.body.communities,
                             profile: [{
                                 profileCummunityId: req.body.profileCummunityId,
-                                //"profile.profilePhoto": req.file.path,
+                                profilePhoto: req.file.path == undefined ? "uplaods/": req.file.path,
                                 profileUsername: req.body.profileUsername,
                                 profileIsAdmin: req.body.profileIsAdmin,
-                                profileUserIsActive: req.body.profileUserIsActove,
+                                profileUserIsActive: req.body.profileUserIsActive,
+                                profileUserIsDeleted: req.body.profileUserIsDeleted ?req.body.profileUserIsDeleted : false, 
                             }],
                     
                             passions: req.body.passions,
@@ -159,7 +165,6 @@ exports.get_all_users = (req, res, next) => {
             nb = count;
         });
     User.find()
-        .select("userId dateOfCreaton communities skills passions")
         .exec()
         .then(users => {
             if (users.length === 0) {

@@ -5,6 +5,7 @@ let userSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	userId: String,
 	activeCommunity: String,
+	activeProfileRole: Number,
 	dateOfCreation: {
      type: Date,
      default: Date.now,
@@ -40,7 +41,7 @@ let userSchema = mongoose.Schema({
 	profile: [
 		{
 			profileCummunityId: String,
-			//profilePhoto: String, 
+			profilePhoto: String, 
 			profileUsername: String,
 			profileIsAdmin: Number,
 			profileDateOfCreation: {
@@ -54,6 +55,10 @@ let userSchema = mongoose.Schema({
 			profileUserIsActive: {
 				type: Boolean,
 				default: true,
+			},
+			profileUserIsDeleted: {
+				type: Boolean,
+				default: false,
 			}
 		},
 	],
