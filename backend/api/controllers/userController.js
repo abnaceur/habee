@@ -82,7 +82,7 @@ exports.getAllusersByCommunityId = (req, res, next) => {
 }
 
 exports.post_user = (req, res, next) => {
-    console.log(req);
+    console.log("File : ", req.file);
     User.find({
             "credentials.email": req.body.email
         })
@@ -117,7 +117,7 @@ exports.post_user = (req, res, next) => {
                             communities: req.body.communities,
                             profile: [{
                                 profileCummunityId: req.body.profileCummunityId,
-                                profilePhoto: !req.file.path ? "uplaods/": req.file.path,
+                                profilePhoto: req.file == undefined ? "uplaods/": req.file.path,
                                 profileUsername: req.body.profileUsername,
                                 profileIsAdmin: req.body.profileIsAdmin,
                                 profileUserIsActive: req.body.profileUserIsActive,
