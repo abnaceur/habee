@@ -486,7 +486,7 @@ exports.get_userId_communityId = (req, res, next) => {
 };
 
 
-exports.put_userId_communityId = (req, res, next) => {
+exports.put_userId_communityId_EditUser = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     User.find({
@@ -494,13 +494,42 @@ exports.put_userId_communityId = (req, res, next) => {
         "profile.profileCummunityId": communityId
     }).exec()
     .then(usr => {
-        console.log("here : ", usr[0]._id)
+        req.body.credentials.password = usr[0].credentials.password;
+        req.body.credentials.birthDate = usr[0].credentials.birthDate,
+        req.body.credentials.address =  usr[0].credentials.address,
+        req.body.credentials.phone = usr[0].credentials.phone,
         User.findByIdAndUpdate(usr[0]._id, 
             req.body, 
             {
                 new : false,  
             }, function (err, results) {
-            if (err) return handleError(err);
+            if (err) return res.status(500).json(err);
+            res.send(results);
+          });
+    })
+    .catch(err => {
+        res.status(500).json({
+            Error: err
+        })
+    });
+
+};
+
+
+exports.put_userId_communityId_DeleteUser = (req, res, next) => {
+    const id = req.params.id;
+    const communityId = req.params.communityId;
+    User.find({
+        userId: id,
+        "profile.profileCummunityId": communityId
+    }).exec()
+    .then(usr => {
+        User.findByIdAndUpdate(usr[0]._id, 
+            req.body, 
+            {
+                new : false,  
+            }, function (err, results) {
+            if (err) return res.status(500).json(err);
             res.send(results);
           });
     })

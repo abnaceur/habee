@@ -127,11 +127,20 @@ router.patch('/:id/credentials', authCkeck, userController.patch_credentials_by_
 
 router.get('/:id/:communityId', userController.get_userId_communityId);
 
+
 /*
  ** API [PATCH] for route /users/id/communityId   
  */
 
-router.put('/:id/:communityId',  authCkeck, userController.put_userId_communityId);
+router.put('/:id/:communityId',  authCkeck, userController.put_userId_communityId_EditUser);
+
+
+/*
+ ** API [PATCH] for route /users/delete/id/communityId   
+ */
+
+router.put('/delete/:id/:communityId',  authCkeck, userController.put_userId_communityId_DeleteUser);
+
 
 /**
  * API [GET] for route /users/id/communityId/skills
