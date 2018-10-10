@@ -40,6 +40,14 @@ const upload = multer({
 router.get('/', eventController.get_all_events);
 
 
+
+/*
+ * API [GET] for route /events/community/:communitId
+ */
+
+router.get('/community/:communityId', eventController.get_all_events_byCommunityId);
+
+
 /**
  * API [POST] for route /events
  */

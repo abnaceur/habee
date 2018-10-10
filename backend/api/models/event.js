@@ -11,7 +11,8 @@ let eventSchema = mongoose.Schema({
 	dateOfLastUpdate: {
         type: Date,
         default: Date.now,
-    },
+	},
+	eventsPhoto: String,
 	eventCommunity: String,
 	eventName: String,
 	eventCreator: String,
@@ -20,7 +21,6 @@ let eventSchema = mongoose.Schema({
 	eventDuration: String,
 	eventLocation: String,
 	nbrParticipants: Number,
-	maxNbrParticipants: Number,
 	participantsId: [],
 	eventIsOver: Boolean,
 });
