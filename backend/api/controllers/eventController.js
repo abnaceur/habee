@@ -49,7 +49,8 @@ exports.get_all_events_byCommunityId =  (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
-        eventCommunity: communityId
+        eventCommunity: communityId,
+        eventIsDeleted: false,
     })
         .exec()
         .then(events => {
@@ -105,6 +106,7 @@ exports.post_event = (req, res, next) => {
         eventDuration: req.body.eventDuration,
         eventLocation: req.body.eventLocation,
         nbrParticipants: req.body.nbrParticipants,
+        eventIsDeleted: false,
    //     participantsId: req.body.participantsId,
    //     eventIsOver: req.body.eventIsOver,
     });
@@ -122,6 +124,57 @@ exports.post_event = (req, res, next) => {
             })
         });
 };
+
+exports.eventByCommunityId = (req, res, next) => {
+    let eventId = req.params.eventId;
+    let communityId = req.params.communityId;
+
+    Event.find({
+        eventCommunity: communityId,
+        eventId:    eventId,
+    })
+        .exec()
+        .then(events => {
+            if (events.length === 0) {
+                return res.status(404).json({
+                    message: "There are no events!"
+                })
+            } else {
+                res.status(200).json({
+                    Count: events.length,
+                    Events: events.map(event => {
+                        return {
+                            _id: events._id,
+                            eventId: event.eventId,
+                            eventCommunity: event.eventCommunity,
+                            eventName: event.eventName,
+                            eventCreator: event.eventCreator,
+                            eventDescription: event.eventDescription,
+                            eventDate: event.eventDate,
+                            eventDuration: event.eventDuration,
+                            eventLocation: event.eventLocation,
+                            nbrParticipants: event.nbrParticipants,
+                            participantsId: event.participantsId,
+                            eventIsOver: event.eventIsOver,
+                            eventPhoto: event.eventsPhoto,
+                            eventIsDeleted: event.eventIsDeleted,
+                            request: {
+                                Type: "[GET]",
+                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
+                            }
+                        }
+                    })
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
+
+}
+
 
 exports.get_event_by_community = (req, res, next) => {
     const id = req.params.eventCommunity;
@@ -180,6 +233,7 @@ exports.get_event_by_communityId = (req, res, next) => {
                             nbrParticipants: event.nbrParticipants,
                             participantsId: event.participantsId,
                             eventIsOver: event.eventIsOver,
+                            eventIsDeleted: event.eventIsDeleted,
                             request: {
                                 Type: "[GET]",
                                 Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
@@ -220,6 +274,31 @@ exports.get_eventIsOver_by_communiyId = (req, res, next) => {
             })
         })
 };
+
+exports.deleteEventByCommunityId = (req, res, next) => {
+    let eventId = req.params.eventId;
+    let communityId = req.params.communityId;
+
+    Event.find({
+        eventId: eventId,
+        eventCommunity: communityId
+    }).exec()
+    .then(event => {
+      Event.findByIdAndUpdate(event[0]['_id'], 
+            req.body, 
+            {
+                new : false,  
+            }, function (err, results) {
+            if (err) return res.status(500).json(err);
+            res.send(results);
+          });
+    })
+    .catch(err => {
+        res.status(500).json({
+            Error: err
+        })
+    });
+}
 
 exports.get_event_by_id = (req, res, next) => {
     const id = req.params.eventId;

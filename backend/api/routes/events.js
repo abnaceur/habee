@@ -40,6 +40,10 @@ const upload = multer({
 router.get('/', eventController.get_all_events);
 
 
+/*
+ * API [GET] for route /events/:eventId/community/:communitId [USED]
+ */
+router.get('/:eventId/community/:communityId', eventController.eventByCommunityId)
 
 /*
  * API [GET] for route /events/community/:communitId
@@ -49,7 +53,7 @@ router.get('/community/:communityId', eventController.get_all_events_byCommunity
 
 
 /**
- * API [POST] for route /events
+ * API [POST] for route /events [USED]
  */
 
 
@@ -67,8 +71,13 @@ router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by
  * API [GET] foor route /events/eventId
  */
 
-router.get('/:eventId', authCkeck, eventController.get_event_by_id);
+router.get('/:eventId', eventController.get_event_by_id);
 
+/**
+ * API [PUT] foor route /events/delete/:eventId/community/:communityId [USED]
+ */
+
+ router.put('/delete/:eventId/community/:communityId', eventController.deleteEventByCommunityId)
 
 /**
  *  API [PATCH] for route /events/eventId

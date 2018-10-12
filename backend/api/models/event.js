@@ -23,6 +23,10 @@ let eventSchema = mongoose.Schema({
 	nbrParticipants: Number,
 	participantsId: [],
 	eventIsOver: Boolean,
+	eventIsDeleted: {
+        type: Boolean,
+        default: false,
+	},
 });
 
 let Event = module.exports = mongoose.model('Event', eventSchema);
