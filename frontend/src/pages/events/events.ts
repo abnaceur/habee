@@ -7,6 +7,8 @@ import { CommunityProvider } from "../../providers/community/community";
 import { RetrieveEventsProvider } from "../../providers/retrieve-events/retrieve-events";
 import { User } from "../../models/user.model";
 import { Community } from "../../models/community.model";
+import { EventProvider } from '../../providers/event/event';
+import { environment as ENV } from '../../environments/environment';
 
  
 @IonicPage({ name: "EventsPage" })
@@ -15,43 +17,32 @@ import { Community } from "../../models/community.model";
 	templateUrl: 'events.html'
 })
 export class EventsPage {
-	public userObject;
-	public user: User;
-	public userArray: any[];
-	public currentEvents: string[];
+	public tabParams;
+	public eventTitle;
+	public eventImage;
+	public eventCreatedBy;
+	public eventDate;
 
-	constructor(
-		public navCtrl: NavController, 
-		public navParams: NavParams, 
-		public http: Http, 
-	) {
-		this.userObject = {
-			userId: this.navParams.get("userId"),
-			token: this.navParams.get("token")
+	constructor(public eventProvider: EventProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
+		this.tabParams = {
+		  userId: this.navParams.get("userId"),
+		  token: this.navParams.get("token"),
+		  activeCommunity: this.navParams.get('activeCommunity')
 		};
-
-		//rep.getUserById(<string>this.userObject.userId)
-//		.subscribe((response) => {
-//			this.userArray = response.json();
-			// I commented because it is hieghlighted as an error during the build
-			//this.user = this.userArray.user[0];
-			//if (this.user.currentEvents) {
-			//	this.userObject.eventsICreated = this.user.currentEvents.eventsICreated;
-		/*		this.userObject.eventsIParticipate = this.user.currentEvents.eventsIParticipate;
-			}
-			this.userObject.communityId = this.user.communities[0];
-			this.user = undefined; // free memory of user: safer and speed the application
-
-			//cp.getCommunityById(<string>this.userObject.communityId)
-			//.subscribe((response) => {
-			//	console.log("COMMUNITYID GET: ", response);
-			//})
-		},
-		(error) => console.log(error)
-		)*/
-	}
-
+	  }
+	
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad EventsPage');
+		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+		.subscribe(response => {
+			console.log("Repsonse this 13 : ", response),
+			this.eventTitle = response.Events[0]['eventName'],
+			this.eventImage = ENV.BASE_URL + '/' + response.Events[0]['eventPhoto'], 
+			this.eventCreatedBy = response.Events[0]['eventCreator'],
+			this.eventDate = response.Events[0]['eventDate'].substring(0, response.Events[0]['eventDate'].search('T'))
+		  });
+
 	}
+
+	
 }

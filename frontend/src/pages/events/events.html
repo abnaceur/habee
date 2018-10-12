@@ -5,49 +5,16 @@
 </ion-header>
 
 
-<ion-content class="myview_events" padding>
+<ion-content class="myview_events card-background-page"  padding>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-card>
-          <p>Sport</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Musique</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Cuisine</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-card>
-          <p>Détente</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Afterwork</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Title</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+
+  <ion-card>
+      <img src={{eventImage}}/>
+      <div class="card-title">{{eventTitle}}</div>
+      <div class="card-subtitle">{{eventDate}}</div><br>
+      <div class="card-subtitle1">{{eventCreatedBy}}</div>
+    </ion-card>
 
 </ion-content>
+  

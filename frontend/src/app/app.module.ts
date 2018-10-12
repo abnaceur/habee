@@ -19,6 +19,7 @@ import { ProfileProvider } from '../providers/profile/profile';
 import { PassionProvider } from '../providers/passion/passion';
 import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
+import { EventProvider } from '../providers/event/event';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
     UtilsProvider,
     PassionProvider,
     UtilsProvider,
+    EventProvider,
     
   ]
 })

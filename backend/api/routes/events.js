@@ -64,7 +64,7 @@ router.post('/', upload.any(), eventController.post_event);
  * API [GET] for route /events/community/eventCommunity
  */
 
-router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_community);
+router.get('/community/:eventCommunity', eventController.get_event_by_community);
 
 
 /**
