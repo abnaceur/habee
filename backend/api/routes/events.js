@@ -77,7 +77,7 @@ router.get('/:eventId', eventController.get_event_by_id);
  * API [PUT] foor route /events/delete/:eventId/community/:communityId [USED]
  */
 
- router.put('/delete/:eventId/community/:communityId', eventController.deleteEventByCommunityId)
+ router.put('/edit/:eventId/community/:communityId', eventController.deleteEventByCommunityId)
 
 /**
  *  API [PATCH] for route /events/eventId
