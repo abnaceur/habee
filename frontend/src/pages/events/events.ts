@@ -22,6 +22,7 @@ export class EventsPage {
 	public eventImage;
 	public eventCreatedBy;
 	public eventDate;
+	public allEvents;
 
 	constructor(public eventProvider: EventProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
 		this.tabParams = {
@@ -35,6 +36,7 @@ export class EventsPage {
 		console.log('ionViewDidLoad EventsPage');
 		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
 		.subscribe(response => {
+			this.allEvents = response.Events,
 			console.log("Repsonse this 13 : ", response),
 			this.eventTitle = response.Events[0]['eventName'],
 			this.eventImage = ENV.BASE_URL + '/' + response.Events[0]['eventPhoto'], 

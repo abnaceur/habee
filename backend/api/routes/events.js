@@ -60,12 +60,6 @@ router.get('/community/:communityId', eventController.get_all_events_byCommunity
 router.post('/', upload.any(), eventController.post_event);
 
 
-/**
- * API [GET] for route /events/community/eventCommunity
- */
-
-router.get('/community/:eventCommunity', eventController.get_event_by_community);
-
 
 /**
  * API [GET] foor route /events/eventId

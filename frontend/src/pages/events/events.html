@@ -7,13 +7,28 @@
 
 <ion-content class="myview_events card-background-page"  padding>
 
+    <ion-card *ngFor="let event of allEvents">
+        <img src='http://si.habee.local:3000/{{event.eventPhoto}}'>
+  <ion-fab right top>
+    <button mini ion-fab>
+            <ion-icon name="log-in"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-item>
+    <h2>{{event.eventName}}</h2>
+    <p>Cree par {{event.eventCreator}}</p>
+</ion-item>
 
 
-  <ion-card>
-      <img src={{eventImage}}/>
-      <div class="card-title">{{eventTitle}}</div>
-      <div class="card-subtitle">{{eventDate}}</div><br>
-      <div class="card-subtitle1">{{eventCreatedBy}}</div>
+  <ion-item>
+    <span item-start><p>{{event.eventDate.substring(0, event.eventDate.search('T'))}}</p></span>
+    <button ion-button icon-start clear item-end>
+      <ion-icon name="navigate"></ion-icon>
+      Plus d'info
+    </button>
+  </ion-item>
+
     </ion-card>
 
 </ion-content>

@@ -24,7 +24,6 @@ export class ProfilePage {
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get('activeCommunity')
     };
-    console.log("UserIDss: ", this.tabParams);
   }
 
   ionViewDidLoad() {
