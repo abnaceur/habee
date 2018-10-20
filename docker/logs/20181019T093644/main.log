@@ -1,6 +1,0 @@
-[2018-10-19 09:36:44.265] [main] [info] update#setState idle
-[2018-10-19 09:37:14.278] [main] [info] update#setState checking for updates
-[2018-10-19 09:37:14.290] [main] [error] Error: net::ERR_NAME_NOT_RESOLVED
-[2018-10-19 09:37:14.290] [main] [info] update#setState idle
-[2018-10-19 11:10:02.527] [main] [info] update#setState checking for updates
-[2018-10-19 11:10:03.357] [main] [info] update#setState available for download
