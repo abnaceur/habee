@@ -20,10 +20,18 @@ export class EventProvider {
   getEventsByCommunityId(token, userId, activeCommunity) {
 
     const header = this.utils.inihttpHeaderWIthToken(token);
-	
-		return this.http.get(ENV.BASE_URL + '/events/community/com_tes_2016_9',
-		  { headers: header })
-		  .map(response => response.json());
-	  }
 
+    return this.http.get(ENV.BASE_URL + '/events/community/' + activeCommunity,
+      { headers: header })
+      .map(response => response.json());
+  }
+
+  getEventSubscription(eventId, token, userId, communityId) {
+
+    const header = this.utils.inihttpHeaderWIthToken(token);
+
+    return this.http.put(ENV.BASE_URL + '/events/' + eventId + 'users' + userId + '/community/' + communityId,
+      { headers: header })
+      .map(response => response.json());
+  }
 }

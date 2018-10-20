@@ -17,6 +17,7 @@ import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-ev
 import { CommunityProvider } from '../providers/community/community';
 import { ProfileProvider } from '../providers/profile/profile';
 import { PassionProvider } from '../providers/passion/passion';
+import { EventDetailsPageModule } from '../pages/event-details/event-details.module';
 import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 import { EventProvider } from '../providers/event/event';
@@ -35,6 +36,7 @@ import { EventProvider } from '../providers/event/event';
     LoginPageModule,
     ProposeEventPageModule,
     GoodPlansPageModule,
+    EventDetailsPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true})
   ],
   bootstrap: [IonicApp],

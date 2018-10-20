@@ -23,6 +23,7 @@ export class EventsPage {
 	public eventCreatedBy;
 	public eventDate;
 	public allEvents;
+	myDate: string = '';
 
 	constructor(public eventProvider: EventProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
 		this.tabParams = {
@@ -40,11 +41,21 @@ export class EventsPage {
 			console.log("Repsonse this 13 : ", response),
 			this.eventTitle = response.Events[0]['eventName'],
 			this.eventImage = ENV.BASE_URL + '/' + response.Events[0]['eventPhoto'], 
-			this.eventCreatedBy = response.Events[0]['eventCreator'],
-			this.eventDate = response.Events[0]['eventDate'].substring(0, response.Events[0]['eventDate'].search('T'))
+			this.eventCreatedBy = response.Events[0]['eventCreator']
+			this.myDate = response.Events[0]['eventStartDate'].substring(0, response.Events[0]['eventStartDate'].search('T')),
+			this.eventDate = response.Events[0]['eventStartDate'].substring(0, response.Events[0]['eventStartDate'].search('T'))
 		  });
-
 	}
 
+	goToEventDetail(eventDetails) {
+		this.nav.push("EventDetailsPage", {
+			data: eventDetails
+		  });
+		console.log("test event")
+	}
+
+	subscribeToEvent(eventId) {
+		console.log("Events Id", eventId);
+	}
 	
 }

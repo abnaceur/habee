@@ -1,9 +1,10 @@
 const express = require('express');
 const Event = require('../models/event');
+const User = require('../models/user');
 const mongoose = require('mongoose');
-const jwt = require ('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
-exports.get_all_events =  (req, res, next) => {
+exports.get_all_events = (req, res, next) => {
     Event.find()
         .exec()
         .then(events => {
@@ -45,13 +46,13 @@ exports.get_all_events =  (req, res, next) => {
         })
 };
 
-exports.get_all_events_byCommunityId =  (req, res, next) => {
+exports.get_all_events_byCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
-        eventCommunity: communityId,
-        eventIsDeleted: false,
-    })
+            eventCommunity: communityId,
+            eventIsDeleted: false,
+        })
         .exec()
         .then(events => {
             if (events.length === 0) {
@@ -69,8 +70,10 @@ exports.get_all_events_byCommunityId =  (req, res, next) => {
                             eventName: event.eventName,
                             eventCreator: event.eventCreator,
                             eventDescription: event.eventDescription,
-                            eventDate: event.eventDate,
-                            eventDuration: event.eventDuration,
+                            eventStartDate: event.eventStartDate,
+                            eventEndDate: event.eventEndDate,
+                            eventStartHour: event.eventStartHour,
+                            eventEndHour: event.eventEndHour,
                             eventLocation: event.eventLocation,
                             nbrParticipants: event.nbrParticipants,
                             participantsId: event.participantsId,
@@ -99,16 +102,19 @@ exports.post_event = (req, res, next) => {
         eventId: req.body.eventId,
         eventCommunity: req.body.eventCommunity,
         eventName: req.body.eventName,
-        eventsPhoto: req.files == undefined ? "uplaods/": req.files[0].path,
+        eventsPhoto: req.files == undefined ? "uplaods/" : req.files[0].path,
         eventCreator: req.body.eventCreator,
         eventDescription: req.body.eventDescription,
-        eventDate: req.body.eventDate,
+        eventStartDate: req.body.eventStartDate,
+        eventEndDate: req.body.eventEndDate,
+        eventStartHour: req.body.eventStartHour,
+        eventEndHour: req.body.eventEndHour,
         eventDuration: req.body.eventDuration,
         eventLocation: req.body.eventLocation,
         nbrParticipants: req.body.nbrParticipants,
         eventIsDeleted: false,
-   //     participantsId: req.body.participantsId,
-   //     eventIsOver: req.body.eventIsOver,
+        //     participantsId: req.body.participantsId,
+        //     eventIsOver: req.body.eventIsOver,
     });
     event
         .save()
@@ -125,14 +131,85 @@ exports.post_event = (req, res, next) => {
         });
 };
 
+exports.put_eventByUserId = (req, res, next) => {
+    let eventId = req.params.eventId;
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    User.find({
+            userId: userId,
+            "profile.profileCummunityId": communityId
+        }).exec()
+        .then(user => {
+            Event.find({
+                    eventId: eventId,
+                    eventCommunity: communityId
+                }).exec()
+                .then(event => {
+                    console.log("count : ", event[0].participants.length)
+                    let i = 0;
+                    let check = 0;
+                    while (i < event[0].participants.length) {
+                        if (event[0].participants[i] != null) {
+                            if (event[0].participants[i] != null && event[0].participants[i].participantId == user[0].userId) {
+                                const index = event[0].participants.indexOf(i);
+                                event[0].participants.splice(index, 1);
+                                check = 1;
+                            }
+                        }
+                        i++;
+                    }
+                    if (check != 1) {
+                        req.body.participants = event[0].participants;
+                        req.body.participants.push({
+                            "participantId": user[0].userId,
+                            "participantname": user[0].profile[0].profileUsername,
+                            "participantPhoto": user[0].profile[0].profilePhoto,
+                        })
+                    } else {
+                        req.body.participants = event[0].participants;
+                    }
+                    Event.findByIdAndUpdate(event[0]._id,
+                        req.body, {
+                            new: false,
+                        },
+                        function (err, results) {
+                            if (err) return res.status(500).json(err);
+                            if (check == 0) {
+                                res.status(200).json({
+                                    Subscribe: true,
+                                    results: results,
+                                })
+                            } else {
+                                res.status(200).json({
+                                    Subscribe: false,
+                                    results: results,
+                                })
+                            }
+                        });
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
+}
+
 exports.eventByCommunityId = (req, res, next) => {
     let eventId = req.params.eventId;
     let communityId = req.params.communityId;
 
     Event.find({
-        eventCommunity: communityId,
-        eventId:    eventId,
-    })
+            eventCommunity: communityId,
+            eventId: eventId,
+        })
         .exec()
         .then(events => {
             if (events.length === 0) {
@@ -142,28 +219,7 @@ exports.eventByCommunityId = (req, res, next) => {
             } else {
                 res.status(200).json({
                     Count: events.length,
-                    Events: events.map(event => {
-                        return {
-                            _id: events._id,
-                            eventId: event.eventId,
-                            eventCommunity: event.eventCommunity,
-                            eventName: event.eventName,
-                            eventCreator: event.eventCreator,
-                            eventDescription: event.eventDescription,
-                            eventDate: event.eventDate,
-                            eventDuration: event.eventDuration,
-                            eventLocation: event.eventLocation,
-                            nbrParticipants: event.nbrParticipants,
-                            participantsId: event.participantsId,
-                            eventIsOver: event.eventIsOver,
-                            eventPhoto: event.eventsPhoto,
-                            eventIsDeleted: event.eventIsDeleted,
-                            request: {
-                                Type: "[GET]",
-                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                            }
-                        }
-                    })
+                    Events: events
                 });
             }
         })
@@ -280,24 +336,24 @@ exports.deleteEventByCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
-        eventId: eventId,
-        eventCommunity: communityId
-    }).exec()
-    .then(event => {
-      Event.findByIdAndUpdate(event[0]['_id'], 
-            req.body, 
-            {
-                new : false,  
-            }, function (err, results) {
-            if (err) return res.status(500).json(err);
-            res.send(results);
-          });
-    })
-    .catch(err => {
-        res.status(500).json({
-            Error: err
+            eventId: eventId,
+            eventCommunity: communityId
+        }).exec()
+        .then(event => {
+            Event.findByIdAndUpdate(event[0]['_id'],
+                req.body, {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                    res.send(results);
+                });
         })
-    });
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        });
 }
 
 exports.get_event_by_id = (req, res, next) => {

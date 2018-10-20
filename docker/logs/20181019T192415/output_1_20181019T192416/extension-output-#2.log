@@ -1,0 +1,84 @@
+[Info  - 7:24:18 PM] ESLint server stopped.
+[Info  - 7:24:18 PM] ESLint server running in node v8.9.3
+[Info  - 7:24:18 PM] ESLint server is running.
+[Info  - 7:24:19 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/controllers/eventController.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 4:12:57 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/models/event.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 4:13:29 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/models/user.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 4:37:11 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/routes/events.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 5:24:28 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/routes/users.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 5:24:45 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/controllers/userController.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 6:01:22 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/models/user.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 6:03:58 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/controllers/userController.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.
+[Info  - 8:53:19 PM] 
+Failed to load the ESLint library for the document /home/abn/my-projects/habee_project/habee/backend/api/models/user.js
+
+To use ESLint please install eslint by running 'npm install eslint' in the workspace folder habee
+or globally using 'npm install -g eslint'. You need to reopen the workspace after installing eslint.
+
+If you are using yarn instead of npm set the setting `"eslint.packageManager": "yarn"`
+
+Alternatively you can disable ESLint for the workspace folder habee by executing the 'Disable ESLint' command.

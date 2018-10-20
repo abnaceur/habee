@@ -59,6 +59,11 @@ router.get('/community/:communityId', eventController.get_all_events_byCommunity
 
 router.post('/', upload.any(), eventController.post_event);
 
+/**
+ * API [POST] for route /events/:eventId/users/:userId [USED]
+ */
+
+ router.put('/:eventId/user/:userId/community/:communityId', eventController.put_eventByUserId)
 
 
 /**

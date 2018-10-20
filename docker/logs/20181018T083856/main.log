@@ -1,0 +1,4 @@
+[2018-10-18 08:38:56.277] [main] [info] update#setState idle
+[2018-10-18 08:39:26.279] [main] [info] update#setState checking for updates
+[2018-10-18 08:39:26.286] [main] [error] Error: net::ERR_NAME_NOT_RESOLVED
+[2018-10-18 08:39:26.286] [main] [info] update#setState idle

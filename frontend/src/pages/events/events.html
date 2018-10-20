@@ -1,35 +1,54 @@
 <ion-header style="height: 50px;">
-    <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 38px; font-weight: bold; color: floralwhite"
+  <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 38px; font-weight: bold; color: floralwhite"
     menuToggle name="more"></ion-icon>
 
 </ion-header>
 
 
-<ion-content class="myview_events card-background-page"  padding>
+<ion-content class="myview_events card-background-page" padding>
 
-    <ion-card *ngFor="let event of allEvents">
+
+  <ion-card *ngFor="let event of allEvents">
+    <ion-item>
+      <h2>{{event.eventName}}</h2>
+    </ion-item>
+    <ion-card-content>
+    <ion-row>
+      <ion-col col-6>
         <img src='http://si.habee.local:3000/{{event.eventPhoto}}'>
-  <ion-fab right top>
-    <button mini ion-fab>
-            <ion-icon name="log-in"></ion-icon>
-    </button>
-  </ion-fab>
+      </ion-col>
 
-  <ion-item>
-    <h2>{{event.eventName}}</h2>
-    <p>Cree par {{event.eventCreator}}</p>
-</ion-item>
+       <ion-col col-6 align-self: stretch>
+         <ion-col col-12>
+            Commence le {{event.eventStartDate.substring(0, event.eventStartDate.search('T'))}} a {{event.eventStartHour}}
+         </ion-col>
+        
+         <ion-col col-12>
+            Termine le {{event.eventEndDate.substring(0, event.eventEndDate.search('T'))}} a {{event.eventEndHour}}
+         </ion-col>
 
+      </ion-col>
+    </ion-row>
+    </ion-card-content>
+  
 
-  <ion-item>
-    <span item-start><p>{{event.eventDate.substring(0, event.eventDate.search('T'))}}</p></span>
-    <button ion-button icon-start clear item-end>
-      <ion-icon name="navigate"></ion-icon>
-      Plus d'info
-    </button>
-  </ion-item>
+    <ion-row no-padding>
+        <ion-col>
+          <button  (click)='subscribeToEvent(event.eventId)' ion-button clear small color="danger" icon-start>
+            <ion-icon name='people'></ion-icon>
+            S'inscrir
+          </button>
+        </ion-col>
+        <ion-col text-right>
+          <button (click)='goToEventDetail(event)' ion-button clear small color="danger" icon-start>
+            <ion-icon name='paw'></ion-icon>
+            plus D'info
+          </button>
+        </ion-col>
+      </ion-row>
+  
 
-    </ion-card>
+  </ion-card>
+
 
 </ion-content>
-  
