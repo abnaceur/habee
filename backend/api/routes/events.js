@@ -60,11 +60,14 @@ router.get('/community/:communityId', eventController.get_all_events_byCommunity
 router.post('/', upload.any(), eventController.post_event);
 
 /**
- * API [POST] for route /events/:eventId/users/:userId [USED]
+ * API [POST] for route /events/:eventId/user/:userId [USED]
  */
 
- router.put('/:eventId/user/:userId/community/:communityId', eventController.put_eventByUserId)
+ router.get('/:eventId/issubscribed/:userId/community/:communityId', eventController.get_userEventSubscribed)
 
+ /**
+ * API [POST] for route /events/:eventId/users/:userId [USED]
+ */
 
 /**
  * API [GET] foor route /events/eventId
@@ -78,6 +81,13 @@ router.get('/:eventId', eventController.get_event_by_id);
 
  router.put('/edit/:eventId/community/:communityId', eventController.deleteEventByCommunityId)
 
+
+ /**
+ * API [PUT] foor route /events/:eventId/user/:userId/community/:communityId [USED]
+ */
+
+ router.put('/:eventId/user/:userId/community/:communityId', eventController.put_eventByUserId);
+ 
 /**
  *  API [PATCH] for route /events/eventId
  */

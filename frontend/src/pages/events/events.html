@@ -7,30 +7,23 @@
 
 <ion-content class="myview_events card-background-page" padding>
 
-
-  <ion-card *ngFor="let event of allEvents">
-    <ion-item>
-      <h2>{{event.eventName}}</h2>
-    </ion-item>
-    <ion-card-content>
-    <ion-row>
-      <ion-col col-6>
-        <img src='http://si.habee.local:3000/{{event.eventPhoto}}'>
-      </ion-col>
-
-       <ion-col col-6 align-self: stretch>
-         <ion-col col-12>
-            Commence le {{event.eventStartDate.substring(0, event.eventStartDate.search('T'))}} a {{event.eventStartHour}}
-         </ion-col>
-        
-         <ion-col col-12>
-            Termine le {{event.eventEndDate.substring(0, event.eventEndDate.search('T'))}} a {{event.eventEndHour}}
-         </ion-col>
-
-      </ion-col>
-    </ion-row>
-    </ion-card-content>
   
+  <ion-card *ngFor="let event of allEvents">
+  
+    
+  
+    <ion-item style="background-color: #c1e3e6">
+        <ion-icon class="icon-calendar" name="calendar"></ion-icon>
+        <span style="text-align: left; margin-left: 30px">{{months[event.eventStartDate.substring(5, 7) - 1]}}</span>
+      <span style="font-size: 1 .9em;
+      color: #3594cb;">{{event.eventStartDate.substring(8, 10)}}</span>  
+       
+    </ion-item>
+   
+        <img src='http://si.habee.local:3000/{{event.eventPhoto}}'>
+        <div class="card-title">{{event.eventName}}</div>
+        <div class="card-subtitle">{{event.eventLocation}}</div>
+   
 
     <ion-row no-padding>
         <ion-col>

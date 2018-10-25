@@ -1,6 +1,22 @@
 page-events {
 }
 
+.icon-calendar {
+  width: 20px;
+  height: 20px;
+  left: 39px;
+  font-size: 1.4em;
+  position: absolute;
+  color: #46a4da;
+  /* background: #46a4da; */
+  /* border-radius: 50%; */
+  -webkit-box-shadow: 0 0 0 8px #afdcf8;
+  box-shadow: 0 0 0 4px #afdcf8;
+  text-align: center;
+  float: right;
+  margin: 0 0 0 -25px;
+  line-height: 20px;
+}
 
 .myview_events{
     background-image: url('../assets/imgs/MainBackground_1.png');

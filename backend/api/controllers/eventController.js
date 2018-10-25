@@ -31,7 +31,7 @@ exports.get_all_events = (req, res, next) => {
                             eventIsOver: event.eventIsOver,
                             eventPhoto: event.eventsPhoto,
                             request: {
-                                Type: "[GET]",
+                                Type: "[GET2]",
                                 Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
                             }
                         }
@@ -45,6 +45,29 @@ exports.get_all_events = (req, res, next) => {
             })
         })
 };
+
+exports.get_userEventSubscribed = (req, res, next) => {
+    let eventId = req.params.eventId;
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    Event.find({
+        eventId: eventId,
+        eventCommunity: communityId,
+        "participants.participantId" : userId,
+    }).exec()
+    .then(event => {
+        console.log("Count event users :", event[0].participants);
+        res.status(200).json({
+            event: event
+        })
+    }).catch(err => {
+        res.status(500).json({
+            error: err
+        })
+    })
+
+}
 
 exports.get_all_events_byCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
@@ -76,7 +99,8 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
                             eventEndHour: event.eventEndHour,
                             eventLocation: event.eventLocation,
                             nbrParticipants: event.nbrParticipants,
-                            participantsId: event.participantsId,
+                            participants: event.participants,
+                            nbrSubscribedParticipants: event.participants.length,
                             eventIsOver: event.eventIsOver,
                             eventPhoto: event.eventsPhoto,
                             request: {
@@ -247,7 +271,7 @@ exports.get_event_by_community = (req, res, next) => {
                 res.status(200).json({
                     Event: evt,
                     request: {
-                        type: "[GET]",
+                        type: "[GET4]",
                         url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/events"
                     }
                 });
@@ -287,11 +311,11 @@ exports.get_event_by_communityId = (req, res, next) => {
                             eventDuration: event.eventDuration,
                             eventLocation: event.eventLocation,
                             nbrParticipants: event.nbrParticipants,
-                            participantsId: event.participantsId,
+                            participants: event.participants,
                             eventIsOver: event.eventIsOver,
                             eventIsDeleted: event.eventIsDeleted,
                             request: {
-                                Type: "[GET]",
+                                Type: "[GET1]",
                                 Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
                             }
                         }
@@ -371,7 +395,7 @@ exports.get_event_by_id = (req, res, next) => {
                 res.status(200).json({
                     Event: evt,
                     request: {
-                        type: "[GET]",
+                        type: "[GET5]",
                         url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/events"
                     }
                 });

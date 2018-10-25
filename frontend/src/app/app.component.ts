@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { EventsPage } from '../pages/events/events';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
   templateUrl: 'app.html'
@@ -13,14 +14,31 @@ export class MyApp {
 
   rootPage: any = "LoginPage";
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any, active: boolean, icon: string }>;
+  rightMenuItems: Array<{ icon: string, active: boolean }>;
+  state: any;
+  placeholder = 'assets/img/avatar/girl-avatar.png';
+  chosenPicture: any;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
+    this.rightMenuItems = [
+      { icon: 'home', active: true },
+      { icon: 'alarm', active: false },
+      { icon: 'analytics', active: false },
+      { icon: 'archive', active: false },
+      { icon: 'basket', active: false },
+      { icon: 'body', active: false },
+      { icon: 'bookmarks', active: false },
+      { icon: 'camera', active: false },
+      { icon: 'beer', active: false },
+      { icon: 'power', active: false },
+    ];
 
-    // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Events', component: EventsPage },
+      { title: 'Acceuil', component: 'TabsPage', active: true, icon: 'home' },
+      { title: 'Profile', component: 'ProfileListPage', active: false, icon: 'contact' },
+      { title: 'Deconnexion', component: 'LoginListPage', active: false, icon: 'archive' },
     ];
 
   }

@@ -7,72 +7,97 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>event-details</ion-title>
+    <ion-title>{{eventDetails.eventName}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-    <ion-card >
+<ion-content fullscreen elestic-header>
+  <ion-card>
 
-        <img src='http://si.habee.local:3000/{{eventDetails.eventPhoto}}'/>
-    
-        <ion-card-content>
-          <ion-card-title>
-            {{eventDetails.eventName}}
-          </ion-card-title>
-          <ion-item>
-            <b>Commence le : {{eventDetails.eventStartDate.substring(0, eventDetails.eventStartDate.search('T'))}} a {{eventDetails.eventStartHour}}</b>
-          </ion-item>
-          <ion-item>
-            <b>Termine le : {{eventDetails.eventEndDate.substring(0, eventDetails.eventEndDate.search('T'))}} a {{eventDetails.eventEndHour}}</b>
-          </ion-item>
-          <ion-item>
-            <b>Lieu : </b><p>{{eventDetails.eventLocation}}</p>
-          </ion-item>
-          <ion-item>
-            <b>Description : </b>
-          </ion-item>
-          <p>
-            {{eventDetails.eventDescription}}
-          </p>
-          <ion-row>
-            <ion-item>
-              <b>Participants : </b>
-            </ion-item>
-              <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
+    <img src='http://si.habee.local:3000/{{eventDetails.eventPhoto}}' />
+
+    <ion-card-content>
+      <ion-item>
+        <ion-icon style=" color: #46a4da; font-size: 2.1em" name="calendar"></ion-icon>
+        <span style="font-size: 1 .9em;text-align: left; margin-left: 30px ">{{eventDetails.eventStartDate.substring(8,
+          10)}}</span>
+        <span style="text-align: left;">{{months[eventDetails.eventStartDate.substring(5, 7) - 1]}}</span>
+        a {{eventDetails.eventStartHour}}
+
+      </ion-item>
+
+      <ion-item>
+        <ion-icon style=" color: #46a4da; font-size: 2.1em" name="calendar"></ion-icon>
+        <span style="font-size: 1 .9em;text-align: left; margin-left: 30px ">{{eventDetails.eventEndDate.substring(8,
+          10)}}</span>
+        <span style="text-align: left;">{{months[eventDetails.eventEndDate.substring(5, 7) - 1]}}</span>
+        a {{eventDetails.eventEndHour}}
+
+      </ion-item>
+
+      <ion-item>
+        <ion-icon style=" color: #46a4da; font-size: 2.1em" name="compass"></ion-icon>
+        <span style="font-size: 1 .9em;text-align: left; margin-left: 30px ">{{eventDetails.eventLocation}}</span>
+
+      </ion-item>
+
+      <ion-item>
+        <b>Description : </b>
+
+        <p>
+          {{eventDetails.eventDescription}}
+        </p>
+      </ion-item>
+
+      <ion-row>
+        <ion-item>
+          <b>Participants : </b>
+        </ion-item>
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
               min-height: 100px;">
-                <span >
-                  <img class="img-scroll" src='http://si.habee.local:3000/{{eventDetails.eventPhoto}}'>
-                </span>
-              </ion-scroll>
-          </ion-row>
-        </ion-card-content>
-    
-        <ion-row no-padding>
-          <ion-col text-left>
-            <button click='subscribeToEvent(eventDetails.eventId)' ion-button clear small color="danger" icon-start>
-              <ion-icon name='people'></ion-icon>
-              S'inscrir
-            </button>
-          </ion-col>
-          <ion-col text-center>
-            <button ion-button clear small color="danger" icon-start>
-              <ion-icon name='share-alt'></ion-icon>
-              Share
-            </button>
-          </ion-col>
-          <ion-col text-right>
-              <ion-note>
-                11/{{eventDetails.nbrParticipants}}
-              </ion-note>
-            </ion-col>
-        </ion-row>
-    
-      </ion-card>
+          <span *ngFor="let participant of eventDetails.participants">
+            <img *ngIf='participant != null' class="img-scroll" src='http://si.habee.local:3000/{{participant.participantPhoto}}'>
+          </span>
+        </ion-scroll>
+      </ion-row>
+    </ion-card-content>
+
+    <ion-row no-padding>
+      <ion-col text-left>
+        <button (click)='subscribeToEvent(eventDetails.eventId)' ion-button clear small color="danger" icon-start>
+          <ion-icon  name='people'></ion-icon>
+            <span >
+              {{isSubscribed}}
+            </span>
+
+        </button>
+      </ion-col>
+      <ion-col text-center>
+        <button ion-button clear small color="danger" icon-start>
+          <ion-icon name='share-alt'></ion-icon>
+          Share
+        </button>
+      </ion-col>
+      <ion-col text-right>
+        <ion-note style="    top: 8px;
+        margin-right: 23px;
+        position: relative;
+        font-size: 15px;"
+          *ngIf="eventDetails.nbrSubscribedParticipants != eventDetails.nbrParticipants">
+          <b>{{eventDetails.nbrSubscribedParticipants}}/{{eventDetails.nbrParticipants}}</b>
+        </ion-note>
+
+        <ion-note *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants">
+          Full
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
 
 
-    
+
 
 </ion-content>
