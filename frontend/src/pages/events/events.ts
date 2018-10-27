@@ -10,6 +10,7 @@ import { Community } from "../../models/community.model";
 import { EventProvider } from '../../providers/event/event';
 import { environment as ENV } from '../../environments/environment';
 
+
  
 @IonicPage({ name: "EventsPage" })
 @Component({
@@ -21,6 +22,7 @@ export class EventsPage {
 	public allEvents;
 	public isSubscribed = "S'inscrir3";
 	public months: String[];
+	public url = ENV.BASE_URL;
 
 	constructor(public eventProvider: EventProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
 		this.tabParams = {
@@ -41,6 +43,15 @@ export class EventsPage {
 	
 	}
 
+	async getAllevent() {
+		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+		.subscribe(response => {
+			this.allEvents = response.Events,
+			console.log("Repsonse this 13 : ", response)
+		  });
+	
+	}
+
 
 	goToEventDetail(eventDetails) {
 		this.nav.push("EventDetailsPage", {
@@ -50,6 +61,14 @@ export class EventsPage {
 			activeCommunity: this.tabParams.activeCommunity
 		  });
 		console.log("test event")
+	}
+
+	doRefresh(refresher) {
+		this.getAllevent()
+		  setTimeout(() => {
+			console.log('Complete');
+			refresher.complete()
+		  }, 2000);
 	}
 
 	subscribeToEvent(eventId) {

@@ -16,7 +16,7 @@
 <ion-content fullscreen elestic-header>
   <ion-card>
 
-    <img src='http://si.habee.local:3000/{{eventDetails.eventPhoto}}' />
+    <img [src]='url + "/" + eventDetails.eventPhoto' />
 
     <ion-card-content>
       <ion-item>
@@ -50,54 +50,67 @@
           {{eventDetails.eventDescription}}
         </p>
       </ion-item>
+    </ion-card-content>
 
-      <ion-row>
+  </ion-card>
+
+<ion-item>
+    <ion-row>
         <ion-item>
           <b>Participants : </b>
         </ion-item>
         <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
               min-height: 100px;">
-          <span *ngFor="let participant of eventDetails.participants">
+          <a *ngFor="let participant of eventDetails.participants">
             <img *ngIf='participant != null' class="img-scroll" src='http://si.habee.local:3000/{{participant.participantPhoto}}'>
-          </span>
+          </a>
         </ion-scroll>
       </ion-row>
-    </ion-card-content>
+    
+</ion-item>
 
-    <ion-row no-padding>
-      <ion-col text-left>
-        <button (click)='subscribeToEvent(eventDetails.eventId)' ion-button clear small color="danger" icon-start>
+<ion-row no-padding>
+    <ion-col text-left>
+      <button *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" (click)='subscribeToEvent(eventDetails.eventId)' ion-button clear small color="danger" icon-start>
+        <ion-icon  name='people'></ion-icon>
+          <span >
+            {{isSubscribed}}
+          </span>
+
+      </button>
+
+
+      <button *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants"  ion-button clear small color="danger" icon-start>
           <ion-icon  name='people'></ion-icon>
             <span >
-              {{isSubscribed}}
+                event full
             </span>
 
         </button>
-      </ion-col>
-      <ion-col text-center>
-        <button ion-button clear small color="danger" icon-start>
-          <ion-icon name='share-alt'></ion-icon>
-          Share
-        </button>
-      </ion-col>
-      <ion-col text-right>
-        <ion-note style="    top: 8px;
-        margin-right: 23px;
-        position: relative;
-        font-size: 15px;"
-          *ngIf="eventDetails.nbrSubscribedParticipants != eventDetails.nbrParticipants">
-          <b>{{eventDetails.nbrSubscribedParticipants}}/{{eventDetails.nbrParticipants}}</b>
-        </ion-note>
+    </ion-col>
+    <ion-col text-center>
+      <button (click)="presentActionSheet()" ion-button clear small color="danger" icon-start>
+        <ion-icon name='share-alt'></ion-icon>
+        Share
+      </button>
+    </ion-col>
+    <ion-col text-right>
+      <ion-note style="    top: 8px;
+      margin-right: 23px;
+      position: relative;
+      font-size: 15px;"
+        *ngIf="eventDetails.nbrSubscribedParticipants != eventDetails.nbrParticipants">
+        <b>{{eventDetails.nbrSubscribedParticipants}}/{{eventDetails.nbrParticipants}}</b>
+      </ion-note>
 
-        <ion-note *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants">
-          Full
-        </ion-note>
-      </ion-col>
-    </ion-row>
-
-  </ion-card>
-
-
-
+      <ion-note style="    top: 8px;
+      margin-right: 23px;
+      position: relative;
+      font-size: 15px;" *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants">
+        Full
+      </ion-note>
+    </ion-col>
+  </ion-row>
+  
 
 </ion-content>

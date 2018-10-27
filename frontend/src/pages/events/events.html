@@ -7,10 +7,15 @@
 
 <ion-content class="myview_events card-background-page" padding>
 
-  
+
+  <!-- TODO REFRESH ALL EVENTS-->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="bubbles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <!-- END OF THE TEMPLATE-->
+
   <ion-card *ngFor="let event of allEvents">
-  
-    
   
     <ion-item style="background-color: #c1e3e6">
         <ion-icon class="icon-calendar" name="calendar"></ion-icon>
@@ -20,7 +25,7 @@
        
     </ion-item>
    
-        <img src='http://si.habee.local:3000/{{event.eventPhoto}}'>
+        <img [src]='url + "/" + event.eventPhoto'>
         <div class="card-title">{{event.eventName}}</div>
         <div class="card-subtitle">{{event.eventLocation}}</div>
    
