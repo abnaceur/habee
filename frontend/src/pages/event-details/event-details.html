@@ -62,7 +62,7 @@
         <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
               min-height: 100px;">
           <a *ngFor="let participant of eventDetails.participants">
-            <img *ngIf='participant != null' class="img-scroll" src='http://si.habee.local:3000/{{participant.participantPhoto}}'>
+            <img *ngIf='participant != null' class="img-scroll" [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/avatar.png"'>
           </a>
         </ion-scroll>
       </ion-row>

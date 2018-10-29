@@ -65,6 +65,8 @@ export class EventDetailsPage {
     this.getQuotes();
   }
 
+
+
   async getQuotes() {
     //TODO REPLACE IT WITH EVENT INFORMTION
     this.quotes = [{ "ID": 1998, "title": "Helen Keller", "content": "<p>The best and most beautiful things in the world cannot be seen or even touched. They must be felt with the heart.<\/p>\n", "link": "https:\/\/quotesondesign.com\/helen-keller\/" }, { "ID": 1344, "title": "Von Glitschka", "content": "<p>A healthy creative process should be able to give a coherent rationale to a client as to why you designed what you designed.  <\/p>\n", "link": "https:\/\/quotesondesign.com\/von-glitschka-2\/" }, { "ID": 473, "title": "Joe Sparano", "content": "<p>Good design is obvious. Great design is transparent.  <\/p>\n", "link": "https:\/\/quotesondesign.com\/joe-sparano\/" }, { "ID": 580, "title": "Kyle Steed", "content": "<p>Take a walk. Dance a jig. Get some sun. Don&#8217;t take yourself to serious. Cook something ethnic. Play the 3 chords you know on guitar. Go get coffee. Tell a bad joke, to yourself, and laugh. Look at the way a leaf is made. Overhear someone else&#8217;s conversation. Write it down. Remember it later. Get some sleep.  <\/p>\n", "link": "https:\/\/quotesondesign.com\/kyle-steed\/", "custom_meta": { "Source": "<a href=\"http:\/\/kylesteed.com\/2009\/im-the-worst-designer\/\">article<\/a>" } }, { "ID": 1200, "title": "Chuck Klosterman", "content": "<p>The worst thing you can do to anybody trying to be creative is to demand participation in their vision.  <\/p>\n", "link": "https:\/\/quotesondesign.com\/chuck-klosterman\/", "custom_meta": { "Source": "<a href=\"http:\/\/nymag.com\/daily\/entertainment\/2009\/10\/chuck_klosterman_on_why_the_un.html\">interview<\/a>" } }, { "ID": 2233, "title": "Kyle Matthew Hansen", "content": "<p>Complexity is the enemy of reliability.<\/p>\n", "link": "https:\/\/quotesondesign.com\/kyle-matthew-hansen\/" }, { "ID": 1736, "title": "Asher Trotter", "content": "<p>Creating something out of thin air is easy. It&#8217;s finding the air that&#8217;s hard.<\/p>\n", "link": "https:\/\/quotesondesign.com\/asher-trotter\/" }, { "ID": 1383, "title": "Mitch Hedberg", "content": "<p>I was gonna get a candy bar; the button I was supposed to push was &#8220;HH&#8221;, so I went to the side, I found the &#8220;H&#8221; button, I pushed it twice. Fuckin&#8217;&#8230;potato chips came out, man, because they had an &#8220;HH&#8221; button for Christ&#8217;s sake! You need to let me know. I&#8217;m not familiar with the concept of &#8220;HH&#8221;. I did not learn my AA-BB-CC&#8217;s. God god, dammit dammit.  <\/p>\n", "link": "https:\/\/quotesondesign.com\/mitch-hedberg\/" }, { "ID": 144, "title": "Petrula Vrontikis", "content": "<p>Practice safe design: Use a concept.  <\/p>\n", "link": "https:\/\/quotesondesign.com\/petrula-vrontikis\/", "custom_meta": { "Source": "<a href=\"http:\/\/dailypoetics.typepad.com\/daily_poetics\/2005\/10\/wekaware_welcom.html\">webpage<\/a>" } }, { "ID": 413, "title": "Kim Goodwin", "content": "<p>I think if you&#8217;re starting out early in the process by talking about your ideas for solutions, you&#8217;re already not listening. I think you need to enter into any design project with that zen learner&#8217;s mind of &#8216;I don&#8217;t know what I don&#8217;t know.&#8217;  <\/p>\n", "link": "https:\/\/quotesondesign.com\/kim-goodwin\/" }];
@@ -162,6 +164,10 @@ export class EventDetailsPage {
           this.eventDetails.nbrSubscribedParticipants = this.eventDetails.nbrSubscribedParticipants + 1;
           this.isSubscribed = "Desinscrir";
           // TODO ADD WHEN SUBSCRIBED
+          this.eventProvider.getEventById(eventId, this.tabParams.token)  
+          .subscribe(response => {
+            this.eventDetails.participants = response.Event[0].participants
+          })
           subscribedToast.present();
         } else if (response.Subscribe == false) {
           let subscribedToast = this.toastController.create({
@@ -172,10 +178,9 @@ export class EventDetailsPage {
           });
           this.isSubscribed = "S'inscrir";
           this.eventDetails.nbrSubscribedParticipants = this.eventDetails.nbrSubscribedParticipants - 1;
-          this.eventDetails.participants.map(pr => {
-            if (pr != null) {
-              this.eventDetails.participants.pop()  
-            }
+          this.eventProvider.getEventById(eventId, this.tabParams.token)  
+          .subscribe(response => {
+            this.eventDetails.participants = response.Event[0].participants
           })
           subscribedToast.present();
         }
