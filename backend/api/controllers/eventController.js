@@ -3,6 +3,7 @@ const Event = require('../models/event');
 const User = require('../models/user');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const utils = require('../services/utils');
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -159,7 +160,7 @@ exports.put_eventByUserId = (req, res, next) => {
     let eventId = req.params.eventId;
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-
+    console.log("Event Ud :", eventId);
     User.find({
             userId: userId,
             "profile.profileCummunityId": communityId
@@ -170,14 +171,13 @@ exports.put_eventByUserId = (req, res, next) => {
                     eventCommunity: communityId
                 }).exec()
                 .then(event => {
-                    console.log("count : ", event[0].participants.length)
+                    console.log("count 111: ", event)
                     let i = 0;
                     let check = 0;
                     while (i < event[0].participants.length) {
                         if (event[0].participants[i] != null) {
                             if (event[0].participants[i] != null && event[0].participants[i].participantId == user[0].userId) {
-                                const index = event[0].participants.indexOf(i);
-                                event[0].participants.splice(index, 1);
+                                event[0].participants = utils.popEventObject(event[0].participants, user[0].userId);
                                 check = 1;
                             }
                         }
@@ -200,11 +200,16 @@ exports.put_eventByUserId = (req, res, next) => {
                         function (err, results) {
                             if (err) return res.status(500).json(err);
                             if (check == 0) {
+                                //console.log("User sub :", event);
+                                updateUserOnEventSubvscription(event, check, userId, communityId);
                                 res.status(200).json({
                                     Subscribe: true,
                                     results: results,
                                 })
                             } else {
+                                console.log("User unsub :", event);
+                                utils.popObject(user[0].eventsParticipated, event[0].eventId);
+                                updateUserOnEventSubvscription(event, check, userId, communityId);
                                 res.status(200).json({
                                     Subscribe: false,
                                     results: results,
@@ -225,6 +230,38 @@ exports.put_eventByUserId = (req, res, next) => {
             })
         })
 }
+
+updateUserOnEventSubvscription = (event, state, userId, communityId) => {
+
+    User.find({
+        userId: userId,
+        "profile.profileCummunityId": communityId
+    }).exec()
+    .then(user => {
+        if (state == 0) {
+            user[0].eventsParticipated.push(event[0])
+            User.findByIdAndUpdate(user[0]._id,
+                user[0], {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                        console.log("SUBSCRIBED")
+                });
+        } else if (state == 1) {
+            user[0].eventsParticipated = utils.popObject(user[0].eventsParticipated, event[0].eventId);
+            User.findByIdAndUpdate(user[0]._id,
+                user[0], {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                        console.log("UNSUBSCRIBED")
+            });
+        }
+    })
+}
+
 
 exports.eventByCommunityId = (req, res, next) => {
     let eventId = req.params.eventId;

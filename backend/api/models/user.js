@@ -64,15 +64,7 @@ let userSchema = mongoose.Schema({
 	],
 	passions: [],
 	skills: [],
-	currentEvents: {
-		eventsICreated: [],
-	    eventsIParticipate: []
-	},
-	parameters: {},
-	passedEvents: {
-		PassedevenementsICreated: [],
-		PassedEvenementsParticipated: []
-	}
+	eventsParticipated: [],
 });
 
 let User = module.exports = mongoose.model('User', userSchema);
