@@ -12,4 +12,32 @@
 
 <ion-content class="myview_myevents" padding>
 
+  <accordion-list *ngFor="let itm of items; let index = index"
+                  [title]="itm.name"
+                  textColor="#FFF"
+                  hasMargin="false"
+                  headerColor="#F53D3D"
+                  [expanded]="index === 0">
+                  <ion-list>
+                    <ion-item-sliding *ngFor="let item of items1">
+                      <ion-item>
+                        <ion-thumbnail item-start>
+                          <img [src]="item.imageUrl">
+                        </ion-thumbnail>
+                        <h2>{{item.title}}</h2>
+                        <p>{{item.place}} • {{item.date}}</p>
+                      </ion-item>
+                      <ion-item-options side="right">
+                        <button ion-button color="primary" (click)="viewPlayers(item)">
+                        <ion-icon name="eye"></ion-icon>
+                        Voir
+                      </button>
+                        <button ion-button color="danger" (click)="delete(item)">
+                        <ion-icon name="people"></ion-icon>
+                          Desinscri
+                      </button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+  </accordion-list>
 </ion-content>

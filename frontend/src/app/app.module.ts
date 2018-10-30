@@ -23,6 +23,8 @@ import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 import { EventProvider } from '../providers/event/event';
 
+import {SharedModule} from './shared.module';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -38,7 +40,8 @@ import { EventProvider } from '../providers/event/event';
     ProposeEventPageModule,
     GoodPlansPageModule,
     EventDetailsPageModule,
-    IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true})
+    IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
+    SharedModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
