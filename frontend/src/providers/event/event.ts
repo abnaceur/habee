@@ -42,5 +42,13 @@ export class EventProvider {
       { headers: header })
       .map(response => response.json());
   }
+
+  getUserInformation(token, userId) {
+    const header = this.utils.inihttpHeaderWIthToken(token);
+
+    return this.http.get(ENV.BASE_URL + '/users/' + userId,
+      { headers: header })
+      .map(response => response.json());
+  }
 }
 
