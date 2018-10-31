@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { EventProvider } from '../../providers/event/event';
 import { environment as ENV } from '../../environments/environment';
 
@@ -53,7 +53,7 @@ export class MyEventsPage {
   public url = ENV.BASE_URL;
   public months: String[];
 
-  constructor(public eventProvider: EventProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private toastController: ToastController, public eventProvider: EventProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.tabParams = {
 		  userId: this.navParams.get("userId"),
 		  token: this.navParams.get("token"),
@@ -64,28 +64,43 @@ export class MyEventsPage {
   ionViewWillEnter() {
     this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
 		.subscribe(response => {
-			this.userInfo = response.User[0].eventsParticipated,
-			console.log("Repsonse this 333 : ", response.User[0].eventsParticipated)
+			this.userInfo = response.User[0].eventsParticipated
 		  });
       this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
   }
 
 
   
-  delete(item) {
-    alert('Deleted ' + item.title);
-  }
-
-  viewComments(item) {
-    alert('Viewing comments of ' + item.title);
-  }
-
-  viewPlayers(item) {
-    alert('Viewing players of ' + item.title);
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MyEventsPage');
+  unsubscrib(eventId) {
+    this.eventProvider.getEventSubscription(eventId, this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+    .subscribe(response => {
+      if (response.Subscribe == true) {
+        let subscribedToast = this.toastController.create({
+          message: "Inscription reussie !",
+          duration: 2000,
+          position: 'top',
+          cssClass: "subscribedClass"
+        });
+        // TODO ADD WHEN SUBSCRIBED
+        this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+		.subscribe(response => {
+			this.userInfo = response.User[0].eventsParticipated
+		  });
+        subscribedToast.present();
+      } else if (response.Subscribe == false) {
+        let subscribedToast = this.toastController.create({
+          message: "Desinscription reussie !",
+          duration: 2000,
+          position: 'top',
+          cssClass: "subscribedClass"
+        });
+        this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+		.subscribe(response => {
+			this.userInfo = response.User[0].eventsParticipated
+		  });
+        subscribedToast.present();
+      }
+    });
   }
 
 }

@@ -29,13 +29,13 @@
                         <p>• {{item.eventStartDate.substring(8, 10)}} {{months[item.eventStartDate.substring(5, 7) - 1]}} </p>
                       </ion-item>
                       <ion-item-options side="right">
-                        <button style="width: 50px" ion-button color="primary" (click)="viewPlayers(item)">
+                        <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewPlayers(item)">
                         <ion-icon name="eye"></ion-icon>
                         Voir
                       </button>
-                        <button ion-button color="danger" (click)="delete(item)">
+                        <button ion-button  style="position: relative; width: 100px" color="danger" (click)="unsubscrib(item.eventId)">
                         <ion-icon name="people"></ion-icon>
-                          Desinscri
+                          Desinscrire
                       </button>
                       </ion-item-options>
                     </ion-item-sliding>
