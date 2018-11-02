@@ -4,6 +4,7 @@ const Community = require('../models/community');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const Event = require('../models/event');
 
 exports.login_user = (req, res, next) => {
     User.find({
@@ -50,35 +51,35 @@ exports.login_user = (req, res, next) => {
 exports.getAllusersByCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
     User.find({
-        "profile.profileCummunityId" : communityId,
-        "profile.profileUserIsDeleted": false,
-    })
-    .exec()
-    .then(users => {
-        if (users.length === 0) {
-            return res.status(404).json({
-                message: "There are no users !"
-            })
-        } else {
-            res.status(200).json({
-                users: users.map(usr => {
-                    return {
-                        userId:usr.userId,
-                        firstname: usr.credentials.firstname,
-                        lastname: usr.credentials.lastname,
-                        email: usr.credentials.email,
-                        profileIsActive: usr.profile[0].profileUserIsActive,
-                        profileRole: usr.profile[0].profileIsAdmin,
-                    }
-                })
-            });
-        }
-    })
-    .catch(err => {
-        res.status(500).json({
-            error: err
+            "profile.profileCummunityId": communityId,
+            "profile.profileUserIsDeleted": false,
         })
-    })
+        .exec()
+        .then(users => {
+            if (users.length === 0) {
+                return res.status(404).json({
+                    message: "There are no users !"
+                })
+            } else {
+                res.status(200).json({
+                    users: users.map(usr => {
+                        return {
+                            userId: usr.userId,
+                            firstname: usr.credentials.firstname,
+                            lastname: usr.credentials.lastname,
+                            email: usr.credentials.email,
+                            profileIsActive: usr.profile[0].profileUserIsActive,
+                            profileRole: usr.profile[0].profileIsAdmin,
+                        }
+                    })
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
 }
 
 exports.post_user = (req, res, next) => {
@@ -117,13 +118,13 @@ exports.post_user = (req, res, next) => {
                             communities: req.body.communities,
                             profile: [{
                                 profileCummunityId: req.body.profileCummunityId,
-                                profilePhoto: req.file == undefined ? "uplaods/": req.file.path,
+                                profilePhoto: req.file == undefined ? "uplaods/" : req.file.path,
                                 profileUsername: req.body.profileUsername,
                                 profileIsAdmin: req.body.profileIsAdmin,
                                 profileUserIsActive: req.body.profileUserIsActive,
-                                profileUserIsDeleted: req.body.profileUserIsDeleted ?req.body.profileUserIsDeleted : false, 
+                                profileUserIsDeleted: req.body.profileUserIsDeleted ? req.body.profileUserIsDeleted : false,
                             }],
-                    
+
                             passions: req.body.passions,
                             skills: req.body.skills,
                             currentEvents: req.body.currentEvents,
@@ -321,9 +322,37 @@ exports.get_user_by_id = (req, res, next) => {
                     message: "User not found or id not valid!"
                 })
             } else {
-                res.status(200).json({
-                    User: usr
-                });
+                if (usr[0].eventsParticipated.length != 0) {
+                    Event.find({
+                            eventCommunity: usr[0].eventsParticipated[0].eventCommunity,
+                            eventIsDeleted: false,
+                        }).exec()
+                        .then(event => {
+                            let allUserEvents = [];
+                            let i = 0;
+                            let z = 0;
+
+                            while (i < usr[0].eventsParticipated.length) {
+                                while (z < event.length) {
+                                    if (usr[0].eventsParticipated[i].eventId == event[z].eventId) {
+                                        allUserEvents.push(event[z]);
+                                    }
+                                    z++;
+                                }
+                                z = 0;
+                                i++;
+                            }
+                            console.log("test : ", allUserEvents)
+                            usr[0].eventsParticipated = allUserEvents;
+                            res.status(200).json({
+                                User: usr
+                            });
+                        })
+                } else {
+                    res.status(200).json({
+                        User: usr
+                    });
+                }
             }
         })
         .catch(err => {
@@ -490,28 +519,28 @@ exports.put_userId_communityId_EditUser = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     User.find({
-        userId: id,
-        "profile.profileCummunityId": communityId
-    }).exec()
-    .then(usr => {
-        req.body.credentials.password = usr[0].credentials.password;
-        req.body.credentials.birthDate = usr[0].credentials.birthDate,
-        req.body.credentials.address =  usr[0].credentials.address,
-        req.body.credentials.phone = usr[0].credentials.phone,
-        User.findByIdAndUpdate(usr[0]._id, 
-            req.body, 
-            {
-                new : false,  
-            }, function (err, results) {
-            if (err) return res.status(500).json(err);
-            res.send(results);
-          });
-    })
-    .catch(err => {
-        res.status(500).json({
-            Error: err
+            userId: id,
+            "profile.profileCummunityId": communityId
+        }).exec()
+        .then(usr => {
+            req.body.credentials.password = usr[0].credentials.password;
+            req.body.credentials.birthDate = usr[0].credentials.birthDate,
+                req.body.credentials.address = usr[0].credentials.address,
+                req.body.credentials.phone = usr[0].credentials.phone,
+                User.findByIdAndUpdate(usr[0]._id,
+                    req.body, {
+                        new: false,
+                    },
+                    function (err, results) {
+                        if (err) return res.status(500).json(err);
+                        res.send(results);
+                    });
         })
-    });
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        });
 
 };
 
@@ -520,24 +549,24 @@ exports.put_userId_communityId_DeleteUser = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     User.find({
-        userId: id,
-        "profile.profileCummunityId": communityId
-    }).exec()
-    .then(usr => {
-        User.findByIdAndUpdate(usr[0]._id, 
-            req.body, 
-            {
-                new : false,  
-            }, function (err, results) {
-            if (err) return res.status(500).json(err);
-            res.send(results);
-          });
-    })
-    .catch(err => {
-        res.status(500).json({
-            Error: err
+            userId: id,
+            "profile.profileCummunityId": communityId
+        }).exec()
+        .then(usr => {
+            User.findByIdAndUpdate(usr[0]._id,
+                req.body, {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                    res.send(results);
+                });
         })
-    });
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        });
 
 };
 

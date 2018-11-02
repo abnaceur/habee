@@ -18,6 +18,11 @@ import { environment as ENV } from '../../environments/environment';
 	templateUrl: 'events.html'
 })
 export class EventsPage {
+	items = {
+      icon: 'pin',
+    };
+
+		
 	public tabParams;
 	public allEvents;
 	public isSubscribed = "S'inscrir3";
@@ -39,7 +44,7 @@ export class EventsPage {
 			this.allEvents = response.Events,
 			console.log("Repsonse this 13 : ", response)
 		  });
-		  this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
+		  this.months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Jun", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 	
 	}
 
@@ -64,7 +69,13 @@ export class EventsPage {
 	}
 
 	doRefresh(refresher) {
-		this.getAllevent()
+		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+		.subscribe(response => {
+			if (!response)
+				this.allEvents = []
+			else
+				this.allEvents = response.Events
+			});
 		  setTimeout(() => {
 			console.log('Complete');
 			refresher.complete()
@@ -75,5 +86,10 @@ export class EventsPage {
 		alert("ss");
 		console.log("Info 128 : ", this.tabParams.token, this.tabParams.userId, eventId)
 		//this.eventProvider.getEventSubscription(eventId, this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity);
-	  }
+		}
+		
+		formatTime(month, day) {
+			let time = { subtitle: 	this.months[month], title: day }
+			return time;
+		}
 }

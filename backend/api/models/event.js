@@ -12,7 +12,7 @@ let eventSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
 	},
-	eventsPhoto: String,
+	eventPhoto: String,
 	eventCommunity: String,
 	eventName: String,
 	eventCreator: String,
@@ -24,6 +24,7 @@ let eventSchema = mongoose.Schema({
 	eventDuration: String,
 	eventLocation: String,
 	nbrParticipants: Number,
+	nbrSubscribedParticipants: Number,
 	participants: [{
 		participantId: String,
 		participantname: String,

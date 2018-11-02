@@ -38,7 +38,7 @@ export class MyApp {
     this.pages = [
       { title: 'Acceuil', component: 'TabsPage', active: true, icon: 'home' },
       { title: 'Profile', component: 'ProfileListPage', active: false, icon: 'contact' },
-      { title: 'Deconnexion', component: 'LoginPage', active: false, icon: 'archive' },
+      { title: 'Deconnexion', component: 'LoginPage', active: false, icon: 'log-out' },
     ];
 
   }

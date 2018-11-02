@@ -53,7 +53,7 @@ export class MyEventsPage {
   public url = ENV.BASE_URL;
   public months: String[];
 
-  constructor(private toastController: ToastController, public eventProvider: EventProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public nav: NavController, private toastController: ToastController, public eventProvider: EventProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.tabParams = {
 		  userId: this.navParams.get("userId"),
 		  token: this.navParams.get("token"),
@@ -64,6 +64,7 @@ export class MyEventsPage {
   ionViewWillEnter() {
     this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
 		.subscribe(response => {
+      console.log("this : ", response.User[0].eventsParticipated),
 			this.userInfo = response.User[0].eventsParticipated
 		  });
       this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
@@ -103,4 +104,14 @@ export class MyEventsPage {
     });
   }
 
+
+  viewEventDetails(eventDetails) {
+    eventDetails.nbrSubscribedParticipants = eventDetails.participants.length,
+    this.nav.push("EventDetailsPage", {
+			data: eventDetails,
+			userId: this.tabParams.userId,
+			token: this.tabParams.token,
+			activeCommunity: this.tabParams.activeCommunity
+		  });
+  }
 }

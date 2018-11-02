@@ -5,12 +5,88 @@
   Ionic pages and navigation.
 -->
 <ion-header style="height: 50px;">
-    <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 38px; font-weight: bold; color: floralwhite"
+  <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 38px; font-weight: bold; color: floralwhite"
     menuToggle name="more"></ion-icon>
 
 </ion-header>
 
-
 <ion-content class="myview_proposedEvent" padding>
+
+  <ion-list>
+    <form [formGroup]="proposeEventForm" (ngSubmit)="onSubmit(proposeEventForm.value)">
+
+      <ion-label style="    color: blue;
+      position: relative;
+      left: 52px;
+      margin-bottom: 13px;
+      font-size: 18px;">Proposer
+        un evenement</ion-label>
+
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input placeholder="Nom de l'evenement" formControlName="eventTitle" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="calendar" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px;" name="eventStartDate" type="date" placeholder="Date de debut"
+          displayFormat="DD/MM/YYYY"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="time" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px;" name="eventStartHour" type="time" placeholder="Heur de debut"
+          displayFormat="HH:mm"></ion-datetime>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="calendar" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px;" name="eventEndDate" type="date" placeholder="Date de fin"
+          displayFormat="DD/MM/YYYY"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="time" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px;" name="eventEndHour" type="time" placeholder="Heur de fin"
+          displayFormat="HH:mm"></ion-datetime>
+      </ion-item>
+
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input placeholder="Location" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input placeholder="Nombre participants" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <input type="file" accept="image/*" capture="camera" id="fileInput" />
+        <label for="fileInput" icon-only ion-button>
+          <ion-icon name="camera"></ion-icon>
+        </label>
+      </ion-item>
+
+      <ion-item>
+          <!--   <ion-label floating>E-mail</ion-label> -->
+          <ion-textarea placeholder="Description" type="text"></ion-textarea>
+        </ion-item>
+
+      <button ion-button round [disabled]="!proposeEventForm.valid" style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px"
+        type="submit">Cree</button>
+    </form>
+  </ion-list>
 
 </ion-content>

@@ -103,7 +103,7 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
                             participants: event.participants,
                             nbrSubscribedParticipants: event.participants.length,
                             eventIsOver: event.eventIsOver,
-                            eventPhoto: event.eventsPhoto,
+                            eventPhoto: event.eventPhoto,
                             request: {
                                 Type: "[GET]",
                                 Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
@@ -127,7 +127,7 @@ exports.post_event = (req, res, next) => {
         eventId: req.body.eventId,
         eventCommunity: req.body.eventCommunity,
         eventName: req.body.eventName,
-        eventsPhoto: req.files == undefined ? "uplaods/" : req.files[0].path,
+        eventPhoto: req.files == undefined ? "uplaods/" : req.files[0].path,
         eventCreator: req.body.eventCreator,
         eventDescription: req.body.eventDescription,
         eventStartDate: req.body.eventStartDate,
@@ -185,12 +185,14 @@ exports.put_eventByUserId = (req, res, next) => {
                     }
                     if (check != 1) {
                         req.body.participants = event[0].participants;
+                        req.body.nbrSubscribedParticipants = event[0].participants.length;
                         req.body.participants.push({
                             "participantId": user[0].userId,
                             "participantname": user[0].profile[0].profileUsername,
                             "participantPhoto": user[0].profile[0].profilePhoto,
                         })
                     } else {
+                        req.body.nbrSubscribedParticipants = event[0].participants.length;
                         req.body.participants = event[0].participants;
                     }
                     Event.findByIdAndUpdate(event[0]._id,

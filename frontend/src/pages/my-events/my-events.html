@@ -22,14 +22,14 @@
                     <ion-item-sliding *ngFor="let item of userInfo">
                       <ion-item>
                         <ion-thumbnail item-start>
-                          <img [src]='url + "/" + item.eventsPhoto'>
+                          <img [src]='url + "/" + item.eventPhoto'>
                         </ion-thumbnail>
                         <h2>{{item.eventName}}</h2>
                         <p>{{item.eventLocation}} </p>
                         <p>• {{item.eventStartDate.substring(8, 10)}} {{months[item.eventStartDate.substring(5, 7) - 1]}} </p>
                       </ion-item>
                       <ion-item-options side="right">
-                        <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewPlayers(item)">
+                        <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewEventDetails(item)">
                         <ion-icon name="eye"></ion-icon>
                         Voir
                       </button>
