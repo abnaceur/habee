@@ -15,7 +15,7 @@
   <ion-list>
     <form [formGroup]="proposeEventForm" (ngSubmit)="onSubmit(proposeEventForm.value)">
 
-      <ion-label style="    color: blue;
+      <ion-label style="color: blue;
       position: relative;
       left: 52px;
       margin-bottom: 13px;
@@ -73,16 +73,19 @@
       </ion-item>
 
       <ion-item>
-        <input type="file" accept="image/*" capture="camera" id="fileInput" />
-        <label for="fileInput" icon-only ion-button>
-          <ion-icon name="camera"></ion-icon>
-        </label>
+        <ion-label>
+          Uploader une photo  &nbsp; &nbsp;
+          <ion-icon name="camera" style="font-size: 22px; color:#f3a350" (click)="changePicture()"></ion-icon> </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <img  class="avatarPicture" [src]="chosenPicture || placeholder" onerror="this.src='assets/img/avatar/girl-avatar.png'" />
       </ion-item>
 
       <ion-item>
-          <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-textarea placeholder="Description" type="text"></ion-textarea>
-        </ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-textarea placeholder="Description" type="text"></ion-textarea>
+      </ion-item>
 
       <button ion-button round [disabled]="!proposeEventForm.valid" style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px"
         type="submit">Cree</button>

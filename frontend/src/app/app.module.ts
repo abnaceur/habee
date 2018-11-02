@@ -24,6 +24,9 @@ import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 import { EventProvider } from '../providers/event/event';
 
 import {SharedModule} from './shared.module';
+import { CameraProvider } from '../providers/camera/camera';
+
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,7 @@ import {SharedModule} from './shared.module';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LoginProvider,
+    Camera,
     RetrieveEventsProvider,
     CommunityProvider,
     ProfileProvider,
@@ -60,6 +64,7 @@ import {SharedModule} from './shared.module';
     PassionProvider,
     UtilsProvider,
     EventProvider,
+    CameraProvider,
     
   ]
 })
