@@ -22,6 +22,7 @@ import { EventDetailsPageModule } from '../pages/event-details/event-details.mod
 import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 import { EventProvider } from '../providers/event/event';
+import { HabeeWalkthroughPageModule } from '../pages/habee-walkthrough/habee-walkthrough.module'
 
 import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
@@ -39,6 +40,7 @@ import { File } from '@ionic-native/file';
     BrowserModule,
     TabsPageModule,
     ProfilePageModule,
+    HabeeWalkthroughPageModule,
     MyEventsPageModule,
     EventsPageModule,
     LoginPageModule,

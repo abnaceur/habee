@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { EventsPage } from '../pages/events/events';
 import { TabsPage } from '../pages/tabs/tabs';
+import { HabeeWalkthroughPage } from '../pages/habee-walkthrough/habee-walkthrough';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,7 +13,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = "LoginPage";
+  rootPage: any = "HabeeWalkthroughPage";
 
   pages: Array<{ title: string, component: any, active: boolean, icon: string }>;
   rightMenuItems: Array<{ icon: string, active: boolean }>;

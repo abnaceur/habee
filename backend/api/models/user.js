@@ -6,6 +6,10 @@ let userSchema = mongoose.Schema({
 	userId: String,
 	activeCommunity: String,
 	activeProfileRole: Number,
+	firstConnection: {
+		type: Number,
+		default: 0,
+	}
 	dateOfCreation: {
      type: Date,
      default: Date.now,
