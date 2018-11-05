@@ -53,8 +53,14 @@ export class MyEventsPage {
   public url = ENV.BASE_URL;
   public months: String[];
 
-  constructor(public nav: NavController, private toastController: ToastController, public eventProvider: EventProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.tabParams = {
+  constructor(
+    public nav: NavController, 
+    private toastController: ToastController, 
+    public eventProvider: EventProvider, 
+    public navCtrl: NavController, 
+    public navParams: NavParams) {
+    
+      this.tabParams = {
 		  userId: this.navParams.get("userId"),
 		  token: this.navParams.get("token"),
 		  activeCommunity: this.navParams.get('activeCommunity')	

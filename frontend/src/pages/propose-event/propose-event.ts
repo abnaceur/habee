@@ -8,6 +8,9 @@ import {
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { CameraProvider } from '../../providers/camera/camera';
+import { EventProvider } from '../../providers/event/event';
+import { environment as ENV } from '../../environments/environment';
+
 
 /**
  * Generated class for the ProposeEventPage page.
@@ -29,19 +32,34 @@ export class ProposeEventPage {
 
   placeholder = '../../assets/img/avatar/girl-avatar.png';
   chosenPicture: any;
+  public tabParams;
+  public url = ENV.BASE_URL;
 
   constructor(
-    public formBuilder: FormBuilder, 
+    public eventProvider: EventProvider,
+    public formBuilder: FormBuilder,
     public actionsheetCtrl: ActionSheetController,
     public cameraProvider: CameraProvider,
     public platform: Platform,
     public loadingCtrl: LoadingController,
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams) {
-    
-      this.proposeEventForm = formBuilder.group({
+
+    this.tabParams = {
+      userId: this.navParams.get("userId"),
+      token: this.navParams.get("token"),
+      activeCommunity: this.navParams.get('activeCommunity')
+    };
+
+    this.proposeEventForm = formBuilder.group({
       eventTitle: ['', Validators.compose([Validators.required])],
+      eventLocation: ['', Validators.compose([Validators.required])],
+      eventNbrParticipants: ['', Validators.compose([Validators.required])],
+      eventDescription: ['', Validators.compose([Validators.required])],
       eventStartDate: ['', Validators.compose([Validators.required])],
+      eventEndDate: ['', Validators.compose([Validators.required])],
+      eventStartHour: ['', Validators.compose([Validators.required])],
+      eventEndHour: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -108,5 +126,14 @@ export class ProposeEventPage {
     }, error => {
       alert(error);
     });
+  }
+
+  onSubmit(value) {
+    console.log("Vlue is  : ", this.chosenPicture );
+    this.eventProvider.uploadPhoto(this.currentDate);
+    //  this.eventProvider.addEventByCommunity(value, this.chosenPicture, this.tabParams)
+  //  .subscribe(response => {
+  //    console.log("this 111 : ", response)
+//		  });
   }
 }

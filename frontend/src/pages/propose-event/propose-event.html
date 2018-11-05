@@ -4,10 +4,14 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header style="height: 50px;">
-  <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 38px; font-weight: bold; color: floralwhite"
-    menuToggle name="more"></ion-icon>
 
+<ion-header style="height: 50px;
+background-color: #E96FA1;">
+  <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 40px; font-weight: bold; color: floralwhite"
+    menuToggle name="more"></ion-icon>
+  <ion-title style="position: relative; top: 20px; left: 10px;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Création d'événements</span>
+  </ion-title>
 </ion-header>
 
 <ion-content class="myview_proposedEvent" padding>
@@ -33,7 +37,7 @@
           <ion-icon name="calendar" item-left></ion-icon>
         </ion-label>
         <ion-datetime style="position: relative;left: -43px;" name="eventStartDate" type="date" placeholder="Date de debut"
-          displayFormat="DD/MM/YYYY"></ion-datetime>
+          displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventStartDate"></ion-datetime>
       </ion-item>
 
       <ion-item>
@@ -41,7 +45,7 @@
           <ion-icon name="time" item-left></ion-icon>
         </ion-label>
         <ion-datetime style="position: relative;left: -43px;" name="eventStartHour" type="time" placeholder="Heur de debut"
-          displayFormat="HH:mm"></ion-datetime>
+          displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
       </ion-item>
 
 
@@ -50,7 +54,7 @@
           <ion-icon name="calendar" item-left></ion-icon>
         </ion-label>
         <ion-datetime style="position: relative;left: -43px;" name="eventEndDate" type="date" placeholder="Date de fin"
-          displayFormat="DD/MM/YYYY"></ion-datetime>
+          displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventEndDate"></ion-datetime>
       </ion-item>
 
       <ion-item>
@@ -58,25 +62,29 @@
           <ion-icon name="time" item-left></ion-icon>
         </ion-label>
         <ion-datetime style="position: relative;left: -43px;" name="eventEndHour" type="time" placeholder="Heur de fin"
-          displayFormat="HH:mm"></ion-datetime>
+          displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
       </ion-item>
 
 
       <ion-item>
         <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-input placeholder="Location" type="text"></ion-input>
+        <ion-input placeholder="Location" formControlName="eventLocation" type="text"></ion-input>
       </ion-item>
 
       <ion-item>
         <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-input placeholder="Nombre participants" type="text"></ion-input>
+        <ion-input placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>
           Uploader une photo  &nbsp; &nbsp;
-          <ion-icon name="camera" style="font-size: 22px; color:#f3a350" (click)="changePicture()"></ion-icon> </ion-label>
-      </ion-item>
+          <ion-fab >
+              <ion-icon (click)="changePicture()" name="camera"></ion-icon>
+          </ion-fab>
+   </ion-label>
+  
+        </ion-item>
       
       <ion-item>
         <img  class="avatarPicture" [src]="chosenPicture || placeholder" onerror="this.src='assets/img/avatar/girl-avatar.png'" />
@@ -84,10 +92,10 @@
 
       <ion-item>
         <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-textarea placeholder="Description" type="text"></ion-textarea>
+        <ion-textarea placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
       </ion-item>
 
-      <button ion-button round [disabled]="!proposeEventForm.valid" style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px"
+      <button ion-button round  style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px"
         type="submit">Cree</button>
     </form>
   </ion-list>

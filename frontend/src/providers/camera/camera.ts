@@ -29,6 +29,7 @@ export class CameraProvider {
     const options = {
       quality,
       allowEdit,
+      mimeType: "image/jpg",                                                                                                  
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: pictureSourceType,
       encodingType: this.camera.EncodingType.PNG,

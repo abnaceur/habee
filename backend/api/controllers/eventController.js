@@ -67,7 +67,16 @@ exports.get_userEventSubscribed = (req, res, next) => {
             error: err
         })
     })
+}
 
+exports.upload_mobile_photo = (req, res, next) => {
+    console.log("Photo : ", req.body);
+    console.log("Path : ", req.files);
+    console.log("Path : ", req.file);
+
+    res.status(200).json({
+        res : "tested"
+    })
 }
 
 exports.get_all_events_byCommunityId = (req, res, next) => {
@@ -121,7 +130,9 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
 };
 
 exports.post_event = (req, res, next) => {
-    console.log("Evenet photo : ", req.files[0].path);
+    console.log("Event photo : ", req.files);
+    console.log("Event 11 : ", req.body);
+
     const event = new Event({
         _id: new mongoose.Types.ObjectId,
         eventId: req.body.eventId,

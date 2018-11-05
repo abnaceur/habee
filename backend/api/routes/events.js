@@ -52,6 +52,14 @@ router.get('/:eventId/community/:communityId', eventController.eventByCommunityI
 router.get('/community/:communityId', eventController.get_all_events_byCommunityId);
 
 
+
+/**
+ * API [POST] for route /events/mobile/photo/upload [USED]
+ */
+
+ router.post('/mobile/photo/upload', upload.any(),  eventController.upload_mobile_photo);
+
+
 /**
  * API [POST] for route /events [USED]
  */

@@ -27,6 +27,8 @@ import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
 
 import { Camera } from '@ionic-native/camera';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { Camera } from '@ionic-native/camera';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LoginProvider,
     Camera,
+    FileTransfer,
+    File,
     RetrieveEventsProvider,
     CommunityProvider,
     ProfileProvider,
