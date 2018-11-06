@@ -15,7 +15,11 @@ import { IonicPage, NavController, Slides, NavParams } from 'ionic-angular';
 })
 export class HabeeWalkthroughPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public nav: NavController, 
+    public navParams: NavParams) 
+    
+    {
   }
 
   @ViewChild('slider') slider: Slides;
@@ -45,14 +49,18 @@ export class HabeeWalkthroughPage {
 
   onSlideChanged() {
     this.slideIndex = this.slider.getActiveIndex();
-    console.log('Slide changed! Current index is', this.slideIndex);
+    console.log('Slide changed! Current index is', this.slideIndex, this.navParams);
+    
   }
 
   goToApp() {
     console.log('Go to App clicked');
+    this.nav.push('TabsPage', this.navParams);
+
   }
 
   skip() {
     console.log('Skip clicked');
+    this.nav.push('TabsPage', this.navParams);
   }
 }

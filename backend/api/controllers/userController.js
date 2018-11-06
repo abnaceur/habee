@@ -31,6 +31,7 @@ exports.login_user = (req, res, next) => {
                         code: "200",
                         userId: users[0].userId,
                         activeCommunity: users[0].activeCommunity,
+                        firstConnection: users[0].firstConnection,
                         token: token
                     })
                 } else {

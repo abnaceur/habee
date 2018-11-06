@@ -29,8 +29,14 @@ export class EventsPage {
 	public months: String[];
 	public url = ENV.BASE_URL;
 
-	constructor(public eventProvider: EventProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
-		this.tabParams = {
+	constructor(
+		public eventProvider: EventProvider, 
+		public http: Http, 
+		public navCtrl: NavController, 
+		public navParams: NavParams, 
+		public nav: NavController) {
+		
+			this.tabParams = {
 		  userId: this.navParams.get("userId"),
 		  token: this.navParams.get("token"),
 		  activeCommunity: this.navParams.get('activeCommunity')	

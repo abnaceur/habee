@@ -13,12 +13,19 @@ import { LoginProvider } from '../../providers/login/login';
 export class LoginPage {
   authForm: FormGroup;
 
-  constructor(private toastController: ToastController, public loginProvider: LoginProvider, public http: Http, public nav: NavController, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
-    this.nav = nav;
-
-    this.authForm = formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+  constructor(
+    private toastController: ToastController, 
+    public loginProvider: LoginProvider, 
+    public http: Http, 
+    public nav: NavController, 
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public formBuilder: FormBuilder) 
+    {
+      this.nav = nav;
+      this.authForm = formBuilder.group({
+        email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+        password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
     });
   }
 
@@ -28,7 +35,11 @@ export class LoginPage {
       .subscribe(response => {
         if (response.code == "200") {
           console.log('response : ', response);
-          this.nav.push("TabsPage", response);
+          if (response.firstConnection == 0) {
+            this.nav.push("HabeeWalkthroughPage", response);
+          } else {
+            this.nav.push("TabsPage", response);
+          }
         } else {
           let authFailedToast = this.toastController.create({
             message: "E-mail et/ou mot de pass non valid",

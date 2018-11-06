@@ -9,7 +9,7 @@ let userSchema = mongoose.Schema({
 	firstConnection: {
 		type: Number,
 		default: 0,
-	}
+	},
 	dateOfCreation: {
      type: Date,
      default: Date.now,
