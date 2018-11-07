@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import "rxjs/add/operator/map";
+import { UtilsProvider } from '../../providers/utils/utils';
 import { environment as ENV } from '../../environments/environment' ;
 
 @Injectable()
 export class LoginProvider {
 
-  constructor(public http: Http) {
+  constructor(
+    public http: Http,
+    public utils: UtilsProvider,
+  ) {
     console.log('Hello LoginProvider Provider');
   }
 
@@ -24,4 +28,17 @@ export class LoginProvider {
       { headers: header })
       .map(response => response.json());
   }
+
+  updateUserNbrConnection(token, userId) {
+
+    const header = this.utils.inihttpHeaderWIthToken(token);
+
+    return this.http.put(ENV.BASE_URL + '/users/firstConnection/' + userId,
+    {
+      firstConnection: 0
+    },
+      { headers: header })
+      .map(response => response.json());
+  }
+
 }

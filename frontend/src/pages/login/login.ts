@@ -37,6 +37,10 @@ export class LoginPage {
           console.log('response : ', response);
           if (response.firstConnection == 0) {
             this.nav.push("HabeeWalkthroughPage", response);
+            this.loginProvider.updateUserNbrConnection(response.token, response.userId)
+            .subscribe(response => {
+              console.log("Repsonse this 134 : ", response)
+              });
           } else {
             this.nav.push("TabsPage", response);
           }

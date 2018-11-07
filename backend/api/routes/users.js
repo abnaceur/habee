@@ -61,6 +61,12 @@ const upload = multer({
 
 router.post('/',  upload.single('profilePhoto'), userController.post_user);
 
+
+/* 
+ ** API [GET] [GET] for route /users
+ */
+
+
 router.get('/', userController.get_all_users);
 
 
@@ -69,6 +75,12 @@ router.get('/', userController.get_all_users);
  */
 
 router.get('/community/:communityId', userController.getAllusersByCommunityId);
+
+/*
+ ** API [PUT] for route /users/firstConnection/:userid [USED]
+ */
+
+router.put('/firstConnection/:userId', userController.updateUserByfirstConnection)
 
 /*
  ** API [GET] for route /users/active
