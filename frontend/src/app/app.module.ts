@@ -28,7 +28,7 @@ import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
 
 import { Camera } from '@ionic-native/camera';
-import { FileTransfer } from '@ionic-native/file-transfer';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 
 @NgModule({
@@ -62,6 +62,7 @@ import { File } from '@ionic-native/file';
     LoginProvider,
     Camera,
     FileTransfer,
+    FileTransferObject, 
     File,
     RetrieveEventsProvider,
     CommunityProvider,

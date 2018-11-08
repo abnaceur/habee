@@ -53,30 +53,31 @@ exports.get_userEventSubscribed = (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
-        eventId: eventId,
-        eventCommunity: communityId,
-        "participants.participantId" : userId,
-    }).exec()
-    .then(event => {
-        console.log("Count event users :", event[0].participants);
-        res.status(200).json({
-            event: event
+            eventId: eventId,
+            eventCommunity: communityId,
+            "participants.participantId": userId,
+        }).exec()
+        .then(event => {
+            console.log("Count event users :", event[0].participants);
+            res.status(200).json({
+                event: event
+            })
+        }).catch(err => {
+            res.status(500).json({
+                error: err
+            })
         })
-    }).catch(err => {
-        res.status(500).json({
-            error: err
-        })
-    })
 }
 
 exports.upload_mobile_photo = (req, res, next) => {
-    console.log("Photo : ", req.body);
-    console.log("Path : ", req.files);
-    console.log("Path : ", req.file);
-
-    res.status(200).json({
-        res : "tested"
-    })
+    console.log("Path : ", req.files[0].path);
+    if (req.files[0].path != undefined) {
+        res.send(req.files[0].path)
+    } else {
+        res.status(500).json({
+            res: "error"
+        })
+    }
 }
 
 exports.get_all_events_byCommunityId = (req, res, next) => {
@@ -131,14 +132,22 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
 
 exports.post_event = (req, res, next) => {
     console.log("Event photo : ", req.files);
-    console.log("Event 11 : ", req.body);
+    console.log("Event details : ", req.body);
+    let imagePath;
+    
+    if (req.body.eventPhoto != undefined)
+        imagePath = req.body.eventPhoto;
+    else  if (req.files == undefined ) 
+        imagePath = "uploads/defaultEventImage.jpeg"
+     else  if (req.files != undefined)  
+        imagePath = req.files[0].path;
 
     const event = new Event({
         _id: new mongoose.Types.ObjectId,
         eventId: req.body.eventId,
         eventCommunity: req.body.eventCommunity,
         eventName: req.body.eventName,
-        eventPhoto: req.files == undefined ? "uplaods/" : req.files[0].path,
+        eventPhoto: imagePath,
         eventCreator: req.body.eventCreator,
         eventDescription: req.body.eventDescription,
         eventStartDate: req.body.eventStartDate,
@@ -247,32 +256,32 @@ exports.put_eventByUserId = (req, res, next) => {
 updateUserOnEventSubvscription = (event, state, userId, communityId) => {
 
     User.find({
-        userId: userId,
-        "profile.profileCummunityId": communityId
-    }).exec()
-    .then(user => {
-        if (state == 0) {
-            user[0].eventsParticipated.push(event[0])
-            User.findByIdAndUpdate(user[0]._id,
-                user[0], {
-                    new: false,
-                },
-                function (err, results) {
-                    if (err) return res.status(500).json(err);
+            userId: userId,
+            "profile.profileCummunityId": communityId
+        }).exec()
+        .then(user => {
+            if (state == 0) {
+                user[0].eventsParticipated.push(event[0])
+                User.findByIdAndUpdate(user[0]._id,
+                    user[0], {
+                        new: false,
+                    },
+                    function (err, results) {
+                        if (err) return res.status(500).json(err);
                         console.log("SUBSCRIBED")
-                });
-        } else if (state == 1) {
-            user[0].eventsParticipated = utils.popObject(user[0].eventsParticipated, event[0].eventId);
-            User.findByIdAndUpdate(user[0]._id,
-                user[0], {
-                    new: false,
-                },
-                function (err, results) {
-                    if (err) return res.status(500).json(err);
+                    });
+            } else if (state == 1) {
+                user[0].eventsParticipated = utils.popObject(user[0].eventsParticipated, event[0].eventId);
+                User.findByIdAndUpdate(user[0]._id,
+                    user[0], {
+                        new: false,
+                    },
+                    function (err, results) {
+                        if (err) return res.status(500).json(err);
                         console.log("UNSUBSCRIBED")
-            });
-        }
-    })
+                    });
+            }
+        })
 }
 
 

@@ -15,6 +15,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from "ionic-an
 */
 @Injectable()
 export class EventProvider {
+  private uploadedImage;
 
   constructor(
     public http: Http,
@@ -61,10 +62,46 @@ export class EventProvider {
       .map(response => response.json());
   }
 
-  addEventByCommunity(event, currentImage, userInfo) {
+  uploadPhoto(currentImage) {
+    return new Promise((resolve, reject) => {
+    let loader = this.loadingCTRL.create({
+      content: "uploading..."
+    });
+
+    loader.present();
+
+    const fileTransfer: FileTransferObject = this.transfer.create();
+
+    var random = Math.floor(Math.random() * 100);
+
+
+    let options: FileUploadOptions = {
+      fileKey: "file",
+      fileName: 'eventImage' + random + '.jpg',
+      chunkedMode: false,
+      httpMethod: "post",
+      mimeType: "image/jpeg",
+      headers: {}
+    }
+
+     fileTransfer.upload(currentImage, ENV.BASE_URL + '/events/mobile/photo/upload', options)
+      .then((data) => {
+        loader.dismiss();
+        resolve(data.response);
+        // success
+      }, (err) => {
+        // error
+        loader.dismiss();
+        let error = "Error"
+        resolve(error);
+      })
+    })
+  }
+
+  addEventByCommunity(event, userInfo, uploadedImage) {
 
     //data.append('eventPhoto',  currentImage, currentImage.name);
-
+    console.log("uploadedImage :", uploadedImage)
 
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
@@ -81,41 +118,10 @@ export class EventProvider {
         "eventDescription": event.eventDescription,
         "eventLocation": event.eventLocation,
         "nbrParticipants": event.eventNbrParticipants,
-        "eventPhoto": currentImage,
+        "eventPhoto": uploadedImage,
       },
       { headers: header })
       .map(response => response.json());
-  }
-
-  uploadPhoto(currentImage) {
-    let loader = this.loadingCTRL.create({
-      content: "uploading..."
-    });
-
-    loader.present();
-
-    const fileTransfer: FileTransferObject = this.transfer.create();
-
-    var random = Math.floor(Math.random() * 100);
-
-
-    let options: FileUploadOptions = {
-      
-      fileName: 'eventImage' + random + '.jpg',
-    }
-
-    fileTransfer.upload(currentImage, ENV.BASE_URL + '/events/mobile/photo/upload', options)
-      .then((data) => {
-        alert("success")
-        console.log("Photo data", data)
-        // success
-        loader.dismiss();
-      }, (err) => {
-        // error
-        alert('Failed test');
-        loader.dismiss();
-        console.log("Error photo : ", err)
-      })
   }
 }
 

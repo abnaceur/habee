@@ -130,10 +130,15 @@ export class ProposeEventPage {
 
   onSubmit(value) {
     console.log("Vlue is  : ", this.chosenPicture );
-    this.eventProvider.uploadPhoto(this.currentDate);
-    //  this.eventProvider.addEventByCommunity(value, this.chosenPicture, this.tabParams)
-  //  .subscribe(response => {
-  //    console.log("this 111 : ", response)
-//		  });
+    
+    this.eventProvider.uploadPhoto(this.chosenPicture)
+    .then(data => {
+      console.log("Returned Data : ", data)
+      this.eventProvider.addEventByCommunity(value, this.tabParams, data)
+      .subscribe(response => {
+        console.log("this 111 : ", response)
+        });
+    })
+    
   }
 }
