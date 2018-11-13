@@ -43,6 +43,7 @@ router.get('/', eventController.get_all_events);
 /*
  * API [GET] for route /events/:eventId/community/:communitId [USED]
  */
+
 router.get('/:eventId/community/:communityId', eventController.eventByCommunityId)
 
 /*
@@ -51,7 +52,11 @@ router.get('/:eventId/community/:communityId', eventController.eventByCommunityI
 
 router.get('/community/:communityId', eventController.get_all_events_byCommunityId);
 
+/*
+ * API [GET] for route /events/user/:userId/community/:communityId [TOBE USED]
+ */
 
+ router.get('/user/:userId/community/:communityId', eventController.getEvntByUserIdAndCommunityId)
 
 /**
  * API [POST] for route /events/mobile/photo/upload [USED]

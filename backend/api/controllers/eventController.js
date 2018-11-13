@@ -165,12 +165,13 @@ exports.post_event = (req, res, next) => {
         .save()
         .then(result => {
             res.status(200).json({
-                Success: "true",
+                results: true,
                 Event: result
             })
         })
         .catch(err => {
             res.status(500).json({
+                results: false,
                 Error: err
             })
         });
@@ -282,6 +283,37 @@ updateUserOnEventSubvscription = (event, state, userId, communityId) => {
                     });
             }
         })
+}
+
+exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
+    console.log("getEvntByUserIdAndCommunityId inside the controller !!");
+    let communityId = req.params.communityId;
+    let eventCreator = req.params.userId;
+
+    Event.find({
+        eventCommunity: communityId,
+        eventCreator: eventCreator,
+        eventIsDeleted: false,
+    })
+    .exec()
+    .then(events => {
+        if (events.length === 0) {
+            return res.status(404).json({
+                message: "There are no events!"
+            })
+        } else {
+            res.status(200).json({
+                Count: events.length,
+                Events: events
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        })
+    })
+
 }
 
 

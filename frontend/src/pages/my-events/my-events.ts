@@ -50,6 +50,7 @@ export class MyEventsPage {
   },]
 
   public userInfo;
+  public proposedEvents;
   public url = ENV.BASE_URL;
   public months: String[];
 
@@ -72,7 +73,14 @@ export class MyEventsPage {
 		.subscribe(response => {
       console.log("this : ", response.User[0].eventsParticipated),
 			this.userInfo = response.User[0].eventsParticipated
-		  });
+      });
+      
+    this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
+    .subscribe(response => {
+      this.proposedEvents = response.Events,
+      console.log("this 1113232: ", response.Events[0])
+      });
+
       this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
   }
 

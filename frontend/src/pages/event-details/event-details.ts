@@ -47,7 +47,15 @@ export class EventDetailsPage {
   quotes: any;
 
 
-  constructor(public actionSheetCtrl: ActionSheetController, private http: Http, private socialSharing: SocialSharing, private toastController: ToastController, public eventProvider: EventProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public actionSheetCtrl: ActionSheetController, 
+    private http: Http, 
+    private socialSharing: SocialSharing, 
+    private toastController: ToastController, 
+    public eventProvider: EventProvider, 
+    public navCtrl: NavController, 
+    public navParams: NavParams) {
+      
     this.eventDetails = navParams.get('data');
     this.tabParams = {
       userId: this.navParams.get("userId"),

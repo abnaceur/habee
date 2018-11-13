@@ -100,7 +100,6 @@ export class EventProvider {
 
   addEventByCommunity(event, userInfo, uploadedImage) {
 
-    //data.append('eventPhoto',  currentImage, currentImage.name);
     console.log("uploadedImage :", uploadedImage)
 
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
@@ -122,6 +121,17 @@ export class EventProvider {
       },
       { headers: header })
       .map(response => response.json());
+  }
+
+
+
+  getAllProposedEvevnstByUser(userInfo) {
+    console.log("getAllProposedEvevnstByUser : ", userInfo);
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.get(ENV.BASE_URL + '/events/user/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
+    { headers: header })
+    .map(response => response.json());
   }
 }
 

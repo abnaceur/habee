@@ -3,7 +3,8 @@ import {
   Platform,
   ActionSheetController,
   LoadingController,
-  IonicPage, NavController, NavParams
+  IonicPage, NavController, NavParams,
+  ToastController
 } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
@@ -43,6 +44,7 @@ export class ProposeEventPage {
     public platform: Platform,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
+    private toastController: ToastController, 
     public navParams: NavParams) {
 
     this.tabParams = {
@@ -129,16 +131,45 @@ export class ProposeEventPage {
   }
 
   onSubmit(value) {
-    console.log("Vlue is  : ", this.chosenPicture );
+    let uploadSucessToast = this.toastController.create({
+      message: "Event cree avec succes !",
+      duration: 2000,
+      position: 'top',
+      cssClass: "uploadSucessClass"
+    });
     
+    let uploadFailedToast = this.toastController.create({
+      message: "Une erreur est apparus !",
+      duration: 2000,
+      position: 'top',
+      cssClass: "uploadFailedClass"
+    });
+
+    if (this.chosenPicture) {
     this.eventProvider.uploadPhoto(this.chosenPicture)
     .then(data => {
       console.log("Returned Data : ", data)
       this.eventProvider.addEventByCommunity(value, this.tabParams, data)
       .subscribe(response => {
         console.log("this 111 : ", response)
+        if (response.results == true) {
+          uploadSucessToast.present();
+        } else {
+          uploadFailedToast.present();
+        }
         });
     })
+    } else {
+      this.eventProvider.addEventByCommunity(value, this.tabParams, this.chosenPicture)
+      .subscribe(response => {
+        console.log("this 111 : ", response)
+        if (response.results == true) {
+          uploadSucessToast.present();
+        } else {
+          uploadFailedToast.present();
+        }
+        });
+    }
     
   }
 }

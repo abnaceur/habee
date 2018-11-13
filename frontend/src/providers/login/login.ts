@@ -40,5 +40,4 @@ export class LoginProvider {
       { headers: header })
       .map(response => response.json());
   }
-
 }
