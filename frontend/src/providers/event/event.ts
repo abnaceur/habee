@@ -74,7 +74,6 @@ export class EventProvider {
 
     var random = Math.floor(Math.random() * 100);
 
-
     let options: FileUploadOptions = {
       fileKey: "file",
       fileName: 'eventImage' + random + '.jpg',
@@ -123,8 +122,6 @@ export class EventProvider {
       .map(response => response.json());
   }
 
-
-
   getAllProposedEvevnstByUser(userInfo) {
     console.log("getAllProposedEvevnstByUser : ", userInfo);
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
@@ -134,4 +131,3 @@ export class EventProvider {
     .map(response => response.json());
   }
 }
-
