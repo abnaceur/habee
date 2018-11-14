@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -20,9 +20,23 @@ export class MyApp {
   state: any;
   placeholder = 'assets/img/avatar/girl-avatar.png';
   chosenPicture: any;
+  userData: any;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public events: Events,
+    public platform: Platform, 
+    public statusBar: StatusBar, 
+    public splashScreen: SplashScreen) 
+    
+    {
     this.initializeApp();
+    events.subscribe('user:info', (userData) => {
+      this.userData = userData;
+      // user and time are the same arguments passed in `events.publish(user, time)`
+      console.log('Welcome user data : ', userData);
+    });
+
+
     this.rightMenuItems = [
       { icon: 'home', active: true },
       { icon: 'alarm', active: false },
@@ -38,7 +52,7 @@ export class MyApp {
 
     this.pages = [
       { title: 'Acceuil', component: 'TabsPage', active: true, icon: 'home' },
-      { title: 'Profile', component: 'ProfileListPage', active: false, icon: 'contact' },
+      { title: 'Profile', component: 'ProfilePage', active: false, icon: 'contact' },
       { title: 'Deconnexion', component: 'LoginPage', active: false, icon: 'log-out' },
     ];
 
@@ -56,6 +70,7 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    console.log("test this app :",  this.userData)
+    this.nav.setRoot(page.component,  this.userData);
   }
 }

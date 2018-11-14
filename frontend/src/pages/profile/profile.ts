@@ -28,7 +28,7 @@ export class ProfilePage {
       likes: 12,
       comments: 4,
       timestamp: '11h ago'
-    },
+    },  
     {
       postImageUrl: 'assets/img/background/background-3.jpg',
       text: 'Do not go where the path may lead, go instead where there is no path and leave a trail.',
@@ -57,8 +57,16 @@ export class ProfilePage {
     tweets: 35
   };
 
-  constructor(public profileProvider: ProfileProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
-    this.tabParams = {
+  constructor(
+    public profileProvider: ProfileProvider, 
+    public http: Http, 
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public nav: NavController
+  ) 
+    {
+    
+      this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get('activeCommunity')

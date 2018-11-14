@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Http } from '@angular/http';
 import "rxjs/add/operator/map";
@@ -14,13 +14,15 @@ export class LoginPage {
   authForm: FormGroup;
 
   constructor(
+    public events: Events,
     private toastController: ToastController, 
     public loginProvider: LoginProvider, 
     public http: Http, 
     public nav: NavController, 
     public navCtrl: NavController, 
     public navParams: NavParams, 
-    public formBuilder: FormBuilder) 
+    public formBuilder: FormBuilder)
+
     {
       this.nav = nav;
       this.authForm = formBuilder.group({
@@ -42,6 +44,7 @@ export class LoginPage {
               console.log("Repsonse this 134 : ", response)
               });
           } else {
+            this.events.publish('user:info', response);
             this.nav.push("TabsPage", response);
           }
         } else {

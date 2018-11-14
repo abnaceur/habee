@@ -44,4 +44,22 @@
       color: #777;
     }
   }
-
+  #menu-avatar {
+    .user-avatar {
+      padding: .5em;
+    }
+    h3,
+    .label {
+      color: white;
+      font-weight: bold;
+    }
+    .item {
+      background: transparent;
+    }
+    ion-content {
+      background: linear-gradient(48deg, rgba(157, 72, 173, 0.8) 0%, rgba(157, 72, 173, 0.86) 28%, rgba(0, 168, 168, 0.98) 93%, rgba(0, 168, 168, 1) 100%);
+    }
+    .menu-inner {
+      background: rgba(255, 255, 255, .3);
+    }
+  }
