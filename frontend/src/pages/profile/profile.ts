@@ -18,6 +18,19 @@ export class ProfilePage {
   public subPassions;
   public url = ENV.BASE_URL;
 
+  following = false;
+ public user = {
+  name: '',
+  profileImage: 'assets/img/avatar/girl-avatar.png',
+  coverImage: 'assets/img/background/background-5.jpg',
+  occupation: 'Designer',
+  location: 'Seattle, WA',
+  description: 'A wise man once said: The more you do something, the better you will become at it.',
+  coeur: 456,
+  proposed: 1052,
+  participated: 35
+};
+
   posts = [
     {
       postImageUrl: 'assets/img/background/background-2.jpg',
@@ -28,7 +41,7 @@ export class ProfilePage {
       likes: 12,
       comments: 4,
       timestamp: '11h ago'
-    },  
+    },
     {
       postImageUrl: 'assets/img/background/background-3.jpg',
       text: 'Do not go where the path may lead, go instead where there is no path and leave a trail.',
@@ -48,14 +61,6 @@ export class ProfilePage {
     },
   ];
 
-  user = {
-    name: 'Cosima Niehaus',
-    twitter: '@CheekyEvoDevo',
-    profileImage: '../assets/img/avatar/cosima-avatar.jpg',
-    followers: 456,
-    following: 1052,
-    tweets: 35
-  };
 
   constructor(
     public profileProvider: ProfileProvider, 
@@ -65,45 +70,46 @@ export class ProfilePage {
     public nav: NavController
   ) 
     {
-    
+     
       this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get('activeCommunity')
     };
+
+    
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     console.log('ionViewDidLoad ProfilePage');
     this.profileProvider.getUserProfileByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
       .subscribe(response => {
+        this.user.name = response.Users[0].profile[0].profileUsername,
+        this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto,
+        this.user.proposed = response.Users[0].eventCreated,
+        
+        this.user.participated = response.Users[0].nbrEventsParticipated,
         this.userName = response.Users[0].profile[0].profileUsername
       });
 
-    this.profileProvider.getUserPassionsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
-      .subscribe(response => {
-      this.profileProvider.getUserSubPassionsByCommunityId(response, this.tabParams.token,this.tabParams.userId, this.tabParams.activeCommunity)
-      .then(data => this.subPassions = data);
-    });
+   // this.profileProvider.getUserPassionsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+    //  .subscribe(response => {
+    //  this.profileProvider.getUserSubPassionsByCommunityId(response, this.tabParams.token,this.tabParams.userId, this.tabParams.activeCommunity)
+    //  .then(data => this.subPassions = data);
+    //});
+  }
+
+  follow() {
+    this.following = !this.following;
   }
 
   imageTapped(post) {
-    this.toastCtrl.create('Post image clicked');
   }
 
   comment(post) {
-    this.toastCtrl.create('Comments clicked');
   }
 
   like(post) {
-    this.toastCtrl.create('Like clicked');
   }
 
-  goToPassion() {
-    this.nav.push("PassionPage");
-  }
-
-  ChangePicture() {
-
-  }
 }

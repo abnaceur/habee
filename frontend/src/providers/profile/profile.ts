@@ -43,8 +43,8 @@ export class ProfileProvider {
     let UserPassions = [];
     UserPassions = this.userPassionsList['passions'];
 
-    let nbUserPassions = UserPassions.length;
-
+//    let nbUserPassions = UserPassions.length;
+    let nbUserPassions = 0;
 
     let i = 0;
 

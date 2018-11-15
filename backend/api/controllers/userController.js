@@ -53,31 +53,31 @@ exports.updateUserByfirstConnection = (req, res, next) => {
     let userId = req.params.userId;
     console.log("userId ", userId);
     User.find({
-          userId: userId
-    })
-    .exec()
-    .then(usr => {
-        console.log("User : ", usr)
-        req.body.firstConnection = usr[0].firstConnection + 1;
-        console.log("Req body",  req.body);
-        User.findByIdAndUpdate(usr[0]._id,
-            req.body, {
-                new: false,
-            },
-            function (err, results) {
-                if (err) return res.status(500).json(err);
-                res.status(200).json({
-                    results: true
-                })
-            });
-    })
-    .catch(err => {
-        res.status(500).json({
-            results: false,
-            Error: err
+            userId: userId
         })
-    })
-}   
+        .exec()
+        .then(usr => {
+            console.log("User : ", usr)
+            req.body.firstConnection = usr[0].firstConnection + 1;
+            console.log("Req body", req.body);
+            User.findByIdAndUpdate(usr[0]._id,
+                req.body, {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                    res.status(200).json({
+                        results: true
+                    })
+                });
+        })
+        .catch(err => {
+            res.status(500).json({
+                results: false,
+                Error: err
+            })
+        })
+}
 
 exports.getAllusersByCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
@@ -532,9 +532,55 @@ exports.get_userId_communityId = (req, res, next) => {
                         }
                     }
                 );
-                res.status(200).json({
-                    Users: usrs
-                });
+                if (usrs[0].eventsParticipated.length != 0) {
+                    Event.find({
+                            eventCommunity: usrs[0].eventsParticipated[0].eventCommunity,
+                            eventIsDeleted: false,
+                        }).exec()
+                        .then(event => {
+                            let allUserEvents = [];
+                            let i = 0;
+                            let z = 0;
+
+                            while (i < usrs[0].eventsParticipated.length) {
+                                while (z < event.length) {
+                                    if (usrs[0].eventsParticipated[i].eventId == event[z].eventId) {
+                                        allUserEvents.push(event[z]);
+                                    }
+                                    z++;
+                                }
+                                z = 0;
+                                i++;
+                            }
+                            console.log("test : ", allUserEvents)
+                            usrs[0].eventsParticipated = allUserEvents;
+
+                            Event.find({
+                                eventId: id,
+                                eventIsDeleted: false,
+                            }).exec()
+                            .then(event => {
+                                res.status(200).json({
+                                    Users: usrs.map(usr => {
+                                        return {
+                                            eventCreated: event.length,
+                                            userId: usr.userId,
+                                            profile: usr.profile,
+                                            profileRole: usr.profile[0].profileIsAdmin,
+                                            nbrEventsParticipated: usr.eventsParticipated.length,
+                                            profileIsActive: usr.profile[0].profileUserIsActive,
+                                            profileRole: usr.profile[0].profileIsAdmin,
+                                        }
+                                    })
+                                });
+                            })
+                            
+                        })
+                } else {
+                    res.status(200).json({
+                        User: usr
+                    });
+                }
             }
         })
         .catch(err => {
