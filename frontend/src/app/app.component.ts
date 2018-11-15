@@ -52,7 +52,7 @@ export class MyApp {
 
     this.pages = [
       { title: 'Acceuil', component: 'TabsPage', active: true, icon: 'home' },
-      { title: 'Profile', component: 'ProfilePage', active: false, icon: 'contact' },
+      { title: 'Profile', component: 'TabsPage', active: false, icon: 'contact' },
       { title: 'Deconnexion', component: 'LoginPage', active: false, icon: 'log-out' },
     ];
 
@@ -71,6 +71,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     console.log("test this app :",  this.userData)
-    this.nav.setRoot(page.component,  this.userData);
+    let menuData = [page.title, this.userData]
+    this.nav.setRoot(page.component,  menuData);
   }
 }
