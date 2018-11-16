@@ -2,7 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { environment as ENV } from '../environments/environment';
+import { ProfileProvider } from '../providers/profile/profile';
 import { EventsPage } from '../pages/events/events';
 import { TabsPage } from '../pages/tabs/tabs';
 import { HabeeWalkthroughPage } from '../pages/habee-walkthrough/habee-walkthrough';
@@ -21,8 +22,14 @@ export class MyApp {
   placeholder = 'assets/img/avatar/girl-avatar.png';
   chosenPicture: any;
   userData: any;
+  public user = {
+    name: 'test',
+    profileImage: 'assets/img/avatar/girl-avatar.png'
+  };
+  public url = ENV.BASE_URL;
 
   constructor(
+    public profileProvider: ProfileProvider,
     public events: Events,
     public platform: Platform, 
     public statusBar: StatusBar, 
@@ -34,6 +41,11 @@ export class MyApp {
       this.userData = userData;
       // user and time are the same arguments passed in `events.publish(user, time)`
       console.log('Welcome user data : ', userData);
+      this.profileProvider.getUserProfileByCommunityId(this.userData.token, this.userData.userId, this.userData.activeCommunity)
+      .subscribe(response => {
+        this.user.name = response.Users[0].profile[0].profileUsername,
+        this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto
+    });
     });
 
 

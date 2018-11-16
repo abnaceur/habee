@@ -556,7 +556,7 @@ exports.get_userId_communityId = (req, res, next) => {
                             usrs[0].eventsParticipated = allUserEvents;
 
                             Event.find({
-                                eventId: id,
+                                eventCreator: id,
                                 eventIsDeleted: false,
                             }).exec()
                             .then(event => {
