@@ -511,7 +511,6 @@ exports.get_userId_communityId = (req, res, next) => {
 
     User.find({
             userId: id,
-
         })
         .exec()
         .then(usrs => {
@@ -578,7 +577,17 @@ exports.get_userId_communityId = (req, res, next) => {
                         })
                 } else {
                     res.status(200).json({
-                        User: usr
+                        Users: usrs.map(usr => {
+                            return {
+                                eventCreated: 0,
+                                userId: usr.userId,
+                                profile: usr.profile,
+                                profileRole: usr.profile[0].profileIsAdmin,
+                                nbrEventsParticipated: usr.eventsParticipated.length,
+                                profileIsActive: usr.profile[0].profileUserIsActive,
+                                profileRole: usr.profile[0].profileIsAdmin,
+                            }
+                        })
                     });
                 }
             }

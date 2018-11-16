@@ -38,11 +38,12 @@ export class LoginPage {
         if (response.code == "200") {
           console.log('response : ', response);
           if (response.firstConnection == 0) {
-            this.nav.push("HabeeWalkthroughPage", response);
+            this.events.publish('user:info', response);
             this.loginProvider.updateUserNbrConnection(response.token, response.userId)
             .subscribe(response => {
               console.log("Repsonse this 134 : ", response)
               });
+            this.nav.push("HabeeWalkthroughPage", response);
           } else {
             this.events.publish('user:info', response);
             this.nav.push("TabsPage", response);
