@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import {
   Platform,
   ActionSheetController,
@@ -6,11 +7,26 @@ import {
   IonicPage, NavController, NavParams,
   ToastController
 } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
-import { CameraProvider } from '../../providers/camera/camera';
-import { EventProvider } from '../../providers/event/event';
-import { environment as ENV } from '../../environments/environment';
+
+import { 
+  FormBuilder, 
+  FormGroup, 
+  Validators, 
+  AbstractControl 
+} from '@angular/forms';
+
+import { 
+  CameraProvider 
+} from '../../providers/camera/camera';
+
+import { 
+  EventProvider 
+} from '../../providers/event/event';
+
+import { 
+  environment as ENV 
+} from '../../environments/environment';
 
 
 /**

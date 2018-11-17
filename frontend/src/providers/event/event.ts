@@ -130,4 +130,29 @@ export class EventProvider {
     { headers: header })
     .map(response => response.json());
   }
+
+  editEvent(event, uploadedImage, userInfo) {
+    console.log("Event to be edited ", event, uploadedImage);
+    console.log("UserInfo : ", userInfo);
+
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.put(ENV.BASE_URL + "/events/edit/" + event.eventId + '/community/' + userInfo.activeCommunity,
+      {
+        "eventId": event.eventId,
+        "eventCommunity": userInfo.activeCommunity,
+        "eventCreator": userInfo.userId,
+        "eventName": event.eventTitle,
+        "eventStartDate": event.eventStartDate,
+        "eventEndDate": event.eventEndDate,
+        "eventStartHour": event.eventStartHour,
+        "eventEndHour": event.eventEndHour,
+        "eventDescription": event.eventDescription,
+        "eventLocation": event.eventLocation,
+        "nbrParticipants": event.eventNbrParticipants,
+        "eventPhoto": uploadedImage,
+      },
+      { headers: header })
+      .map(response => response.json());
+  }
 }

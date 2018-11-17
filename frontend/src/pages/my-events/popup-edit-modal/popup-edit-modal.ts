@@ -3,11 +3,26 @@ import {
 } from '@angular/core';
 
 import {
+  Platform,
+  ActionSheetController,
+  LoadingController,
+  ToastController,
   IonicPage,
   NavController,
   NavParams,
   ViewController
 } from 'ionic-angular';
+
+
+import { 
+  CameraProvider 
+} from '../../../providers/camera/camera';
+
+import { 
+  EventProvider 
+} from '../../../providers/event/event';
+
+
 import {
   environment as ENV
 } from '../../../environments/environment';
@@ -31,22 +46,27 @@ import {
   templateUrl: 'popup-edit-modal.html',
 })
 export class PopupEditModalPage {
-  proposeEventForm: FormGroup;
+  editEventForm: FormGroup;
   public eventDetails;
   public tabParams;
   public chosenPicture;
   public url = ENV.BASE_URL;
 
   constructor(
+    public eventProvider: EventProvider,
+    public actionsheetCtrl: ActionSheetController,
+    public cameraProvider: CameraProvider,
+    public platform: Platform,
+    public loadingCtrl: LoadingController,
     public navCtrl: NavController,
+    private toastController: ToastController, 
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     private _FB: FormBuilder,
     public viewCtrl: ViewController
 
   ) {
-
-    this.proposeEventForm = formBuilder.group({
+    this.editEventForm = formBuilder.group({
       eventTitle: ['', Validators.compose([Validators.required])],
       eventLocation: ['', Validators.compose([Validators.required])],
       eventNbrParticipants: ['', Validators.compose([Validators.required])],
@@ -56,18 +76,25 @@ export class PopupEditModalPage {
       eventStartHour: ['', Validators.compose([Validators.required])],
       eventEndHour: ['', Validators.compose([Validators.required])],
     });
-    this.tabParams = this.navParams.data
+
+    console.log("Nav info : ", this.navParams.data);
+    this.tabParams = this.navParams.data.event
 
   }
 
   ionViewWillEnter() {
-    this.chosenPicture = this.url + "/" + this.tabParams.eventPhoto;
+    this.chosenPicture = this.tabParams.eventPhoto;
 
-      this.proposeEventForm = this._FB.group({
+      this.editEventForm = this._FB.group({
+        "eventId": [this.tabParams.eventId],
         "eventTitle": [this.tabParams.eventName],
         "eventLocation": [this.tabParams.eventLocation],
         "eventNbrParticipants": [this.tabParams.nbrParticipants],
         "eventDescription": [this.tabParams.eventDescription],
+        "eventStartDate": [this.tabParams.eventStartDate],
+        "eventEndDate": [this.tabParams.eventStartDate],
+        "eventStartHour": [this.tabParams.eventStartHour],
+        "eventEndHour": [this.tabParams.eventEndHour],
       })
     
       console.log('ionViewDidLoad PopupEditModalPage', this.tabParams.eventName);
@@ -77,5 +104,89 @@ export class PopupEditModalPage {
   dismiss() {
     this.viewCtrl.dismiss();
   }
+
+  changePicture() {
+
+    const actionsheet = this.actionsheetCtrl.create({
+      title: 'upload picture',
+      buttons: [
+        {
+          text: 'camera',
+          icon: !this.platform.is('ios') ? 'camera' : null,
+          handler: () => {
+            this.takePicture();
+          }
+        },
+        {
+          text: !this.platform.is('ios') ? 'gallery' : 'camera roll',
+          icon: !this.platform.is('ios') ? 'image' : null,
+          handler: () => {
+            this.getPicture();
+          }
+        },
+        {
+          text: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          role: 'destructive',
+          handler: () => {
+            console.log('the user has cancelled the interaction.');
+          }
+        }
+      ]
+    });
+    return actionsheet.present();
+  }
+
+  takePicture() {
+    const loading = this.loadingCtrl.create();
+
+    loading.present();
+    return this.cameraProvider.getPictureFromCamera().then(picture => {
+      if (picture) {
+        this.chosenPicture = picture;
+      }
+      loading.dismiss();
+    }, error => {
+      alert(error);
+    });
+  }
+
+  getPicture() {
+    const loading = this.loadingCtrl.create();
+
+    loading.present();
+    return this.cameraProvider.getPictureFromPhotoLibrary().then(picture => {
+      if (picture) {
+        this.chosenPicture = picture;
+      }
+      loading.dismiss();
+    }, error => {
+      alert(error);
+    });
+  }
+
+  onSubmit(event) {
+    let uploadSucessToast = this.toastController.create({
+      message: "Event modifier avec succes !",
+      duration: 2000,
+      position: 'top',
+      cssClass: "modifySucessClass"
+    });
+    
+    let uploadFailedToast = this.toastController.create({
+      message: "Une erreur est apparus !",
+      duration: 2000,
+      position: 'top',
+      cssClass: "modifyFailedClass"
+    });
+
+    console.log("Value sbmited : ", event);
+    this.eventProvider.editEvent(event, this.chosenPicture,  this.navParams.data.userInfo)
+    .subscribe(response => {
+      console.log("this 555 : ", response)
+    
+      });
+  }
+
 
 }

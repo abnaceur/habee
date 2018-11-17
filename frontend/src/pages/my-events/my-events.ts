@@ -1,21 +1,21 @@
-import { 
-  Component 
+import {
+  Component
 } from '@angular/core';
 
-import { 
-  IonicPage, 
-  NavController, 
-  NavParams, 
-  ToastController, 
-  ModalController 
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ToastController,
+  ModalController
 } from 'ionic-angular';
 
-import { 
-  EventProvider 
+import {
+  EventProvider
 } from '../../providers/event/event';
 
-import { 
-  environment as ENV 
+import {
+  environment as ENV
 } from '../../environments/environment';
 
 
@@ -60,7 +60,7 @@ export class MyEventsPage {
     },
   ]
 
-  eventPropose = [ {
+  eventPropose = [{
     name: 'Evenement proposer'
   },]
 
@@ -73,82 +73,82 @@ export class MyEventsPage {
   expanded: any;
   contracted: any;
   showIcon = true;
-  preload  = true;
+  preload = true;
 
   constructor(
-    public nav: NavController, 
+    public nav: NavController,
     public modalCtrl: ModalController,
-    private toastController: ToastController, 
-    public eventProvider: EventProvider, 
-    public navCtrl: NavController, 
+    private toastController: ToastController,
+    public eventProvider: EventProvider,
+    public navCtrl: NavController,
     public navParams: NavParams) {
-    
-      this.tabParams = {
-		  userId: this.navParams.get("userId"),
-		  token: this.navParams.get("token"),
-		  activeCommunity: this.navParams.get('activeCommunity')	
-		};
+
+    this.tabParams = {
+      userId: this.navParams.get("userId"),
+      token: this.navParams.get("token"),
+      activeCommunity: this.navParams.get('activeCommunity')
+    };
   }
 
   ionViewWillEnter() {
     this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
-		.subscribe(response => {
-      console.log("this : ", response.User[0].eventsParticipated),
-			this.userInfo = response.User[0].eventsParticipated
-      });
-      
-    this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
-    .subscribe(response => {
-      this.proposedEvents = response.Events,
-      console.log("this 1113232: ", response.Events[0])
+      .subscribe(response => {
+        console.log("this : ", response.User[0].eventsParticipated),
+          this.userInfo = response.User[0].eventsParticipated
       });
 
-      this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
+    this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
+      .subscribe(response => {
+        this.proposedEvents = response.Events,
+          console.log("this 1113232: ", response.Events[0])
+      });
+
+    this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
   }
 
 
-  
+
   unsubscrib(eventId) {
     this.eventProvider.getEventSubscription(eventId, this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
-    .subscribe(response => {
-      if (response.Subscribe == true) {
-        let subscribedToast = this.toastController.create({
-          message: "Inscription reussie !",
-          duration: 2000,
-          position: 'top',
-          cssClass: "subscribedClass"
-        });
-        // TODO ADD WHEN SUBSCRIBED
-        this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
-		.subscribe(response => {
-			this.userInfo = response.User[0].eventsParticipated
-		  });
-        subscribedToast.present();
-      } else if (response.Subscribe == false) {
-        let subscribedToast = this.toastController.create({
-          message: "Desinscription reussie !",
-          duration: 2000,
-          position: 'top',
-          cssClass: "subscribedClass"
-        });
-        this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
-		.subscribe(response => {
-			this.userInfo = response.User[0].eventsParticipated
-		  });
-        subscribedToast.present();
-      }
-    });
+      .subscribe(response => {
+        if (response.Subscribe == true) {
+          let subscribedToast = this.toastController.create({
+            message: "Inscription reussie !",
+            duration: 2000,
+            position: 'top',
+            cssClass: "subscribedClass"
+          });
+          // TODO ADD WHEN SUBSCRIBED
+          this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+            .subscribe(response => {
+              this.userInfo = response.User[0].eventsParticipated
+            });
+          subscribedToast.present();
+        } else if (response.Subscribe == false) {
+          let subscribedToast = this.toastController.create({
+            message: "Desinscription reussie !",
+            duration: 2000, 
+            position: 'top',
+            cssClass: "subscribedClass"
+          });
+          this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+            .subscribe(response => {
+              this.userInfo = response.User[0].eventsParticipated
+            });
+          subscribedToast.present();
+        }
+      });
   }
 
 
   viewEventDetails(eventDetails) {
     eventDetails.nbrSubscribedParticipants = eventDetails.participants.length,
-    this.nav.push("EventDetailsPage", {
-			data: eventDetails,
-			userId: this.tabParams.userId,
-			token: this.tabParams.token,
-			activeCommunity: this.tabParams.activeCommunity
-		  });
+      this.nav.push("EventDetailsPage", {
+        data: eventDetails,
+        userId: this.tabParams.userId,
+        token: this.tabParams.token,
+        activeCommunity: this.tabParams.activeCommunity
+      });
   }
 
   eventModify(event) {
@@ -159,14 +159,29 @@ export class MyEventsPage {
     this.expanded = true;
     this.contracted = !this.expanded;
     this.showIcon = false;
+
+    let navInfo = {
+      userInfo: this.tabParams,
+      event: event
+    }
     setTimeout(() => {
-      const modal = this.modalCtrl.create('PopupEditModalPage', event);
+      const modal = this.modalCtrl.create('PopupEditModalPage', navInfo);
       modal.onDidDismiss(data => {
+        this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+          .subscribe(response => {
+            console.log("this : ", response.User[0].eventsParticipated),
+              this.userInfo = response.User[0].eventsParticipated
+          });
+        this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
+          .subscribe(response => {
+            this.proposedEvents = response.Events,
+              console.log("this 1113232: ", response.Events[0])
+          }); 
         this.expanded = false;
         this.contracted = !this.expanded;
         setTimeout(() => this.showIcon = true, 330);
       });
       modal.present();
-    },         200);
+    }, 200);
   }
 }

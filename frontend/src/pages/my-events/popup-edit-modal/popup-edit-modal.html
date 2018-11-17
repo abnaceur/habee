@@ -10,7 +10,7 @@
 <ion-content fullscreen>
 
   <ion-list>
-    <form [formGroup]="proposeEventForm" (ngSubmit)="onSubmit(proposeEventForm.value)">
+    <form [formGroup]="editEventForm" (ngSubmit)="onSubmit(editEventForm.value)">
 
       <ion-label style="
       color: white;
@@ -32,7 +32,7 @@
         <ion-label>
           <ion-icon name="calendar" item-left></ion-icon>
         </ion-label>
-        <ion-datetime style="position: relative;left: -43px; color: black" name="eventStartDate" type="date"
+        <ion-datetime style="position: relative;left: -43px;" name="eventStartDate" type="date"
           placeholder="Date de debut" displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventStartDate"></ion-datetime>
       </ion-item>
 
@@ -83,7 +83,7 @@
       </ion-item>
 
       <ion-item>
-        <img class="avatarPicture" [src]="chosenPicture || placeholder" onerror="this.src='assets/img/avatar/girl-avatar.png'" />
+        <img class="avatarPicture" [src]="url + '/' + chosenPicture || placeholder" onerror="this.src='assets/img/avatar/girl-avatar.png'" />
       </ion-item>
 
       <ion-item>
