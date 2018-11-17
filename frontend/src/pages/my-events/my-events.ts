@@ -1,7 +1,22 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { EventProvider } from '../../providers/event/event';
-import { environment as ENV } from '../../environments/environment';
+import { 
+  Component 
+} from '@angular/core';
+
+import { 
+  IonicPage, 
+  NavController, 
+  NavParams, 
+  ToastController, 
+  ModalController 
+} from 'ionic-angular';
+
+import { 
+  EventProvider 
+} from '../../providers/event/event';
+
+import { 
+  environment as ENV 
+} from '../../environments/environment';
 
 
 /**
@@ -54,8 +69,15 @@ export class MyEventsPage {
   public url = ENV.BASE_URL;
   public months: String[];
 
+  // Moadal declaration 
+  expanded: any;
+  contracted: any;
+  showIcon = true;
+  preload  = true;
+
   constructor(
     public nav: NavController, 
+    public modalCtrl: ModalController,
     private toastController: ToastController, 
     public eventProvider: EventProvider, 
     public navCtrl: NavController, 
@@ -127,5 +149,24 @@ export class MyEventsPage {
 			token: this.tabParams.token,
 			activeCommunity: this.tabParams.activeCommunity
 		  });
+  }
+
+  eventModify(event) {
+    console.log("event to dlete  :", event);
+  }
+
+  expand(event) {
+    this.expanded = true;
+    this.contracted = !this.expanded;
+    this.showIcon = false;
+    setTimeout(() => {
+      const modal = this.modalCtrl.create('PopupEditModalPage', event);
+      modal.onDidDismiss(data => {
+        this.expanded = false;
+        this.contracted = !this.expanded;
+        setTimeout(() => this.showIcon = true, 330);
+      });
+      modal.present();
+    },         200);
   }
 }

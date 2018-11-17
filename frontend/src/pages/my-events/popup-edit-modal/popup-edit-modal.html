@@ -1,0 +1,98 @@
+<ion-header no-border>
+  <ion-navbar transparent>
+    <ion-buttons right>
+      <button ion-button (click)="dismiss(false)">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content fullscreen>
+
+  <ion-list>
+    <form [formGroup]="proposeEventForm" (ngSubmit)="onSubmit(proposeEventForm.value)">
+
+      <ion-label style="
+      color: white;
+    position: relative;
+    left: 20%;
+    margin-bottom: 10%;
+    margin-top: -20px;
+    font-size: 20px;
+    font-family: fantasy;">Modifier
+        cet evenement</ion-label>
+
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input style="color:silver" placeholder="Nom de l'evenement" formControlName="eventTitle" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="calendar" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px; color: black" name="eventStartDate" type="date"
+          placeholder="Date de debut" displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventStartDate"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="time" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px;" name="eventStartHour" type="time" placeholder="Heur de debut"
+          displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="calendar" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px;" name="eventEndDate" type="date" placeholder="Date de fin"
+          displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventEndDate"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <ion-icon name="time" item-left></ion-icon>
+        </ion-label>
+        <ion-datetime style="position: relative;left: -43px;" name="eventEndHour" type="time" placeholder="Heur de fin"
+          displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
+      </ion-item>
+
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input style="color:silver" placeholder="Location" formControlName="eventLocation" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input style="color:silver" placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="color: gray">
+          Uploader une photo &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon style="color: gray" (click)="changePicture()" name="camera"></ion-icon>
+          </ion-fab>
+        </ion-label>
+
+      </ion-item>
+
+      <ion-item>
+        <img class="avatarPicture" [src]="chosenPicture || placeholder" onerror="this.src='assets/img/avatar/girl-avatar.png'" />
+      </ion-item>
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-textarea style="color:silver" placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
+      </ion-item>
+
+      <button ion-button round style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px" type="submit">Modifier</button>
+    </form>
+  </ion-list>
+
+</ion-content>
