@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Event = require('../models/event');
+const utils = require('../services/utils');
 
 exports.login_user = (req, res, next) => {
     User.find({
@@ -125,6 +126,7 @@ exports.post_user = (req, res, next) => {
                     Message: "Email exists!"
                 })
             } else {
+                let pass = req.body.password;
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
                         return res.status(500).json({
@@ -169,9 +171,19 @@ exports.post_user = (req, res, next) => {
                         user
                             .save()
                             .then(result => {
+                                console.log("User this: ", result)
+                                let emailNew = result.credentials.email;
+                                
+                                let text = "Hello ! \n Vous avez recu une invitaion pour rejoindre la communitee [nom de la communitee] \
+                                \n voila vos logins : \n Email : " +  emailNew + "\n Mot de pass : " + pass + "\
+                                \n P.S : Ce mot de pass est genere autoatiquement, vouos devez change votre de pass depuis l'app HABEE \
+                                \n TEAM HABEE"
+                                
+
+                                utils.sendEmail("Habee TEAM", emailNew , "Bienvenu nouveau Habeebebois !", text);
                                 res.status(200).json({
-                                    message: "User added with success!",
-                                    Resulta: result
+                                    message: "User added with success!"
+                                   // Resulta: result
                                 })
                             })
                             .catch(err => {
@@ -555,25 +567,25 @@ exports.get_userId_communityId = (req, res, next) => {
                             usrs[0].eventsParticipated = allUserEvents;
 
                             Event.find({
-                                eventCreator: id,
-                                eventIsDeleted: false,
-                            }).exec()
-                            .then(event => {
-                                res.status(200).json({
-                                    Users: usrs.map(usr => {
-                                        return {
-                                            eventCreated: event.length,
-                                            userId: usr.userId,
-                                            profile: usr.profile,
-                                            profileRole: usr.profile[0].profileIsAdmin,
-                                            nbrEventsParticipated: usr.eventsParticipated.length,
-                                            profileIsActive: usr.profile[0].profileUserIsActive,
-                                            profileRole: usr.profile[0].profileIsAdmin,
-                                        }
-                                    })
-                                });
-                            })
-                            
+                                    eventCreator: id,
+                                    eventIsDeleted: false,
+                                }).exec()
+                                .then(event => {
+                                    res.status(200).json({
+                                        Users: usrs.map(usr => {
+                                            return {
+                                                eventCreated: event.length,
+                                                userId: usr.userId,
+                                                profile: usr.profile,
+                                                profileRole: usr.profile[0].profileIsAdmin,
+                                                nbrEventsParticipated: usr.eventsParticipated.length,
+                                                profileIsActive: usr.profile[0].profileUserIsActive,
+                                                profileRole: usr.profile[0].profileIsAdmin,
+                                            }
+                                        })
+                                    });
+                                })
+
                         })
                 } else {
                     res.status(200).json({
