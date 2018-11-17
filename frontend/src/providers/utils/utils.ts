@@ -1,7 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+
+import { 
+  Http, 
+  Headers 
+} from '@angular/http';
+
 import "rxjs/add/operator/map";
-import { environment as ENV } from '../../environments/environment';
+
+import { 
+  environment as ENV 
+} from '../../environments/environment';
+
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ToastController,
+  ModalController
+} from 'ionic-angular';
+
 
 
 /*
@@ -13,7 +30,10 @@ import { environment as ENV } from '../../environments/environment';
 @Injectable()
 export class UtilsProvider {
 
-  constructor(public http: Http) {
+  constructor(
+    public http: Http,
+    private toastController: ToastController,
+  ) {
     console.log('Hello UtilsProvider Provider');
   }
 
@@ -41,4 +61,15 @@ export class UtilsProvider {
 
     return header;
   }
+
+  notification(msg, side) {
+      let subscribedToast = this.toastController.create({
+        message: msg,
+        duration: 2000, 
+        position: side,
+        cssClass: "subscribedClass"
+      });
+      subscribedToast.present()
+  }
+
 }

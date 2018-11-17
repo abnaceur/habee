@@ -298,7 +298,8 @@ exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
     .exec()
     .then(events => {
         if (events.length === 0) {
-            return res.status(404).json({
+            return res.status(200).json({
+                code : "404",
                 message: "There are no events!"
             })
         } else {
@@ -461,7 +462,9 @@ exports.deleteEventByCommunityId = (req, res, next) => {
                 },
                 function (err, results) {
                     if (err) return res.status(500).json(err);
-                    res.send(results);
+                    res.status(200).json({
+                        message: "success"
+                    })
                 });
         })
         .catch(err => {

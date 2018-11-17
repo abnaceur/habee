@@ -11,6 +11,10 @@ import {
 } from 'ionic-angular';
 
 import {
+  UtilsProvider
+} from '../../providers/utils/utils';
+
+import {
   EventProvider
 } from '../../providers/event/event';
 
@@ -81,7 +85,10 @@ export class MyEventsPage {
     private toastController: ToastController,
     public eventProvider: EventProvider,
     public navCtrl: NavController,
-    public navParams: NavParams) {
+    public utils: UtilsProvider,
+    public navParams: NavParams
+    
+  ) {
 
     this.tabParams = {
       userId: this.navParams.get("userId"),
@@ -99,8 +106,7 @@ export class MyEventsPage {
 
     this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
       .subscribe(response => {
-        this.proposedEvents = response.Events,
-          console.log("this 1113232: ", response.Events[0])
+        this.proposedEvents = response.Events
       });
 
     this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
@@ -125,17 +131,11 @@ export class MyEventsPage {
             });
           subscribedToast.present();
         } else if (response.Subscribe == false) {
-          let subscribedToast = this.toastController.create({
-            message: "Desinscription reussie !",
-            duration: 2000, 
-            position: 'top',
-            cssClass: "subscribedClass"
-          });
           this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
             .subscribe(response => {
               this.userInfo = response.User[0].eventsParticipated
             });
-          subscribedToast.present();
+            this.utils.notification("Desinscription reussie !", "top");
         }
       });
   }
@@ -151,8 +151,37 @@ export class MyEventsPage {
       });
   }
 
-  eventModify(event) {
-    console.log("event to dlete  :", event);
+  deleteEvent(event) {
+    console.log("this : ", event, event.nbrSubscribedParticipants, event.participants.length);
+    if (event.participants.length != 0) {
+      this.utils.notification("Vous ne pouvez pas suprimer cet event car il contien des participants !", "top")
+    } else {
+      this.eventProvider.deleteTheiEvent(event, this.tabParams)
+    .subscribe(response => {
+      if (response.message == "success") {
+        this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
+        .subscribe(response => {
+            console.log("this 1113232: ", response);
+            if (response.message == "There are no events!") {
+              this.proposedEvents = []
+            }
+        });
+        this.utils.notification("Event suprimer avec succes", "top");
+      } else {
+        this.utils.notification("Une erreur est survenu !", "top");
+      }
+      });
+    }
+
+    /**this.eventProvider.deleteTheiEvent(event, this.tabParams)
+    .subscribe(response => {
+      if (response.message == "success") {
+        this.utils.notification("Event suprimer avec succes", "top")
+      } else {
+        this.utils.notification("Une erreur est survenu !", "top");
+      }
+      }); */
+    
   }
 
   expand(event) {
@@ -176,7 +205,7 @@ export class MyEventsPage {
           .subscribe(response => {
             this.proposedEvents = response.Events,
               console.log("this 1113232: ", response.Events[0])
-          }); 
+          });
         this.expanded = false;
         this.contracted = !this.expanded;
         setTimeout(() => this.showIcon = true, 330);

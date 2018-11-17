@@ -1,11 +1,38 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { UtilsProvider } from '../../providers/utils/utils';
-import { environment as ENV } from '../../environments/environment';
-import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
-import { IonicPage, NavController, NavParams, LoadingController } from "ionic-angular";
+
+import { 
+  Injectable 
+} from '@angular/core';
+
+import { 
+  Http,
+   Headers 
+  } from '@angular/http';
+
+import { 
+  UtilsProvider 
+} from '../../providers/utils/utils';
+
+import { 
+  environment as ENV 
+} from '../../environments/environment';
+
+import { 
+  FileTransfer, 
+  FileTransferObject, 
+  FileUploadOptions 
+} from '@ionic-native/file-transfer';
+
+import { 
+  File 
+} from '@ionic-native/file';
+
+import { 
+  IonicPage, 
+  NavController, 
+  NavParams, 
+  LoadingController 
+} from "ionic-angular";
 
 /*
   Generated class for the EventProvider provider.
@@ -151,6 +178,30 @@ export class EventProvider {
         "eventLocation": event.eventLocation,
         "nbrParticipants": event.eventNbrParticipants,
         "eventPhoto": uploadedImage,
+      },
+      { headers: header })
+      .map(response => response.json());
+  }
+
+  deleteTheiEvent(event, userInfo) {
+    console.log("Event to be edited ", event, userInfo);
+
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.put(ENV.BASE_URL + "/events/edit/" + event.eventId + '/community/' + userInfo.activeCommunity,
+      {
+        "eventId": event.eventId,
+        "eventCommunity": userInfo.activeCommunity,
+        "eventCreator": userInfo.userId,
+        "eventName": event.eventTitle,
+        "eventStartDate": event.eventStartDate,
+        "eventEndDate": event.eventEndDate,
+        "eventStartHour": event.eventStartHour,
+        "eventEndHour": event.eventEndHour,
+        "eventDescription": event.eventDescription,
+        "eventLocation": event.eventLocation,
+        "nbrParticipants": event.eventNbrParticipants,
+        "eventIsDeleted": true,
       },
       { headers: header })
       .map(response => response.json());

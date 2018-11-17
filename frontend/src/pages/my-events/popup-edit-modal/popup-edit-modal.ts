@@ -33,6 +33,11 @@ import {
   Validators,
   AbstractControl
 } from '@angular/forms';
+
+import {
+  UtilsProvider
+} from '../../../providers/utils/utils';
+
 /**
  * Generated class for the PopupEditModalPage page.
  *
@@ -53,6 +58,7 @@ export class PopupEditModalPage {
   public url = ENV.BASE_URL;
 
   constructor(
+    public utils: UtilsProvider,
     public eventProvider: EventProvider,
     public actionsheetCtrl: ActionSheetController,
     public cameraProvider: CameraProvider,
@@ -184,7 +190,11 @@ export class PopupEditModalPage {
     this.eventProvider.editEvent(event, this.chosenPicture,  this.navParams.data.userInfo)
     .subscribe(response => {
       console.log("this 555 : ", response)
-    
+      if (response.message == "success") {
+        this.utils.notification("Event modifier avec succes", "top");
+      } else {
+        this.utils.notification("Une erreur est survenu !", "top");     
+      }
       });
   }
 
