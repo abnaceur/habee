@@ -1,9 +1,31 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, ActionSheetController } from 'ionic-angular';
-import { environment as ENV } from '../../environments/environment';
-import { EventProvider } from '../../providers/event/event';
-import { SocialSharing } from '@ionic-native/social-sharing';
-import { Http } from '@angular/http';
+import { 
+  Component 
+} from '@angular/core';
+
+import { 
+  IonicPage, 
+  NavController, 
+  NavParams, 
+  ToastController, 
+  ModalController,
+  ActionSheetController 
+} from 'ionic-angular';
+
+import { 
+  environment as ENV 
+} from '../../environments/environment';
+
+import { 
+  EventProvider 
+} from '../../providers/event/event';
+
+import { 
+  SocialSharing 
+} from '@ionic-native/social-sharing';
+
+import {
+   Http 
+  } from '@angular/http';
 
 
 
@@ -53,7 +75,8 @@ export class EventDetailsPage {
     private socialSharing: SocialSharing, 
     private toastController: ToastController, 
     public eventProvider: EventProvider, 
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
+    public modalCtrl: ModalController, 
     public navParams: NavParams) {
       
     this.eventDetails = navParams.get('data');
@@ -91,7 +114,6 @@ export class EventDetailsPage {
     }, 2000);
   }
 
-  
   compilemsg(index): string {
     var msg = this.quotes[index].content + "-" + this.quotes[index].title;
     return msg.concat(" \n sent from my awesome app");
@@ -195,6 +217,16 @@ export class EventDetailsPage {
           subscribedToast.present();
         }
       });
+  }
+
+  openUserDetailsModal(userDetails) {
+    console.log("User info :", userDetails);
+    let navInfo = {
+      userInfo: this.tabParams,
+      userDetails: userDetails
+    }
+    this.modalCtrl.create("PopupUserDetailModalPage", navInfo, { cssClass: 'inset-modal' })
+    .present();
   }
 
 }

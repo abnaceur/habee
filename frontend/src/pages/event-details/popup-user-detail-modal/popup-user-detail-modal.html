@@ -1,0 +1,31 @@
+<!--
+  Generated template for the PopupUserDetailModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content [style.background-color]="color" class="round">
+    <ion-slides  class="round-top">
+        <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + imageUrl +')'}">
+
+<ion-header no-border>
+    <ion-navbar transparent>
+      <ion-buttons right>
+        <button ion-button (click)="dismiss()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+        </div>
+        <div id="content">
+          <div id="profile-info">
+            <img id="profile-image" [src]='url + "/" + userProfileImage' >
+            <h3 id="profile-name">{{userFullname}}</h3>
+          </div>
+        </div>
+    </ion-slides>
+</ion-content>
+  
