@@ -90,6 +90,8 @@ export class EventDetailsPage {
       refresher.complete();
     }, 2000);
   }
+
+  
   compilemsg(index): string {
     var msg = this.quotes[index].content + "-" + this.quotes[index].title;
     return msg.concat(" \n sent from my awesome app");

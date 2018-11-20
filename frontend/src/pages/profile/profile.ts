@@ -84,6 +84,7 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.profileProvider.getUserProfileByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
       .subscribe(response => {
+        console.log("User  : ", response.Users[0], response.Users[0].eventCreated )
         this.user.name = response.Users[0].profile[0].profileUsername,
         this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto,
         this.user.proposed = response.Users[0].eventCreated,

@@ -515,7 +515,7 @@ exports.get_userId_communityId = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     let nbProfile = 0;
-
+    console.log("here ");
     Community.count().exec()
         .then(count => {
             nbProfile = count;
@@ -526,7 +526,7 @@ exports.get_userId_communityId = (req, res, next) => {
         })
         .exec()
         .then(usrs => {
-            console.log(usrs);
+           // console.log(usrs);
             if (usrs.length === 0) {
                 return res.status(404).json({
                     message: "User not found or id not valid!"
@@ -588,19 +588,25 @@ exports.get_userId_communityId = (req, res, next) => {
 
                         })
                 } else {
-                    res.status(200).json({
-                        Users: usrs.map(usr => {
-                            return {
-                                eventCreated: 0,
-                                userId: usr.userId,
-                                profile: usr.profile,
-                                profileRole: usr.profile[0].profileIsAdmin,
-                                nbrEventsParticipated: usr.eventsParticipated.length,
-                                profileIsActive: usr.profile[0].profileUserIsActive,
-                                profileRole: usr.profile[0].profileIsAdmin,
-                            }
-                        })
-                    });
+                    Event.find({
+                        eventCreator: id,
+                        eventIsDeleted: false,
+                    }).exec()
+                    .then(event => {
+                        res.status(200).json({
+                            Users: usrs.map(usr => {
+                                return {
+                                    eventCreated: event.length,
+                                    userId: usr.userId,
+                                    profile: usr.profile,
+                                    profileRole: usr.profile[0].profileIsAdmin,
+                                    nbrEventsParticipated: usr.eventsParticipated.length,
+                                    profileIsActive: usr.profile[0].profileUserIsActive,
+                                    profileRole: usr.profile[0].profileIsAdmin,
+                                }
+                            })
+                        });
+                    })
                 }
             }
         })

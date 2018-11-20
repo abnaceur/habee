@@ -54,39 +54,50 @@
 
   </ion-card>
 
-<ion-item>
+  <ion-item>
     <ion-row>
-        <ion-item>
-          <b>Participants : </b>
-        </ion-item>
-        <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
+      <ion-item>
+        <b>Participants : </b>
+      </ion-item>
+      <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
               min-height: 100px;">
-          <a *ngFor="let participant of eventDetails.participants">
-            <img *ngIf='participant != null' class="img-scroll" [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/avatar.png"'>
-          </a>
-        </ion-scroll>
-      </ion-row>
-    
-</ion-item>
+        <a *ngFor="let participant of eventDetails.participants">
+          <img *ngIf='participant != null' class="img-scroll" [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/avatar.png"'>
+        </a>
+      </ion-scroll>
+    </ion-row>
 
-<ion-row no-padding>
+  </ion-item>
+
+  <ion-row no-padding>
     <ion-col text-left>
-      <button *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" (click)='subscribeToEvent(eventDetails.eventId)' ion-button clear small color="danger" icon-start>
-        <ion-icon  name='people'></ion-icon>
-          <span >
-            {{isSubscribed}}
-          </span>
+      <button *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" (click)='subscribeToEvent(eventDetails.eventId)'
+        ion-button clear small color="danger" icon-start>
+        <ion-icon name='people'></ion-icon>
+        <span>
+          {{isSubscribed}}
+        </span>
 
       </button>
 
 
-      <button *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants"  ion-button clear small color="danger" icon-start>
-          <ion-icon  name='people'></ion-icon>
-            <span >
-                event full
-            </span>
+      <button *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'" (click)='subscribeToEvent(eventDetails.eventId)'
+        ion-button clear small color="danger" icon-start>
+        <ion-icon name='people'></ion-icon>
+        <span>
+            {{isSubscribed}}
+        </span>
 
-        </button>
+      </button>
+
+      <button *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed != 'Desinscrir'"
+        ion-button clear small color="danger" icon-start>
+        <ion-icon name='people'></ion-icon>
+        <span>
+          event full
+        </span>
+
+      </button>
     </ion-col>
     <ion-col text-center>
       <button (click)="presentActionSheet()" ion-button clear small color="danger" icon-start>
@@ -98,8 +109,7 @@
       <ion-note style="    top: 8px;
       margin-right: 23px;
       position: relative;
-      font-size: 15px;"
-        *ngIf="eventDetails.nbrSubscribedParticipants != eventDetails.nbrParticipants">
+      font-size: 15px;" *ngIf="eventDetails.nbrSubscribedParticipants != eventDetails.nbrParticipants">
         <b>{{eventDetails.nbrSubscribedParticipants}}/{{eventDetails.nbrParticipants}}</b>
       </ion-note>
 
@@ -111,6 +121,6 @@
       </ion-note>
     </ion-col>
   </ion-row>
-  
+
 
 </ion-content>
