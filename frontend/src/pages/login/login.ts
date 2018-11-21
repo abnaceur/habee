@@ -1,8 +1,28 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Http } from '@angular/http';
+import { 
+  Component 
+} from '@angular/core';
+
+import { 
+  IonicPage, 
+  NavController, 
+  NavParams, 
+  ToastController, 
+  Events 
+} from 'ionic-angular';
+
+import { 
+  FormBuilder, 
+  FormGroup, 
+  Validators, 
+  AbstractControl 
+} from '@angular/forms';
+
+import { 
+  Http 
+} from '@angular/http';
+
 import "rxjs/add/operator/map";
+
 import { LoginProvider } from '../../providers/login/login';
 
 @IonicPage()
@@ -36,7 +56,11 @@ export class LoginPage {
     this.loginProvider.loginUser(value.email, value.password)
       .subscribe(response => {
         if (response.code == "200") {
-          console.log('response : ', response);
+          console.log("asdas : ", response);
+          this.loginProvider.updateEventList(response)
+          .subscribe(rep => {
+            console.log("Repsonse this 134 : ", rep)
+            });
           if (response.firstConnection == 0) {
             this.events.publish('user:info', response);
             this.loginProvider.updateUserNbrConnection(response.token, response.userId)

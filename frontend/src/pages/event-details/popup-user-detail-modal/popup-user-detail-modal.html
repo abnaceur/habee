@@ -21,10 +21,16 @@
 
         </div>
         <div id="content">
-          <div id="profile-info">
+          <div id="profile-info" *ngIf="userProfileImage">
             <img id="profile-image" [src]='url + "/" + userProfileImage' >
             <h3 id="profile-name">{{userFullname}}</h3>
           </div>
+
+          <div id="profile-info" *ngIf="!userProfileImage">
+            <img id="profile-image" src='assets/img/profile/profile-cover.jpg'>
+            <h3 id="profile-name">{{userFullname}}</h3>
+          </div>
+
         </div>
     </ion-slides>
 </ion-content>

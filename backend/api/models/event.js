@@ -2,15 +2,15 @@ let mongoose = require('mongoose');
 
 // Event schema
 let eventSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    eventId: String,
+	_id: mongoose.Schema.Types.ObjectId,
+	eventId: String,
 	dateOfCreation: {
-        type: Date,
-        default: Date.now,
-    },
+		type: Date,
+		default: Date.now,
+	},
 	dateOfLastUpdate: {
-        type: Date,
-        default: Date.now,
+		type: Date,
+		default: Date.now,
 	},
 	eventPhoto: String,
 	eventCommunity: String,
@@ -30,10 +30,13 @@ let eventSchema = mongoose.Schema({
 		participantname: String,
 		participantPhoto: String,
 	}],
-	eventIsOver: Boolean,
+	eventIsOver: {
+		type: Boolean,
+		default: false,
+	},
 	eventIsDeleted: {
-        type: Boolean,
-        default: false,
+		type: Boolean,
+		default: false,
 	},
 });
 

@@ -94,6 +94,22 @@ timeline {
           &:last-child{
             visibility: hidden;
           }
+
+          ion-label {
+            timeline-time{
+              width: 20%;
+
+              position: relative;
+              padding: 0 0 20px 0;
+              left: 20px;
+              ion-label {
+                text-align: left;
+                position: relative;
+                left: 20%;
+              }
+            }
+          }
+
           .icon-calaendar{
             position: relative;
             float: right;
@@ -107,7 +123,7 @@ timeline {
             }
           }
           timeline-time{
-            width: 100%;
+            width: 150%;
             position: relative;
             padding: 0 0 20px 0;
             left: 20px;

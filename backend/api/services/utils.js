@@ -32,6 +32,30 @@ exports.popEventObject = (obj, itemId) => {
     return newObj;
 }
 
+exports.popEventObjectFromUser = (eventIsOver, eventParticiated) => {
+    let i = 0;
+    let j = 0;
+    let check = 0;
+
+    console.log("test")
+    let newObj = [];
+    while (i < eventParticiated.length) {
+        while (j < eventIsOver.length) {
+            if (eventParticiated[i].eventId === eventIsOver[j].eventId) 
+                check = 1;
+            j++;
+        }
+        j = 0;
+        if (check === 0) {
+            newObj.push(eventParticiated[i])
+        } else
+            check = 0;
+        i++;
+    }
+
+    return newObj;
+}
+
 exports.sendEmail= (from, to, subject, txt) => {
     var nodemailer = require('nodemailer');
 

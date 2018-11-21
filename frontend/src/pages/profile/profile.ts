@@ -86,7 +86,8 @@ export class ProfilePage {
       .subscribe(response => {
         console.log("User  : ", response.Users[0], response.Users[0].eventCreated )
         this.user.name = response.Users[0].profile[0].profileUsername,
-        this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto,
+        response.Users[0].profile[0].profilePhoto ? this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto
+        : this.user.profileImage,
         this.user.proposed = response.Users[0].eventCreated,
         
         this.user.participated = response.Users[0].nbrEventsParticipated,

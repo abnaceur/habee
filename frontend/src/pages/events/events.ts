@@ -77,6 +77,7 @@ export class EventsPage {
 	doRefresh(refresher) {
 		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
 		.subscribe(response => {
+			console.log("Refresh : ", response);
 			if (!response)
 				this.allEvents = []
 			else

@@ -80,47 +80,83 @@ exports.upload_mobile_photo = (req, res, next) => {
     }
 }
 
+
 exports.get_all_events_byCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
             eventCommunity: communityId,
+            eventIsOver: false,
             eventIsDeleted: false,
         })
         .exec()
-        .then(events => {
-            if (events.length === 0) {
-                return res.status(404).json({
+        .then(activeEvent => {
+            if (activeEvent.length === 0) {
+                return res.status(200).json({
                     message: "There are no events!"
                 })
             } else {
-                res.status(200).json({
-                    Count: events.length,
-                    Events: events.map(event => {
-                        return {
-                            _id: events._id,
-                            eventId: event.eventId,
-                            eventCommunity: event.eventCommunity,
-                            eventName: event.eventName,
-                            eventCreator: event.eventCreator,
-                            eventDescription: event.eventDescription,
-                            eventStartDate: event.eventStartDate,
-                            eventEndDate: event.eventEndDate,
-                            eventStartHour: event.eventStartHour,
-                            eventEndHour: event.eventEndHour,
-                            eventLocation: event.eventLocation,
-                            nbrParticipants: event.nbrParticipants,
-                            participants: event.participants,
-                            nbrSubscribedParticipants: event.participants.length,
-                            eventIsOver: event.eventIsOver,
-                            eventPhoto: event.eventPhoto,
-                            request: {
-                                Type: "[GET]",
-                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                            }
+                let currentDat = new Date;
+                activeEvent.map(event => {
+                    console.log("Is over : ", event, currentDat);
+                    if (event.eventStartDate < currentDat) {
+                        event.eventIsOver = true;
+                        Event.findByIdAndUpdate(event._id,
+                            event, {
+                                new: false,
+                            },
+                            function (err, results) {
+                                if (err) return res.status(500).json(err);
+                                console.log("EVENT IS OVER")
+                            });
+                    }
+                })
+                Event.find({
+                        eventCommunity: communityId,
+                        eventIsOver: false,
+                        eventIsDeleted: false,
+                    })
+                    .exec()
+                    .then(events => {
+                        if (events.length === 0) {
+                            return res.status(404).json({
+                                message: "There are no events!"
+                            })
+                        } else {
+                            res.status(200).json({
+                                Count: events.length,
+                                Events: events.map(event => {
+                                    return {
+                                        _id: events._id,
+                                        eventId: event.eventId,
+                                        eventCommunity: event.eventCommunity,
+                                        eventName: event.eventName,
+                                        eventCreator: event.eventCreator,
+                                        eventDescription: event.eventDescription,
+                                        eventStartDate: event.eventStartDate,
+                                        eventEndDate: event.eventEndDate,
+                                        eventStartHour: event.eventStartHour,
+                                        eventEndHour: event.eventEndHour,
+                                        eventLocation: event.eventLocation,
+                                        nbrParticipants: event.nbrParticipants,
+                                        participants: event.participants,
+                                        nbrSubscribedParticipants: event.participants.length,
+                                        eventIsOver: event.eventIsOver,
+                                        eventPhoto: event.eventPhoto,
+                                        request: {
+                                            Type: "[GET]",
+                                            Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
+                                        }
+                                    }
+                                })
+                            });
                         }
                     })
-                });
+                    .catch(err => {
+                        res.status(500).json({
+                            error: err
+                        })
+                    })
             }
         })
         .catch(err => {
@@ -134,12 +170,12 @@ exports.post_event = (req, res, next) => {
     console.log("Event photo : ", req.files);
     console.log("Event details : ", req.body);
     let imagePath;
-    
+
     if (req.body.eventPhoto != undefined)
         imagePath = req.body.eventPhoto;
-    else  if (req.files == undefined ) 
+    else if (req.files == undefined)
         imagePath = "uploads/defaultEventImage.jpeg"
-     else  if (req.files != undefined)  
+    else if (req.files != undefined)
         imagePath = req.files[0].path;
 
     const event = new Event({
@@ -181,7 +217,7 @@ exports.put_eventByUserId = (req, res, next) => {
     let eventId = req.params.eventId;
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-    console.log("Event Ud :", eventId);
+
     User.find({
             userId: userId,
             "profile.profileCummunityId": communityId
@@ -192,7 +228,6 @@ exports.put_eventByUserId = (req, res, next) => {
                     eventCommunity: communityId
                 }).exec()
                 .then(event => {
-                    console.log("count 111: ", event)
                     let i = 0;
                     let check = 0;
                     while (i < event[0].participants.length) {
@@ -230,7 +265,6 @@ exports.put_eventByUserId = (req, res, next) => {
                                     results: results,
                                 })
                             } else {
-                                console.log("User unsub :", event);
                                 utils.popObject(user[0].eventsParticipated, event[0].eventId);
                                 updateUserOnEventSubvscription(event, check, userId, communityId);
                                 res.status(200).json({
@@ -291,29 +325,30 @@ exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
     let eventCreator = req.params.userId;
 
     Event.find({
-        eventCommunity: communityId,
-        eventCreator: eventCreator,
-        eventIsDeleted: false,
-    })
-    .exec()
-    .then(events => {
-        if (events.length === 0) {
-            return res.status(200).json({
-                code : "404",
-                message: "There are no events!"
-            })
-        } else {
-            res.status(200).json({
-                Count: events.length,
-                Events: events
-            });
-        }
-    })
-    .catch(err => {
-        res.status(500).json({
-            error: err
+            eventCommunity: communityId,
+            eventCreator: eventCreator,
+            eventIsDeleted: false,
+            eventIsOver: false,
         })
-    })
+        .exec()
+        .then(events => {
+            if (events.length === 0) {
+                return res.status(200).json({
+                    code: "404",
+                    message: "There are no events!"
+                })
+            } else {
+                res.status(200).json({
+                    Count: events.length,
+                    Events: events
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
 
 }
 
@@ -378,6 +413,7 @@ exports.get_event_by_community = (req, res, next) => {
 };
 
 exports.get_event_by_communityId = (req, res, next) => {
+    console.log("sdas");
     const id = req.params.eventCommunity;
     Event.find({
             eventCommunity: id
@@ -558,6 +594,87 @@ exports.get_all_events_isOver = (req, res, next) => {
             })
         })
 };
+
+exports.put_all_events_isOver = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    // Update the users events list
+    User.find({
+            userId: userId,
+            "profile.profileCummunityId": communityId
+        }).exec()
+        .then(user => {
+            Event.find({
+                    eventIsOver: false,
+                    eventIsDeleted: false,
+                })
+                .exec()
+                .then(activeEvent => {
+                    console.log("Event : ", activeEvent)
+                    if (activeEvent.length === 0) {
+                        return res.status(200).json({
+                            code: "42",
+                            message: "There are no due events!"
+                        })
+                    } else {
+                        let i = 0;
+                        let listEventIsOver = [];
+                        let currentDat = new Date;
+                        activeEvent.map(event => {
+                            if (event.eventStartDate < currentDat) {
+                                event.eventIsOver = true;
+                                Event.findByIdAndUpdate(event._id,
+                                    event, {
+                                        new: false,
+                                    },
+                                    function (err, results) {
+                                        if (err) return res.status(500).json(err);
+                                        console.log("EVENT IS OVER")
+                                    });
+                                if (user[0].eventsParticipated.length > 0) {
+                                    while (i < user[0].eventsParticipated.length) {
+                                        if (user[0].eventsParticipated[i] != null && user[0].eventsParticipated[i].eventId == event.eventId) {
+                                            listEventIsOver.push(user[0].eventsParticipated[i]);
+                                        }
+                                        i++;
+                                    }
+                                }
+                                i = 0;
+                            }
+                        })
+                        console.log("Hey : ", listEventIsOver.length);
+                        if (listEventIsOver.length > 0) {
+                            let list = [];
+                            list = utils.popEventObjectFromUser(listEventIsOver, user[0].eventsParticipated);
+                            user[0].eventsParticipated = list
+                            User.findByIdAndUpdate(user[0]._id,
+                                user[0], {
+                                    new: false,
+                                },
+                                function (err, results) {
+                                    if (err) return res.status(500).json(err);
+                                    console.log("USER IS UPDATED")
+                                });
+                        res.send({
+                            "User updated  : " : list});
+                        } else {
+                            res.send({
+                                "User updated  : " : "User up to date"});    
+                        }
+                        console.log("Hey : 11 ", listEventIsOver);
+                    }
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        })
+
+
+}
+
 
 exports.get_all_events_isNotOver = (req, res, next) => {
     Event.find({

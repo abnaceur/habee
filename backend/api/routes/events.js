@@ -110,6 +110,13 @@ router.patch('/:eventId', authCkeck, upload.any(), eventController.patch_event);
 
 
 /*
+ ** API route [PUT] for /events/all/isOver
+ */
+
+router.put('/all/isover/:userId/:communityId', eventController.put_all_events_isOver);
+
+
+/*
  ** API route [GET] for /events/all/isOver
  */
 
@@ -128,7 +135,7 @@ router.get('/all/isnotover', authCkeck, eventController.get_all_events_isNotOver
  */
 
  // TODO THERE ARE A REPETITION
-router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_communityId);
+//router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_communityId);
 
 
 /*

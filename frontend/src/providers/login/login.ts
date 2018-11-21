@@ -40,4 +40,13 @@ export class LoginProvider {
       { headers: header })
       .map(response => response.json());
   }
+
+  updateEventList(info) {
+
+    const header = this.utils.inihttpHeaderWIthToken(info.token);
+
+    return this.http.put(ENV.BASE_URL + '/events/all/isOver/' + info.userId + '/' + info.activeCommunity,
+      { headers: header })
+      .map(response => response.json());
+  }
 }

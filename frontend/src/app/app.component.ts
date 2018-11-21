@@ -44,8 +44,10 @@ export class MyApp {
       this.profileProvider.getUserProfileByCommunityId(this.userData.token, this.userData.userId, this.userData.activeCommunity)
       .subscribe(response => {
         this.user.name = response.Users[0].profile[0].profileUsername,
+        response.Users[0].profile[0].profilePhoto ?
         this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto
-    });
+        : this.user.profileImage
+      });
     });
 
 

@@ -368,6 +368,7 @@ exports.get_user_by_id = (req, res, next) => {
                 if (usr[0].eventsParticipated.length != 0) {
                     Event.find({
                             eventCommunity: usr[0].eventsParticipated[0].eventCommunity,
+                            eventIsOver: false,
                             eventIsDeleted: false,
                         }).exec()
                         .then(event => {
@@ -387,6 +388,7 @@ exports.get_user_by_id = (req, res, next) => {
                             }
                             console.log("test : ", allUserEvents)
                             usr[0].eventsParticipated = allUserEvents;
+                            
                             res.status(200).json({
                                 User: usr
                             });
