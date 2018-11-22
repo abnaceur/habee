@@ -96,10 +96,11 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
                     message: "There are no events!"
                 })
             } else {
-                let currentDat = new Date;
+                let currentDate = new Date;
                 activeEvent.map(event => {
-                    console.log("Is over : ", event, currentDat);
-                    if (event.eventStartDate < currentDat) {
+                    let i  = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
+                    let currentMdate = new Date(i);
+                    if (event.eventEndDate <= currentMdate) {
                         event.eventIsOver = true;
                         Event.findByIdAndUpdate(event._id,
                             event, {
@@ -595,6 +596,8 @@ exports.get_all_events_isOver = (req, res, next) => {
         })
 };
 
+// TODO - events should be filtered by end date not start date.
+
 exports.put_all_events_isOver = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
@@ -643,7 +646,6 @@ exports.put_all_events_isOver = (req, res, next) => {
                                 i = 0;
                             }
                         })
-                        console.log("Hey : ", listEventIsOver.length);
                         if (listEventIsOver.length > 0) {
                             let list = [];
                             list = utils.popEventObjectFromUser(listEventIsOver, user[0].eventsParticipated);
@@ -656,13 +658,14 @@ exports.put_all_events_isOver = (req, res, next) => {
                                     if (err) return res.status(500).json(err);
                                     console.log("USER IS UPDATED")
                                 });
-                        res.send({
-                            "User updated  : " : list});
+                            res.send({
+                                "User updated  : ": "User updated !"
+                            });
                         } else {
                             res.send({
-                                "User updated  : " : "User up to date"});    
+                                "User updated  : ": "User up to date !"
+                            });
                         }
-                        console.log("Hey : 11 ", listEventIsOver);
                     }
                 })
                 .catch(err => {

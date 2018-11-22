@@ -57,10 +57,6 @@ export class LoginPage {
       .subscribe(response => {
         if (response.code == "200") {
           console.log("asdas : ", response);
-          this.loginProvider.updateEventList(response)
-          .subscribe(rep => {
-            console.log("Repsonse this 134 : ", rep)
-            });
           if (response.firstConnection == 0) {
             this.events.publish('user:info', response);
             this.loginProvider.updateUserNbrConnection(response.token, response.userId)

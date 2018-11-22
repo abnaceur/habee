@@ -13,7 +13,6 @@ exports.popObject = (obj, itemId) => {
         i++;
     }
 
-    console.log("New 111: ", newObj);
     return newObj;
 }
 
@@ -37,7 +36,6 @@ exports.popEventObjectFromUser = (eventIsOver, eventParticiated) => {
     let j = 0;
     let check = 0;
 
-    console.log("test")
     let newObj = [];
     while (i < eventParticiated.length) {
         while (j < eventIsOver.length) {
@@ -52,14 +50,12 @@ exports.popEventObjectFromUser = (eventIsOver, eventParticiated) => {
             check = 0;
         i++;
     }
-
     return newObj;
 }
 
 exports.sendEmail= (from, to, subject, txt) => {
     var nodemailer = require('nodemailer');
 
-    console.log("tarck 1");
     var transporter = nodemailer.createTransport({
         service: process.env.SERVICE,
         host: process.env.HOST,
@@ -68,7 +64,6 @@ exports.sendEmail= (from, to, subject, txt) => {
             pass: process.env.PASS
         }
     });
-    console.log("tarck 2");
     var mailOptions = {
         from: from,
         to: to,

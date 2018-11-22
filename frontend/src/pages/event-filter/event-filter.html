@@ -1,0 +1,46 @@
+<ion-header style="height: 50px;
+background-color: #5cbcc1;">
+
+  <ion-icon style="z-index: 2222" class="closeStyle" (click)='closeFilterModal()' name="close-circle"></ion-icon>
+
+  <ion-icon class="vlidateStyle" (click)='presentFilter()' name="checkmark-circle"></ion-icon>
+
+  <ion-title style="width: 66vw; position: relative; top: 15px; left: 19vw;">
+    <span style="font-size: 17px;color: white; font-weight: bold">La liste des litres</span>
+  </ion-title>
+
+</ion-header>
+
+<ion-content class="outer-content">
+
+  <ion-list>
+    <ion-list-header>Tracks</ion-list-header>
+
+    <ion-item>
+      <span slot="start" class="dot"></span>
+      <ion-label>Sport</ion-label>
+      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Theatre</ion-label>
+      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
+
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Picnic</ion-label>
+      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
+
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Yoga</ion-label>
+      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
+
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

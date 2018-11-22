@@ -1,14 +1,30 @@
-<ion-header style="height: 50px;
+<ion-header 
+style="height: 50px;
 background-color: #5cbcc1;">
-  <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 40px; font-weight: bold; color: floralwhite"
-    menuToggle name="more"></ion-icon>
-  <ion-title style="position: relative; top: 20px; left: 10px;">
+
+  <ion-icon 
+  class="menuStyle"
+    menuToggle name="menu"></ion-icon>
+
+    <ion-icon 
+  class="optionsStyle"
+     (click)='presentFilter()' name="options"></ion-icon>
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: white; font-weight: bold">Les événements en cours</span>
   </ion-title>
+
+  <expandable-header [scrollArea]="myContent" headerHeight="125">
+  <ion-toolbar style="position: relative; top:1vw; overflow: hidden;  " padding>
+      <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateSchedule()" placeholder="Rechrcher...">
+      </ion-searchbar>
+    </ion-toolbar>
+  </expandable-header>
+
 </ion-header>
 
 
-<ion-content class="myview_events card-background-page" padding>
+<ion-content class="myview_events card-background-page" padding fullscreen #myContent>
 
 
   <!-- TODO REFRESH ALL EVENTS-->
@@ -61,7 +77,7 @@ background-color: #5cbcc1;">
   
   -->
 
-  <timeline endIcon="call" style="position: relative; top: -38px">
+  <timeline endIcon="call" style="position: relative; top: -38">
     <timeline-item *ngFor="let event of allEvents">
       <ion-card>
         <ion-card-content>

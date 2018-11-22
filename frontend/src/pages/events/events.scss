@@ -47,3 +47,26 @@ page-events {}
   position: relative;
   height: 65px;
 }
+
+.menuStyle {
+  position:relative; 
+  float: left; 
+  top:10px; 
+  left: 4%; 
+  font-size: 40px; 
+   color: floralwhite
+}
+
+.optionsStyle {
+  position:relative; 
+  float: right; 
+  top:12px; 
+  right: 4%; 
+  font-size: 30px; 
+   color: floralwhite
+}
+
+.toolbar-background-md {
+  background-color: #5cbcc1;;
+}
+

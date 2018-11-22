@@ -4,6 +4,7 @@ import { IonicModule } from 'ionic-angular';
 
 
 import { AccordionListComponent } from './accordion-list/accordion-list';
+import { ExpandableHeaderComponent } from './expandable-header/expandable-header';
 
 
 export const components = [
@@ -12,8 +13,10 @@ export const components = [
 ];
 
 @NgModule({
-  declarations: [components],
+  declarations: [components,
+    ExpandableHeaderComponent],
   imports: [IonicModule],
-  exports: [components, TimelineComponentModule]
+  exports: [components, TimelineComponentModule,
+    ExpandableHeaderComponent]
 })
 export class ComponentsModule {}

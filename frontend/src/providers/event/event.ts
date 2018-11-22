@@ -65,7 +65,6 @@ export class EventProvider {
 
 
   getEventSubscription(eventId, token, userId, communityId) {
-    console.log("inside inscription peovider ");
     const header = this.utils.inihttpHeaderWIthToken(token);
 
     return this.http.put(ENV.BASE_URL + '/events/' + eventId + '/user/' + userId + '/community/' + communityId,
