@@ -6,12 +6,15 @@
 -->
 <ion-header style="height: 50px;
 background-color: #906DA7;">
-  <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 40px; font-weight: bold; color: floralwhite"
-    menuToggle name="more"></ion-icon>
-  <ion-title style="position: relative; top: 20px; left: 10px;">
+
+
+  <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: white; font-weight: bold">Mes événements</span>
   </ion-title>
 </ion-header>
+
 
 
 <ion-content class="myview_myevents" padding>
@@ -60,7 +63,8 @@ background-color: #906DA7;">
             <ion-icon name="eye"></ion-icon>
             Voir
           </button>
-          <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand(item)" style="position: relative; width: 100px" ion-button color="secondary" >
+          <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand(item)"
+            style="position: relative; width: 100px" ion-button color="secondary">
             <ion-icon [hidden]="!showIcon" name="create"></ion-icon>
             Modifier
           </button>

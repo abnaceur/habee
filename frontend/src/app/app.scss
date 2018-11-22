@@ -16,9 +16,12 @@
 // automatically applied to the <body> element in the app.
 
 // Material Design Sidemenu
+
+
 #menu-material {
   .menu-header {
     padding: 5px 15px;
+    background-image: url('../assets/img/misc/material-design-background.jpg');
     background-size: cover;
     color: white;
 
@@ -73,7 +76,7 @@
 
   ion-content {
     //background: linear-gradient(48deg, rgba(157, 72, 173, 0.8) 0%, rgba(157, 72, 173, 0.86) 28%, rgba(0, 168, 168, 0.98) 93%, rgba(0, 168, 168, 1) 100%);
-    background : linear-gradient(#e66465, #9198e5);
+    background: linear-gradient(#e66465, #9198e5);
   }
 
   .menu-inner {

@@ -1,24 +1,23 @@
-
-<!-- Nav menu bar
+<!-- Nav menu bar -->
 <ion-menu [content]="content" id="menu-material">
   <ion-content>
     <div class="menu-header">
-      <img class="user-avatar round" [src]="chosenPicture || placeholder" onerror="this.src='assets/img/avatar/girl-avatar.png'"
-      />
-      <p class="name">Paula Bolliger</p>
+      <img class="user-avatar round" src={{user.profileImage}} onerror="this.src='assets/img/avatar/girl-avatar.png'" />
+      <p class="name">{{user.name}}</p>
       <p class="e-mail">pbolliger@email.com</p>
     </div>
     <ion-list no-lines>
-      <button menuClose="left" ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
-      <ion-icon [name]="p.icon" item-left></ion-icon>
-    </button>
-    {{p.title}}
+      <button menuClose ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon [name]="p.icon" item-left></ion-icon>
+        {{p.title}}
+      </button>
     </ion-list>
   </ion-content>
 </ion-menu>
--->
-      
- <ion-menu [content]="content" id="menu-avatar">
+
+
+<!--
+<ion-menu [content]="content" id="menu-avatar">
     <ion-content>
       <div #header>
         <ion-row style="align-items:center;">
@@ -45,7 +44,11 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-  <!--Right side menu 
+   
+-->
+
+
+<!--Right side menu 
   <ion-menu side="right" type="push" [content]="content" id="menu-right">
     <ion-content>
       <ion-list no-lines>
@@ -58,6 +61,6 @@
   </ion-menu>
  
   -->
-  
-      <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
-      <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
