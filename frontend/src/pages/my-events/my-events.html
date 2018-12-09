@@ -9,7 +9,9 @@ background-color: #906DA7;">
 
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
-
+  
+    <ion-icon class="optionsStyle pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand('this')" name="add"></ion-icon>
+  
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: white; font-weight: bold">Mes événements</span>
   </ion-title>
@@ -77,4 +79,6 @@ background-color: #906DA7;">
     </ion-list>
 
   </accordion-list>
+
+
 </ion-content>

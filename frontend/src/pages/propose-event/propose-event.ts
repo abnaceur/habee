@@ -5,6 +5,7 @@ import {
   ActionSheetController,
   LoadingController,
   IonicPage, NavController, NavParams,
+  ViewController,
   ToastController
 } from 'ionic-angular';
 
@@ -61,12 +62,13 @@ export class ProposeEventPage {
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
     private toastController: ToastController, 
+    public viewCtrl: ViewController,
     public navParams: NavParams) {
 
     this.tabParams = {
-      userId: this.navParams.get("userId"),
-      token: this.navParams.get("token"),
-      activeCommunity: this.navParams.get('activeCommunity')
+      userId: this.navParams.data.userInfo.userId,
+      token: this.navParams.data.userInfo.token,
+      activeCommunity: this.navParams.data.userInfo.activeCommunity
     };
 
     this.proposeEventForm = formBuilder.group({
@@ -188,4 +190,9 @@ export class ProposeEventPage {
     }
     
   }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
+
 }

@@ -201,6 +201,7 @@ exports.post_event = (req, res, next) => {
     event
         .save()
         .then(result => {
+            console.log("Event as response : ", result)
             res.status(200).json({
                 results: true,
                 Event: result

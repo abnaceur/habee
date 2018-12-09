@@ -85,7 +85,7 @@ export class EventsPage {
 					console.log("Repsonse this 13 : ", response)
 			});
 		this.months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Jun", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-
+	
 	}
 
 	async getAllevent() {

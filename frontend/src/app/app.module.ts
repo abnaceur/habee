@@ -22,7 +22,8 @@ import { EventDetailsPageModule } from '../pages/event-details/event-details.mod
 import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 import { EventProvider } from '../providers/event/event';
-import { HabeeWalkthroughPageModule } from '../pages/habee-walkthrough/habee-walkthrough.module'
+import { HabeeWalkthroughPageModule } from '../pages/habee-walkthrough/habee-walkthrough.module';
+import { ListContactPageModule } from '../pages/list-contact/list-contact.modules';
 
 
 import {SharedModule} from './shared.module';

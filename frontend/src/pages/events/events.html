@@ -1,21 +1,16 @@
-<ion-header 
-style="height: 50px;
+<ion-header style="height: 50px;
 background-color: #5cbcc1;">
 
-  <ion-icon 
-  class="menuStyle"
-    menuToggle name="menu"></ion-icon>
+  <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
 
-    <ion-icon 
-  class="optionsStyle"
-     (click)='presentFilter()' name="options"></ion-icon>
+  <ion-icon class="optionsStyle" (click)='presentFilter()' name="options"></ion-icon>
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: white; font-weight: bold">Les événements en cours</span>
   </ion-title>
 
   <expandable-header [scrollArea]="myContent" headerHeight="125">
-  <ion-toolbar style="position: relative; top:1vw; overflow: hidden;  " padding>
+    <ion-toolbar style="position: relative; top:1vw; overflow: hidden;  ">
       <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateSchedule()" placeholder="Rechrcher...">
       </ion-searchbar>
     </ion-toolbar>
@@ -24,7 +19,7 @@ background-color: #5cbcc1;">
 </ion-header>
 
 
-<ion-content class="myview_events card-background-page" padding fullscreen #myContent>
+<ion-content class="myview_events" fullscreen #myContent>
 
 
   <!-- TODO REFRESH ALL EVENTS-->
@@ -34,7 +29,6 @@ background-color: #5cbcc1;">
     </ion-refresher-content>
   </ion-refresher>
   <!-- END OF THE TEMPLATE-->
-
 
 
   <!-- OLD DESIGN
@@ -77,6 +71,11 @@ background-color: #5cbcc1;">
   
   -->
 
+
+  <!-- DESIGN WITH TIME LINE AND A PICTURE IN THE IDDLE 
+  
+  
+  
   <timeline endIcon="call" style="position: relative; top: -38">
     <timeline-item *ngFor="let event of allEvents">
       <ion-card>
@@ -91,10 +90,10 @@ background-color: #5cbcc1;">
         </ion-card-content>
         <ion-row no-padding>
           <ion-col>
-            <!-- <button  (click)='subscribeToEvent(event.eventId)' ion-button clear small color="danger" icon-start>
+            <button  (click)='subscribeToEvent(event.eventId)' ion-button clear small color="danger" icon-start>
                   <ion-icon name='people'></ion-icon>
                   S'inscrir
-                </button> -->
+                </button> 
           </ion-col>
           <ion-col text-right>
             <button (click)='goToEventDetail(event)' ion-button clear small color="danger" icon-start>
@@ -107,4 +106,37 @@ background-color: #5cbcc1;">
     </timeline-item>
 
   </timeline>
+
+  -->
+  <ion-list style="position: relative; top: 7%" padding>
+    <span *ngFor="let item of allEvents">
+      <ion-item style="
+      background-color: aliceblue;
+    border: 1px solid #10B8BB;; margin-top: 4%;" (click)='goToEventDetail(item)'>
+        <timeline>
+          <timeline-item>
+            <timeline-time [time]="formatTime(item.eventStartDate.substring(5, 7) - 1, item.eventStartDate.substring(8, 10))"></timeline-time>
+          </timeline-item>
+        </timeline>
+        <br>
+        <ion-row style="position: relative; top: -2vw;
+        left: 46%;
+        height: 15vw;">
+          <h2>{{item.eventName}}<br>
+            <p>{{item.eventLocation}} </p><br>
+          </h2>
+        </ion-row>
+
+        <span class="timeStyle">
+          <ion-icon style="display: initial; font-size: 15px;" name="time"></ion-icon>
+          {{item.eventStartHour}}
+        </span>
+        <button ion-button clear item-end>
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </ion-item>
+    </span>
+  </ion-list>
+
+
 </ion-content>

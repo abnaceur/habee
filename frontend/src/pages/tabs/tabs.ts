@@ -16,7 +16,7 @@ export class TabsPage {
 	tab1Root = "EventsPage";
 	tab2Root = "MyEventsPage";
 	tab3Root = "ProfilePage";
-	tab4Root = "ProposeEventPage";
+	tab4Root = "ListContactPage";
 	tab5Root = "GoodPlansPage";
 
 	constructor(
