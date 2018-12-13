@@ -76,6 +76,14 @@ router.get('/', userController.get_all_users);
 
 router.get('/community/:communityId', userController.getAllusersByCommunityId);
 
+
+/*
+ ** API [GET] for route /users/coomunity/app/:communityId
+ */
+
+
+router.get('/app/community/:communityId', userController.getAllusersByCommunityIdMobile);
+
 /*
  ** API [PUT] for route /users/firstConnection/:userid [USED]
  */

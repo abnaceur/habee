@@ -23,9 +23,9 @@
 
         <ion-item>
           <ion-avatar item-left>
-            <img [src]='user.profilePhoto'>
+            <img  [src]='url + "/" + user.profilePhoto'>
           </ion-avatar>
-          <h2>{{user.profileFullname}}</h2>
+          <h2>{{user.profileUsername}}</h2>
         <button ion-button clear item-end>
             <ion-icon name="arrow-forward"></ion-icon>
           </button>

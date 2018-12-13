@@ -1,5 +1,22 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {
+  Component
+} from '@angular/core';
+
+import {
+  IonicPage,
+  NavController,
+  NavParams
+} from 'ionic-angular';
+
+import {
+	environment as ENV
+} from '../../environments/environment';
+
+import {
+	UserProvider
+} from '../../providers/user/user';
+
+
 
 /**
  * Generated class for the ListContactPage page.
@@ -13,27 +30,37 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-list-contact',
   templateUrl: 'list-contact.html',
 })
+
+
 export class ListContactPage {
 
-  contact = [
-    {
-      profilePhoto: 'assets/img/background/background-2.jpg',
-      profileFullname: 'Doudou',
-    },
-    {
-      profilePhoto: 'assets/img/background/background-3.jpg',
-      profileFullname: 'myMimi',
-    },
-    {
-      profilePhoto: 'assets/img/background/background-4.jpg',
-      profileFullname: 'Mom',
-    },
-  ];
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public url = ENV.BASE_URL;
+
+  public contact;
+
+  public tabParams;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private userProvider: UserProvider,
+  ) {
+    this.tabParams = {
+      userId: this.navParams.get("userId"),
+      token: this.navParams.get("token"),
+      activeCommunity: this.navParams.get('activeCommunity')
+    };
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ListContactPage');
+  ionViewDidEnter() {
+    console.log('ionViewDidLoad ListContactPage', this.tabParams);
+    this.userProvider.getAllUserByCommunityId(this.tabParams)
+    .subscribe(response => {
+      this.contact = response.users;
+        console.log("Repsonse this list contact : ", response)
+    });
   }
+
+
 
 }

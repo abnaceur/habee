@@ -18,12 +18,13 @@ import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-ev
 import { CommunityProvider } from '../providers/community/community';
 import { ProfileProvider } from '../providers/profile/profile';
 import { PassionProvider } from '../providers/passion/passion';
+import { UserProvider } from '../providers/user/user'
 import { EventDetailsPageModule } from '../pages/event-details/event-details.module';
 import { UtilsProvider } from '../providers/utils/utils';
 import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 import { EventProvider } from '../providers/event/event';
 import { HabeeWalkthroughPageModule } from '../pages/habee-walkthrough/habee-walkthrough.module';
-import { ListContactPageModule } from '../pages/list-contact/list-contact.modules';
+import { ListContactPageModule } from '../pages/list-contact/list-contact.module';
 
 
 import {SharedModule} from './shared.module';
@@ -49,6 +50,7 @@ import { File } from '@ionic-native/file';
     ProposeEventPageModule,
     GoodPlansPageModule,
     EventDetailsPageModule,
+    ListContactPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
   ],
@@ -74,7 +76,7 @@ import { File } from '@ionic-native/file';
     UtilsProvider,
     EventProvider,
     CameraProvider,
-    
+    UserProvider,
   ]
 })
 export class AppModule { }
