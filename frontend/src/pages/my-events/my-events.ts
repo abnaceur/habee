@@ -38,6 +38,8 @@ import {
 export class MyEventsPage {
 
   public tabParams;
+
+  // Not used var TODO CHECK AND DELETE
   items1 = [
     {
       imageUrl: 'assets/img/lists/stadium.jpg',
@@ -164,6 +166,8 @@ export class MyEventsPage {
             console.log("this 1113232: ", response);
             if (response.message == "There are no events!") {
               this.proposedEvents = []
+            } else {
+              this.proposedEvents = response.Events
             }
         });
         this.utils.notification("Event suprimer avec succes", "top");

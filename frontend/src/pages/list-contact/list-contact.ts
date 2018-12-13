@@ -15,6 +15,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ListContactPage {
 
+  contact = [
+    {
+      profilePhoto: 'assets/img/background/background-2.jpg',
+      profileFullname: 'Doudou',
+    },
+    {
+      profilePhoto: 'assets/img/background/background-3.jpg',
+      profileFullname: 'myMimi',
+    },
+    {
+      profilePhoto: 'assets/img/background/background-4.jpg',
+      profileFullname: 'Mom',
+    },
+  ];
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
