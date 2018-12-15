@@ -52,6 +52,28 @@ router.get('/:eventId/community/:communityId', eventController.eventByCommunityI
 
 router.get('/community/:communityId', eventController.get_all_events_byCommunityId);
 
+
+/*
+ * API [GET] for route /events/filter/:userId/community/:communityId [USED]
+ */
+
+router.get('/filtered/user/:userId/community/:communityId', eventController.getFilteredEvent);
+
+
+/*
+ * API [GET] for route /events/filter/:userId/community/:communityId [USED]
+ */
+
+router.get('/filter/:userId/community/:communityId', eventController.getEventFilter);
+
+
+/*
+ * API [POST] for route /events/filter/:userId/community/:communityId [USED]
+ */
+
+router.post('/filter/:userId/community/:communityId', eventController.postEventFilter);
+
+
 /*
  * API [GET] for route /events/user/:userId/community/:communityId [TOBE USED]
  */

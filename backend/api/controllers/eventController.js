@@ -80,6 +80,148 @@ exports.upload_mobile_photo = (req, res, next) => {
     }
 }
 
+exports.postEventFilter = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    User.find({
+            userId: userId,
+            "filterEvent.filterCommunity": communityId
+        })
+        .exec()
+        .then(usr => {
+            console.log(req.body, usr[0].filterEvent[0]._id)
+            req.body.filterCommunity = communityId;
+            usr[0].filterEvent[0] = req.body;
+            User.findByIdAndUpdate(usr[0]._id,
+                usr[0], {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                    console.log("FILTER UPDATED")
+                });
+        })
+}
+
+exports.getEventFilter = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    User.find({
+            userId: userId,
+            "filterEvent.filterCommunity": communityId
+        })
+        .select("filterEvent")
+        .exec()
+        .then(usr => {
+            res.status(200).json({
+                filterEvent: usr[0].filterEvent
+            })
+        })
+}
+
+exports.getFilteredEvent = (req, res, next) => {
+let userId = req.params.userId;
+let communityId = req.params.communityId;
+
+
+User.find({
+        userId: userId,
+        "filterEvent.filterCommunity": communityId
+    })
+    .select("filterEvent")
+    .exec()
+    .then(usr => {
+        let filter = usr[0].filterEvent[0];
+        Event.find({
+                eventCommunity: communityId,
+                eventIsOver: false,
+                eventIsDeleted: false,
+            })
+            .exec()
+            .then(activeEvent => {
+                if (activeEvent.length === 0) {
+                    return res.status(200).json({
+                        message: "There are no events!"
+                    })
+                } else {
+                    let currentDate = new Date;
+                    activeEvent.map(event => {
+                        let i = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
+                        let currentMdate = new Date(i);
+                        if (event.eventEndDate <= currentMdate) {
+                            event.eventIsOver = true;
+                            Event.findByIdAndUpdate(event._id,
+                                event, {
+                                    new: false,
+                                },
+                                function (err, results) {
+                                    if (err) return res.status(500).json(err);
+                                    console.log("EVENT IS OVER")
+                                });
+                        }
+                    })
+                    Event.find({
+                            eventCommunity: communityId,
+                            eventIsOver: false,
+                            eventIsDeleted: false,
+                        })
+                        .exec()
+                        .then(events => {
+                            let filteredEvent = [];
+                            filteredEvent = utils.filterEvents(events, filter);
+                            if (events.length === 0) {
+                                return res.status(404).json({
+                                    message: "There are no events!"
+                                })
+                            } else {
+                                res.status(200).json({
+                                    Count: filteredEvent.length,
+                                    Events: filteredEvent.map(event => {
+                                        return {
+                                            _id: events._id,
+                                            eventId: event.eventId,
+                                            eventCommunity: event.eventCommunity,
+                                            eventName: event.eventName,
+                                            eventCreator: event.eventCreator,
+                                            eventDescription: event.eventDescription,
+                                            eventStartDate: event.eventStartDate,
+                                            eventEndDate: event.eventEndDate,
+                                            eventStartHour: event.eventStartHour,
+                                            eventEndHour: event.eventEndHour,
+                                            eventLocation: event.eventLocation,
+                                            nbrParticipants: event.nbrParticipants,
+                                            participants: event.participants,
+                                            nbrSubscribedParticipants: event.participants.length,
+                                            eventIsOver: event.eventIsOver,
+                                            eventPhoto: event.eventPhoto,
+                                            eventCategory: event.eventCategory,
+                                            request: {
+                                                Type: "[GET]",
+                                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
+                                            }
+                                        }
+                                    })
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            res.status(500).json({
+                                error: err
+                            })
+                        })
+                }
+            })
+            .catch(err => {
+                res.status(500).json({
+                    error: err
+                })
+            })
+
+    })
+
+}
 
 exports.get_all_events_byCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
@@ -98,7 +240,7 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
             } else {
                 let currentDate = new Date;
                 activeEvent.map(event => {
-                    let i  = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
+                    let i = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
                     let currentMdate = new Date(i);
                     if (event.eventEndDate <= currentMdate) {
                         event.eventIsOver = true;

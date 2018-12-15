@@ -11,61 +11,123 @@ let userSchema = mongoose.Schema({
 		default: 0,
 	},
 	dateOfCreation: {
-     type: Date,
-     default: Date.now,
-    },
+		type: Date,
+		default: Date.now,
+	},
 	dateOfLastUpdate: {
-        type: Date,
-        default: Date.now,
-    },
+		type: Date,
+		default: Date.now,
+	},
 	credentials: {
-        lastname: {
+		lastname: {
 			type: String,
 			required: true,
 		},
 		firstname: {
 			type: String,
 			required: true,
-		},	
+		},
 		birthDate: String,
 		address: String,
-        email: {
+		email: {
 			type: String,
 			required: true,
 			unique: true,
 			match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 		},
 		phone: String,
-        password: {
+		password: {
 			type: String,
 			required: true,
 		},
 	},
 	communities: [],
-	profile: [
-		{
-			profileCummunityId: String,
-			profilePhoto: String, 
-			profileUsername: String,
-			profileIsAdmin: Number,
-			profileDateOfCreation: {
-				type: Date,
-				default: Date.now,
-			},
-			profileDateOfLastUpdate: {
-				type: Date,
-				default: Date.now
-			},
-			profileUserIsActive: {
-				type: Boolean,
-				default: true,
-			},
-			profileUserIsDeleted: {
-				type: Boolean,
-				default: false,
-			}
+	profile: [{
+		profileCummunityId: String,
+		profilePhoto: String,
+		profileCoverPhoto: String,
+		profileUsername: String,
+		profileIsAdmin: Number,
+		profileDateOfCreation: {
+			type: Date,
+			default: Date.now,
 		},
-	],
+		profileDateOfLastUpdate: {
+			type: Date,
+			default: Date.now
+		},
+		profileUserIsActive: {
+			type: Boolean,
+			default: true,
+		},
+		profileUserIsDeleted: {
+			type: Boolean,
+			default: false,
+		}
+	}, ],
+	filterEvent: [{
+		filterCommunity: String,
+		SportValue: {
+			type: Boolean,
+			default: false,
+		},
+		ArtsValue:  {
+			type: Boolean,
+			default: false,
+		},
+		cultureValue:  {
+			type: Boolean,
+			default: false,
+		},
+		MediaValue:  {
+			type: Boolean,
+			default: false,
+		},
+		musicValue:  {
+			type: Boolean,
+			default: false,
+		},
+		socialValue:  {
+			type: Boolean,
+			default: false,
+		},
+		internValue:  {
+			type: Boolean,
+			default: false,
+		},
+		businessValue:  {
+			type: Boolean,
+			default: false,
+		},
+		communityValue:  {
+			type: Boolean,
+			default: false,
+		},
+		santeValue:  {
+			type: Boolean,
+			default: false,
+		},
+		itValue: {
+			type: Boolean,
+			default: false,
+		},
+		lifestyleValue:  {
+			type: Boolean,
+			default: false,
+		},
+		partyValue:  {
+			type: Boolean,
+			default: false,
+		},
+		meetingValue:  {
+			type: Boolean,
+			default: false,
+		},
+		WorkshopValue:  {
+			type: Boolean,
+			default: false,
+		},
+	}],
 	passions: [],
 	skills: [],
 	eventsParticipated: [],

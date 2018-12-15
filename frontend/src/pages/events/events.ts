@@ -77,9 +77,8 @@ export class EventsPage {
 	}
 
 	ionViewWillEnter() {
-		this.presentFilter();
+		this.getAllEvents()
 		this.months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Jun", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-
 	}
 
 	async getAllevent() {
@@ -89,7 +88,6 @@ export class EventsPage {
 					this.allEvents = response.Events : this.allEvents = [],
 					console.log("Repsonse this 13 : ", response)
 			});
-
 	}
 
 
@@ -104,7 +102,7 @@ export class EventsPage {
 	}
 
 	getAllEvents() {
-		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+		this.eventProvider.getFilteredAllEventsByCommunityId(this.tabParams)
 		.subscribe(response => {
 			console.log("Refresh : ", response);
 			if (!response)
@@ -141,20 +139,17 @@ export class EventsPage {
 
 
 	presentFilter() {
-		const modal = this.modalCtrl.create('EventFilterPage');
+		const modal = this.modalCtrl.create('EventFilterPage', this.tabParams);
 		modal.onDidDismiss(filterData => {
-			console.log("Event filter : ", filterData)
+			console.log("filterData :", filterData);
 			this.eventProvider.checkFilterOptions(filterData)
 				.then(activeFilters => {
-					console.log("active filters 111 : ", activeFilters);
 					let countElem = this.countElements(activeFilters);
-					console.log("Count elem :", countElem);
 					if (countElem == 0) {
 						this.getAllEvents();
 					} else {
-						this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+						this.eventProvider.getEventsByCommunityId(this.tabParams)
 							.subscribe(response => {
-								console.log("Refresh : ", response);
 								if (!response)
 									this.allEvents = []
 								else {
@@ -162,7 +157,6 @@ export class EventsPage {
 									this.eventProvider.eventApplyFilter(activeFilters, this.allEvents, countElem)
 									.then(filteredEevents => {
 										this.allEvents = Object.create(filteredEevents);
-										console.log("Filtered data :", filteredEevents);
 									})
 								}
 							});

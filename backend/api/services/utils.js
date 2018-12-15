@@ -78,3 +78,108 @@ exports.sendEmail= (from, to, subject, txt) => {
         }
     });
 }
+
+
+exports.filterEvents = (events, filter) => {
+    console.log("FILTER : ", filter);
+//    console.log("EVENTS : ", events);
+
+    let activeFilters = [];
+    let i = 0;
+    let filteredEvent = [];
+    let z = 0;
+
+
+    if (filter.SportValue == true) {
+      activeFilters[i] = "Sports";
+      console.log("HERE")
+      i++;
+    }
+
+    if (filter.ArtsValue == true) {
+      activeFilters[i] = "Arts";
+      i++;
+    }
+
+    if (filter.cultureValue == true) {
+      activeFilters[i] = "Culture";
+      i++;
+    }
+
+    if (filter.MediaValue == true) {
+      activeFilters[i] = "Media";
+      i++;
+    }
+
+    if (filter.musicValue == true) {
+      activeFilters[i] = "Music";
+      i++;
+    }
+
+    if (filter.socialValue == true) {
+      activeFilters[i] = "Social";
+      i++;
+    }
+
+    if (filter.internValue == true) {
+      activeFilters[i] = "International";
+      i++;
+    }
+
+    if (filter.businessValue == true) {
+      activeFilters[i] = "Business";
+      i++;
+    }
+
+    if (filter.communityValue == true) {
+      activeFilters[i] = "Communite";
+      i++;
+    }
+    if (filter.santeValue == true) {
+      activeFilters[i] = "Sante";
+      i++;
+    }
+
+    if (filter.itValue == true) {
+      activeFilters[i] = "Science et technologie";
+      i++;
+    }
+
+    if (filter.lifestyleValue == true) {
+      activeFilters[i] = "Style de vie";
+      i++;
+    }
+
+    if (filter.partyValue == true) {
+      activeFilters[i] = "Fete";
+      i++;
+    }
+
+    if (filter.meetingValue == true) {
+      activeFilters[i] = "Rencontre";
+      i++;
+    }
+
+    if (filter.WorkshopValue == true) {
+      activeFilters[i] = "Workshop";
+      i++;
+    }
+
+    if (i != 0) {
+
+        console.log("ACTIVE FILTER : ", activeFilters)
+        events.map(event => {
+          while (z < i) {
+            if (event.eventCategory == activeFilters[z]) {
+              filteredEvent.push(event)
+            }
+            z++;
+          }
+          z = 0;
+        })
+    
+    } else
+        filteredEvent = events;
+    console.log("RESULTS EVENT FILTERED :", filteredEvent);
+    return filteredEvent
+}

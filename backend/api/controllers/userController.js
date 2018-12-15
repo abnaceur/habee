@@ -120,7 +120,7 @@ exports.getAllusersByCommunityIdMobile = (req, res, next) => {
     User.find({
             "profile.profileCummunityId": communityId,
             "profile.profileUserIsDeleted": false,
-            "profile.profileUserIsActive" : true,
+            "profile.profileUserIsActive": true,
         })
         .exec()
         .then(users => {
@@ -191,7 +191,24 @@ exports.post_user = (req, res, next) => {
                                 profileUserIsActive: req.body.profileUserIsActive,
                                 profileUserIsDeleted: req.body.profileUserIsDeleted ? req.body.profileUserIsDeleted : false,
                             }],
-
+                            filterEvent: [{
+                                filterCommunity: req.body.profileCummunityId,
+                                SportValue: false,
+                                ArtsValue: false,
+                                cultureValue: false,
+                                MediaValue: false,
+                                musicValue: false,
+                                socialValue: false,
+                                internValue: false,
+                                businessValue: false,
+                                communityValue: false,
+                                santeValue: false,
+                                itValue: false,
+                                lifestyleValue: false,
+                                partyValue: false,
+                                meetingValue: false,
+                                WorkshopValue: false,
+                            }],
                             passions: req.body.passions,
                             skills: req.body.skills,
                             currentEvents: req.body.currentEvents,
@@ -207,17 +224,17 @@ exports.post_user = (req, res, next) => {
                             .then(result => {
                                 console.log("User this: ", result)
                                 let emailNew = result.credentials.email;
-                                
+
                                 let text = "Hello ! \n Vous avez recu une invitaion pour rejoindre la communitee [nom de la communitee] \
-                                \n voila vos logins : \n Email : " +  emailNew + "\n Mot de pass : " + pass + "\
+                                \n voila vos logins : \n Email : " + emailNew + "\n Mot de pass : " + pass + "\
                                 \n P.S : Ce mot de pass est genere autoatiquement, vouos devez change votre de pass depuis l'app HABEE \
                                 \n TEAM HABEE"
-                                
 
-                                utils.sendEmail("Habee TEAM", emailNew , "Bienvenu nouveau Habeebebois !", text);
+
+                                utils.sendEmail("Habee TEAM", emailNew, "Bienvenu nouveau Habeebebois !", text);
                                 res.status(200).json({
                                     message: "User added with success!"
-                                   // Resulta: result
+                                    // Resulta: result
                                 })
                             })
                             .catch(err => {
@@ -422,7 +439,7 @@ exports.get_user_by_id = (req, res, next) => {
                             }
                             console.log("test : ", allUserEvents)
                             usr[0].eventsParticipated = allUserEvents;
-                            
+
                             res.status(200).json({
                                 User: usr
                             });
@@ -562,7 +579,7 @@ exports.get_userId_communityId = (req, res, next) => {
         })
         .exec()
         .then(usrs => {
-           // console.log(usrs);
+            // console.log(usrs);
             if (usrs.length === 0) {
                 return res.status(404).json({
                     message: "User not found or id not valid!"
@@ -625,24 +642,24 @@ exports.get_userId_communityId = (req, res, next) => {
                         })
                 } else {
                     Event.find({
-                        eventCreator: id,
-                        eventIsDeleted: false,
-                    }).exec()
-                    .then(event => {
-                        res.status(200).json({
-                            Users: usrs.map(usr => {
-                                return {
-                                    eventCreated: event.length,
-                                    userId: usr.userId,
-                                    profile: usr.profile,
-                                    profileRole: usr.profile[0].profileIsAdmin,
-                                    nbrEventsParticipated: usr.eventsParticipated.length,
-                                    profileIsActive: usr.profile[0].profileUserIsActive,
-                                    profileRole: usr.profile[0].profileIsAdmin,
-                                }
-                            })
-                        });
-                    })
+                            eventCreator: id,
+                            eventIsDeleted: false,
+                        }).exec()
+                        .then(event => {
+                            res.status(200).json({
+                                Users: usrs.map(usr => {
+                                    return {
+                                        eventCreated: event.length,
+                                        userId: usr.userId,
+                                        profile: usr.profile,
+                                        profileRole: usr.profile[0].profileIsAdmin,
+                                        nbrEventsParticipated: usr.eventsParticipated.length,
+                                        profileIsActive: usr.profile[0].profileUserIsActive,
+                                        profileRole: usr.profile[0].profileIsAdmin,
+                                    }
+                                })
+                            });
+                        })
                 }
             }
         })

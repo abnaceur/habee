@@ -1,37 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 
-import { 
-  Injectable 
+import {
+  Injectable
 } from '@angular/core';
 
-import { 
+import {
   Http,
-   Headers 
-  } from '@angular/http';
+  Headers
+} from '@angular/http';
 
-import { 
-  UtilsProvider 
+import {
+  UtilsProvider
 } from '../../providers/utils/utils';
 
-import { 
-  environment as ENV 
+import {
+  environment as ENV
 } from '../../environments/environment';
 
-import { 
-  FileTransfer, 
-  FileTransferObject, 
-  FileUploadOptions 
+import {
+  FileTransfer,
+  FileTransferObject,
+  FileUploadOptions
 } from '@ionic-native/file-transfer';
 
-import { 
-  File 
+import {
+  File
 } from '@ionic-native/file';
 
-import { 
-  IonicPage, 
-  NavController, 
-  NavParams, 
-  LoadingController 
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  LoadingController
 } from "ionic-angular";
 
 /*
@@ -54,15 +54,22 @@ export class EventProvider {
     console.log('Hello EventProvider Provider');
   }
 
-  getEventsByCommunityId(token, userId, activeCommunity) {
+  getEventsByCommunityId(userInfo) {
 
-    const header = this.utils.inihttpHeaderWIthToken(token);
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + '/events/community/' + activeCommunity,
+    return this.http.get(ENV.BASE_URL + '/events/community/' + userInfo.activeCommunity,
       { headers: header })
       .map(response => response.json());
   }
 
+  getFilteredAllEventsByCommunityId(userInfo) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.get(ENV.BASE_URL + '/events/filtered/user/' + userInfo.userId +'/community/' + userInfo.activeCommunity,
+      { headers: header })
+      .map(response => response.json());
+  }
 
   getEventSubscription(eventId, token, userId, communityId) {
     const header = this.utils.inihttpHeaderWIthToken(token);
@@ -90,36 +97,36 @@ export class EventProvider {
 
   uploadPhoto(currentImage) {
     return new Promise((resolve, reject) => {
-    let loader = this.loadingCTRL.create({
-      content: "uploading..."
-    });
+      let loader = this.loadingCTRL.create({
+        content: "uploading..."
+      });
 
-    loader.present();
+      loader.present();
 
-    const fileTransfer: FileTransferObject = this.transfer.create();
+      const fileTransfer: FileTransferObject = this.transfer.create();
 
-    var random = Math.floor(Math.random() * 100);
+      var random = Math.floor(Math.random() * 100);
 
-    let options: FileUploadOptions = {
-      fileKey: "file",
-      fileName: 'eventImage' + random + '.jpg',
-      chunkedMode: false,
-      httpMethod: "post",
-      mimeType: "image/jpeg",
-      headers: {}
-    }
+      let options: FileUploadOptions = {
+        fileKey: "file",
+        fileName: 'eventImage' + random + '.jpg',
+        chunkedMode: false,
+        httpMethod: "post",
+        mimeType: "image/jpeg",
+        headers: {}
+      }
 
-     fileTransfer.upload(currentImage, ENV.BASE_URL + '/events/mobile/photo/upload', options)
-      .then((data) => {
-        loader.dismiss();
-        resolve(data.response);
-        // success
-      }, (err) => {
-        // error
-        loader.dismiss();
-        let error = "Error"
-        resolve(error);
-      })
+      fileTransfer.upload(currentImage, ENV.BASE_URL + '/events/mobile/photo/upload', options)
+        .then((data) => {
+          loader.dismiss();
+          resolve(data.response);
+          // success
+        }, (err) => {
+          // error
+          loader.dismiss();
+          let error = "Error"
+          resolve(error);
+        })
     })
   }
 
@@ -154,8 +161,8 @@ export class EventProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + '/events/user/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
-    { headers: header })
-    .map(response => response.json());
+      { headers: header })
+      .map(response => response.json());
   }
 
   editEvent(event, uploadedImage, userInfo) {
@@ -239,8 +246,8 @@ export class EventProvider {
     }
 
     if (filter.socialValue == true) {
-       activeFilters[i] = "Social";
-       i++;
+      activeFilters[i] = "Social";
+      i++;
     }
 
     if (filter.internValue == true) {
@@ -253,11 +260,11 @@ export class EventProvider {
       i++;
     }
 
-    if (filter.communityValue == true){
+    if (filter.communityValue == true) {
       activeFilters[i] = "Communite";
       i++;
-    }  
-    if (filter.santeValue == true){
+    }
+    if (filter.santeValue == true) {
       activeFilters[i] = "Sante";
       i++;
     }
@@ -270,7 +277,7 @@ export class EventProvider {
     if (filter.lifestyleValue == true) {
       activeFilters[i] = "Style de vie";
       i++;
-    } 
+    }
 
     if (filter.partyValue == true) {
       activeFilters[i] = "Fete";
@@ -286,7 +293,7 @@ export class EventProvider {
       activeFilters[i] = "Workshop";
       i++;
     }
-  
+
     return new Promise(resolve => {
       resolve(activeFilters);
     });
@@ -312,4 +319,25 @@ export class EventProvider {
       resolve(filteredEvent);
     });
   }
+
+
+  getFilterOptions(userInfo) {
+    console.log("getFilterOptions : ", userInfo);
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.get(ENV.BASE_URL + '/events/filter/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
+      { headers: header })
+      .map(response => response.json());
+  }
+
+  saveFilterOptions(filter, userInfo) {
+    console.log("SAVE FILTER : ", filter, userInfo)
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.post(ENV.BASE_URL + '/events/filter/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
+    filter,
+      { headers: header })
+      .map(response => response.json());
+  }
+
 }

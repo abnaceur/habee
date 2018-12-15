@@ -9,6 +9,11 @@ import {
    NavParams 
   } from 'ionic-angular';
 
+  import {
+    EventProvider
+  } from '../../providers/event/event';
+
+  
 /**
  * Generated class for the EventFilterPage page.
  *
@@ -38,38 +43,91 @@ export class EventFilterPage {
   public meetingValue;
   public WorkshopValue;
 
+  public tabParams;
+
   constructor(
     public viewCtrl: ViewController,
     public navCtrl: NavController, 
+    public eventProvider: EventProvider,
     public navParams: NavParams) {
+
+      this.tabParams = {
+        userId: this.navParams.get("userId"),
+        token: this.navParams.get("token"),
+        activeCommunity: this.navParams.get('activeCommunity')
+      };
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EventFilterPage');
+    console.log('ionViewDidLoad EventFilterPage', this.navParams);
+    this.eventProvider.getFilterOptions(this.tabParams)
+    .subscribe(filters => {
+      let filter = filters.filterEvent[0];
+      console.log("GET FILTER :", filters.filterEvent[0])
+      this.SportValue = filter.SportValue;
+      this.ArtsValue = filter.ArtsValue;
+      this.cultureValue = filter.cultureValue;
+      this.MediaValue = filter.MediaValue ;
+      this.musicValue = filter.musicValue;
+      this.socialValue = filter.socialValue;
+      this.internValue = filter.internValue;
+      this.businessValue = filter.businessValue;
+      this.communityValue = filter.communityValue;
+      this.santeValue = filter.santeValue;
+      this.itValue = filter.itValue;
+      this.lifestyleValue = filter.lifestyleValue;
+      this.partyValue = filter.partyValue;
+      this.meetingValue = filter.meetingValue;
+      this.WorkshopValue = filter.WorkshopValue;
+    })
   }
 
+
   closeFilterModal() {
-      this.viewCtrl.dismiss();  
+    let filter = {
+      SportValue: this.SportValue,
+      ArtsValue: this.ArtsValue,
+      cultureValue: this.cultureValue, 
+      MediaValue: this.MediaValue,
+      musicValue: this.musicValue, 
+      socialValue: this.socialValue, 
+      internValue: this.internValue, 
+      businessValue: this.businessValue,
+      communityValue: this.communityValue, 
+      santeValue: this.santeValue,
+      itValue: this.itValue, 
+      lifestyleValue: this.lifestyleValue, 
+      partyValue: this.partyValue,
+      meetingValue: this.meetingValue,
+      WorkshopValue: this.WorkshopValue,
+      }
+
+      this.viewCtrl.dismiss(filter);  
   }
 
   closeConfirmModal() {
     let filter = {
-    SportValue: this.SportValue === undefined ? false : true,
-    ArtsValue: this.ArtsValue === undefined ? false : true,
-    cultureValue: this.cultureValue === undefined ? false : true, 
-    MediaValue: this.MediaValue === undefined ? false : true,
-    musicValue: this.musicValue === undefined ? false : true, 
-    socialValue: this.socialValue === undefined ? false : true, 
-    internValue: this.internValue === undefined ? false : true, 
-    businessValue: this.businessValue === undefined ? false : true,
-    communityValue: this.communityValue === undefined ? false : true, 
-    santeValue: this.santeValue === undefined ? false : true,
-    itValue: this.itValue === undefined ? false : true, 
-    lifestyleValue: this.lifestyleValue === undefined ? false : true, 
-    partyValue: this.partyValue === undefined ? false : true,
-    meetingValue: this.meetingValue === undefined ? false : true,
-    WorkshopValue: this.WorkshopValue === undefined ? false : true,
+    SportValue: this.SportValue,
+    ArtsValue: this.ArtsValue,
+    cultureValue: this.cultureValue, 
+    MediaValue: this.MediaValue,
+    musicValue: this.musicValue, 
+    socialValue: this.socialValue, 
+    internValue: this.internValue, 
+    businessValue: this.businessValue,
+    communityValue: this.communityValue, 
+    santeValue: this.santeValue,
+    itValue: this.itValue, 
+    lifestyleValue: this.lifestyleValue, 
+    partyValue: this.partyValue,
+    meetingValue: this.meetingValue,
+    WorkshopValue: this.WorkshopValue,
     }
+
+    this.eventProvider.saveFilterOptions(filter, this.tabParams)
+    .subscribe(filters => {
+      console.log("FILTER RESPONSE : ", filters);   
+    });
     console.log("FILTER : ", filter);
     this.viewCtrl.dismiss(filter); 
 }
