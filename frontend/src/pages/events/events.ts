@@ -60,6 +60,8 @@ export class EventsPage {
 	public isSubscribed = "S'inscrir3";
 	public months: String[];
 	public url = ENV.BASE_URL;
+	public queryText;
+	public allEvents_tmp;
 
 	constructor(
 		public modalCtrl: ModalController,
@@ -103,17 +105,20 @@ export class EventsPage {
 
 	getAllEvents() {
 		this.eventProvider.getFilteredAllEventsByCommunityId(this.tabParams)
-		.subscribe(response => {
-			console.log("Refresh : ", response);
-			if (!response)
-				this.allEvents = []
-			else
-				this.allEvents = response.Events
-		});
+			.subscribe(response => {
+				console.log("Refresh : ", response);
+				if (!response)
+					this.allEvents = []
+				else {
+					this.allEvents = response.Events;
+					this.allEvents_tmp = response.Events;
+				}
+
+			});
 	}
 
 	doRefresh(refresher) {
-	 	this.getAllEvents();
+		this.getAllEvents();
 		setTimeout(() => {
 			console.log('Complete');
 			refresher.complete()
@@ -155,14 +160,60 @@ export class EventsPage {
 								else {
 									this.allEvents = response.Events;
 									this.eventProvider.eventApplyFilter(activeFilters, this.allEvents, countElem)
-									.then(filteredEevents => {
-										this.allEvents = Object.create(filteredEevents);
-									})
+										.then(filteredEevents => {
+											this.allEvents = Object.create(filteredEevents);
+										})
 								}
 							});
 					}
 				});
 		});
 		modal.present();
+	}
+
+	checkStringExist(str, needle) {
+		let i = 0;
+		let a = 0;
+		let t = 0;
+		let z = needle.length;
+
+		console.log(str, needle);
+		while (str[i]) {
+			t = i;
+			while (str[t] == needle[a]) {
+				console.log("Compare : ", str[t], z);
+				z--;
+				t++;
+				a++;
+				if (z == 0)
+					return true;
+			}
+
+			a = 0;
+			t = 0;
+			z = needle.length;
+			i++;
+		}
+		return false;
+	}
+
+	updateEventlist() {
+		console.log("queryText :", this.queryText.length, this.queryText);
+		let searchResults = this.allEvents_tmp;
+		if (this.queryText == "") {
+			console.log("Events: ", this.allEvents, this.allEvents_tmp)
+			this.allEvents = this.allEvents_tmp;
+		}
+		if (this.queryText.length > 0) {
+			this.allEvents = [];
+			searchResults.map(event => {
+				console.log("Single event :", event);
+				//console.log(this.checkStringExist(event.eventCategory, this.queryText));
+				this.checkStringExist(event.eventDescription, this.queryText) == true ?
+					this.allEvents.push(event)
+					: this.checkStringExist(event.eventName, this.queryText) == true ?
+						this.allEvents.push(event) : "";
+			})
+		}
 	}
 }	
