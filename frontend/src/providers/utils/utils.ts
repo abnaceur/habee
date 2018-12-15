@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { 
-  Http, 
-  Headers 
+import {
+  Http,
+  Headers
 } from '@angular/http';
 
 import "rxjs/add/operator/map";
 
-import { 
-  environment as ENV 
+import {
+  environment as ENV
 } from '../../environments/environment';
 
 import {
@@ -63,13 +63,38 @@ export class UtilsProvider {
   }
 
   notification(msg, side) {
-      let subscribedToast = this.toastController.create({
-        message: msg,
-        duration: 2000, 
-        position: side,
-        cssClass: "subscribedClass"
-      });
-      subscribedToast.present()
+    let subscribedToast = this.toastController.create({
+      message: msg,
+      duration: 2000,
+      position: side,
+      cssClass: "subscribedClass"
+    });
+    subscribedToast.present()
   }
+
+  checkStringExist(str, needle) {
+    let i = 0;
+    let a = 0;
+    let t = 0;
+    let z = needle.length;
+
+    while (str[i]) {
+      t = i;
+      while (str[t] == needle[a]) {
+        z--;
+        t++;
+        a++;
+        if (z == 0)
+          return true;
+      }
+
+      a = 0;
+      t = 0;
+      z = needle.length;
+      i++;
+    }
+    return false;
+  }
+
 
 }

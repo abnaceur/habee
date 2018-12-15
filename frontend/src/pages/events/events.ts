@@ -43,7 +43,9 @@ import {
 	environment as ENV
 } from '../../environments/environment';
 
-
+import {
+	UtilsProvider
+} from '../../providers/utils/utils';
 
 @IonicPage({ name: "EventsPage" })
 @Component({
@@ -69,6 +71,7 @@ export class EventsPage {
 		public http: Http,
 		public navCtrl: NavController,
 		public navParams: NavParams,
+		public utils: UtilsProvider,
 		public nav: NavController) {
 
 		this.tabParams = {
@@ -92,7 +95,6 @@ export class EventsPage {
 			});
 	}
 
-
 	goToEventDetail(eventDetails) {
 		this.nav.push("EventDetailsPage", {
 			data: eventDetails,
@@ -113,7 +115,6 @@ export class EventsPage {
 					this.allEvents = response.Events;
 					this.allEvents_tmp = response.Events;
 				}
-
 			});
 	}
 
@@ -141,7 +142,6 @@ export class EventsPage {
 		while (elem[i]) i++;
 		return i;
 	}
-
 
 	presentFilter() {
 		const modal = this.modalCtrl.create('EventFilterPage', this.tabParams);
@@ -171,49 +171,20 @@ export class EventsPage {
 		modal.present();
 	}
 
-	checkStringExist(str, needle) {
-		let i = 0;
-		let a = 0;
-		let t = 0;
-		let z = needle.length;
-
-		console.log(str, needle);
-		while (str[i]) {
-			t = i;
-			while (str[t] == needle[a]) {
-				console.log("Compare : ", str[t], z);
-				z--;
-				t++;
-				a++;
-				if (z == 0)
-					return true;
-			}
-
-			a = 0;
-			t = 0;
-			z = needle.length;
-			i++;
-		}
-		return false;
-	}
-
 	updateEventlist() {
-		console.log("queryText :", this.queryText.length, this.queryText);
 		let searchResults = this.allEvents_tmp;
 		if (this.queryText == "") {
-			console.log("Events: ", this.allEvents, this.allEvents_tmp)
 			this.allEvents = this.allEvents_tmp;
 		}
 		if (this.queryText.length > 0) {
 			this.allEvents = [];
 			searchResults.map(event => {
-				console.log("Single event :", event);
-				//console.log(this.checkStringExist(event.eventCategory, this.queryText));
-				this.checkStringExist(event.eventDescription, this.queryText) == true ?
-					this.allEvents.push(event)
-					: this.checkStringExist(event.eventName, this.queryText) == true ?
+				this.utils.checkStringExist(event.eventDescription, this.queryText) == true ?
+					this.allEvents.push(event) :
+					this.utils.checkStringExist(event.eventName, this.queryText) == true ?
 						this.allEvents.push(event) : "";
 			})
 		}
 	}
+
 }	
