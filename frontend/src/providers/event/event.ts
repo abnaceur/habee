@@ -142,6 +142,7 @@ export class EventProvider {
         "eventDescription": event.eventDescription,
         "eventLocation": event.eventLocation,
         "nbrParticipants": event.eventNbrParticipants,
+        "eventCategory": event.eventCategory,
         "eventPhoto": uploadedImage,
       },
       { headers: header })
@@ -204,5 +205,111 @@ export class EventProvider {
       },
       { headers: header })
       .map(response => response.json());
+  }
+
+
+  checkFilterOptions(filter) {
+    let activeFilters = [];
+    let i = 0;
+
+    if (filter.SportValue == true) {
+      activeFilters[i] = "Sports";
+      console.log("HERE")
+      i++;
+    }
+
+    if (filter.ArtsValue == true) {
+      activeFilters[i] = "Arts";
+      i++;
+    }
+
+    if (filter.cultureValue == true) {
+      activeFilters[i] = "Culture";
+      i++;
+    }
+
+    if (filter.MediaValue == true) {
+      activeFilters[i] = "Media";
+      i++;
+    }
+
+    if (filter.musicValue == true) {
+      activeFilters[i] = "Music";
+      i++;
+    }
+
+    if (filter.socialValue == true) {
+       activeFilters[i] = "Social";
+       i++;
+    }
+
+    if (filter.internValue == true) {
+      activeFilters[i] = "International";
+      i++;
+    }
+
+    if (filter.businessValue == true) {
+      activeFilters[i] = "Business";
+      i++;
+    }
+
+    if (filter.communityValue == true){
+      activeFilters[i] = "Communite";
+      i++;
+    }  
+    if (filter.santeValue == true){
+      activeFilters[i] = "Sante";
+      i++;
+    }
+
+    if (filter.itValue == true) {
+      activeFilters[i] = "Science et technologie";
+      i++;
+    }
+
+    if (filter.lifestyleValue == true) {
+      activeFilters[i] = "Style de vie";
+      i++;
+    } 
+
+    if (filter.partyValue == true) {
+      activeFilters[i] = "Fete";
+      i++;
+    }
+
+    if (filter.meetingValue == true) {
+      activeFilters[i] = "Rencontre";
+      i++;
+    }
+
+    if (filter.WorkshopValue == true) {
+      activeFilters[i] = "Workshop";
+      i++;
+    }
+  
+    return new Promise(resolve => {
+      resolve(activeFilters);
+    });
+
+  }
+
+  eventApplyFilter(filter, allEvents, nbrFilter) {
+    let filteredEvent = [];
+    let i = 0;
+
+    console.log(filter, allEvents)
+    allEvents.map(event => {
+      while (i < nbrFilter) {
+        if (event.eventCategory == filter[i]) {
+          filteredEvent.push(event)
+        }
+        i++;
+      }
+      i = 0;
+    })
+
+    return new Promise(resolve => {
+      resolve(filteredEvent);
+    });
   }
 }

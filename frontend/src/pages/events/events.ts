@@ -55,7 +55,6 @@ export class EventsPage {
 		icon: 'pin',
 	};
 
-
 	public tabParams;
 	public allEvents = [];
 	public isSubscribed = "S'inscrir3";
@@ -78,14 +77,9 @@ export class EventsPage {
 	}
 
 	ionViewWillEnter() {
-		console.log('ionViewDidLoad EventsPage', this.tabParams);
-		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
-			.subscribe(response => {
-				this.allEvents = response.Events,
-					console.log("Repsonse this 13 : ", response)
-			});
+		this.presentFilter();
 		this.months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Jun", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-	
+
 	}
 
 	async getAllevent() {
@@ -109,15 +103,19 @@ export class EventsPage {
 		console.log("test event")
 	}
 
-	doRefresh(refresher) {
+	getAllEvents() {
 		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
-			.subscribe(response => {
-				console.log("Refresh : ", response);
-				if (!response)
-					this.allEvents = []
-				else
-					this.allEvents = response.Events
-			});
+		.subscribe(response => {
+			console.log("Refresh : ", response);
+			if (!response)
+				this.allEvents = []
+			else
+				this.allEvents = response.Events
+		});
+	}
+
+	doRefresh(refresher) {
+	 	this.getAllEvents();
 		setTimeout(() => {
 			console.log('Complete');
 			refresher.complete()
@@ -135,8 +133,42 @@ export class EventsPage {
 		return time;
 	}
 
+	countElements(elem) {
+		let i = 0;
+		while (elem[i]) i++;
+		return i;
+	}
+
+
 	presentFilter() {
 		const modal = this.modalCtrl.create('EventFilterPage');
+		modal.onDidDismiss(filterData => {
+			console.log("Event filter : ", filterData)
+			this.eventProvider.checkFilterOptions(filterData)
+				.then(activeFilters => {
+					console.log("active filters 111 : ", activeFilters);
+					let countElem = this.countElements(activeFilters);
+					console.log("Count elem :", countElem);
+					if (countElem == 0) {
+						this.getAllEvents();
+					} else {
+						this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+							.subscribe(response => {
+								console.log("Refresh : ", response);
+								if (!response)
+									this.allEvents = []
+								else {
+									this.allEvents = response.Events;
+									this.eventProvider.eventApplyFilter(activeFilters, this.allEvents, countElem)
+									.then(filteredEevents => {
+										this.allEvents = Object.create(filteredEevents);
+										console.log("Filtered data :", filteredEevents);
+									})
+								}
+							});
+					}
+				});
+		});
 		modal.present();
 	}
 }	

@@ -144,6 +144,7 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
                                         nbrSubscribedParticipants: event.participants.length,
                                         eventIsOver: event.eventIsOver,
                                         eventPhoto: event.eventPhoto,
+                                        eventCategory: event.eventCategory,
                                         request: {
                                             Type: "[GET]",
                                             Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
@@ -194,6 +195,7 @@ exports.post_event = (req, res, next) => {
         eventDuration: req.body.eventDuration,
         eventLocation: req.body.eventLocation,
         nbrParticipants: req.body.nbrParticipants,
+        eventCategory: req.body.eventCategory,
         eventIsDeleted: false,
         //     participantsId: req.body.participantsId,
         //     eventIsOver: req.body.eventIsOver,

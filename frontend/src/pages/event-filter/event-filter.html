@@ -3,7 +3,7 @@ background-color: #5cbcc1;">
 
   <ion-icon style="z-index: 2222" class="closeStyle" (click)='closeFilterModal()' name="close-circle"></ion-icon>
 
-  <ion-icon class="vlidateStyle" (click)='presentFilter()' name="checkmark-circle"></ion-icon>
+  <ion-icon class="vlidateStyle" (click)='closeConfirmModal()' name="checkmark-circle"></ion-icon>
 
   <ion-title style="width: 66vw; position: relative; top: 15px; left: 19vw;">
     <span style="font-size: 17px;color: white; font-weight: bold">La liste des litres</span>
@@ -13,31 +13,84 @@ background-color: #5cbcc1;">
 
 <ion-content class="outer-content" fullscreen>
 
-  <ion-list >
+  <ion-list style="position: relative; top: 20px">
     <ion-item>
       <span slot="start" class="dot"></span>
-      <ion-label>Sport</ion-label>
-      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
+      <ion-label>Sports</ion-label>
+      <ion-toggle [(ngModel)]="SportValue" color="success"></ion-toggle>
     </ion-item>
 
     <ion-item>
-      <ion-label>Theatre</ion-label>
-      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
-
+      <ion-label>Arts</ion-label>
+      <ion-toggle [(ngModel)]="ArtsValue" color="success"></ion-toggle>
     </ion-item>
 
     <ion-item>
-      <ion-label>Picnic</ion-label>
-      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
+      <ion-label>Culture</ion-label>
+      <ion-toggle [(ngModel)]="cultureValue" color="success"></ion-toggle>
+    </ion-item>
 
+    <ion-item>
+      <ion-label>Media</ion-label>
+      <ion-toggle [(ngModel)]="MediaValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Music</ion-label>
+      <ion-toggle [(ngModel)]="musicValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Social</ion-label>
+      <ion-toggle [(ngModel)]="socialValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>International</ion-label>
+      <ion-toggle [(ngModel)]="internValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Business</ion-label>
+      <ion-toggle [(ngModel)]="businessValue" color="success"></ion-toggle>
     </ion-item>
 
 
     <ion-item>
-      <ion-label>Yoga</ion-label>
-      <ion-toggle [(ngModel)]="trueValue" color="success"></ion-toggle>
-
+      <ion-label>Communite</ion-label>
+      <ion-toggle [(ngModel)]="communityValue" color="success"></ion-toggle>
     </ion-item>
+
+    <ion-item>
+      <ion-label>Sante</ion-label>
+      <ion-toggle [(ngModel)]="santeValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Science et technologie</ion-label>
+      <ion-toggle [(ngModel)]="itValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Style de vie</ion-label>
+      <ion-toggle [(ngModel)]="lifestyleValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Fete</ion-label>
+      <ion-toggle [(ngModel)]="partyValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Rencontre</ion-label>
+      <ion-toggle [(ngModel)]="meetingValue" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Workshop</ion-label>
+      <ion-toggle [(ngModel)]="WorkshopValue" color="success"></ion-toggle>
+    </ion-item>
+
 
   </ion-list>
 

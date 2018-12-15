@@ -80,6 +80,7 @@ export class ProposeEventPage {
       eventEndDate: ['', Validators.compose([Validators.required])],
       eventStartHour: ['', Validators.compose([Validators.required])],
       eventEndHour: ['', Validators.compose([Validators.required])],
+      eventCategory: ['', Validators.compose([Validators.required])],
     });
   }
 
