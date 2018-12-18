@@ -25,6 +25,8 @@ import { GoodPlansPageModule } from '../pages/good-plans/good-plans.module';
 import { EventProvider } from '../providers/event/event';
 import { HabeeWalkthroughPageModule } from '../pages/habee-walkthrough/habee-walkthrough.module';
 import { ListContactPageModule } from '../pages/list-contact/list-contact.module';
+import { RegisterCommunityUserPageModule } from '../pages/register-community-user/register-community-user.module';
+import { RegisterPageModule } from '../pages/register/register.module';
 
 
 import {SharedModule} from './shared.module';
@@ -51,6 +53,8 @@ import { File } from '@ionic-native/file';
     GoodPlansPageModule,
     EventDetailsPageModule,
     ListContactPageModule,
+    RegisterCommunityUserPageModule,
+    RegisterPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
   ],

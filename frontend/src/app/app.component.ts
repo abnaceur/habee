@@ -14,7 +14,7 @@ import { HabeeWalkthroughPage } from '../pages/habee-walkthrough/habee-walkthrou
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = "LoginPage";
+  rootPage: any = "RegisterCommunityUserPage";
 
   pages: Array<{ title: string, component: any, active: boolean, icon: string }>;
   rightMenuItems: Array<{ icon: string, active: boolean }>;

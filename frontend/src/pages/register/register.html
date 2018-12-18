@@ -1,0 +1,46 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-navbar style="background: transparent">
+    <ion-title>register</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-slides>
+
+    <ion-slide>
+      <h4>Cree votre community</h4>
+      <form [formGroup]="communityForm">
+
+        <ion-item>
+          <ion-input placeholder="Nom" formControlName="commName" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            Uploader une photo &nbsp; &nbsp;
+            <ion-fab>
+              <ion-icon (click)="changePicture()" name="camera"></ion-icon>
+            </ion-fab>
+          </ion-label>
+
+        </ion-item>
+
+      </form>
+      <button ion-button round small (click)="nextSlide(communityForm.value)" style="background-color: #f3a350;" type="submit">Suivant</button>
+    </ion-slide>
+
+    <ion-slide>
+      <h1>Cree votre compte</h1>
+      <button ion-button round small (click)="backSlide()" style="background-color: #f3a350;" type="submit">Precedent</button>
+      <button ion-button round small style="background-color: #f3a350;" type="submit">Valider</button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>

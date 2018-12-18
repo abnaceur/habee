@@ -131,10 +131,7 @@ export class EventProvider {
   }
 
   addEventByCommunity(event, userInfo, uploadedImage) {
-
-    console.log("uploadedImage :", uploadedImage)
-
-    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+  const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/events',
       {
@@ -157,7 +154,6 @@ export class EventProvider {
   }
 
   getAllProposedEvevnstByUser(userInfo) {
-    console.log("getAllProposedEvevnstByUser : ", userInfo);
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + '/events/user/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
@@ -166,8 +162,6 @@ export class EventProvider {
   }
 
   editEvent(event, uploadedImage, userInfo) {
-    console.log("Event to be edited ", event, uploadedImage);
-    console.log("UserInfo : ", userInfo);
 
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
@@ -304,7 +298,6 @@ export class EventProvider {
     let filteredEvent = [];
     let i = 0;
 
-    console.log(filter, allEvents)
     allEvents.map(event => {
       while (i < nbrFilter) {
         if (event.eventCategory == filter[i]) {
@@ -322,7 +315,6 @@ export class EventProvider {
 
 
   getFilterOptions(userInfo) {
-    console.log("getFilterOptions : ", userInfo);
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + '/events/filter/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
@@ -331,7 +323,6 @@ export class EventProvider {
   }
 
   saveFilterOptions(filter, userInfo) {
-    console.log("SAVE FILTER : ", filter, userInfo)
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/events/filter/' + userInfo.userId + '/community/' + userInfo.activeCommunity,

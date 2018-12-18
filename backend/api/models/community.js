@@ -5,7 +5,8 @@ let communitySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     communityId: String,
 	communityName: String,
-	communityLogo: String,
+    communityLogo: String,
+    communityCreator: String,
 	communityAdmin: [],
 	communityMembers: [],
 	dateOfCreation: {

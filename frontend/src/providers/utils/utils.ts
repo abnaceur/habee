@@ -96,5 +96,4 @@ export class UtilsProvider {
     return false;
   }
 
-
 }

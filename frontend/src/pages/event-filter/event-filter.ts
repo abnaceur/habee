@@ -63,7 +63,6 @@ export class EventFilterPage {
     this.eventProvider.getFilterOptions(this.tabParams)
     .subscribe(filters => {
       let filter = filters.filterEvent[0];
-      console.log("GET FILTER :", filters.filterEvent[0])
       this.SportValue = filter.SportValue;
       this.ArtsValue = filter.ArtsValue;
       this.cultureValue = filter.cultureValue;

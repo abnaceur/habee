@@ -53,6 +53,7 @@ import {
 	templateUrl: 'events.html'
 })
 export class EventsPage {
+
 	items = {
 		icon: 'pin',
 	};
@@ -87,11 +88,10 @@ export class EventsPage {
 	}
 
 	async getAllevent() {
-		this.eventProvider.getEventsByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+		this.eventProvider.getEventsByCommunityId(this.tabParams)
 			.subscribe(response => {
 				response.Events.length > 0 ?
-					this.allEvents = response.Events : this.allEvents = [],
-					console.log("Repsonse this 13 : ", response)
+					this.allEvents = response.Events : this.allEvents = []
 			});
 	}
 
@@ -102,13 +102,11 @@ export class EventsPage {
 			token: this.tabParams.token,
 			activeCommunity: this.tabParams.activeCommunity
 		});
-		console.log("test event")
 	}
 
 	getAllEvents() {
 		this.eventProvider.getFilteredAllEventsByCommunityId(this.tabParams)
 			.subscribe(response => {
-				console.log("Refresh : ", response);
 				if (!response)
 					this.allEvents = []
 				else {
@@ -121,7 +119,6 @@ export class EventsPage {
 	doRefresh(refresher) {
 		this.getAllEvents();
 		setTimeout(() => {
-			console.log('Complete');
 			refresher.complete()
 		}, 2000);
 	}
@@ -146,7 +143,6 @@ export class EventsPage {
 	presentFilter() {
 		const modal = this.modalCtrl.create('EventFilterPage', this.tabParams);
 		modal.onDidDismiss(filterData => {
-			console.log("filterData :", filterData);
 			this.eventProvider.checkFilterOptions(filterData)
 				.then(activeFilters => {
 					let countElem = this.countElements(activeFilters);
@@ -182,6 +178,8 @@ export class EventsPage {
 				this.utils.checkStringExist(event.eventDescription, this.queryText) == true ?
 					this.allEvents.push(event) :
 					this.utils.checkStringExist(event.eventName, this.queryText) == true ?
+						this.allEvents.push(event) : 
+						this.utils.checkStringExist(event.eventLocation, this.queryText) == true ?
 						this.allEvents.push(event) : "";
 			})
 		}

@@ -6,6 +6,6 @@ export var environment = {
    // BASE_URL: "http://10.0.2.2:3000",
    
    //USB connected device
-   //BASE_URL: "http://192.168.42.232:3000",
+   //BASE_URL: "http://192.168.42.71:3000",
     
 }

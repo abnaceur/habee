@@ -49,18 +49,15 @@ export class HabeeWalkthroughPage {
 
   onSlideChanged() {
     this.slideIndex = this.slider.getActiveIndex();
-    console.log('Slide changed! Current index is', this.slideIndex, this.navParams);
-    
+    console.log('Slide changed! Current index is', this.slideIndex, this.navParams);    
   }
 
   goToApp() {
-    console.log('Go to App clicked');
     this.nav.push('TabsPage', this.navParams);
-
   }
 
   skip() {
-    console.log('Skip clicked');
     this.nav.push('TabsPage', this.navParams);
   }
+
 }

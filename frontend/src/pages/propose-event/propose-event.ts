@@ -4,29 +4,31 @@ import {
   Platform,
   ActionSheetController,
   LoadingController,
-  IonicPage, NavController, NavParams,
+  IonicPage,
+  NavController,
+  NavParams,
   ViewController,
   ToastController
 } from 'ionic-angular';
 
 
-import { 
-  FormBuilder, 
-  FormGroup, 
-  Validators, 
-  AbstractControl 
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl
 } from '@angular/forms';
 
-import { 
-  CameraProvider 
+import {
+  CameraProvider
 } from '../../providers/camera/camera';
 
-import { 
-  EventProvider 
+import {
+  EventProvider
 } from '../../providers/event/event';
 
-import { 
-  environment as ENV 
+import {
+  environment as ENV
 } from '../../environments/environment';
 
 
@@ -61,7 +63,7 @@ export class ProposeEventPage {
     public platform: Platform,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
-    private toastController: ToastController, 
+    private toastController: ToastController,
     public viewCtrl: ViewController,
     public navParams: NavParams) {
 
@@ -156,7 +158,7 @@ export class ProposeEventPage {
       position: 'top',
       cssClass: "uploadSucessClass"
     });
-    
+
     let uploadFailedToast = this.toastController.create({
       message: "Une erreur est apparus !",
       duration: 2000,
@@ -167,10 +169,8 @@ export class ProposeEventPage {
     if (this.chosenPicture) {
     this.eventProvider.uploadPhoto(this.chosenPicture)
     .then(data => {
-      console.log("Returned Data : ", data)
       this.eventProvider.addEventByCommunity(value, this.tabParams, data)
       .subscribe(response => {
-        console.log("this 111 : ", response)
         if (response.results == true) {
           uploadSucessToast.present();
         } else {
@@ -181,7 +181,6 @@ export class ProposeEventPage {
     } else {
       this.eventProvider.addEventByCommunity(value, this.tabParams, this.chosenPicture)
       .subscribe(response => {
-        console.log("this 111 : ", response)
         if (response.results == true) {
           uploadSucessToast.present();
         } else {
@@ -189,7 +188,7 @@ export class ProposeEventPage {
         }
         });
     }
-    
+
   }
 
   dismiss() {

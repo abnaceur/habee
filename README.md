@@ -9,7 +9,6 @@ and make the professional environement a pleasnat place to be in.
 ## Team 
  - Marie
  - Amelie
- - Jerome
  - Abdeljalil : http://naceur-abdeljalil.com
 
 ## Project's Goals and objectives
@@ -178,7 +177,10 @@ app.habeedb.local:3300 -> mongoclient
 ### Contributors
  - Mathias -> 	- Data model v0.0.
 				- API documentation v0.0.
-				- Base tab navigation in frontend. 
+				- Base tab navigation in frontend.
+	
+ - Jerome -> 	- Team building.
+				- Marketing strategy beta version.
 
 ### Help
 
