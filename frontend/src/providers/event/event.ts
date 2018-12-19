@@ -296,10 +296,11 @@ export class EventProvider {
   }
 
   eventApplyFilter(filter, allEvents, nbrFilter) {
+
     let filteredEvent = [];
     let i = 0;
 
-    allEvents.map(event => {
+    allEvents === [] ? allEvents.map(event => {
       while (i < nbrFilter) {
         if (event.eventCategory == filter[i]) {
           filteredEvent.push(event)
@@ -307,7 +308,7 @@ export class EventProvider {
         i++;
       }
       i = 0;
-    })
+    }) : filteredEvent = [];
 
     return new Promise(resolve => {
       resolve(filteredEvent);

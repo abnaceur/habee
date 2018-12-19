@@ -7,7 +7,6 @@ let communitySchema = mongoose.Schema({
 	communityName: String,
     communityLogo: String,
     communityCreator: String,
-	communityAdmin: [],
 	communityMembers: [],
 	dateOfCreation: {
         type: Date,
@@ -17,14 +16,10 @@ let communitySchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-	companyName: String,
-	clientId: String,
     communityIsActive: {
         type: Boolean,
         default: true,
-	},
-	communityCurrentEvents: [],
-	communityPassedEvents: []
+	}
 });
 
 module.exports = mongoose.model('Community', communitySchema);

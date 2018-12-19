@@ -59,7 +59,7 @@ router.get('/isNotActive', authCkeck, communityController.get_all_notActive_comm
  ** API routes [GET] [PATCH] for /communities/id
  */
 
-router.get('/:id', authCkeck, communityController.get_community_by_id);
+router.get('/:id', communityController.get_community_by_id);
 
 router.patch('/:id', authCkeck, upload.single('communityLogo'), communityController.patch_community_by_id);
 

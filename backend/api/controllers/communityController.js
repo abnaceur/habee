@@ -4,25 +4,17 @@ const mongoose = require('mongoose');
 const jwt = require ('jsonwebtoken');
 
 exports.get_all_communities = (req, res, next) => {
-    let nb = 0;
 
-    Community.count().exec()
-        .then(count => {
-            nb = count;
-        });
-    //TODO nbrOfUsers
     Community.find()
-        //TODO nbrOfUsers
-        .select("communityId communityName dateOfCreation dateOfLastUpdate communityIsActive")
         .exec()
         .then(communities => {
+            console.log("ddf : " , communities.length);
             if (communities.length === 0) {
                 return res.status(404).json({
                     message: "There are no communities!"
                 })
             } else {
                 res.status(200).json({
-                    nbrCommunities: nb,
                     Commuinities: communities
                 });
             }

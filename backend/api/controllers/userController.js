@@ -174,9 +174,132 @@ exports.post_userMobile = (req, res, next) => {
 
     console.log("imagePath : ", imagePathprofilePhoto, imagePathcommunityLogo);
 
-    res.status(200).json({
-        res : "test"
-    })
+
+    User.find({
+            "credentials.email": req.body.email
+        })
+        .exec()
+        .then(usr => {
+            if (usr.length > 0) {
+                return res.status(409).json({
+                    Message: "Email exists!"
+                })
+            } else {
+                Community.find({
+                    communityId: req.body.activeCommunity
+                }).then(com => {
+                    if (com.length > 0) {
+                        return res.status(409).json({
+                            Message: "Community exists!"
+                        })
+                    } else {
+                        //TOFO RANDOM UNIQUE ID
+                        const community = new Community({
+                            _id: new mongoose.Types.ObjectId,
+                            communityId: req.body.activeCommunity,
+                            communityName: req.body.activeCommunity,
+                            communityLogo: imagePathcommunityLogo,
+                            communityCreator: req.body.userId,
+                            communityMembers: [req.body.userId],
+                            communityIsActive: true
+                        });
+                        community
+                            .save()
+                            .then(com => {
+                                let pass = req.body.password;
+                                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                                    if (err) {
+                                        return res.status(500).json({
+                                            Error: err
+                                        })
+                                    } else {
+                                        const user = new User({
+                                            _id: new mongoose.Types.ObjectId,
+                                            userId: req.body.userId,
+                                            activeCommunity: req.body.activeCommunity,
+                                            activeProfileRole: req.body.profileIsAdmin,
+                                            credentials: {
+                                                firstname: req.body.firstname,
+                                                lastname: req.body.lastname,
+                                                birthDate: req.body.birthDate,
+                                                address: req.body.address,
+                                                email: req.body.email,
+                                                phone: req.body.phone,
+                                                password: hash,
+                                            },
+
+                                            communities: req.body.communities,
+                                            profile: [{
+                                                profileCummunityId: req.body.profileCummunityId,
+                                                profilePhoto: imagePathcommunityLogo,
+                                                profileUsername: req.body.profileUsername,
+                                                profileIsAdmin: req.body.profileIsAdmin,
+                                                profileUserIsActive: req.body.profileUserIsActive,
+                                                profileUserIsDeleted: req.body.profileUserIsDeleted ? req.body.profileUserIsDeleted : false,
+                                            }],
+                                            filterEvent: [{
+                                                filterCommunity: req.body.activeCommunity,
+                                                SportValue: false,
+                                                ArtsValue: false,
+                                                cultureValue: false,
+                                                MediaValue: false,
+                                                musicValue: false,
+                                                socialValue: false,
+                                                internValue: false,
+                                                businessValue: false,
+                                                communityValue: false,
+                                                santeValue: false,
+                                                itValue: false,
+                                                lifestyleValue: false,
+                                                partyValue: false,
+                                                meetingValue: false,
+                                                WorkshopValue: false,
+                                            }],
+                                            passions: req.body.passions,
+                                            skills: req.body.skills,
+                                            currentEvents: req.body.currentEvents,
+                                            "currentEvents.eventsICreated": req.body.eventsICreated,
+                                            "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
+                                            parameters: req.body.parameters,
+                                            passedEvents: req.body.passedEvents,
+                                            "passedEvents.PassedevenementsICreated": req.body.passedEvents,
+                                            "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
+                                        });
+                                        user
+                                            .save()
+                                            .then(result => {
+                                                console.log("User this: ", result)
+                                                let emailNew = result.credentials.email;
+
+                                                let text = "Hello ! \n Vous avez recu une invitaion pour rejoindre la communitee [nom de la communitee] \
+                                            \n voila vos logins : \n Email : " + emailNew + "\n Mot de pass : " + pass + "\
+                                            \n P.S : Ce mot de pass est genere autoatiquement, vouos devez change votre de pass depuis l'app HABEE \
+                                            \n TEAM HABEE"
+
+
+                                                utils.sendEmail("Habee TEAM", emailNew, "Bienvenu nouveau Habeebebois !", text);
+                                                res.status(200).json({
+                                                    message: "User added with success!"
+                                                    // Resulta: result
+                                                })
+                                            })
+                                            .catch(err => {
+                                                res.status(500).json({
+                                                    Error: err
+                                                })
+                                            });
+                                    }
+                                });
+                            })
+                            .catch(err => {
+                                res.status(500).json({
+                                    Error: err
+                                })
+                            });
+                    }
+                })
+            }
+        })
 }
 
 
