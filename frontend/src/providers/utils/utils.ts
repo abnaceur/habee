@@ -16,9 +16,19 @@ import {
   NavController,
   NavParams,
   ToastController,
+  LoadingController,
   ModalController
 } from 'ionic-angular';
 
+import {
+  FileTransfer,
+  FileTransferObject,
+  FileUploadOptions
+} from '@ionic-native/file-transfer';
+
+import {
+  File
+} from '@ionic-native/file';
 
 
 /*
@@ -32,6 +42,9 @@ export class UtilsProvider {
 
   constructor(
     public http: Http,
+    private file: File,
+    private transfer: FileTransfer,
+    private loadingCTRL: LoadingController,
     private toastController: ToastController,
   ) {
     console.log('Hello UtilsProvider Provider');
@@ -51,6 +64,41 @@ export class UtilsProvider {
       }
     }
     return result;
+  }
+
+  uploadPhoto(currentImage) {
+    return new Promise((resolve, reject) => {
+      let loader = this.loadingCTRL.create({
+        content: "uploading..."
+      });
+
+      loader.present();
+
+      const fileTransfer: FileTransferObject = this.transfer.create();
+
+      var random = Math.floor(Math.random() * 100);
+
+      let options: FileUploadOptions = {
+        fileKey: "file",
+        fileName: 'uploadedImage' + random + '.jpg',
+        chunkedMode: false,
+        httpMethod: "post",
+        mimeType: "image/jpeg",
+        headers: {}
+      }
+
+      fileTransfer.upload(currentImage, ENV.BASE_URL + '/events/mobile/photo/upload', options)
+        .then((data) => {
+          loader.dismiss();
+          resolve(data.response);
+          // success
+        }, (err) => {
+          // error
+          loader.dismiss();
+          let error = "Error"
+          resolve(error);
+        })
+    })
   }
 
   inihttpHeaderWIthToken(token) {

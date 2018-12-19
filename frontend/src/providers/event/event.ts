@@ -95,6 +95,7 @@ export class EventProvider {
       .map(response => response.json());
   }
 
+  // TODO DRY FUNCTION TO MOVE TTO UTILS
   uploadPhoto(currentImage) {
     return new Promise((resolve, reject) => {
       let loader = this.loadingCTRL.create({

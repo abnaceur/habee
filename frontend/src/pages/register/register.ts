@@ -17,7 +17,14 @@ import {
   AbstractControl
 } from "@angular/forms";
 
-import { CameraProvider } from "../../providers/camera/camera";
+import { 
+  CameraProvider 
+} from "../../providers/camera/camera";
+
+import {
+  RegisterProvider
+} from '../../providers/register/register';
+
 
 /**
  * Generated class for the RegisterPage page.
@@ -38,6 +45,8 @@ export class RegisterPage {
 
   communityForm: FormGroup;
   chosenPicture: any;
+ communityPhoto: any;
+ userPhoto: any;
 
   constructor(
     public navCtrl: NavController,
@@ -46,10 +55,16 @@ export class RegisterPage {
     public actionsheetCtrl: ActionSheetController,
     public loadingCtrl: LoadingController,
     public platform: Platform,
+    public registerProvider: RegisterProvider,
     public formBuilder: FormBuilder
   ) {
+
     this.communityForm = formBuilder.group({
-      commName: ["", Validators.compose([Validators.required])]
+      email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      commName: ["", Validators.compose([Validators.required])],
+      firstName: ["", Validators.compose([Validators.required])],
+      lastName: ["", Validators.compose([Validators.required])],
     });
   }
 
@@ -59,14 +74,19 @@ export class RegisterPage {
 
   nextSlide(value) {
     this.currentIndex = this.slides.getActiveIndex();
-    console.log("Current index is", this.currentIndex);
     this.slides.slideTo(this.currentIndex + 1);
     console.log("Com value :", value, this.chosenPicture);
+     this.communityPhoto = this.chosenPicture;
+  }
+
+  userInfoSubmit(value) {
+    this.userPhoto = this.chosenPicture;
+    console.log("User value :", value, this.userPhoto, this.communityPhoto);
+    this.registerProvider.registerNewUserCommunity(value, this.userPhoto, this.communityPhoto);
   }
 
   backSlide() {
     this.currentIndex = this.slides.getActiveIndex();
-    console.log("Current index is", this.currentIndex);
     this.slides.slideTo(this.currentIndex - 1);
   }
 

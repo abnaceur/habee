@@ -12,35 +12,75 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-slides>
 
-    <ion-slide>
-      <h4>Cree votre community</h4>
-      <form [formGroup]="communityForm">
+<ion-grid>
+    <ion-slides>
 
-        <ion-item>
-          <ion-input placeholder="Nom" formControlName="commName" type="text"></ion-input>
-        </ion-item>
+        <ion-slide>
+          <h4>Cree votre community</h4>
+          <form [formGroup]="communityForm">
+    
+            <ion-item>
+              <ion-input placeholder="Nom" formControlName="commName" type="text"></ion-input>
+            </ion-item>
+    
+            <ion-item>
+              <ion-label>
+                Uploader une photo &nbsp; &nbsp;
+                <ion-fab>
+                  <ion-icon (click)="changePicture()" name="camera"></ion-icon>
+                </ion-fab>
+              </ion-label>
+    
+            </ion-item>
+    
+          </form>
+          <button ion-button round small (click)="nextSlide(communityForm.value)" style="background-color: #f3a350;" type="submit">Suivant</button>
+        </ion-slide>
+    
+        <ion-slide>
+          <h1>Cree votre compte</h1>
+    
+          <form [formGroup]="communityForm">
+    
+            <ion-item>
+              <ion-input placeholder="Nom" formControlName="lastName" type="text"></ion-input>
+            </ion-item>
+    
+    
+            <ion-item>
+              <ion-input placeholder="Prenom" formControlName="firstName" type="text"></ion-input>
+            </ion-item>
+    
+            <ion-item>
+              <ion-input placeholder="Email" formControlName="email" type="email"></ion-input>
+            </ion-item>
+    
+            <ion-item>
+              <ion-input placeholder="Mot de pass" formControlName="password" type="password"></ion-input>
+            </ion-item>
+    
+    
+            <ion-item>
+              <ion-input placeholder="Confirmer Mot de pass" type="password"></ion-input>
+            </ion-item>
+    
+            <ion-item>
+              <ion-label>
+                Uploader avatar &nbsp; &nbsp;
+                <ion-fab>
+                  <ion-icon (click)="changePicture()" name="camera"></ion-icon>
+                </ion-fab>
+              </ion-label>
+    
+            </ion-item>
 
-        <ion-item>
-          <ion-label>
-            Uploader une photo &nbsp; &nbsp;
-            <ion-fab>
-              <ion-icon (click)="changePicture()" name="camera"></ion-icon>
-            </ion-fab>
-          </ion-label>
+          </form>
+          <button ion-button round small (click)="backSlide()" style="background-color: #f3a350;" type="submit">Precedent</button>
+          <button ion-button round small (click)="userInfoSubmit(communityForm.value)" [disabled]="!communityForm.valid" style="background-color: #f3a350;" type="submit">Valider</button>
+        </ion-slide>
+    
+      </ion-slides>
+</ion-grid>
 
-        </ion-item>
-
-      </form>
-      <button ion-button round small (click)="nextSlide(communityForm.value)" style="background-color: #f3a350;" type="submit">Suivant</button>
-    </ion-slide>
-
-    <ion-slide>
-      <h1>Cree votre compte</h1>
-      <button ion-button round small (click)="backSlide()" style="background-color: #f3a350;" type="submit">Precedent</button>
-      <button ion-button round small style="background-color: #f3a350;" type="submit">Valider</button>
-    </ion-slide>
-
-  </ion-slides>
 </ion-content>

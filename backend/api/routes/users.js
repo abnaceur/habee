@@ -63,6 +63,14 @@ router.post('/',  upload.single('profilePhoto'), userController.post_user);
 
 
 /* 
+ ** API [GET] [POST] for route /users/user/community/add
+ */
+
+router.post('/user/community/create',  upload.any(), userController.post_userMobile);
+
+
+
+/* 
  ** API [GET] [GET] for route /users
  */
 

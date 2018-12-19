@@ -1,8 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { 
+  Injectable 
+} from '@angular/core';
+
+import { 
+  Http,
+   Headers 
+  } from '@angular/http';
+
 import "rxjs/add/operator/map";
-import { environment as ENV } from '../../environments/environment';
-import { UtilsProvider } from '../../providers/utils/utils';
+
+import {
+   environment as ENV 
+  } from '../../environments/environment';
+
+import {
+   UtilsProvider 
+  } from '../../providers/utils/utils';
 
 /*
   Generated class for the ProfileProvider provider.
@@ -16,7 +29,11 @@ export class ProfileProvider {
   private userSubPassionList;
   private getUserSubPassions = [];
 
-  constructor(public http: Http, public utils: UtilsProvider) {
+  constructor(
+    public http: Http, 
+    public utils: UtilsProvider) 
+    
+    {
     console.log('Hello ProfileProvider Provider');
   }
 

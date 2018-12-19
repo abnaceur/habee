@@ -148,6 +148,38 @@ exports.getAllusersByCommunityIdMobile = (req, res, next) => {
 }
 
 
+exports.post_userMobile = (req, res, next) => {
+    console.log("Post mobile user: ", req.body)
+    console.log("Post mobile user file : ", req.file)
+
+    let imagePathprofilePhoto;
+    let imagePathcommunityLogo;
+
+    // TODO UNDRY THIS
+    if (req.body.communityLogo != undefined)
+        imagePathcommunityLogo = req.body.imagePathcommunityLogo;
+    else if (req.files == undefined)
+        imagePathcommunityLogo = "uploads/defaultEventImage.jpeg"
+    else if (req.files != undefined)
+        imagePathcommunityLogo = req.files[0].path;
+
+
+    if (req.body.profilePhoto != undefined)
+        imagePathprofilePhoto = req.body.profilePhoto;
+    else if (req.files == undefined)
+        imagePathprofilePhoto = "uploads/defaultEventImage.jpeg"
+    else if (req.files != undefined)
+        imagePathprofilePhoto = req.files[0].path;
+
+
+    console.log("imagePath : ", imagePathprofilePhoto, imagePathcommunityLogo);
+
+    res.status(200).json({
+        res : "test"
+    })
+}
+
+
 exports.post_user = (req, res, next) => {
     console.log("File : ", req.file);
     User.find({
