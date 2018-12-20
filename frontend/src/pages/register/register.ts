@@ -49,7 +49,8 @@ export class RegisterPage {
   userPhoto: any;
   public errorCommunity = "";
   public nameComm = "";
-  public queryTextCom;
+  public queryTextCom = "";
+  public emptyField = "";
 
   constructor(
     public navCtrl: NavController,
@@ -76,24 +77,33 @@ export class RegisterPage {
   }
 
   commNameChange () {
+    
+    if (this.queryTextCom != "") {
+      this.emptyField = "" 
+    }
+
     this.nameComm != this.queryTextCom ? this.errorCommunity = ""
-    : this.nameComm === this.queryTextCom ? this.errorCommunity = "Ce nom exist!" : ""
+    : this.nameComm === this.queryTextCom  && this.nameComm != "" ? this.errorCommunity = "Ce nom exist!" : ""
   }
 
   nextSlide(value) {
     this.currentIndex = this.slides.getActiveIndex();
     this.communityPhoto = this.chosenPicture;
     this.nameComm = value.commName;
-   
-    this.registerProvider.checkCommunityIfExist(value.commName)
-    .subscribe(data => {
-      if (data.count === 0) {
-        this.slides.slideTo(this.currentIndex + 1);
-      } else {
-        this.errorCommunity = "Ce nom exist!"
-      }
-    });
 
+    // emptyField
+    if (this.queryTextCom == "") {
+        this.emptyField = "Ce champs doit etere rempli!"
+    } else {
+      this.registerProvider.checkCommunityIfExist(value.commName)
+      .subscribe(data => {
+        if (data.count === 0) {
+          this.slides.slideTo(this.currentIndex + 1);
+        } else {
+          this.errorCommunity = "Ce nom exist!"
+        }
+      });
+    }
   }
 
   userInfoSubmit(value) {

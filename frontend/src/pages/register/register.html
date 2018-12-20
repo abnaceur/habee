@@ -27,7 +27,12 @@
             <ion-item *ngIf="errorCommunity != '' ">
               <p>{{errorCommunity}}</p>
            </ion-item>
-    
+
+           <ion-item *ngIf="emptyField != '' ">
+            <p>{{emptyField}}</p>
+         </ion-item>
+
+
             <ion-item>
               <ion-label>
                 Uploader une photo &nbsp; &nbsp;
