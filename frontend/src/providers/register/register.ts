@@ -110,4 +110,17 @@ export class RegisterProvider {
         return data
       })
   }
+
+
+  checkCommunityIfExist(name) {
+    console.log("Inside : ", name);
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+
+
+    return this.http.get(ENV.BASE_URL + '/communities/' + name,
+      { headers: header })
+      .map(response => response.json());
+  }
+
 }

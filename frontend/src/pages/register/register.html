@@ -21,8 +21,12 @@
           <form [formGroup]="communityForm">
     
             <ion-item>
-              <ion-input placeholder="Nom" formControlName="commName" type="text"></ion-input>
+              <ion-input [(ngModel)]="queryTextCom" (ionChange)="commNameChange()"  placeholder="Nom" formControlName="commName" type="text"></ion-input>
             </ion-item>
+
+            <ion-item *ngIf="errorCommunity != '' ">
+              <p>{{errorCommunity}}</p>
+           </ion-item>
     
             <ion-item>
               <ion-label>

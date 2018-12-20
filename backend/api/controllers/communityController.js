@@ -11,6 +11,7 @@ exports.get_all_communities = (req, res, next) => {
             console.log("ddf : " , communities.length);
             if (communities.length === 0) {
                 return res.status(404).json({
+                    code: "101",
                     message: "There are no communities!"
                 })
             } else {
@@ -64,6 +65,7 @@ exports.get_all_active_communities = (req, res, next) => {
         .then(activeCom => {
             if (activeCom.length === 0) {
                 return res.status(404).json({
+                    code: "101",
                     message: "There are no active communities!"
                 })
             } else {
@@ -111,11 +113,13 @@ exports.get_community_by_id = (req, res, next) => {
         .exec()
         .then(com => {
             if (com.length === 0) {
-                return res.status(404).json({
+                return res.status(200).json({
+                    count: 0,
                     message: "Community not found or id not valid!"
                 })
             } else {
                 res.status(200).json({
+                    count: com.length,
                     community: com
                 });
             }

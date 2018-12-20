@@ -87,14 +87,6 @@ export class EventsPage {
 		this.months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Jun", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 	}
 
-	async getAllevent() {
-		this.eventProvider.getEventsByCommunityId(this.tabParams)
-			.subscribe(response => {
-				response.Events.length > 0 ?
-					this.allEvents = response.Events : this.allEvents = []
-			});
-	}
-
 	goToEventDetail(eventDetails) {
 		this.nav.push("EventDetailsPage", {
 			data: eventDetails,

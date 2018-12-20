@@ -17,8 +17,8 @@ import {
   AbstractControl
 } from "@angular/forms";
 
-import { 
-  CameraProvider 
+import {
+  CameraProvider
 } from "../../providers/camera/camera";
 
 import {
@@ -45,8 +45,11 @@ export class RegisterPage {
 
   communityForm: FormGroup;
   chosenPicture: any;
- communityPhoto: any;
- userPhoto: any;
+  communityPhoto: any;
+  userPhoto: any;
+  public errorCommunity = "";
+  public nameComm = "";
+  public queryTextCom;
 
   constructor(
     public navCtrl: NavController,
@@ -72,16 +75,37 @@ export class RegisterPage {
     console.log("ionViewDidLoad RegisterPage");
   }
 
+  commNameChange () {
+    console.log(this.nameComm, this.queryTextCom);
+    if (this.nameComm != this.queryTextCom) {
+      this.errorCommunity = ""
+    }
+  
+    if (this.nameComm === this.queryTextCom) {
+      this.errorCommunity = "Ce nom exist!"      
+    }
+  }
+
   nextSlide(value) {
     this.currentIndex = this.slides.getActiveIndex();
-    this.slides.slideTo(this.currentIndex + 1);
-    console.log("Com value :", value, this.chosenPicture);
-     this.communityPhoto = this.chosenPicture;
+    this.communityPhoto = this.chosenPicture;
+    this.nameComm = value.commName;
+    console.log("Value : ", value);
+    
+    this.registerProvider.checkCommunityIfExist(value.commName)
+    .subscribe(data => {
+      console.log("Data : ", data)
+      if (data.count === 0) {
+        this.slides.slideTo(this.currentIndex + 1);
+      } else {
+        this.errorCommunity = "Ce nom exist!"
+      }
+    });
+
   }
 
   userInfoSubmit(value) {
     this.userPhoto = this.chosenPicture;
-    console.log("User value :", value, this.userPhoto, this.communityPhoto);
     this.registerProvider.registerNewUserCommunity(value, this.userPhoto, this.communityPhoto);
   }
 
