@@ -107,13 +107,19 @@ export class RegisterProvider {
 
     this.postUserCommuntiy(userId_, userData, userPhoto, communityPhoto)
       .subscribe(data => {
-        return data
+        if (data.results === "success") {
+          this.utils.notification("Compte cree avec success", "top");
+          return data
+        } else {
+          this.utils.notification("Une erreur est survenu!", "top")
+          return data   
+        }
+
       })
   }
 
 
   checkCommunityIfExist(name) {
-    console.log("Inside : ", name);
     const header = new Headers();
     header.append('Content-Type', 'application/json');
 
@@ -122,5 +128,4 @@ export class RegisterProvider {
       { headers: header })
       .map(response => response.json());
   }
-
 }

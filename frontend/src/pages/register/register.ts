@@ -76,25 +76,17 @@ export class RegisterPage {
   }
 
   commNameChange () {
-    console.log(this.nameComm, this.queryTextCom);
-    if (this.nameComm != this.queryTextCom) {
-      this.errorCommunity = ""
-    }
-  
-    if (this.nameComm === this.queryTextCom) {
-      this.errorCommunity = "Ce nom exist!"      
-    }
+    this.nameComm != this.queryTextCom ? this.errorCommunity = ""
+    : this.nameComm === this.queryTextCom ? this.errorCommunity = "Ce nom exist!" : ""
   }
 
   nextSlide(value) {
     this.currentIndex = this.slides.getActiveIndex();
     this.communityPhoto = this.chosenPicture;
     this.nameComm = value.commName;
-    console.log("Value : ", value);
-    
+   
     this.registerProvider.checkCommunityIfExist(value.commName)
     .subscribe(data => {
-      console.log("Data : ", data)
       if (data.count === 0) {
         this.slides.slideTo(this.currentIndex + 1);
       } else {

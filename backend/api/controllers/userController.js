@@ -279,6 +279,7 @@ exports.post_userMobile = (req, res, next) => {
 
                                                 utils.sendEmail("Habee TEAM", emailNew, "Bienvenu nouveau Habeebebois !", text);
                                                 res.status(200).json({
+                                                    results: "success",
                                                     message: "User added with success!"
                                                     // Resulta: result
                                                 })
