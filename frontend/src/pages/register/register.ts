@@ -106,6 +106,7 @@ export class RegisterPage {
     }
   }
 
+  // TODO VALIDATE CONFIRMED PASSWORD
   userInfoSubmit(value) {
     this.userPhoto = this.chosenPicture;
     this.registerProvider.registerNewUserCommunity(value, this.userPhoto, this.communityPhoto);
