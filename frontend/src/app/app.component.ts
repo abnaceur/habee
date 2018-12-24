@@ -1,12 +1,48 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { environment as ENV } from '../environments/environment';
-import { ProfileProvider } from '../providers/profile/profile';
-import { EventsPage } from '../pages/events/events';
-import { TabsPage } from '../pages/tabs/tabs';
-import { HabeeWalkthroughPage } from '../pages/habee-walkthrough/habee-walkthrough';
+import {
+  Component,
+  ViewChild
+} from '@angular/core';
+
+import {
+  Nav,
+  Platform,
+  MenuController,
+  Events
+} from 'ionic-angular';
+
+import {
+  StatusBar
+} from '@ionic-native/status-bar';
+
+import {
+  SplashScreen
+} from '@ionic-native/splash-screen';
+
+import {
+  environment as ENV
+} from '../environments/environment';
+
+import {
+  ProfileProvider
+} from '../providers/profile/profile';
+
+import {
+  EventsPage
+} from '../pages/events/events';
+
+import {
+  TabsPage
+} from '../pages/tabs/tabs';
+
+import {
+  HabeeWalkthroughPage
+} from '../pages/habee-walkthrough/habee-walkthrough';
+
+import {
+CommunityProvider
+} from '../providers/community/community';
+import { Subscriber } from 'rxjs/Subscriber';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -27,27 +63,28 @@ export class MyApp {
     profileImage: 'assets/img/avatar/girl-avatar.png'
   };
   public url = ENV.BASE_URL;
+  public allCommunitiesbyUserId;
 
   constructor(
     public profileProvider: ProfileProvider,
     public events: Events,
-    public platform: Platform, 
-    public statusBar: StatusBar, 
-    public splashScreen: SplashScreen) 
-    
-    {
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public menu: MenuController,
+    private communityProvider : CommunityProvider,
+    public splashScreen: SplashScreen) {
     this.initializeApp();
     events.subscribe('user:info', (userData) => {
       this.userData = userData;
       // user and time are the same arguments passed in `events.publish(user, time)`
       console.log('Welcome user data : ', userData);
-      this.profileProvider.getUserProfileByCommunityId(this.userData.token, this.userData.userId, this.userData.activeCommunity)
-      .subscribe(response => {
-        this.user.name = response.Users[0].profile[0].profileUsername,
-        response.Users[0].profile[0].profilePhoto ?
-        this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto
-        : this.user.profileImage
-      });
+      this.profileProvider.getUserProfileByCommunityId(this.userData)
+        .subscribe(response => {
+          this.user.name = response.Users[0].profile[0].profileUsername,
+            response.Users[0].profile[0].profilePhoto ?
+              this.user.profileImage = ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto
+              : this.user.profileImage
+        });
     });
 
 
@@ -67,6 +104,7 @@ export class MyApp {
     this.pages = [
       { title: 'Acceuil', component: 'TabsPage', active: true, icon: 'home' },
       { title: 'Profile', component: 'TabsPage', active: false, icon: 'contact' },
+      { title: 'Communaute', component: '', active: false, icon: 'archive' },
       { title: 'Deconnexion', component: 'LoginPage', active: false, icon: 'log-out' },
     ];
 
@@ -81,11 +119,33 @@ export class MyApp {
     });
   }
 
+  backToMainMenu() {
+    this.menu.enable(true, "menu-avatar")
+    this.menu.toggle("menu-avatar")
+  }
+
+
+
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    console.log("test this app :",  this.userData)
-    let menuData = [page.title, this.userData]
-    this.nav.setRoot(page.component,  menuData);
+    console.log("test this app :", this.userData.userId )
+    if (page.title == 'Communaute') {
+      this.menu.getMenus();
+      this.communityProvider.getCommunitiesbyCreator(this.userData)
+      .subscribe(data => {
+        console.log("Data form all comunities : ", data)
+        this.communityProvider.getCommunitySelected(data.communities, this.userData.userId)
+        .then(data => console.log("DAYA : ", data));
+        this.allCommunitiesbyUserId = data.communities;
+        console.log("HERE THIS : ", this.allCommunitiesbyUserId)
+      });
+      console.log("ytest", this.menu.getMenus(), this.user)
+      this.menu.enable(true, "menu-community")
+      this.menu.toggle("menu-community");
+    } else {
+      let menuData = [page.title, this.userData]
+      this.nav.setRoot(page.component, menuData);
+    }
   }
 }

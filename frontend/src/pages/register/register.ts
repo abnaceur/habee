@@ -107,6 +107,7 @@ export class RegisterPage {
   }
 
   // TODO VALIDATE CONFIRMED PASSWORD
+  // TODO FERIVY EMAIL IF IT DOES EXIST
   userInfoSubmit(value) {
     this.userPhoto = this.chosenPicture;
     this.registerProvider.registerNewUserCommunity(value, this.userPhoto, this.communityPhoto);

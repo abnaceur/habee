@@ -6,6 +6,7 @@ import {
 	IonicPage,
 	NavController,
 	ModalController,
+	MenuController,
 	NavParams, Item
 } from "ionic-angular";
 
@@ -73,8 +74,11 @@ export class EventsPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		public utils: UtilsProvider,
+		public menu: MenuController,
 		public nav: NavController) {
 
+
+		this.menu.enable(true, "left");
 		this.tabParams = {
 			userId: this.navParams.get("userId"),
 			token: this.navParams.get("token"),
@@ -170,9 +174,9 @@ export class EventsPage {
 				this.utils.checkStringExist(event.eventDescription, this.queryText) == true ?
 					this.allEvents.push(event) :
 					this.utils.checkStringExist(event.eventName, this.queryText) == true ?
-						this.allEvents.push(event) : 
+						this.allEvents.push(event) :
 						this.utils.checkStringExist(event.eventLocation, this.queryText) == true ?
-						this.allEvents.push(event) : "";
+							this.allEvents.push(event) : "";
 			})
 		}
 	}

@@ -1,24 +1,25 @@
-import { 
-  Component 
+import {
+  Component
 } from '@angular/core';
 
-import { 
-  IonicPage, 
-  NavController, 
-  NavParams, 
-  ToastController, 
-  Events 
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ToastController,
+  MenuController,
+  Events
 } from 'ionic-angular';
 
-import { 
-  FormBuilder, 
-  FormGroup, 
-  Validators, 
-  AbstractControl 
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl
 } from '@angular/forms';
 
-import { 
-  Http 
+import {
+  Http
 } from '@angular/http';
 
 import "rxjs/add/operator/map";
@@ -35,19 +36,21 @@ export class LoginPage {
 
   constructor(
     public events: Events,
-    private toastController: ToastController, 
-    public loginProvider: LoginProvider, 
-    public http: Http, 
-    public nav: NavController, 
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public formBuilder: FormBuilder)
+    private toastController: ToastController,
+    public loginProvider: LoginProvider,
+    public http: Http,
+    public nav: NavController,
+    public navCtrl: NavController,
+    public menu: MenuController,
+    public navParams: NavParams,
+    public formBuilder: FormBuilder) {
+    this.nav = nav;
 
-    {
-      this.nav = nav;
-      this.authForm = formBuilder.group({
-        email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
-        password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+    this.menu.enable(false, "left");
+
+    this.authForm = formBuilder.group({
+      email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
     });
   }
 
@@ -60,8 +63,8 @@ export class LoginPage {
           if (response.firstConnection == 0) {
             this.events.publish('user:info', response);
             this.loginProvider.updateUserNbrConnection(response.token, response.userId)
-            .subscribe(response => {
-              console.log("Repsonse this 134 : ", response)
+              .subscribe(response => {
+                console.log("Repsonse this 134 : ", response)
               });
             this.nav.push("HabeeWalkthroughPage", response);
           } else {

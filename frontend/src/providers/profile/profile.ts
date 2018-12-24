@@ -37,13 +37,13 @@ export class ProfileProvider {
     console.log('Hello ProfileProvider Provider');
   }
 
-  getUserProfileByCommunityId(token, userId, activeCommunity) {
+  getUserProfileByCommunityId(userInfo) {
 
-    const header = this.utils.inihttpHeaderWIthToken(token);
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + '/users/' + userId + '/' + activeCommunity,
+    return this.http.get(ENV.BASE_URL + '/users/' + userInfo.userId + '/' + userInfo.activeCommunity,
       { headers: header })
-      .map(response => response.json());
+      .map(response => response.json()) ;
   }
 
   getUserPassionsByCommunityId(token, userId, activeCommunity) {

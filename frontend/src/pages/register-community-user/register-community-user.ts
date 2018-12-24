@@ -4,7 +4,8 @@ import {
 
 import {
    IonicPage,
-  NavController, 
+  NavController,
+  MenuController,
   NavParams 
 } from 'ionic-angular';
 
@@ -23,6 +24,7 @@ import {
 export class RegisterCommunityUserPage {
 
   constructor(
+    public menu: MenuController,
     public navCtrl: NavController,
     public navParams: NavParams
   ) {
@@ -32,6 +34,8 @@ export class RegisterCommunityUserPage {
   
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterCommunityUserPage');
+    console.log("this.menu.get ",this.menu.get);
+    this.menu.enable(false, "left");
   }
 
   goToLoginPage() {

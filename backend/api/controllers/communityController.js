@@ -27,6 +27,26 @@ exports.get_all_communities = (req, res, next) => {
         })
 };
 
+exports.getCommunityByCreator = (req, res, next) => {
+    const userId = req.params.userId;
+
+    console.log("Body community : ", req.body, userId)
+    Community.find({
+        communityCreator: userId
+    })
+    .exec()
+    .then(coms => 
+        res.status(200).json({
+            communities: coms
+        })
+    ).catch(err => {
+        res.status(500).json({
+            Error :  err
+        })
+    })
+    
+}
+
 exports.post_community =  (req, res, next) => {
     const community = new Community({
         _id: new mongoose.Types.ObjectId,
