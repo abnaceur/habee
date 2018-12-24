@@ -58,11 +58,11 @@
 
 <ion-menu [content]="content" id="menu-community">
   <ion-content>
-    <div (click)="backToMainMenu()" #header>
+    <div #header>
       <ion-item ion-item>
-        <ion-icon name="arrow-back" item-left></ion-icon>
+        <ion-icon (click)="backToMainMenu()" name="arrow-back" item-left></ion-icon>
         <span style="font-size:4vw; color:white"><b>Changer la communaute</b></span>
-        <ion-icon name="add" item-right></ion-icon>
+        <ion-icon (click)="goToAddCommunityModal()" name="add" item-right></ion-icon>
       </ion-item>
     </div><br>
 

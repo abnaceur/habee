@@ -82,7 +82,7 @@ export class ProfilePage {
 
   ionViewWillEnter() {
     console.log('ionViewDidLoad ProfilePage');
-    this.profileProvider.getUserProfileByCommunityId(this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+    this.profileProvider.getUserProfileByCommunityId(this.tabParams)
       .subscribe(response => {
         console.log("User  : ", response.Users[0], response.Users[0].eventCreated )
         this.user.name = response.Users[0].profile[0].profileUsername,

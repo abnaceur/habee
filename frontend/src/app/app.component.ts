@@ -7,6 +7,7 @@ import {
   Nav,
   Platform,
   MenuController,
+  ModalController,
   Events
 } from 'ionic-angular';
 
@@ -71,6 +72,7 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public menu: MenuController,
+    public modalCtrl: ModalController,
     private communityProvider : CommunityProvider,
     public splashScreen: SplashScreen) {
     this.initializeApp();
@@ -125,6 +127,15 @@ export class MyApp {
   }
 
 
+  goToAddCommunityModal() {
+    console.log("test test etst ")
+    //this.nav.setRoot("AddCommunityPage");
+    const modal = this.modalCtrl.create('AddCommunityPage', this.userData);
+    modal.onDidDismiss(data => {
+      console.log("Data 111: ", data)
+    })
+    modal.present();
+  }
 
   openPage(page) {
     // Reset the content nav to have just this page

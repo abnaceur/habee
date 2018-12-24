@@ -33,7 +33,6 @@ export class CommunityProvider {
   }
 
   getCommunitiesbyCreator(userInfo) {
-    console.log("userId OOOO : ", userInfo);
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
@@ -41,21 +40,54 @@ export class CommunityProvider {
       .map(response => response.json());
   }
 
-  getCommunitySelected(com, userId): SubscribableOrPromise {
+  getCommunitySelected(com, userId): Promise<any> {
     let comArray = [];
-
-    console.log("AAA : ", userId, com)
-    com.map(data => {
+   com.map(data => {
       data.communityCreator == userId ?
       data.selected = "true"
       : data.selected = "false"
       comArray.push(data)
     })
-
-    console.log("ComArray :", comArray);
     return new Promise ((resolve, reject) => {
       resolve(comArray);
     })
+  }
+
+  addCommunity(comInfo, photo, userInfo): Observable<{}> {
+    console.log("Inside add community !", photo, comInfo);
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    if (photo === undefined) {
+      return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
+      {
+        "communityId": comInfo.communityTitle,
+        "communityName":comInfo.communityTitle,
+        "communityLogo": photo,
+        "communityCreator": userInfo.userId,
+        "communityMembers": [userInfo.userId],
+        "communityDescripton": comInfo.communityDescription,
+        "communityIsActive": true,
+      }
+      ,{ headers: header })
+      .map(response => response.json());
+    } else {
+      this.utils.uploadPhoto(photo)
+      .then(data => {
+        return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
+      {
+        "communityId": comInfo.communityTitle,
+        "communityName":comInfo.communityTitle,
+        "communityLogo": data,
+        "communityCreator": userInfo.userId,
+        "communityMembers": [userInfo.userId],
+        "communityDescripton": comInfo.communityDescription,
+        "communityIsActive": true,
+      }
+      ,{ headers: header })
+      .map(response => response.json());
+      })
+    }
+
   }
 
 }

@@ -7,7 +7,8 @@ let communitySchema = mongoose.Schema({
 	communityName: String,
     communityLogo: String,
     communityCreator: String,
-	communityMembers: [],
+    communityMembers: [],
+    communityDescripton: String,
 	dateOfCreation: {
         type: Date,
         default: Date.now,

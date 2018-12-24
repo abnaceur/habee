@@ -39,10 +39,18 @@ const upload = multer({
 router.get('/', communityController.get_all_communities);
 
 /*
- ** API [GET] [POST] for route /communites/creator/:userId []USED  
+ ** API [GET] for route /communites/creator/:userId []USED  
  */
 
 router.get('/creator/:userId', communityController.getCommunityByCreator);
+
+/*
+ ** API [POST] for route /communites/creator/:userId []USED  
+ */
+
+router.post('/creator/:userId', communityController.addCommunityByCreator);
+
+
 
 router.post('/',  upload.single('communityLogo'), communityController.post_community);
 

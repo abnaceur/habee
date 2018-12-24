@@ -27,7 +27,7 @@ import { HabeeWalkthroughPageModule } from '../pages/habee-walkthrough/habee-wal
 import { ListContactPageModule } from '../pages/list-contact/list-contact.module';
 import { RegisterCommunityUserPageModule } from '../pages/register-community-user/register-community-user.module';
 import { RegisterPageModule } from '../pages/register/register.module';
-
+import { AddCommunityPageModule } from '../pages/add-community/add-community.module';
 
 import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
@@ -56,6 +56,7 @@ import { RegisterProvider } from '../providers/register/register';
     ListContactPageModule,
     RegisterCommunityUserPageModule,
     RegisterPageModule,
+    AddCommunityPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
   ],

@@ -1,14 +1,14 @@
 const express = require('express');
 const Community = require('../models/community');
 const mongoose = require('mongoose');
-const jwt = require ('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 exports.get_all_communities = (req, res, next) => {
 
     Community.find()
         .exec()
         .then(communities => {
-            console.log("ddf : " , communities.length);
+            console.log("ddf : ", communities.length);
             if (communities.length === 0) {
                 return res.status(404).json({
                     code: "101",
@@ -27,27 +27,85 @@ exports.get_all_communities = (req, res, next) => {
         })
 };
 
+
+exports.addCommunityByCreator = (req, res, next) => {
+    const userId = req.params.userId;
+
+    let imagePath;
+
+    // TODO UNDRY THIS
+    if (req.body.photo != undefined)
+        imagePath = req.body.photo;
+    else if (req.files == undefined)
+        imagePath = "uploads/defaultEventImage.jpeg"
+    else if (req.files != undefined)
+        imagePath = req.files[0].path;
+
+
+    Community.find({
+            communityName: req.body.communityName
+        }).exec()
+        .then(com => {
+            if (com.length > 0) {
+                res.status(200).json({
+                    count: com.length,
+                    msg: "This name exist !"
+                })
+            } else {
+                console.log("BBBBBBBody : ", req.body, imagePath)
+                const community = new Community({
+                    _id: new mongoose.Types.ObjectId,
+                    communityId: req.body.communityId,
+                    communityName: req.body.communityName,
+                    communityLogo: imagePath,
+                    communityDescripton: req.body.communityDescripton,
+                    communityCreator: req.body.communityCreator,
+                    communityMembers: req.body.communityMembers,
+                    communityIsActive: req.body.communityIsActive,
+                });
+                community
+                    .save()
+                    .then(comm => {
+                        res.status(200).json({
+                            success: "1",
+                            community: comm
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            Error: err
+                        })
+                    });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        })
+}
+
 exports.getCommunityByCreator = (req, res, next) => {
     const userId = req.params.userId;
 
     console.log("Body community : ", req.body, userId)
     Community.find({
-        communityCreator: userId
-    })
-    .exec()
-    .then(coms => 
-        res.status(200).json({
-            communities: coms
+            communityCreator: userId
         })
-    ).catch(err => {
-        res.status(500).json({
-            Error :  err
+        .exec()
+        .then(coms =>
+            res.status(200).json({
+                communities: coms
+            })
+        ).catch(err => {
+            res.status(500).json({
+                Error: err
+            })
         })
-    })
-    
+
 }
 
-exports.post_community =  (req, res, next) => {
+exports.post_community = (req, res, next) => {
     const community = new Community({
         _id: new mongoose.Types.ObjectId,
         communityId: req.body.communityId,
@@ -57,9 +115,9 @@ exports.post_community =  (req, res, next) => {
         communityMembers: req.body.communityMembers,
         companyName: req.body.companyName,
         clientId: req.body.clientId,
-		communityIsActive: req.body.communityIsActive,
-		communityCurrentEvents: req.body.communityCurrentEvents,
-		communityPassedEvents: req.body.communityPassedEvents
+        communityIsActive: req.body.communityIsActive,
+        communityCurrentEvents: req.body.communityCurrentEvents,
+        communityPassedEvents: req.body.communityPassedEvents
 
     });
     community

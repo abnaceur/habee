@@ -1,21 +1,21 @@
-import { 
-  Injectable 
+import {
+  Injectable
 } from '@angular/core';
 
-import { 
+import {
   Http,
-   Headers 
-  } from '@angular/http';
+  Headers
+} from '@angular/http';
 
 import "rxjs/add/operator/map";
 
 import {
-   environment as ENV 
-  } from '../../environments/environment';
+  environment as ENV
+} from '../../environments/environment';
 
 import {
-   UtilsProvider 
-  } from '../../providers/utils/utils';
+  UtilsProvider
+} from '../../providers/utils/utils';
 
 /*
   Generated class for the ProfileProvider provider.
@@ -30,20 +30,19 @@ export class ProfileProvider {
   private getUserSubPassions = [];
 
   constructor(
-    public http: Http, 
-    public utils: UtilsProvider) 
-    
-    {
+    public http: Http,
+    public utils: UtilsProvider) {
     console.log('Hello ProfileProvider Provider');
   }
 
   getUserProfileByCommunityId(userInfo) {
 
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+    console.log("HHHHHH : ", userInfo)
 
     return this.http.get(ENV.BASE_URL + '/users/' + userInfo.userId + '/' + userInfo.activeCommunity,
       { headers: header })
-      .map(response => response.json()) ;
+      .map(response => response.json());
   }
 
   getUserPassionsByCommunityId(token, userId, activeCommunity) {
@@ -60,7 +59,7 @@ export class ProfileProvider {
     let UserPassions = [];
     UserPassions = this.userPassionsList['passions'];
 
-//    let nbUserPassions = UserPassions.length;
+    //    let nbUserPassions = UserPassions.length;
     let nbUserPassions = 0;
 
     let i = 0;
