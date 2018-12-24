@@ -48,7 +48,7 @@ exports.addCommunityByCreator = (req, res, next) => {
         .then(com => {
             if (com.length > 0) {
                 res.status(200).json({
-                    count: com.length,
+                    success: 0,
                     msg: "This name exist !"
                 })
             } else {
@@ -67,8 +67,8 @@ exports.addCommunityByCreator = (req, res, next) => {
                     .save()
                     .then(comm => {
                         res.status(200).json({
-                            success: "1",
-                            community: comm
+                            success: 1,
+                            msg: "Community added with success !"
                         })
                     })
                     .catch(err => {

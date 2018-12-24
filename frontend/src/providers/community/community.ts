@@ -40,10 +40,10 @@ export class CommunityProvider {
       .map(response => response.json());
   }
 
-  getCommunitySelected(com, userId): Promise<any> {
+  getCommunitySelected(com, activeCommunity): Promise<any> {
     let comArray = [];
    com.map(data => {
-      data.communityCreator == userId ?
+      data.communityName == activeCommunity ?
       data.selected = "true"
       : data.selected = "false"
       comArray.push(data)

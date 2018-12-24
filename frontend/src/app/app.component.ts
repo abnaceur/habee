@@ -40,7 +40,7 @@ import {
 } from '../pages/habee-walkthrough/habee-walkthrough';
 
 import {
-CommunityProvider
+  CommunityProvider
 } from '../providers/community/community';
 import { Subscriber } from 'rxjs/Subscriber';
 
@@ -73,7 +73,7 @@ export class MyApp {
     public statusBar: StatusBar,
     public menu: MenuController,
     public modalCtrl: ModalController,
-    private communityProvider : CommunityProvider,
+    private communityProvider: CommunityProvider,
     public splashScreen: SplashScreen) {
     this.initializeApp();
     events.subscribe('user:info', (userData) => {
@@ -132,7 +132,13 @@ export class MyApp {
     //this.nav.setRoot("AddCommunityPage");
     const modal = this.modalCtrl.create('AddCommunityPage', this.userData);
     modal.onDidDismiss(data => {
-      console.log("Data 111: ", data)
+      this.communityProvider.getCommunitiesbyCreator(this.userData)
+        .subscribe(data => {
+          this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
+            .then(data => {
+              this.allCommunitiesbyUserId = data;
+            });
+        });
     })
     modal.present();
   }
@@ -140,18 +146,16 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    console.log("test this app :", this.userData.userId )
+
     if (page.title == 'Communaute') {
       this.menu.getMenus();
       this.communityProvider.getCommunitiesbyCreator(this.userData)
-      .subscribe(data => {
-        console.log("Data form all comunities : ", data)
-        this.communityProvider.getCommunitySelected(data.communities, this.userData.userId)
-        .then(data => console.log("DAYA : ", data));
-        this.allCommunitiesbyUserId = data.communities;
-        console.log("HERE THIS : ", this.allCommunitiesbyUserId)
-      });
-      console.log("ytest", this.menu.getMenus(), this.user)
+        .subscribe(data => {
+          this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
+            .then(data => {
+              this.allCommunitiesbyUserId = data
+            });
+        });
       this.menu.enable(true, "menu-community")
       this.menu.toggle("menu-community");
     } else {

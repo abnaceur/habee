@@ -76,10 +76,10 @@ export class AddCommunityPage {
     });
 
     this.tabParams = {
-			userId: this.navParams.get("userId"),
-			token: this.navParams.get("token"),
-			activeCommunity: this.navParams.get('activeCommunity')
-		};
+      userId: this.navParams.get("userId"),
+      token: this.navParams.get("token"),
+      activeCommunity: this.navParams.get('activeCommunity')
+    };
 
     console.log("PARAMS : ", this.tabParams)
   }
@@ -160,9 +160,12 @@ export class AddCommunityPage {
   onSubmit(newCommunity) {
     console.log("Value sbmited : ", newCommunity, this.chosenPicture);
     this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
-    .subscribe(data => {
-      console.log("Response data : ", data);
-    })
-      this.utils.notification("Une erreur est survenu !", "top");
+      .subscribe(data => {
+        console.log("Response data : ", data.success);
+        if (data.success === 0)
+          this.utils.notification("Ce nom exist !", "top");
+        if (data.success === 1)
+          this.utils.notification("Votre communaute est ajouter avec success !", "top");
+      })
   }
 }

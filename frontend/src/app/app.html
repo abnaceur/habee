@@ -68,8 +68,7 @@
 
     <ion-list no-lines *ngFor="let community of allCommunitiesbyUserId">
 
-      <ion-item *ngIf="community.selected == 'true'">
-        <ion-icon color="white" name="checkbox-outline" item-left></ion-icon>
+      <ion-item style="border-left: 5px solid white" *ngIf="community.selected == 'true'">
         {{community.communityName}}
       </ion-item>
 
