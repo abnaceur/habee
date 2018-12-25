@@ -163,4 +163,21 @@ export class MyApp {
       this.nav.setRoot(page.component, menuData);
     }
   }
+
+  selectCommunity(comId){
+    this.communityProvider.updateSelectedCommunity(comId, this.userData)
+    .subscribe(data => {
+      console.log("Data : ", data)
+        if (data.count == 1) {
+          this.userData.activeCommunity = comId;
+          this.communityProvider.getCommunitiesbyCreator(this.userData)
+          .subscribe(data => {
+            this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
+              .then(data => {
+                this.allCommunitiesbyUserId = data
+              });
+          });
+        }
+    })
+  }
 }

@@ -198,6 +198,7 @@ exports.post_userMobile = (req, res, next) => {
                             _id: new mongoose.Types.ObjectId,
                             communityId: req.body.activeCommunity,
                             communityName: req.body.activeCommunity,
+                            communityDescripton: req.body.communityDescripton,
                             communityLogo: imagePathcommunityLogo,
                             communityCreator: req.body.userId,
                             communityMembers: [req.body.userId],

@@ -183,3 +183,4 @@ exports.filterEvents = (events, filter) => {
     console.log("RESULTS EVENT FILTERED :", filteredEvent);
     return filteredEvent
 }
+

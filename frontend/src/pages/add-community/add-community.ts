@@ -89,7 +89,7 @@ export class AddCommunityPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss();  
   }
 
   changePicture() {
@@ -164,7 +164,7 @@ export class AddCommunityPage {
         console.log("Response data : ", data.success);
         if (data.success === 0)
           this.utils.notification("Ce nom exist !", "top");
-        if (data.success === 1)
+        if (data.count === 1  )
           this.utils.notification("Votre communaute est ajouter avec success !", "top");
       })
   }

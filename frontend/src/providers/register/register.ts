@@ -41,6 +41,7 @@ export class RegisterProvider {
       {
         "userId": userId_,
         "activeCommunity": userData.commName,
+        "communityDescripton": userData.commDescription,
         "activeProfileRole": 0,
         "communityLogo": imgResCom,
         "lastname": userData.lastName,
@@ -122,7 +123,6 @@ export class RegisterProvider {
   checkCommunityIfExist(name) {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
-
 
     return this.http.get(ENV.BASE_URL + '/communities/' + name,
       { headers: header })

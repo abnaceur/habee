@@ -50,6 +50,11 @@ router.get('/creator/:userId', communityController.getCommunityByCreator);
 
 router.post('/creator/:userId', communityController.addCommunityByCreator);
 
+/*
+ ** API [POST] for route /communites/selected/:communityId/:userId []USED  
+ */
+
+router.post('/selected/:communityId/:userId', communityController.updateSelectedCommunity);
 
 
 router.post('/',  upload.single('communityLogo'), communityController.post_community);

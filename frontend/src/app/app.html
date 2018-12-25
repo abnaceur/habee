@@ -72,7 +72,7 @@
         {{community.communityName}}
       </ion-item>
 
-      <ion-item *ngIf="community.selected == 'false'">
+      <ion-item (click)="selectCommunity(community.communityId)" *ngIf="community.selected == 'false'">
         {{community.communityName}}
       </ion-item>
 

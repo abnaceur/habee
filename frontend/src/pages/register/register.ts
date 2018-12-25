@@ -69,6 +69,7 @@ export class RegisterPage {
       commName: ["", Validators.compose([Validators.required])],
       firstName: ["", Validators.compose([Validators.required])],
       lastName: ["", Validators.compose([Validators.required])],
+      commDescription: ["", Validators.compose([Validators.required])],
     });
   }
 

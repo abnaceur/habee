@@ -1,7 +1,9 @@
 const express = require('express');
 const Community = require('../models/community');
 const mongoose = require('mongoose');
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const utils = require('../services/utils');
 
 exports.get_all_communities = (req, res, next) => {
 
@@ -27,6 +29,39 @@ exports.get_all_communities = (req, res, next) => {
         })
 };
 
+exports.updateSelectedCommunity = (req, res, next) => {
+    const userId = req.params.userId;
+    const communityId = req.params.communityId;
+
+    console.log(userId, communityId);
+
+    User.find({
+            userId: userId
+        })
+        .exec()
+        .then(usr => {
+            usr[0].activeCommunity = communityId;
+            User.findByIdAndUpdate(usr[0]._id,
+                usr[0], {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                    res.status(200).json({
+                        count: 1,
+                        msg: "Updated with success !"
+                    })
+                });
+        })
+        .catch(err => {
+            res.status(500).json({
+                Error: err
+            })
+        })
+
+
+
+}
 
 exports.addCommunityByCreator = (req, res, next) => {
     const userId = req.params.userId;
@@ -52,35 +87,79 @@ exports.addCommunityByCreator = (req, res, next) => {
                     msg: "This name exist !"
                 })
             } else {
-                console.log("BBBBBBBody : ", req.body, imagePath)
-                const community = new Community({
-                    _id: new mongoose.Types.ObjectId,
-                    communityId: req.body.communityId,
-                    communityName: req.body.communityName,
-                    communityLogo: imagePath,
-                    communityDescripton: req.body.communityDescripton,
-                    communityCreator: req.body.communityCreator,
-                    communityMembers: req.body.communityMembers,
-                    communityIsActive: req.body.communityIsActive,
-                });
-                community
-                    .save()
-                    .then(comm => {
-                        res.status(200).json({
-                            success: 1,
-                            msg: "Community added with success !"
+                User.find({
+                        userId: userId
+                    }).exec()
+                    .then(usr => {
+                        console.log("BBBBBBBody : ", req.body, imagePath)
+                        const community = new Community({
+                            _id: new mongoose.Types.ObjectId,
+                            communityId: req.body.communityId,
+                            communityName: req.body.communityName,
+                            communityLogo: imagePath,
+                            communityDescripton: req.body.communityDescripton,
+                            communityCreator: req.body.communityCreator,
+                            communityMembers: req.body.communityMembers,
+                            communityIsActive: req.body.communityIsActive,
+                        });
+                        community
+                            .save()
+                            .then(comm => {
+                                console.log("Number : ", usr[0].profile.length)
+                                usr[0].profile[usr[0].profile.length] = {
+                                    "profileUserIsActive": true,
+                                    "profileUserIsDeleted": false,
+                                    "profileCummunityId": req.body.communityName,
+                                    "profilePhoto": usr[0].profile[usr[0].profile.length - 1].profilePhoto,
+                                    "profileUsername": usr[0].credentials.firstname + usr[0].credentials.lastname,
+                                    "profileIsAdmin": 0
+                                }
+                                usr[0].communities.push(req.body.communityName);
+                                usr[0].filterEvent[usr[0].filterEvent.length] = {
+                                    "SportValue": false,
+                                    "ArtsValue": false,
+                                    "cultureValue": false,
+                                    "MediaValue": false,
+                                    "musicValue": false,
+                                    "socialValue": false,
+                                    "internValue": false,
+                                    "businessValue": false,
+                                    "communityValue": false,
+                                    "santeValue": false,
+                                    "itValue": false,
+                                    "lifestyleValue": false,
+                                    "partyValue": false,
+                                    "meetingValue": false,
+                                    "WorkshopValue": false,
+                                    "filterCommunity": req.body.communityName
+                                }
+                                User.findByIdAndUpdate(usr[0]._id,
+                                    usr[0], {
+                                        new: false,
+                                    }, function (err, results) {
+                                        if (err) return res.status(500).json(err);
+                                        res.status(200).json({
+                                            count: 1,
+                                            msg: "Created with success !"
+                                        })
+                                    })
+                            })
+                            .catch(err => {
+                                res.status(500).json({
+                                    Error1: err
+                                })
+                            });
+                    }).catch(err => {
+                        res.status(500).json({
+                            Error3: err
                         })
                     })
-                    .catch(err => {
-                        res.status(500).json({
-                            Error: err
-                        })
-                    });
+
             }
         })
         .catch(err => {
             res.status(500).json({
-                Error: err
+                Error111: err
             })
         })
 }
