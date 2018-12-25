@@ -725,8 +725,8 @@ exports.patch_credentials_by_id = (req, res, next) => {
 exports.get_userId_communityId = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
+
     let nbProfile = 0;
-    console.log("here ");
     Community.count().exec()
         .then(count => {
             nbProfile = count;
@@ -737,9 +737,8 @@ exports.get_userId_communityId = (req, res, next) => {
         })
         .exec()
         .then(usrs => {
-            // console.log(usrs);
             if (usrs.length === 0) {
-                return res.status(404).json({
+                return res.status(200).json({
                     message: "User not found or id not valid!"
                 })
             } else {
@@ -756,7 +755,7 @@ exports.get_userId_communityId = (req, res, next) => {
                 );
                 if (usrs[0].eventsParticipated.length != 0) {
                     Event.find({
-                            eventCommunity: usrs[0].eventsParticipated[0].eventCommunity,
+                            eventCommunity: communityId,
                             eventIsDeleted: false,
                         }).exec()
                         .then(event => {
@@ -764,6 +763,7 @@ exports.get_userId_communityId = (req, res, next) => {
                             let i = 0;
                             let z = 0;
 
+                            console.log("Event :", event)
                             while (i < usrs[0].eventsParticipated.length) {
                                 while (z < event.length) {
                                     if (usrs[0].eventsParticipated[i].eventId == event[z].eventId) {
@@ -774,24 +774,40 @@ exports.get_userId_communityId = (req, res, next) => {
                                 z = 0;
                                 i++;
                             }
-                            console.log("test : ", allUserEvents)
+                            console.log("test !!!!: ", allUserEvents)
                             usrs[0].eventsParticipated = allUserEvents;
 
                             Event.find({
                                     eventCreator: id,
+                                    eventCommunity: communityId,
                                     eventIsDeleted: false,
                                 }).exec()
                                 .then(event => {
+                                    console.log("here ty1")
+                                    console.log("Event2 :", event)
+                                    let i = 0;
+                                    console.log("DDD", usrs[0].profile.length);
+                                    let z = usrs[0].profile.length;
+                                    let t = 0;
+
+                                    while (t < z) {
+                                        if (usrs[0].profile[i] == undefined || usrs[0].profile[i] == null)
+                                            i++;
+                                        t++;
+                                    }
                                     res.status(200).json({
                                         Users: usrs.map(usr => {
-                                            return {
-                                                eventCreated: event.length,
-                                                userId: usr.userId,
-                                                profile: usr.profile,
-                                                profileRole: usr.profile[0].profileIsAdmin,
-                                                nbrEventsParticipated: usr.eventsParticipated.length,
-                                                profileIsActive: usr.profile[0].profileUserIsActive,
-                                                profileRole: usr.profile[0].profileIsAdmin,
+
+                                            console.log("here ty")
+                                            if (usr != undefined) {
+                                                return {
+                                                    eventCreated: event.length,
+                                                    userId: usr.userId,
+                                                    profile: usr.profile[i],
+                                                    nbrEventsParticipated: usr.eventsParticipated.length,
+                                                    profileIsActive: usr.profile[i].profileUserIsActive,
+                                                    profileRole: usr.profile[i].profileIsAdmin,
+                                                }
                                             }
                                         })
                                     });
@@ -801,19 +817,36 @@ exports.get_userId_communityId = (req, res, next) => {
                 } else {
                     Event.find({
                             eventCreator: id,
+                            eventCommunity: communityId,
                             eventIsDeleted: false,
                         }).exec()
                         .then(event => {
+                            console.log("Event1 :", event)
+                            let i = 0;
+                            console.log("DDD", usrs[0].profile.length);
+                            let z = usrs[0].profile.length;
+                            let t = 0;
+
+                            while (t < z) {
+                                if (usrs[0].profile[i] == undefined || usrs[0].profile[i] == null)
+                                    i++;
+                                t++;
+                            }
+
+                            console.log("DDD", i);
+
                             res.status(200).json({
                                 Users: usrs.map(usr => {
-                                    return {
-                                        eventCreated: event.length,
-                                        userId: usr.userId,
-                                        profile: usr.profile,
-                                        profileRole: usr.profile[0].profileIsAdmin,
-                                        nbrEventsParticipated: usr.eventsParticipated.length,
-                                        profileIsActive: usr.profile[0].profileUserIsActive,
-                                        profileRole: usr.profile[0].profileIsAdmin,
+                                    if (usr != undefined) {
+                                        console.log("here III", i)
+                                        return {
+                                            eventCreated: event.length,
+                                            userId: usr.userId,
+                                            profile: usr.profile[i],
+                                            nbrEventsParticipated: usr.eventsParticipated.length,
+                                            profileIsActive: usr.profile[i].profileUserIsActive,
+                                            profileRole: usr.profile[i].profileIsAdmin,
+                                        }
                                     }
                                 })
                             });

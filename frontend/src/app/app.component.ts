@@ -83,9 +83,9 @@ export class MyApp {
       console.log('Welcome user data : ', userData);
       this.profileProvider.getUserProfileByCommunityId(this.userData)
         .subscribe(response => {
-          this.user.name = response.Users[0].profile[0].profileUsername,
-            response.Users[0].profile[0].profilePhoto ?
-              this.user.profileImage = ENV.BASE_URL + '/' + response.Users[0].profile[0].profilePhoto
+          this.user.name = response.Users[0].profile.profileUsername,
+            response.Users[0].profile.profilePhoto ?
+              this.user.profileImage = ENV.BASE_URL + '/' + response.Users[0].profile.profilePhoto
               : this.user.profileImage
         });
     });
