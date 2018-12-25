@@ -8,7 +8,8 @@ import {
   Platform,
   MenuController,
   ModalController,
-  Events
+  Events,
+  NavParams
 } from 'ionic-angular';
 
 import {
@@ -174,7 +175,9 @@ export class MyApp {
           .subscribe(data => {
             this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
               .then(data => {
-                this.allCommunitiesbyUserId = data
+                this.allCommunitiesbyUserId = data;
+                this.menu.enable(true, "menu-avatar")
+                this.nav.push("TabsPage", this.userData);
               });
           });
         }

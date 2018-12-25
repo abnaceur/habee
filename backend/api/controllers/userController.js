@@ -198,7 +198,7 @@ exports.post_userMobile = (req, res, next) => {
                             _id: new mongoose.Types.ObjectId,
                             communityId: req.body.activeCommunity,
                             communityName: req.body.activeCommunity,
-                            communityDescripton: req.body.communityDescripton,
+                            s: req.body.communityDescripton,
                             communityLogo: imagePathcommunityLogo,
                             communityCreator: req.body.userId,
                             communityMembers: [req.body.userId],
@@ -569,13 +569,13 @@ exports.get_user_by_id = (req, res, next) => {
         .exec()
         .then(usr => {
             if (usr.length === 0) {
-                return res.status(404).json({
+                return res.status(200).json({
                     message: "User not found or id not valid!"
                 })
             } else {
                 if (usr[0].eventsParticipated.length != 0) {
                     Event.find({
-                            eventCommunity: usr[0].eventsParticipated[0].eventCommunity,
+                            eventCommunity: usr[0].activeCommunity,
                             eventIsOver: false,
                             eventIsDeleted: false,
                         }).exec()
@@ -598,7 +598,8 @@ exports.get_user_by_id = (req, res, next) => {
                             usr[0].eventsParticipated = allUserEvents;
 
                             res.status(200).json({
-                                User: usr
+                                User: usr,
+                                event: event
                             });
                         })
                 } else {
