@@ -85,14 +85,21 @@ exports.postEventFilter = (req, res, next) => {
     let communityId = req.params.communityId;
 
     User.find({
-            userId: userId,
-            "filterEvent.filterCommunity": communityId
+            userId: userId
         })
         .exec()
         .then(usr => {
-            console.log(req.body, usr[0].filterEvent[0]._id)
+            console.log(usr[0].filterEvent[0])
+            let z = 0;
+            let i = 0;
+            usr[0].filterEvent.map(evt => {
+                if (evt.filterCommunity == communityId)
+                    z = i;
+                i++;
+            })
             req.body.filterCommunity = communityId;
-            usr[0].filterEvent[0] = req.body;
+            req.body.filterCommunity = communityId;
+            usr[0].filterEvent[z] = req.body;
             User.findByIdAndUpdate(usr[0]._id,
                 usr[0], {
                     new: false,
@@ -115,111 +122,118 @@ exports.getEventFilter = (req, res, next) => {
         .select("filterEvent")
         .exec()
         .then(usr => {
+            let z = 0;
+            let i = 0;
+            usr[0].filterEvent.map(evt => {
+                if (evt.filterCommunity == communityId)
+                    z = i;
+                i++;
+            })
             res.status(200).json({
-                filterEvent: usr[0].filterEvent
+                filterEvent: usr[0].filterEvent[z]
             })
         })
 }
 
 exports.getFilteredEvent = (req, res, next) => {
-let userId = req.params.userId;
-let communityId = req.params.communityId;
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
 
 
-User.find({
-        userId: userId,
-        "filterEvent.filterCommunity": communityId
-    })
-    .select("filterEvent")
-    .exec()
-    .then(usr => {
-        let filter = usr[0].filterEvent[0];
-        Event.find({
-                eventCommunity: communityId,
-                eventIsOver: false,
-                eventIsDeleted: false,
-            })
-            .exec()
-            .then(activeEvent => {
-                if (activeEvent.length === 0) {
-                    return res.status(200).json({
-                        message: "There are no events!"
-                    })
-                } else {
-                    let currentDate = new Date;
-                    activeEvent.map(event => {
-                        let i = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
-                        let currentMdate = new Date(i);
-                        if (event.eventEndDate <= currentMdate) {
-                            event.eventIsOver = true;
-                            Event.findByIdAndUpdate(event._id,
-                                event, {
-                                    new: false,
-                                },
-                                function (err, results) {
-                                    if (err) return res.status(500).json(err);
-                                    console.log("EVENT IS OVER")
-                                });
-                        }
-                    })
-                    Event.find({
-                            eventCommunity: communityId,
-                            eventIsOver: false,
-                            eventIsDeleted: false,
+    User.find({
+            userId: userId,
+            "filterEvent.filterCommunity": communityId
+        })
+        .select("filterEvent")
+        .exec()
+        .then(usr => {
+            let filter = usr[0].filterEvent[0];
+            Event.find({
+                    eventCommunity: communityId,
+                    eventIsOver: false,
+                    eventIsDeleted: false,
+                })
+                .exec()
+                .then(activeEvent => {
+                    if (activeEvent.length === 0) {
+                        return res.status(200).json({
+                            message: "There are no events!"
                         })
-                        .exec()
-                        .then(events => {
-                            let filteredEvent = [];
-                            filteredEvent = utils.filterEvents(events, filter);
-                            if (events.length === 0) {
-                                return res.status(404).json({
-                                    message: "There are no events!"
-                                })
-                            } else {
-                                res.status(200).json({
-                                    Count: filteredEvent.length,
-                                    Events: filteredEvent.map(event => {
-                                        return {
-                                            _id: events._id,
-                                            eventId: event.eventId,
-                                            eventCommunity: event.eventCommunity,
-                                            eventName: event.eventName,
-                                            eventCreator: event.eventCreator,
-                                            eventDescription: event.eventDescription,
-                                            eventStartDate: event.eventStartDate,
-                                            eventEndDate: event.eventEndDate,
-                                            eventStartHour: event.eventStartHour,
-                                            eventEndHour: event.eventEndHour,
-                                            eventLocation: event.eventLocation,
-                                            nbrParticipants: event.nbrParticipants,
-                                            participants: event.participants,
-                                            nbrSubscribedParticipants: event.participants.length,
-                                            eventIsOver: event.eventIsOver,
-                                            eventPhoto: event.eventPhoto,
-                                            eventCategory: event.eventCategory,
-                                            request: {
-                                                Type: "[GET]",
-                                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                                            }
-                                        }
-                                    })
-                                });
+                    } else {
+                        let currentDate = new Date;
+                        activeEvent.map(event => {
+                            let i = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
+                            let currentMdate = new Date(i);
+                            if (event.eventEndDate <= currentMdate) {
+                                event.eventIsOver = true;
+                                Event.findByIdAndUpdate(event._id,
+                                    event, {
+                                        new: false,
+                                    },
+                                    function (err, results) {
+                                        if (err) return res.status(500).json(err);
+                                        console.log("EVENT IS OVER")
+                                    });
                             }
                         })
-                        .catch(err => {
-                            res.status(500).json({
-                                error: err
+                        Event.find({
+                                eventCommunity: communityId,
+                                eventIsOver: false,
+                                eventIsDeleted: false,
                             })
-                        })
-                }
-            })
-            .catch(err => {
-                res.status(500).json({
-                    error: err
+                            .exec()
+                            .then(events => {
+                                let filteredEvent = [];
+                                filteredEvent = utils.filterEvents(events, filter);
+                                if (events.length === 0) {
+                                    return res.status(404).json({
+                                        message: "There are no events!"
+                                    })
+                                } else {
+                                    res.status(200).json({
+                                        Count: filteredEvent.length,
+                                        Events: filteredEvent.map(event => {
+                                            return {
+                                                _id: events._id,
+                                                eventId: event.eventId,
+                                                eventCommunity: event.eventCommunity,
+                                                eventName: event.eventName,
+                                                eventCreator: event.eventCreator,
+                                                eventDescription: event.eventDescription,
+                                                eventStartDate: event.eventStartDate,
+                                                eventEndDate: event.eventEndDate,
+                                                eventStartHour: event.eventStartHour,
+                                                eventEndHour: event.eventEndHour,
+                                                eventLocation: event.eventLocation,
+                                                nbrParticipants: event.nbrParticipants,
+                                                participants: event.participants,
+                                                nbrSubscribedParticipants: event.participants.length,
+                                                eventIsOver: event.eventIsOver,
+                                                eventPhoto: event.eventPhoto,
+                                                eventCategory: event.eventCategory,
+                                                request: {
+                                                    Type: "[GET]",
+                                                    Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
+                                                }
+                                            }
+                                        })
+                                    });
+                                }
+                            })
+                            .catch(err => {
+                                res.status(500).json({
+                                    error: err
+                                })
+                            })
+                    }
                 })
-            })
+                .catch(err => {
+                    res.status(500).json({
+                        error: err
+                    })
+                })
 
-    })
+        })
 
 }
 

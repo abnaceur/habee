@@ -62,7 +62,7 @@ export class EventFilterPage {
     console.log('ionViewDidLoad EventFilterPage', this.navParams);
     this.eventProvider.getFilterOptions(this.tabParams)
     .subscribe(filters => {
-      let filter = filters.filterEvent[0];
+      let filter = filters.filterEvent;
       this.SportValue = filter.SportValue;
       this.ArtsValue = filter.ArtsValue;
       this.cultureValue = filter.cultureValue;
