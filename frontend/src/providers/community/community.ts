@@ -53,49 +53,58 @@ export class CommunityProvider {
     })
   }
 
-  addCommunity(comInfo, photo, userInfo): Observable<{}> {
+
+  postCommunity(userInfo, comInfo, data, header) {
+    return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
+      {
+        "communityId": comInfo.communityTitle,
+        "communityName": comInfo.communityTitle,
+        "communityLogo": data,
+        "communityCreator": userInfo.userId,
+        "communityMembers": [userInfo.userId],
+        "communityDescripton": comInfo.communityDescription,
+        "communityIsActive": true,
+      }
+      , { headers: header })
+      .map(response => response.json().count);
+  }
+
+  addCommunity(comInfo, photo, userInfo) {
     console.log("Inside add community !", photo, comInfo);
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     if (photo === undefined) {
-      return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
-        {
-          "communityId": comInfo.communityTitle,
-          "communityName": comInfo.communityTitle,
-          "communityLogo": photo,
-          "communityCreator": userInfo.userId,
-          "communityMembers": [userInfo.userId],
-          "communityDescripton": comInfo.communityDescription,
-          "communityIsActive": true,
-        }
-        , { headers: header })
-        .map(response => response.json());
+      return new Promise((resolve, reject) => {
+        this.postCommunity(userInfo, comInfo, photo, header)
+          .subscribe(data => {
+            console.log("data !!! : ", data)
+            resolve(data)
+          })
+      })
     } else {
+      console.log("here it is !")
       this.utils.uploadPhoto(photo)
         .then(data => {
-          return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
-            {
-              "communityId": comInfo.communityTitle,
-              "communityName": comInfo.communityTitle,
-              "communityLogo": data,
-              "communityCreator": userInfo.userId,
-              "communityMembers": [userInfo.userId],
-              "communityDescripton": comInfo.communityDescription,
-              "communityIsActive": true,
-            }
-            , { headers: header })
-            .map(response => response.json());
+          console.log("here it is 1!")
+          return new Promise((resolve, reject) => {
+            this.postCommunity(userInfo, comInfo, data, header)
+              .subscribe(data => {
+                console.log("data !!! : ", data)
+                return resolve(data);
+              })
+          })
         })
     }
   }
 
-  updateSelectedCommunity(comId, userInfo): Observable<{}> {
+  updateSelectedCommunity(comId, userInfo) {
 
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
+    //TODO FIX THE RESPOSNE 
     return this.http.post(ENV.BASE_URL + '/communities/selected/' + comId + "/" + userInfo.userId,
       { headers: header })
-      .map(response => response.json());
+      .map(response => response.json().count);
   }
 
 }

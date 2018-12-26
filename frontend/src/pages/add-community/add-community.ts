@@ -158,13 +158,11 @@ export class AddCommunityPage {
   }
 
   onSubmit(newCommunity) {
-    console.log("Value sbmited : ", newCommunity, this.chosenPicture);
     this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
-      .subscribe(data => {
-        console.log("Response data : ", data.success);
-        if (data.success === 0)
+      .then(data => {
+        if (data === 0)
           this.utils.notification("Ce nom exist !", "top");
-        if (data.count === 1  )
+        if (data === 1  )
           this.utils.notification("Votre communaute est ajouter avec success !", "top");
       })
   }

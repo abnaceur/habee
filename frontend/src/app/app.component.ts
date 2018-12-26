@@ -169,7 +169,7 @@ export class MyApp {
     this.communityProvider.updateSelectedCommunity(comId, this.userData)
     .subscribe(data => {
       console.log("Data : ", data)
-        if (data.count == 1) {
+        if (data === 1) {
           this.userData.activeCommunity = comId;
           this.communityProvider.getCommunitiesbyCreator(this.userData)
           .subscribe(data => {

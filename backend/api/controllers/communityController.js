@@ -83,7 +83,7 @@ exports.addCommunityByCreator = (req, res, next) => {
         .then(com => {
             if (com.length > 0) {
                 res.status(200).json({
-                    success: 0,
+                    count: 0,
                     msg: "This name exist !"
                 })
             } else {

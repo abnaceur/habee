@@ -157,7 +157,7 @@ exports.post_userMobile = (req, res, next) => {
 
     // TODO UNDRY THIS
     if (req.body.communityLogo != undefined)
-        imagePathcommunityLogo = req.body.imagePathcommunityLogo;
+        imagePathcommunityLogo = req.body.communityLogo;
     else if (req.files == undefined)
         imagePathcommunityLogo = "uploads/defaultEventImage.jpeg"
     else if (req.files != undefined)
@@ -181,7 +181,7 @@ exports.post_userMobile = (req, res, next) => {
         .exec()
         .then(usr => {
             if (usr.length > 0) {
-                return res.status(409).json({
+                return res.status(200).json({
                     Message: "Email exists!"
                 })
             } else {
@@ -189,7 +189,7 @@ exports.post_userMobile = (req, res, next) => {
                     communityId: req.body.activeCommunity
                 }).then(com => {
                     if (com.length > 0) {
-                        return res.status(409).json({
+                        return res.status(200).json({
                             Message: "Community exists!"
                         })
                     } else {
@@ -232,7 +232,7 @@ exports.post_userMobile = (req, res, next) => {
                                             communities: req.body.communities,
                                             profile: [{
                                                 profileCummunityId: req.body.profileCummunityId,
-                                                profilePhoto: imagePathcommunityLogo,
+                                                profilePhoto: imagePathprofilePhoto,
                                                 profileUsername: req.body.profileUsername,
                                                 profileIsAdmin: req.body.profileIsAdmin,
                                                 profileUserIsActive: req.body.profileUserIsActive,
