@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Event = require('../models/event');
 const utils = require('../services/utils');
+const userService = require('../services/userServices');
 
 exports.login_user = (req, res, next) => {
     User.find({

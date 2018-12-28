@@ -31,23 +31,7 @@ import {
   templateUrl: 'event-filter.html',
 })
 export class EventFilterPage {
-  public filterList = {
-    SportValue: String,
-    ArtsValue: String,
-    cultureValue: String,
-    MediaValue: String,
-    musicValue: String,
-    socialValue: String,
-    internValue: String,
-    businessValue: String,
-    communityValue: String,
-    santeValue: String,
-    itValue: String,
-    lifestyleValue: String,
-    partyValue: String,
-    meetingValue: String,
-    WorkshopValue: String,
-  }
+  public filterList = this.eventFilterProvider.filterlist;
 
   public tabParams;
 
@@ -83,7 +67,7 @@ export class EventFilterPage {
   }
 
   closeConfirmModal() {
-    
+
     this.eventProvider.saveFilterOptions(this.filterList, this.tabParams)
       .subscribe(filters => {
         console.log("FILTER RESPONSE : ", filters);
@@ -91,6 +75,4 @@ export class EventFilterPage {
     console.log("FILTER : ", this.filterList);
     this.viewCtrl.dismiss(this.filterList);
   }
-
-
 }
