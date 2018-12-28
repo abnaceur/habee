@@ -1,19 +1,23 @@
-import { 
-  Component 
+import {
+  Component
 } from '@angular/core';
 
-import { 
+import {
   IonicPage,
-   NavController, 
-   ViewController,
-   NavParams 
-  } from 'ionic-angular';
+  NavController,
+  ViewController,
+  NavParams
+} from 'ionic-angular';
 
-  import {
-    EventProvider
-  } from '../../providers/event/event';
+import {
+  EventProvider
+} from '../../providers/event/event';
 
-  
+import {
+  EventFilterProvider
+} from '../../providers/event-filter/event-filter';
+
+
 /**
  * Generated class for the EventFilterPage page.
  *
@@ -27,109 +31,66 @@ import {
   templateUrl: 'event-filter.html',
 })
 export class EventFilterPage {
-  public SportValue;
-  public ArtsValue;
-  public cultureValue;
-  public MediaValue;
-  public musicValue;
-  public socialValue;
-  public internValue;
-  public businessValue;
-  public communityValue;
-  public santeValue;
-  public itValue;
-  public lifestyleValue;
-  public partyValue;
-  public meetingValue;
-  public WorkshopValue;
+  public filterList = {
+    SportValue: String,
+    ArtsValue: String,
+    cultureValue: String,
+    MediaValue: String,
+    musicValue: String,
+    socialValue: String,
+    internValue: String,
+    businessValue: String,
+    communityValue: String,
+    santeValue: String,
+    itValue: String,
+    lifestyleValue: String,
+    partyValue: String,
+    meetingValue: String,
+    WorkshopValue: String,
+  }
 
   public tabParams;
 
   constructor(
     public viewCtrl: ViewController,
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public eventProvider: EventProvider,
+    public eventFilterProvider: EventFilterProvider,
     public navParams: NavParams) {
 
-      this.tabParams = {
-        userId: this.navParams.get("userId"),
-        token: this.navParams.get("token"),
-        activeCommunity: this.navParams.get('activeCommunity')
-      };
+    this.tabParams = {
+      userId: this.navParams.get("userId"),
+      token: this.navParams.get("token"),
+      activeCommunity: this.navParams.get('activeCommunity')
+    };
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EventFilterPage', this.navParams);
     this.eventProvider.getFilterOptions(this.tabParams)
-    .subscribe(filters => {
-      let filter = filters.filterEvent;
-      this.SportValue = filter.SportValue;
-      this.ArtsValue = filter.ArtsValue;
-      this.cultureValue = filter.cultureValue;
-      this.MediaValue = filter.MediaValue ;
-      this.musicValue = filter.musicValue;
-      this.socialValue = filter.socialValue;
-      this.internValue = filter.internValue;
-      this.businessValue = filter.businessValue;
-      this.communityValue = filter.communityValue;
-      this.santeValue = filter.santeValue;
-      this.itValue = filter.itValue;
-      this.lifestyleValue = filter.lifestyleValue;
-      this.partyValue = filter.partyValue;
-      this.meetingValue = filter.meetingValue;
-      this.WorkshopValue = filter.WorkshopValue;
-    })
+      .subscribe(filters => {
+        let filter = filters.filterEvent;
+        this.eventFilterProvider.initFilterList(this.filterList, filter)
+          .then(filterList => {
+            this.filterList = filterList
+          })
+      })
   }
 
 
   closeFilterModal() {
-    let filter = {
-      SportValue: this.SportValue,
-      ArtsValue: this.ArtsValue,
-      cultureValue: this.cultureValue, 
-      MediaValue: this.MediaValue,
-      musicValue: this.musicValue, 
-      socialValue: this.socialValue, 
-      internValue: this.internValue, 
-      businessValue: this.businessValue,
-      communityValue: this.communityValue, 
-      santeValue: this.santeValue,
-      itValue: this.itValue, 
-      lifestyleValue: this.lifestyleValue, 
-      partyValue: this.partyValue,
-      meetingValue: this.meetingValue,
-      WorkshopValue: this.WorkshopValue,
-      }
-
-      this.viewCtrl.dismiss(filter);  
+    this.viewCtrl.dismiss(this.filterList);
   }
 
   closeConfirmModal() {
-    let filter = {
-    SportValue: this.SportValue,
-    ArtsValue: this.ArtsValue,
-    cultureValue: this.cultureValue, 
-    MediaValue: this.MediaValue,
-    musicValue: this.musicValue, 
-    socialValue: this.socialValue, 
-    internValue: this.internValue, 
-    businessValue: this.businessValue,
-    communityValue: this.communityValue, 
-    santeValue: this.santeValue,
-    itValue: this.itValue, 
-    lifestyleValue: this.lifestyleValue, 
-    partyValue: this.partyValue,
-    meetingValue: this.meetingValue,
-    WorkshopValue: this.WorkshopValue,
-    }
-
-    this.eventProvider.saveFilterOptions(filter, this.tabParams)
-    .subscribe(filters => {
-      console.log("FILTER RESPONSE : ", filters);   
-    });
-    console.log("FILTER : ", filter);
-    this.viewCtrl.dismiss(filter); 
-}
+    
+    this.eventProvider.saveFilterOptions(this.filterList, this.tabParams)
+      .subscribe(filters => {
+        console.log("FILTER RESPONSE : ", filters);
+      });
+    console.log("FILTER : ", this.filterList);
+    this.viewCtrl.dismiss(this.filterList);
+  }
 
 
 }

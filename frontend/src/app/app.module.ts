@@ -36,6 +36,7 @@ import { Camera } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { RegisterProvider } from '../providers/register/register';
+import { EventFilterProvider } from '../providers/event-filter/event-filter';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { RegisterProvider } from '../providers/register/register';
     CameraProvider,
     UserProvider,
     RegisterProvider,
+    EventFilterProvider,
   ]
 })
 export class AppModule { }

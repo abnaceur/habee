@@ -74,7 +74,9 @@
 
       <ion-item (click)="selectCommunity(community.communityId)" *ngIf="community.selected == 'false'">
         {{community.communityName}}
-        <img [src]='url + "/" + community.communityLogo' />
+     <!-- Added an image 
+       <img [src]='url + "/" + community.communityLogo' />
+     -->
       </ion-item>
 
     </ion-list>

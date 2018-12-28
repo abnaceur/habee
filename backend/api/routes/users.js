@@ -98,31 +98,6 @@ router.get('/app/community/:communityId', userController.getAllusersByCommunityI
 
 router.put('/firstConnection/:userId', userController.updateUserByfirstConnection)
 
-/*
- ** API [GET] for route /users/active
- */
-
-router.get('/active', authCkeck, userController.get_all_active_users);
-
-
-/*
- ** API [GET] for route /users/isNotActive
- */
-
-router.get('/isNotActive', authCkeck, userController.get_all_notActive_users);
-
-/*
- ** API [GET] for route /users/administrators
- */
-
-router.get('/administrators', authCkeck, userController.get_all_admins);
-
-
-/*
- ** API [GET] for route /users/notAdmin
- */
-
-router.get('/notAdmin', authCkeck, userController.get_all_notAdmins);
 
 /*
  **  API [GET] for route /user/:id
@@ -130,24 +105,6 @@ router.get('/notAdmin', authCkeck, userController.get_all_notAdmins);
 
 router.get('/:id',   userController.get_user_by_id);
 
-/*
- **  API [PATCH] for route /user/:id
- */
-
-router.patch('/:id', upload.single('profilePhoto'), userController.patch_user_by_id);
-
-
-/*
- ** API [GET] for route /users/id/credentials 
- */
-
-router.get('/:id/credentials', authCkeck, userController.get_credentials_by_id);
-
-/*
- * API [PATCH] for route /users/id/credentials 
- */
-
-router.patch('/:id/credentials', authCkeck, userController.patch_credentials_by_id);
 
 /*
  ** API [GET] for route /users/id/communityId   [USED]
@@ -168,18 +125,5 @@ router.put('/:id/:communityId',  authCkeck, userController.put_userId_communityI
  */
 
 router.put('/delete/:id/:communityId',  authCkeck, userController.put_userId_communityId_DeleteUser);
-
-
-/**
- * API [GET] for route /users/id/communityId/skills
- */
-
-router.get('/:userId/:communityId/skills',  authCkeck, userController.get_skills_by_userId_communityId);
-
-/**
- * API [GET] for route /users/id/communityId/passions
- */
-
-router.get('/:userId/:communityId/passions',  authCkeck, userController.get_passions_by_userId_communityId);
 
 module.exports = router;

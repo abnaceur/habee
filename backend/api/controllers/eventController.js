@@ -4,46 +4,27 @@ const User = require('../models/user');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const utils = require('../services/utils');
+const eventService = require('../services/eventService')
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
         .exec()
         .then(events => {
             if (events.length === 0) {
-                return res.status(404).json({
+                return res.status(200).json({
                     message: "There are no events!"
                 })
             } else {
                 res.status(200).json({
                     Count: events.length,
                     Events: events.map(event => {
-                        return {
-                            _id: events._id,
-                            eventId: event.eventId,
-                            eventCommunity: event.eventCommunity,
-                            eventName: event.eventName,
-                            eventCreator: event.eventCreator,
-                            eventDescription: event.eventDescription,
-                            eventDate: event.eventDate,
-                            eventDuration: event.eventDuration,
-                            eventLocation: event.eventLocation,
-                            nbrParticipants: event.nbrParticipants,
-                            participantsId: event.participantsId,
-                            eventIsOver: event.eventIsOver,
-                            eventPhoto: event.eventsPhoto,
-                            request: {
-                                Type: "[GET2]",
-                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                            }
-                        }
+                        return eventService.eventModal(event)
                     })
                 });
             }
         })
         .catch(err => {
-            res.status(500).json({
-                error: err
-            })
+            utils.defaultError(res, err)
         })
 };
 
@@ -58,14 +39,11 @@ exports.get_userEventSubscribed = (req, res, next) => {
             "participants.participantId": userId,
         }).exec()
         .then(event => {
-            console.log("Count event users :", event[0].participants);
             res.status(200).json({
                 event: event
             })
         }).catch(err => {
-            res.status(500).json({
-                error: err
-            })
+            utils.defaultError(res, err)
         })
 }
 
@@ -74,9 +52,7 @@ exports.upload_mobile_photo = (req, res, next) => {
     if (req.files[0].path != undefined) {
         res.send(req.files[0].path)
     } else {
-        res.status(500).json({
-            res: "error"
-        })
+        utils.defaultError(res, err)
     }
 }
 
@@ -89,14 +65,7 @@ exports.postEventFilter = (req, res, next) => {
         })
         .exec()
         .then(usr => {
-            console.log(usr[0].filterEvent[0])
-            let z = 0;
-            let i = 0;
-            usr[0].filterEvent.map(evt => {
-                if (evt.filterCommunity == communityId)
-                    z = i;
-                i++;
-            })
+            let z = utils.getFilterPosition(usr[0].filterEvent, communityId);
             req.body.filterCommunity = communityId;
             req.body.filterCommunity = communityId;
             usr[0].filterEvent[z] = req.body;
@@ -122,13 +91,7 @@ exports.getEventFilter = (req, res, next) => {
         .select("filterEvent")
         .exec()
         .then(usr => {
-            let z = 0;
-            let i = 0;
-            usr[0].filterEvent.map(evt => {
-                if (evt.filterCommunity == communityId)
-                    z = i;
-                i++;
-            })
+            let z = utils.getFilterPosition(usr[0].filterEvent, communityId);
             res.status(200).json({
                 filterEvent: usr[0].filterEvent[z]
             })
@@ -147,7 +110,7 @@ exports.getFilteredEvent = (req, res, next) => {
         .select("filterEvent")
         .exec()
         .then(usr => {
-            let filter = usr[0].filterEvent[0];
+            let filter = utils.getFilterBycommunityId(usr[0].filterEvent, communityId);
             Event.find({
                     eventCommunity: communityId,
                     eventIsOver: false,
@@ -160,21 +123,9 @@ exports.getFilteredEvent = (req, res, next) => {
                             message: "There are no events!"
                         })
                     } else {
-                        let currentDate = new Date;
+
                         activeEvent.map(event => {
-                            let i = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
-                            let currentMdate = new Date(i);
-                            if (event.eventEndDate <= currentMdate) {
-                                event.eventIsOver = true;
-                                Event.findByIdAndUpdate(event._id,
-                                    event, {
-                                        new: false,
-                                    },
-                                    function (err, results) {
-                                        if (err) return res.status(500).json(err);
-                                        console.log("EVENT IS OVER")
-                                    });
-                            }
+                            eventService.updateEcevntIsOver(event)
                         })
                         Event.find({
                                 eventCommunity: communityId,
@@ -193,44 +144,18 @@ exports.getFilteredEvent = (req, res, next) => {
                                     res.status(200).json({
                                         Count: filteredEvent.length,
                                         Events: filteredEvent.map(event => {
-                                            return {
-                                                _id: events._id,
-                                                eventId: event.eventId,
-                                                eventCommunity: event.eventCommunity,
-                                                eventName: event.eventName,
-                                                eventCreator: event.eventCreator,
-                                                eventDescription: event.eventDescription,
-                                                eventStartDate: event.eventStartDate,
-                                                eventEndDate: event.eventEndDate,
-                                                eventStartHour: event.eventStartHour,
-                                                eventEndHour: event.eventEndHour,
-                                                eventLocation: event.eventLocation,
-                                                nbrParticipants: event.nbrParticipants,
-                                                participants: event.participants,
-                                                nbrSubscribedParticipants: event.participants.length,
-                                                eventIsOver: event.eventIsOver,
-                                                eventPhoto: event.eventPhoto,
-                                                eventCategory: event.eventCategory,
-                                                request: {
-                                                    Type: "[GET]",
-                                                    Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                                                }
-                                            }
+                                            return eventService.eventModal(event)
                                         })
                                     });
                                 }
                             })
                             .catch(err => {
-                                res.status(500).json({
-                                    error: err
-                                })
+                                utils.defaultError(res, err)
                             })
                     }
                 })
                 .catch(err => {
-                    res.status(500).json({
-                        error: err
-                    })
+                    utils.defaultError(res, err)
                 })
 
         })
@@ -238,6 +163,7 @@ exports.getFilteredEvent = (req, res, next) => {
 }
 
 exports.get_all_events_byCommunityId = (req, res, next) => {
+
     let communityId = req.params.communityId;
 
     Event.find({
@@ -283,44 +209,18 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
                             res.status(200).json({
                                 Count: events.length,
                                 Events: events.map(event => {
-                                    return {
-                                        _id: events._id,
-                                        eventId: event.eventId,
-                                        eventCommunity: event.eventCommunity,
-                                        eventName: event.eventName,
-                                        eventCreator: event.eventCreator,
-                                        eventDescription: event.eventDescription,
-                                        eventStartDate: event.eventStartDate,
-                                        eventEndDate: event.eventEndDate,
-                                        eventStartHour: event.eventStartHour,
-                                        eventEndHour: event.eventEndHour,
-                                        eventLocation: event.eventLocation,
-                                        nbrParticipants: event.nbrParticipants,
-                                        participants: event.participants,
-                                        nbrSubscribedParticipants: event.participants.length,
-                                        eventIsOver: event.eventIsOver,
-                                        eventPhoto: event.eventPhoto,
-                                        eventCategory: event.eventCategory,
-                                        request: {
-                                            Type: "[GET]",
-                                            Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                                        }
-                                    }
+                                    return eventService.eventModal(event)
                                 })
                             });
                         }
                     })
                     .catch(err => {
-                        res.status(500).json({
-                            error: err
-                        })
+                        utils.defaultError(res, err)
                     })
             }
         })
         .catch(err => {
-            res.status(500).json({
-                error: err
-            })
+            utils.defaultError(res, err)
         })
 };
 
@@ -366,10 +266,7 @@ exports.post_event = (req, res, next) => {
             })
         })
         .catch(err => {
-            res.status(500).json({
-                results: false,
-                Error: err
-            })
+            utils.defaultError(res, err)
         });
 };
 
@@ -435,16 +332,12 @@ exports.put_eventByUserId = (req, res, next) => {
                         });
                 })
                 .catch(err => {
-                    res.status(500).json({
-                        error: err
-                    })
+                    utils.defaultError(res, err)
                 })
 
         })
         .catch(err => {
-            res.status(500).json({
-                error: err
-            })
+            utils.defaultError(res, err)
         })
 }
 
@@ -476,6 +369,8 @@ updateUserOnEventSubvscription = (event, state, userId, communityId) => {
                         console.log("UNSUBSCRIBED")
                     });
             }
+        }).catch(err => {
+            utils.defaultError(res, err)
         })
 }
 
@@ -505,9 +400,7 @@ exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
             }
         })
         .catch(err => {
-            res.status(500).json({
-                error: err
-            })
+            utils.defaultError(res, err)
         })
 
 }
@@ -535,9 +428,7 @@ exports.eventByCommunityId = (req, res, next) => {
             }
         })
         .catch(err => {
-            res.status(500).json({
-                error: err
-            })
+            utils.defaultError(res, err)
         })
 
 }
@@ -565,82 +456,8 @@ exports.get_event_by_community = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
+            utils.defaultError(res, err)
         });
-};
-
-exports.get_event_by_communityId = (req, res, next) => {
-    console.log("sdas");
-    const id = req.params.eventCommunity;
-    Event.find({
-            eventCommunity: id
-        })
-        .exec()
-        .then(events => {
-            if (events.length === 0) {
-                return res.status(404).json({
-                    message: "There are no events!"
-                })
-            } else {
-                res.status(200).json({
-                    Count: events.length,
-                    Events: events.map(event => {
-                        return {
-                            _id: events._id,
-                            eventId: event.eventId,
-                            eventCommunity: event.eventCommunity,
-                            eventName: event.eventName,
-                            eventCreator: event.eventCreator,
-                            eventDescription: event.eventDescription,
-                            eventDate: event.eventDate,
-                            eventDuration: event.eventDuration,
-                            eventLocation: event.eventLocation,
-                            nbrParticipants: event.nbrParticipants,
-                            participants: event.participants,
-                            eventIsOver: event.eventIsOver,
-                            eventIsDeleted: event.eventIsDeleted,
-                            request: {
-                                Type: "[GET1]",
-                                Url: process.env.URL_BACKEND + ":" + process.env.URL_BACKEND_PORT + "/" + event.eventId
-                            }
-                        }
-                    })
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
-exports.get_eventIsOver_by_communiyId = (req, res, next) => {
-    const id = req.params.eventCommunity;
-    Event.find({
-            eventCommunity: id,
-            eventIsOver: true
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active events in community!" + eventCommunity
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
 };
 
 exports.deleteEventByCommunityId = (req, res, next) => {
@@ -664,9 +481,7 @@ exports.deleteEventByCommunityId = (req, res, next) => {
                 });
         })
         .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
+            utils.defaultError(res, err)
         });
 }
 
@@ -692,68 +507,10 @@ exports.get_event_by_id = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
+            utils.defaultError(res, err)
         });
 };
 
-exports.patch_event = (req, res, next) => {
-    const id = req.params.eventId;
-
-    Event.update({
-            eventId: id
-        }, {
-            $set: {
-                eventId: req.body.eventId,
-                eventCommunity: req.body.eventCommunity,
-                eventName: req.body.eventName,
-                eventCreator: req.body.eventCreator,
-                eventDescription: req.body.eventDescription,
-                eventDate: req.body.eventDate,
-                eventDuration: req.body.eventDuration,
-                eventLocation: req.body.eventLocation,
-                nbrParticipants: req.body.nbrParticipants,
-                participantsId: req.body.participantsId,
-                eventIsOver: req.body.eventIsOver,
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-};
-
-exports.get_all_events_isOver = (req, res, next) => {
-    Event.find({
-            eventIsOver: true
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no due events!"
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
 
 // TODO - events should be filtered by end date not start date.
 
@@ -828,128 +585,9 @@ exports.put_all_events_isOver = (req, res, next) => {
                     }
                 })
                 .catch(err => {
-                    res.status(500).json({
-                        error: err
-                    })
+                    utils.defaultError(res, err)
                 })
         })
 
 
 }
-
-
-exports.get_all_events_isNotOver = (req, res, next) => {
-    Event.find({
-            eventIsOver: false
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active events!"
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
-exports.patch_eventIsOver_by_communiyId = (req, res, next) => {
-    const id = req.params.eventCommunity;
-
-    Event.update({
-            eventCommunity: id,
-            eventIsOver: true
-        }, {
-            $set: {
-                eventId: req.body.eventId,
-                eventCommunity: req.body.eventCommunity,
-                eventName: req.body.eventName,
-                eventCreator: req.body.eventCreator,
-                eventDescription: req.body.eventDescription,
-                eventDate: req.body.eventDate,
-                eventDuration: req.body.eventDuration,
-                eventLocation: req.body.eventLocation,
-                nbrParticipants: req.body.nbrParticipants,
-                participantsId: req.body.participantsId,
-                eventIsOver: req.body.eventIsOver,
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-};
-
-exports.get_eventIsNotOver_by_communiyId = (req, res, next) => {
-    const id = req.params.eventCommunity;
-    Event.find({
-            eventCommunity: id,
-            eventIsOver: false
-        })
-        .exec()
-        .then(activeEvent => {
-            if (activeEvent.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active events in community!" + eventCommunity
-                })
-            } else {
-                res.status(200).json({
-                    Evennts: activeEvent
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
-exports.patch_eventIsOver_by_communiyId = (req, res, next) => {
-    const id = req.params.eventCommunity;
-
-    Event.update({
-            eventCommunity: id,
-            eventIsOver: false
-        }, {
-            $set: {
-                eventId: req.body.eventId,
-                eventCommunity: req.body.eventCommunity,
-                eventName: req.body.eventName,
-                eventCreator: req.body.eventCreator,
-                eventDescription: req.body.eventDescription,
-                eventDate: req.body.eventDate,
-                eventDuration: req.body.eventDuration,
-                eventLocation: req.body.eventLocation,
-                nbrParticipants: req.body.nbrParticipants,
-                participantsId: req.body.participantsId,
-                eventIsOver: req.body.eventIsOver,
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        });
-};
