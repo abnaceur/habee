@@ -104,93 +104,44 @@ exports.getFilterBycommunityId = (filter, communityId) => {
 }
 
 
-exports.filterEvents = (argEvents, filter, userId) => {
-    console.log("FILTER : ", filter);
-    console.log("EVENTS : ", argEvents);
-
-    let activeFilters = [];
+exports.countActiveFilters = (filter) => {
+    console.log("testing", filter)
     let i = 0;
+    let activeFilters = []
+
+    filter.SportValue == true ? (activeFilters[i] = "Sports", i++) : i = i;
+    filter.ArtsValue == true ? (activeFilters[i] = "Arts", i++) : i = i;
+    filter.cultureValue == true ? (activeFilters[i] = "Culture", i++) : i = i;
+    filter.MediaValue == true ? (activeFilters[i] = "Media", i++) : i = i;
+    filter.musicValue == true ? (activeFilters[i] = "Music", i++) : i = i;
+    filter.socialValue == true ? (activeFilters[i] = "Social", i++) : i = i;
+    filter.internValue == true ? (activeFilters[i] = "International", i++) : i = i;
+    filter.businessValue == true ? (activeFilters[i] = "Business", i++) : i = i;
+    filter.communityValue == true ? (activeFilters[i] = "Communite", i++) : i = i;
+    filter.santeValue == true ? (activeFilters[i] = "Sante", i++) : i = i;
+    filter.itValue == true ? (activeFilters[i] = "Science et technologie", i++) : i = i;
+    filter.lifestyleValue == true ? (activeFilters[i] = "Style de vie", i++) : i = i;
+    filter.partyValue == true ? (activeFilters[i] = "Fete", i++) : i = i;
+    filter.meetingValue == true ? (activeFilters[i] = "Rencontre", i++) : i = i;
+    filter.WorkshopValue == true ? (activeFilters[i] = "Workshop", i++) : i = i;
+
+    results = {
+        i: i,
+        activeFilters: activeFilters
+    }
+    return results
+}
+
+
+
+exports.filterEvents = (argEvents, filter, userId) => {
+    let results = this.countActiveFilters(filter);
+    let activeFilters = results.activeFilters;
+    let i = results.i;
     let filteredEvent = [];
     let z = 0;
 
-
-    if (filter.SportValue == true) {
-        activeFilters[i] = "Sports";
-        console.log("HERE")
-        i++;
-    }
-
-    if (filter.ArtsValue == true) {
-        activeFilters[i] = "Arts";
-        i++;
-    }
-
-    if (filter.cultureValue == true) {
-        activeFilters[i] = "Culture";
-        i++;
-    }
-
-    if (filter.MediaValue == true) {
-        activeFilters[i] = "Media";
-        i++;
-    }
-
-    if (filter.musicValue == true) {
-        activeFilters[i] = "Music";
-        i++;
-    }
-
-    if (filter.socialValue == true) {
-        activeFilters[i] = "Social";
-        i++;
-    }
-
-    if (filter.internValue == true) {
-        activeFilters[i] = "International";
-        i++;
-    }
-
-    if (filter.businessValue == true) {
-        activeFilters[i] = "Business";
-        i++;
-    }
-
-    if (filter.communityValue == true) {
-        activeFilters[i] = "Communite";
-        i++;
-    }
-    if (filter.santeValue == true) {
-        activeFilters[i] = "Sante";
-        i++;
-    }
-
-    if (filter.itValue == true) {
-        activeFilters[i] = "Science et technologie";
-        i++;
-    }
-
-    if (filter.lifestyleValue == true) {
-        activeFilters[i] = "Style de vie";
-        i++;
-    }
-
-    if (filter.partyValue == true) {
-        activeFilters[i] = "Fete";
-        i++;
-    }
-
-    if (filter.meetingValue == true) {
-        activeFilters[i] = "Rencontre";
-        i++;
-    }
-
-    if (filter.WorkshopValue == true) {
-        activeFilters[i] = "Workshop";
-        i++;
-    }
-
     if (i != 0) {
-        console.log("ACTIVE FILTER : ", activeFilters)
         argEvents.map(event => {
             while (z < i) {
                 if (event.eventCategory == activeFilters[z]) {
@@ -235,7 +186,6 @@ exports.filterEvents = (argEvents, filter, userId) => {
         })
 
     } else {
-        console.log("RESULTS EVENT FILTERED  NONE PUBLIC:", filteredEvent);
         return new Promise((resolve, reject) => {
             resolve(filteredEvent)
         })
