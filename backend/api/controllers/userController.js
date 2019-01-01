@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const Event = require('../models/event');
 const utils = require('../services/utils');
 const userService = require('../services/userServices');
+const eventService = require('../services/eventService')
 
 exports.login_user = (req, res, next) => {
     User.find({
@@ -450,6 +451,7 @@ exports.get_user_by_id = (req, res, next) => {
                     message: "User not found or id not valid!"
                 })
             } else {
+                console.log("User qqq :", usr[0].eventsParticipated.length, usr[0].eventsParticipated)
                 if (usr[0].eventsParticipated.length != 0) {
                     Event.find({
                             eventCommunity: usr[0].activeCommunity,
@@ -457,27 +459,33 @@ exports.get_user_by_id = (req, res, next) => {
                             eventIsDeleted: false,
                         }).exec()
                         .then(event => {
-                            let allUserEvents = [];
-                            let i = 0;
-                            let z = 0;
+                            eventService.getAllpublicEvents()
+                                .then(ev => {
+                                    console.log("eee : ", event)
+                                    event = utils.concatArraysUser(event, ev)
 
-                            while (i < usr[0].eventsParticipated.length) {
-                                while (z < event.length) {
-                                    if (usr[0].eventsParticipated[i].eventId == event[z].eventId) {
-                                        allUserEvents.push(event[z]);
+                                    let allUserEvents = [];
+                                    let i = 0;
+                                    let z = 0;
+
+                                    while (i < usr[0].eventsParticipated.length) {
+                                        while (z < event.length) {
+                                            if (usr[0].eventsParticipated[i].eventId == event[z].eventId) {
+                                                allUserEvents.push(event[z]);
+                                            }
+                                            z++;
+                                        }
+                                        z = 0;
+                                        i++;
                                     }
-                                    z++;
-                                }
-                                z = 0;
-                                i++;
-                            }
-                            console.log("test : ", allUserEvents)
-                            usr[0].eventsParticipated = allUserEvents;
+                                    console.log("test : ", allUserEvents)
+                                    usr[0].eventsParticipated = allUserEvents;
 
-                            res.status(200).json({
-                                User: usr,
-                                event: event
-                            });
+                                    res.status(200).json({
+                                        User: usr,
+                                        event: event
+                                    });
+                                })
                         })
                 } else {
                     res.status(200).json({

@@ -11,10 +11,10 @@
 
 
 <ion-content padding>
-  <ion-fab mini bottom right #fab>
-    <ion-icon ion-fab (click)="AddContact()" name="add"></ion-icon>
+  <ion-fab bottom right mini #fab>
+    <ion-icon ion-fab (click)="AddContact()" style="font-size: 22px" name="add"></ion-icon>
   </ion-fab>
-  
+
   <ion-grid>
     <ion-item>
       <ion-label color="primary">E-mail </ion-label>
@@ -52,10 +52,16 @@
     </ion-list>
 
 
+    <ion-row>
+      <ion-col col-12 text-center>
+        <div class="center">
+          <button ion-button style="background-color: #E96FA1;">
+            Envoyer
+          </button>
+        </div>
+      </ion-col>
 
-    <ion-item>
-      <button ion-button round style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px" type="submit">Inviter</button>
-    </ion-item>
+    </ion-row>
 
   </ion-grid>
 

@@ -217,7 +217,6 @@ export class EventProvider {
 
     if (filter.SportValue == true) {
       activeFilters[i] = "Sports";
-      console.log("HERE")
       i++;
     }
 

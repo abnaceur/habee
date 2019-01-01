@@ -162,24 +162,26 @@ exports.filterEvents = (argEvents, filter, userId) => {
         return new Promise((resolve, reject) => {
             eventService.getAllpublicEvents()
                 .then(events => {
+                    console.log("AA 22 : ", events)
                     if (i != 0) {
                         events.map(event => {
                             while (z < i) {
-                                if (event.eventCategory == activeFilters[z] &&
-                                    (filteredEvent.length != 0 ? event.eventCreator != userId : userId)) {
-                                    filterPublicEvent.push(event)
+                                if (event.eventCategory == activeFilters[z]) {
+                                    if (this.checkIfexist(filteredEvent, event) == false)
+                                        filterPublicEvent.push(event)
                                 }
                                 z++;
                             }
                             z = 0;
                         })
-                    }
-
-                    if (i === 0 && argEvents.length === 0) {
+                    } else {
+                        console.log("DDD HERE", i, argEvents)
                         events.map(event => {
                             filterPublicEvent.push(event)
                         })
                     }
+                    console.log("SSS :", filteredEvent)
+                    console.log("SSS1 :", filterPublicEvent)
                     filterPublicEvent = this.concatArrays(filterPublicEvent, filteredEvent)
                     resolve(filterPublicEvent)
                 })
@@ -190,6 +192,38 @@ exports.filterEvents = (argEvents, filter, userId) => {
             resolve(filteredEvent)
         })
     }
+}
+
+exports.checkIfexist = (arr1, ev) => {
+    let check = 0;
+
+    arr1.map(ev1 => {
+        if (ev.eventId == ev1.eventId) {
+            check++;
+            return true
+        }
+    })
+    if (check === 0)
+        return false
+
+}
+
+exports.concatArraysUser = (arr1, arr2) => {
+    console.log("AACC", arr2)
+    if (arr1.length != 0) {
+        arr2.map(a => {
+            let t = this.checkIfexist(arr1, a);
+            if (this.checkIfexist(arr1, a) == false) {
+                arr1.push(a)
+            }
+        })
+    } else if (arr1.length === 0) {
+        arr1 = arr2
+    } else
+        arr1 = arr2
+
+    console.log("SSS : ", arr1)
+    return arr1
 }
 
 exports.concatArrays = (arr1, arr2) => {

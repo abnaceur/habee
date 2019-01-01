@@ -123,7 +123,6 @@ exports.getFilteredEvent = (req, res, next) => {
                     if (activeEvent.length === 0 && filter.PublicValue === true) {
                         utils.filterEvents(activeEvent, filter, userId)
                             .then(filteredEvent => {
-                                console.log("Flitered event 111 2:", filteredEvent)
                                 res.status(200).json({
                                     Count: filteredEvent.length,
                                     Events: filteredEvent.map(event => {
@@ -302,51 +301,57 @@ exports.put_eventByUserId = (req, res, next) => {
                     eventCommunity: communityId
                 }).exec()
                 .then(event => {
-                    let i = 0;
-                    let check = 0;
-                    while (i < event[0].participants.length) {
-                        if (event[0].participants[i] != null) {
-                            if (event[0].participants[i] != null && event[0].participants[i].participantId == user[0].userId) {
-                                event[0].participants = utils.popEventObject(event[0].participants, user[0].userId);
-                                check = 1;
+                    eventService.getAllpublicEvents()
+                    .then(ev => {
+                        event = utils.concatArraysUser(event, ev)
+                        let i = 0;
+                        console.log("HERE 123", event)
+                        let check = 0;
+                        while (i < event[0].participants.length) {
+                            if (event[0].participants[i] != null) {
+                                if (event[0].participants[i] != null && event[0].participants[i].participantId == user[0].userId) {
+                                    event[0].participants = utils.popEventObject(event[0].participants, user[0].userId);
+                                    check = 1;
+                                }
                             }
+                            i++;
                         }
-                        i++;
-                    }
-                    if (check != 1) {
-                        req.body.participants = event[0].participants;
-                        req.body.nbrSubscribedParticipants = event[0].participants.length;
-                        req.body.participants.push({
-                            "participantId": user[0].userId,
-                            "participantname": user[0].profile[0].profileUsername,
-                            "participantPhoto": user[0].profile[0].profilePhoto,
-                        })
-                    } else {
-                        req.body.nbrSubscribedParticipants = event[0].participants.length;
-                        req.body.participants = event[0].participants;
-                    }
-                    Event.findByIdAndUpdate(event[0]._id,
-                        req.body, {
-                            new: false,
-                        },
-                        function (err, results) {
-                            if (err) return res.status(500).json(err);
-                            if (check == 0) {
-                                //console.log("User sub :", event);
-                                updateUserOnEventSubvscription(event, check, userId, communityId);
-                                res.status(200).json({
-                                    Subscribe: true,
-                                    results: results,
-                                })
-                            } else {
-                                utils.popObject(user[0].eventsParticipated, event[0].eventId);
-                                updateUserOnEventSubvscription(event, check, userId, communityId);
-                                res.status(200).json({
-                                    Subscribe: false,
-                                    results: results,
-                                })
-                            }
-                        });
+                        if (check != 1) {
+                            req.body.participants = event[0].participants;
+                            req.body.nbrSubscribedParticipants = event[0].participants.length;
+                            req.body.participants.push({
+                                "participantId": user[0].userId,
+                                "participantname": user[0].profile[0].profileUsername,
+                                "participantPhoto": user[0].profile[0].profilePhoto,
+                            })
+                        } else {
+                            req.body.nbrSubscribedParticipants = event[0].participants.length;
+                            req.body.participants = event[0].participants;
+                        }
+                        Event.findByIdAndUpdate(event[0]._id,
+                            req.body, {
+                                new: false,
+                            },
+                            function (err, results) {
+                                if (err) return res.status(500).json(err);
+                                if (check == 0) {
+                                    console.log("User sub :");
+                                    updateUserOnEventSubvscription(event, check, userId, communityId);
+                                    res.status(200).json({
+                                        Subscribe: true,
+                                        results: results,
+                                    })
+                                } else {
+                                    console.log("User sub222 :");
+                                    utils.popObject(user[0].eventsParticipated, event[0].eventId);
+                                    updateUserOnEventSubvscription(event, check, userId, communityId);
+                                    res.status(200).json({
+                                        Subscribe: false,
+                                        results: results,
+                                    })
+                                }
+                            });
+                    })
                 })
                 .catch(err => {
                     utils.defaultError(res, err)
@@ -367,6 +372,7 @@ updateUserOnEventSubvscription = (event, state, userId, communityId) => {
         .then(user => {
             if (state == 0) {
                 user[0].eventsParticipated.push(event[0])
+                console.log("AAASSS :", user[0].eventsParticipated)
                 User.findByIdAndUpdate(user[0]._id,
                     user[0], {
                         new: false,

@@ -33,16 +33,16 @@ export class AddContactPage {
     public navParams: NavParams,
     public viewCtrl: ViewController
   ) {
-
   }
 
-  ionViewDidLoad() {
+  ionViewWillLoad() {
     console.log('ionViewDidLoad AddContactPage');
+    this.contactArray = [{value: ""}];
+    this.contactArrayLenght = 0;
+ 
   }
 
   ionViewDidEnter() {
-    this.contactArray = [{value: ""}];
-    this.contactArrayLenght = 0;
   }
 
 
