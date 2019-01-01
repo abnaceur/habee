@@ -14,6 +14,13 @@ background-color: #5cbcc1;">
 <ion-content class="outer-content" fullscreen>
 
   <ion-list style="position: relative; top: 20px">
+    
+    <ion-item>
+      <span slot="start" class="dot"></span>
+      <ion-label>Publique</ion-label>
+      <ion-toggle [(ngModel)]="filterList.PublicValue" color="success"></ion-toggle>
+    </ion-item>
+
     <ion-item>
       <span slot="start" class="dot"></span>
       <ion-label>Sports</ion-label>
@@ -82,7 +89,7 @@ background-color: #5cbcc1;">
     </ion-item>
 
     <ion-item>
-      <ion-label>Rencontre</ion-label>
+      <ion-label>Meeting</ion-label>
       <ion-toggle [(ngModel)]="filterList.meetingValue" color="success"></ion-toggle>
     </ion-item>
 

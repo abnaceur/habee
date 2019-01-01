@@ -177,6 +177,7 @@ export class MyApp {
               .then(data => {
                 this.allCommunitiesbyUserId = data;
                 this.menu.enable(true, "menu-avatar")
+              //  this.menu.toggle("menu-avatar");
                 this.nav.push("TabsPage", this.userData);
               });
           });

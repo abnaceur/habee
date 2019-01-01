@@ -127,15 +127,4 @@ router.put('/:eventId/user/:userId/community/:communityId', eventController.put_
 
 router.put('/all/isover/:userId/:communityId', eventController.put_all_events_isOver);
 
-
-
-/*
- ** API [GET] for route /events/community/communityId
- */
-
-// TODO THERE ARE A REPETITION
-//router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_communityId);
-
-
-
 module.exports = router;

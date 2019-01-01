@@ -26,6 +26,7 @@ let eventSchema = mongoose.Schema({
 	eventLocation: String,
 	nbrParticipants: Number,
 	nbrSubscribedParticipants: Number,
+	eventIsPublic: Boolean,
 	participants: [{
 		participantId: String,
 		participantname: String,

@@ -110,7 +110,9 @@ exports.getFilteredEvent = (req, res, next) => {
         .select("filterEvent")
         .exec()
         .then(usr => {
+
             let filter = utils.getFilterBycommunityId(usr[0].filterEvent, communityId);
+
             Event.find({
                     eventCommunity: communityId,
                     eventIsOver: false,
@@ -118,7 +120,18 @@ exports.getFilteredEvent = (req, res, next) => {
                 })
                 .exec()
                 .then(activeEvent => {
-                    if (activeEvent.length === 0) {
+                    if (activeEvent.length === 0 && filter.PublicValue === true) {
+                        utils.filterEvents(activeEvent, filter, userId)
+                            .then(filteredEvent => {
+                                console.log("Flitered event 111 2:", filteredEvent)
+                                res.status(200).json({
+                                    Count: filteredEvent.length,
+                                    Events: filteredEvent.map(event => {
+                                        return eventService.eventModal(event)
+                                    })
+                                });
+                            })
+                    } else if (activeEvent.length === 0) {
                         return res.status(200).json({
                             message: "There are no events!"
                         })
@@ -134,19 +147,22 @@ exports.getFilteredEvent = (req, res, next) => {
                             })
                             .exec()
                             .then(events => {
-                                let filteredEvent = [];
-                                filteredEvent = utils.filterEvents(events, filter);
                                 if (events.length === 0) {
-                                    return res.status(404).json({
+                                    return res.status(200).json({
                                         message: "There are no events!"
                                     })
                                 } else {
-                                    res.status(200).json({
-                                        Count: filteredEvent.length,
-                                        Events: filteredEvent.map(event => {
-                                            return eventService.eventModal(event)
+                                    console.log("Flitered event 111 befor")
+                                    utils.filterEvents(events, filter, userId)
+                                        .then(filteredEvent => {
+                                            console.log("Flitered event 111 2:", filteredEvent)
+                                            res.status(200).json({
+                                                Count: filteredEvent.length,
+                                                Events: filteredEvent.map(event => {
+                                                    return eventService.eventModal(event)
+                                                })
+                                            });
                                         })
-                                    });
                                 }
                             })
                             .catch(err => {
@@ -252,6 +268,7 @@ exports.post_event = (req, res, next) => {
         eventLocation: req.body.eventLocation,
         nbrParticipants: req.body.nbrParticipants,
         eventCategory: req.body.eventCategory,
+        eventIsPublic: req.body.eventIsPublic,
         eventIsDeleted: false,
         //     participantsId: req.body.participantsId,
         //     eventIsOver: req.body.eventIsOver,

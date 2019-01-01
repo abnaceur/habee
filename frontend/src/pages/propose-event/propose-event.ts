@@ -31,6 +31,11 @@ import {
   environment as ENV
 } from '../../environments/environment';
 
+import {
+  UtilsProvider
+} from '../../providers/utils/utils'
+
+
 
 /**
  * Generated class for the ProposeEventPage page.
@@ -56,6 +61,7 @@ export class ProposeEventPage {
   public url = ENV.BASE_URL;
 
   constructor(
+    private utils : UtilsProvider,
     public eventProvider: EventProvider,
     public formBuilder: FormBuilder,
     public actionsheetCtrl: ActionSheetController,
@@ -82,6 +88,7 @@ export class ProposeEventPage {
       eventEndDate: ['', Validators.compose([Validators.required])],
       eventStartHour: ['', Validators.compose([Validators.required])],
       eventEndHour: ['', Validators.compose([Validators.required])],
+      eventIsPublic: [false, Validators.compose([Validators.required])],
       eventCategory: ['', Validators.compose([Validators.required])],
     });
   }
@@ -152,29 +159,16 @@ export class ProposeEventPage {
   }
 
   onSubmit(value) {
-    let uploadSucessToast = this.toastController.create({
-      message: "Event cree avec succes !",
-      duration: 2000,
-      position: 'top',
-      cssClass: "uploadSucessClass"
-    });
-
-    let uploadFailedToast = this.toastController.create({
-      message: "Une erreur est apparus !",
-      duration: 2000,
-      position: 'top',
-      cssClass: "uploadFailedClass"
-    });
-
+    
     if (this.chosenPicture) {
     this.eventProvider.uploadPhoto(this.chosenPicture)
     .then(data => {
       this.eventProvider.addEventByCommunity(value, this.tabParams, data)
       .subscribe(response => {
         if (response.results == true) {
-          uploadSucessToast.present();
+          this.utils.notification("Event cree avec succes !", "top")
         } else {
-          uploadFailedToast.present();
+          this.utils.notification("Une erreur est apparus !", "top")
         }
         });
     })
@@ -182,9 +176,9 @@ export class ProposeEventPage {
       this.eventProvider.addEventByCommunity(value, this.tabParams, this.chosenPicture)
       .subscribe(response => {
         if (response.results == true) {
-          uploadSucessToast.present();
+          this.utils.notification("Event cree avec succes !", "top")
         } else {
-          uploadFailedToast.present();
+          this.utils.notification("Une erreur est apparus !", "top")
         }
         });
     }

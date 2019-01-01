@@ -1,11 +1,20 @@
+const Event = require('../models/event');
+
+
+
 exports.updateEcevntIsOver = (event) => {
     let currentDate = new Date;
 
     let i = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
-    
+
     let currentMdate = new Date(i);
-    
-    if (event.eventEndDate <= currentMdate) {
+
+    let formatTime = "T" + event.eventEndHour.substring(0, 2) + ":" + event.eventEndHour.substring(3, 5) + ":00.000Z"
+    let endDate = event.eventEndDate.toISOString().slice(0, 10) + formatTime
+
+    let formatedEndDate = new Date(endDate)
+
+    if (formatedEndDate <= currentMdate) {
         event.eventIsOver = true;
         Event.findByIdAndUpdate(event._id,
             event, {
@@ -44,4 +53,19 @@ exports.eventModal = (event) => {
     }
 
     return test
+}
+
+exports.getAllpublicEvents = () => {
+    console.log("Here")
+    return new Promise((resolve, reject) => {
+        Event.find({
+                eventIsPublic: true,
+                eventIsDeleted: false,
+                eventIsOver: false
+            }).exec()
+            .then(event => {
+                console.log("EVent public : ", event)
+                    resolve(event)
+            })
+    })
 }

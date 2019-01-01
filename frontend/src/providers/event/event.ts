@@ -148,6 +148,7 @@ export class EventProvider {
         "eventLocation": event.eventLocation,
         "nbrParticipants": event.eventNbrParticipants,
         "eventCategory": event.eventCategory,
+        "eventIsPublic": event.eventIsPublic,
         "eventPhoto": uploadedImage,
       },
       { headers: header })

@@ -69,6 +69,7 @@ export class EventFilterProvider {
     lifestyleValue: String, 
     partyValue: String,
     meetingValue: String,
+    PublicValue: Boolean,
     WorkshopValue: String
   }
 
@@ -89,6 +90,7 @@ export class EventFilterProvider {
     filterList.partyValue = filter.partyValue;
     filterList.meetingValue = filter.meetingValue;
     filterList.WorkshopValue = filter.WorkshopValue;
+    filterList.PublicValue = filter.PublicValue;
 
     return new Promise ((resolve, reject) => {
       resolve(filterList)

@@ -1,3 +1,8 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const eventService = require('../services/eventService')
+
+
 
 exports.defaultError = (res, err) => {
     return res.status(500).json({
@@ -99,9 +104,9 @@ exports.getFilterBycommunityId = (filter, communityId) => {
 }
 
 
-exports.filterEvents = (events, filter) => {
+exports.filterEvents = (argEvents, filter, userId) => {
     console.log("FILTER : ", filter);
-    console.log("EVENTS : ", events);
+    console.log("EVENTS : ", argEvents);
 
     let activeFilters = [];
     let i = 0;
@@ -186,7 +191,7 @@ exports.filterEvents = (events, filter) => {
 
     if (i != 0) {
         console.log("ACTIVE FILTER : ", activeFilters)
-        events.map(event => {
+        argEvents.map(event => {
             while (z < i) {
                 if (event.eventCategory == activeFilters[z]) {
                     filteredEvent.push(event)
@@ -197,9 +202,52 @@ exports.filterEvents = (events, filter) => {
         })
 
     } else
-        filteredEvent = events;
-    console.log("RESULTS EVENT FILTERED :", filteredEvent);
-    return filteredEvent
+        filteredEvent = argEvents;
+
+    let filterPublicEvent = []
+    z = 0;
+
+    if (filter.PublicValue === true) {
+        return new Promise((resolve, reject) => {
+            eventService.getAllpublicEvents()
+                .then(events => {
+                    if (i != 0) {
+                        events.map(event => {
+                            while (z < i) {
+                                if (event.eventCategory == activeFilters[z] &&
+                                    (filteredEvent.length != 0 ? event.eventCreator != userId : userId)) {
+                                    filterPublicEvent.push(event)
+                                }
+                                z++;
+                            }
+                            z = 0;
+                        })
+                    }
+
+                    if (i === 0 && argEvents.length === 0) {
+                        events.map(event => {
+                            filterPublicEvent.push(event)
+                        })
+                    }
+                    filterPublicEvent = this.concatArrays(filterPublicEvent, filteredEvent)
+                    resolve(filterPublicEvent)
+                })
+        })
+
+    } else {
+        console.log("RESULTS EVENT FILTERED  NONE PUBLIC:", filteredEvent);
+        return new Promise((resolve, reject) => {
+            resolve(filteredEvent)
+        })
+    }
+}
+
+exports.concatArrays = (arr1, arr2) => {
+    arr2.map(a => {
+        arr1.push(a)
+    })
+
+    return arr1
 }
 
 exports.getFilterPosition = (events, communityId) => {

@@ -25,19 +25,26 @@ background-color: #77B650;">
       </div>
     <hr/>
     <ion-row style="position: relative;top: -138px" class="profile-numbers">
+    
+    <!-- Followers
       <ion-col col-4>
         <p>Coeur</p>
         <span>{{user.coeur}}</span>
       </ion-col>
-      <ion-col col-4>
+    -->
+
+      <ion-col col-6>
         <p>Proposer</p>
         <span>{{user.proposed}}</span>
       </ion-col>
-      <ion-col col-4>
+      <ion-col col-6>
         <p>Participer</p>
         <span>{{user.participated}}</span>
       </ion-col>
     </ion-row>
+  
+  <!-- Post area
+
     <div id="posts">
       <ion-card *ngFor="let post of posts">
         <ion-item>
@@ -72,5 +79,8 @@ background-color: #77B650;">
         </ion-row>
       </ion-card>
     </div>
+
+
+  -->
   </div>
 </ion-content>

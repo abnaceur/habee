@@ -31,7 +31,7 @@ import {
   templateUrl: 'event-filter.html',
 })
 export class EventFilterPage {
-  public filterList = this.eventFilterProvider.filterlist;
+  public filterList = {}
 
   public tabParams;
 
@@ -42,6 +42,7 @@ export class EventFilterPage {
     public eventFilterProvider: EventFilterProvider,
     public navParams: NavParams) {
 
+    this.filterList = this.eventFilterProvider.filterlist;
     this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
@@ -67,12 +68,10 @@ export class EventFilterPage {
   }
 
   closeConfirmModal() {
-
     this.eventProvider.saveFilterOptions(this.filterList, this.tabParams)
       .subscribe(filters => {
-        console.log("FILTER RESPONSE : ", filters);
+        this.filterList = filters;
       });
-    console.log("FILTER : ", this.filterList);
     this.viewCtrl.dismiss(this.filterList);
   }
 }

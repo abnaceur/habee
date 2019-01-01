@@ -67,6 +67,10 @@ let userSchema = mongoose.Schema({
 	}, ],
 	filterEvent: [{
 		filterCommunity: String,
+		PublicValue: {
+			type: Boolean,
+			default: false,
+		},
 		SportValue: {
 			type: Boolean,
 			default: false,
