@@ -5,6 +5,8 @@ import {
 import {
   IonicPage,
   NavController,
+  ModalController,
+  ToastController,
   NavParams
 } from 'ionic-angular';
 
@@ -35,15 +37,22 @@ import {
 export class ListContactPage {
 
   public url = ENV.BASE_URL;
-
   public contact;
-
   public tabParams;
+
+
+  // Moadal declaration 
+  expanded: any;
+  contracted: any;
+  showIcon = true;
+  preload = true;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public modalCtrl: ModalController,
     private userProvider: UserProvider,
+    private toastController: ToastController,
   ) {
     this.tabParams = {
       userId: this.navParams.get("userId"),
@@ -61,6 +70,20 @@ export class ListContactPage {
     });
   }
 
+  expand() {
+    this.expanded = true;
+    this.contracted = !this.expanded;
+    this.showIcon = false;
 
-
+      console.log("Add contact");
+      setTimeout(() => {
+        const modal = this.modalCtrl.create('AddContactPage', this.tabParams);
+        modal.onDidDismiss(data => {
+          this.expanded = false;
+          this.contracted = !this.expanded;
+          setTimeout(() => this.showIcon = true, 330);
+        });
+        modal.present();
+      }, 200);
+    }
 }

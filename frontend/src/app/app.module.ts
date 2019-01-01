@@ -28,6 +28,7 @@ import { ListContactPageModule } from '../pages/list-contact/list-contact.module
 import { RegisterCommunityUserPageModule } from '../pages/register-community-user/register-community-user.module';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { AddCommunityPageModule } from '../pages/add-community/add-community.module';
+import { AddContactPageModule } from '../pages/add-contact/add-contact.module';
 
 import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
@@ -57,6 +58,7 @@ import { EventFilterProvider } from '../providers/event-filter/event-filter';
     ListContactPageModule,
     RegisterCommunityUserPageModule,
     RegisterPageModule,
+    AddContactPageModule,
     AddCommunityPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,

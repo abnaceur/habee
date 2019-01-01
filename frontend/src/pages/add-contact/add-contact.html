@@ -1,0 +1,62 @@
+<ion-header style="height: 50px;
+  background-color: #E96FA1;">
+
+  <ion-icon item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Ajouter contacts</span>
+  </ion-title>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-fab mini bottom right #fab>
+    <ion-icon ion-fab (click)="AddContact()" name="add"></ion-icon>
+  </ion-fab>
+  
+  <ion-grid>
+    <ion-item>
+      <ion-label color="primary">E-mail </ion-label>
+    </ion-item>
+
+    <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
+      <ion-item>
+        <ion-label color="primary">Contact 1</ion-label>
+        <ion-input type="text" text-right [(ngModel)]="contactArray[0].value"></ion-input>
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="DelItem(idx)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+    <ion-list *ngFor="let att of contactArray; let idx = index">
+      <ion-item-sliding #item *ngIf="contactArrayLenght != 0">
+
+        <ion-item>
+          <ion-label color="primary">Contact {{idx+1}}</ion-label>
+          <ion-input type="text" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
+        </ion-item>
+
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="DelItem(idx)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+
+
+
+    <ion-item>
+      <button ion-button round style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px" type="submit">Inviter</button>
+    </ion-item>
+
+  </ion-grid>
+
+</ion-content>
