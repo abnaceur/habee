@@ -38,6 +38,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { RegisterProvider } from '../providers/register/register';
 import { EventFilterProvider } from '../providers/event-filter/event-filter';
+import { AddContactProvider } from '../providers/add-contact/add-contact';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { EventFilterProvider } from '../providers/event-filter/event-filter';
     UserProvider,
     RegisterProvider,
     EventFilterProvider,
+    AddContactProvider,
   ]
 })
 export class AppModule { }

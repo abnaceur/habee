@@ -151,8 +151,6 @@ exports.getAllusersByCommunityIdMobile = (req, res, next) => {
 
 
 exports.post_userMobile = (req, res, next) => {
-    console.log("Post mobile user: ", req.body)
-    console.log("Post mobile user file : ", req.file)
 
     let imagePathprofilePhoto;
     let imagePathcommunityLogo;
@@ -501,6 +499,20 @@ exports.get_user_by_id = (req, res, next) => {
             });
         });
 };
+
+
+exports.postInvitedContacts = (req, res, next) => {
+    let userId = req.params.userId;
+    let activeCommunity = req.params.activeCommunity;
+
+    userService.addContacts(req.body, userId, activeCommunity)
+        .then(email => {
+            res.status(200).json({
+                code: 200,
+                msg: email
+            })
+        })
+}
 
 exports.get_userId_communityId = (req, res, next) => {
     const id = req.params.id;

@@ -114,6 +114,13 @@ router.get('/:id/:communityId', userController.get_userId_communityId);
 
 
 /*
+ ** API [POST] for route /users/invite/contacts/:userId/:activeCommunity   [USED]
+ */
+
+
+router.post('/invite/contacts/:userId/:activeCommunity', userController.postInvitedContacts)
+
+/*
  ** API [PATCH] for route /users/id/communityId   [USED]
  */
 

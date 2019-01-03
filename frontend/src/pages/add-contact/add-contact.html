@@ -23,8 +23,26 @@
     <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
       <ion-item>
         <ion-label color="primary">Contact 1</ion-label>
-        <ion-input type="text" text-right [(ngModel)]="contactArray[0].value"></ion-input>
+        <ion-input type="email" text-right [(ngModel)]="contactArray[0].value"></ion-input>
       </ion-item>
+
+       
+      <ion-item *ngIf="contactArray[0].status == 500">
+        <p text-right>Ce contact exist !</p>
+      </ion-item>
+
+
+      <ion-item *ngIf="contactArray[0].status == 202">
+        <p text-right>Contact ajouter avec succes</p>
+      </ion-item>
+
+
+      <ion-item *ngIf="contactArray[0].status == 200">
+        <p text-right>Invitation envoyer avec succes</p>
+      </ion-item>
+
+
+
 
       <ion-item-options side="right">
         <button ion-button color="danger" (click)="DelItem(idx)">
@@ -39,8 +57,24 @@
 
         <ion-item>
           <ion-label color="primary">Contact {{idx+1}}</ion-label>
-          <ion-input type="text" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
+          <ion-input type="email" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
         </ion-item>
+
+         
+        <ion-item *ngIf="contactArray[idx].status == 500">
+          <p text-right>Ce contact exist !</p>
+        </ion-item>
+
+
+        <ion-item *ngIf="contactArray[idx].status == 202">
+          <p text-right>Contact ajouter avec succes</p>
+        </ion-item>
+
+
+        <ion-item *ngIf="contactArray[idx].status == 200">
+          <p text-right>Invitation envoyer avec succes</p>
+        </ion-item>
+
 
         <ion-item-options side="right">
           <button ion-button color="danger" (click)="DelItem(idx)">
@@ -55,7 +89,7 @@
     <ion-row>
       <ion-col col-12 text-center>
         <div class="center">
-          <button ion-button style="background-color: #E96FA1;">
+          <button ion-button (click)="invitContacts()" style="background-color: #E96FA1;">
             Envoyer
           </button>
         </div>

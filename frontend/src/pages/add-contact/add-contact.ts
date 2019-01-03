@@ -10,12 +10,9 @@ import {
 } from 'ionic-angular';
 
 
-/**
- * Generated class for the AddContactPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {
+AddContactProvider
+} from '../../providers/add-contact/add-contact'
 
 @IonicPage()
 
@@ -27,29 +24,33 @@ import {
 export class AddContactPage {
   public contactArray: any [];
   public contactArrayLenght: Number;
+  public validateInput: any;
+  public tabParams;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public addContactProvider : AddContactProvider,
     public viewCtrl: ViewController
   ) {
+
+    this.tabParams = {
+      userId: this.navParams.get("userId"),
+      token: this.navParams.get("token"),
+      activeCommunity: this.navParams.get('activeCommunity')
+    };
   }
 
   ionViewWillLoad() {
-    console.log('ionViewDidLoad AddContactPage');
     this.contactArray = [{value: ""}];
     this.contactArrayLenght = 0;
+    this.validateInput = 0;
  
   }
-
-  ionViewDidEnter() {
-  }
-
 
   AddContact() {
     this.contactArray.push({ 'value': '' });
     this.contactArrayLenght = this.contactArray.length;
-    console.log("ARRAY :", this.contactArray, this.contactArrayLenght);
   }
 
   dismiss() {
@@ -60,6 +61,13 @@ export class AddContactPage {
 
   DelItem(item) {
     this.contactArray.splice(item, 1)
+  }
+
+  async invitContacts() {
+    let emailsList;
+
+    emailsList = await this.addContactProvider.isFieldEmpty(this.contactArray, this.tabParams)
+    this.contactArray = emailsList;
   }
 
 }

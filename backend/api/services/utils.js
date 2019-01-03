@@ -209,10 +209,8 @@ exports.checkIfexist = (arr1, ev) => {
 }
 
 exports.concatArraysUser = (arr1, arr2) => {
-    console.log("AACC", arr2)
     if (arr1.length != 0) {
         arr2.map(a => {
-            let t = this.checkIfexist(arr1, a);
             if (this.checkIfexist(arr1, a) == false) {
                 arr1.push(a)
             }
@@ -221,8 +219,6 @@ exports.concatArraysUser = (arr1, arr2) => {
         arr1 = arr2
     } else
         arr1 = arr2
-
-    console.log("SSS : ", arr1)
     return arr1
 }
 
@@ -244,4 +240,8 @@ exports.getFilterPosition = (events, communityId) => {
     })
 
     return z
+}
+
+exports.randomValueGenerator = () => {
+    return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7);    
 }
