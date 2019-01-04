@@ -162,7 +162,6 @@ exports.filterEvents = (argEvents, filter, userId) => {
         return new Promise((resolve, reject) => {
             eventService.getAllpublicEvents()
                 .then(events => {
-                    console.log("AA 22 : ", events)
                     if (i != 0) {
                         events.map(event => {
                             while (z < i) {
@@ -175,13 +174,10 @@ exports.filterEvents = (argEvents, filter, userId) => {
                             z = 0;
                         })
                     } else {
-                        console.log("DDD HERE", i, argEvents)
                         events.map(event => {
                             filterPublicEvent.push(event)
                         })
                     }
-                    console.log("SSS :", filteredEvent)
-                    console.log("SSS1 :", filterPublicEvent)
                     filterPublicEvent = this.concatArrays(filterPublicEvent, filteredEvent)
                     resolve(filterPublicEvent)
                 })
@@ -230,6 +226,25 @@ exports.concatArrays = (arr1, arr2) => {
     return arr1
 }
 
+exports.uniqueArray = (z, arr, count) => {
+    let i = count - 1;
+    let check = 0;
+
+    while (z < count) {
+        while (i > 0) {
+            if (arr[z] === arr[i]) {
+                check++;
+                break;
+            }
+            i--;
+        }
+        if (check != 0) {arr.splice(i, 1)}
+        i = count - 1;
+        z++;
+    }
+    return arr
+}
+
 exports.getFilterPosition = (events, communityId) => {
     let z = 0;
     let i = 0;
@@ -243,5 +258,5 @@ exports.getFilterPosition = (events, communityId) => {
 }
 
 exports.randomValueGenerator = () => {
-    return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7);    
+    return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7);
 }

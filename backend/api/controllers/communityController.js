@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const utils = require('../services/utils');
+const communitySrvice = require('../services/communityServices/communityService')
 
 exports.get_all_communities = (req, res, next) => {
 
@@ -166,22 +167,7 @@ exports.addCommunityByCreator = (req, res, next) => {
 
 exports.getCommunityByCreator = (req, res, next) => {
     const userId = req.params.userId;
-
-    console.log("Body community : ", req.body, userId)
-    Community.find({
-            communityCreator: userId
-        })
-        .exec()
-        .then(coms =>
-            res.status(200).json({
-                communities: coms
-            })
-        ).catch(err => {
-            res.status(500).json({
-                Error: err
-            })
-        })
-
+    communitySrvice.getCommunityByCreator(userId, res)
 }
 
 exports.post_community = (req, res, next) => {

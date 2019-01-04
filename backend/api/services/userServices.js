@@ -4,7 +4,8 @@ const userClass = require('../classes/userClass')
 
 exports.addNewContact = (email, userId, activeCommunity) => {
     let password = utils.randomValueGenerator()
-
+    console.log("Ganaretd password : ", password);
+    
     return new Promise((resolve, reject) => {
         userClass.userClassAddNew(password, email, activeCommunity)
             .then(user => {
