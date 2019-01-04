@@ -15,3 +15,12 @@ exports.inviteExistingContact = (senderInfo) => {
     
     return msg
 }
+
+exports.accountCreated = (email, password) => {
+    let msg = "Hello ! \n Vous avez recu une invitaion pour rejoindre la communitee [nom de la communitee] \
+    \n voila vos logins : \n Email : " + email + "\n Mot de pass : " + password + "\
+    \n P.S : Ce mot de pass est genere autoatiquement, vouos devez change votre de pass depuis l'app HABEE \
+    \n TEAM HABEE"
+
+    return msg
+}

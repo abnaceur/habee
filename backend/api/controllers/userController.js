@@ -8,6 +8,9 @@ const Event = require('../models/event');
 const utils = require('../services/utils');
 const userService = require('../services/userServices');
 const eventService = require('../services/eventService')
+const communityClass = require('../classes/communityClass')
+const userClass = require('../classes/userClass')
+const userEmailsTemplate = require('../emailsTemplate/userEmails');
 
 exports.login_user = (req, res, next) => {
     User.find({
@@ -152,25 +155,8 @@ exports.getAllusersByCommunityIdMobile = (req, res, next) => {
 
 exports.post_userMobile = (req, res, next) => {
 
-    let imagePathprofilePhoto;
-    let imagePathcommunityLogo;
-
-    // TODO UNDRY THIS
-    if (req.body.communityLogo != undefined)
-        imagePathcommunityLogo = req.body.communityLogo;
-    else if (req.files == undefined)
-        imagePathcommunityLogo = "uploads/defaultEventImage.jpeg"
-    else if (req.files != undefined)
-        imagePathcommunityLogo = req.files[0].path;
-
-
-    if (req.body.profilePhoto != undefined)
-        imagePathprofilePhoto = req.body.profilePhoto;
-    else if (req.files == undefined)
-        imagePathprofilePhoto = "uploads/defaultEventImage.jpeg"
-    else if (req.files != undefined)
-        imagePathprofilePhoto = req.files[0].path;
-
+    let imagePathprofilePhoto = userService.getImagePath(req, req.body.profilePhoto);
+    let imagePathcommunityLogo = userService.getImagePath(req, req.body.communityLogocommunityLogo);
 
     console.log("imagePath : ", imagePathprofilePhoto, imagePathcommunityLogo);
 
@@ -193,17 +179,8 @@ exports.post_userMobile = (req, res, next) => {
                             Message: "Community exists!"
                         })
                     } else {
-                        //TOFO RANDOM UNIQUE ID
-                        const community = new Community({
-                            _id: new mongoose.Types.ObjectId,
-                            communityId: req.body.activeCommunity,
-                            communityName: req.body.activeCommunity,
-                            s: req.body.communityDescripton,
-                            communityLogo: imagePathcommunityLogo,
-                            communityCreator: req.body.userId,
-                            communityMembers: [req.body.userId],
-                            communityIsActive: true
-                        });
+                        //TODO RANDOM UNIQUE ID
+                        const community = new Community(communityClass.communityClassModal(req, imagePathcommunityLogo));
                         community
                             .save()
                             .then(com => {
@@ -214,71 +191,13 @@ exports.post_userMobile = (req, res, next) => {
                                             Error: err
                                         })
                                     } else {
-                                        const user = new User({
-                                            _id: new mongoose.Types.ObjectId,
-                                            userId: req.body.userId,
-                                            activeCommunity: req.body.activeCommunity,
-                                            activeProfileRole: req.body.profileIsAdmin,
-                                            credentials: {
-                                                firstname: req.body.firstname,
-                                                lastname: req.body.lastname,
-                                                birthDate: req.body.birthDate,
-                                                address: req.body.address,
-                                                email: req.body.email,
-                                                phone: req.body.phone,
-                                                password: hash,
-                                            },
-
-                                            communities: req.body.communities,
-                                            profile: [{
-                                                profileCummunityId: req.body.profileCummunityId,
-                                                profilePhoto: imagePathprofilePhoto,
-                                                profileUsername: req.body.profileUsername,
-                                                profileIsAdmin: req.body.profileIsAdmin,
-                                                profileUserIsActive: req.body.profileUserIsActive,
-                                                profileUserIsDeleted: req.body.profileUserIsDeleted ? req.body.profileUserIsDeleted : false,
-                                            }],
-                                            filterEvent: [{
-                                                filterCommunity: req.body.activeCommunity,
-                                                SportValue: false,
-                                                ArtsValue: false,
-                                                cultureValue: false,
-                                                MediaValue: false,
-                                                musicValue: false,
-                                                socialValue: false,
-                                                internValue: false,
-                                                businessValue: false,
-                                                communityValue: false,
-                                                santeValue: false,
-                                                itValue: false,
-                                                lifestyleValue: false,
-                                                partyValue: false,
-                                                meetingValue: false,
-                                                WorkshopValue: false,
-                                            }],
-                                            passions: req.body.passions,
-                                            skills: req.body.skills,
-                                            currentEvents: req.body.currentEvents,
-                                            "currentEvents.eventsICreated": req.body.eventsICreated,
-                                            "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
-                                            parameters: req.body.parameters,
-                                            passedEvents: req.body.passedEvents,
-                                            "passedEvents.PassedevenementsICreated": req.body.passedEvents,
-                                            "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
-                                        });
+                                        const user = new User(userClass.userClassPost(req, hash, imagePathprofilePhoto));
                                         user
                                             .save()
                                             .then(result => {
-                                                console.log("User this: ", result)
-                                                let emailNew = result.credentials.email;
+                                                let msg = userEmailsTemplate.accountCreated(result.credentials.email, pass)
+                                                utils.sendEmail("Habee TEAM", result.credentials.email, "Bienvenu nouveau Habeebebois !", msg);
 
-                                                let text = "Hello ! \n Vous avez recu une invitaion pour rejoindre la communitee [nom de la communitee] \
-                                            \n voila vos logins : \n Email : " + emailNew + "\n Mot de pass : " + pass + "\
-                                            \n P.S : Ce mot de pass est genere autoatiquement, vouos devez change votre de pass depuis l'app HABEE \
-                                            \n TEAM HABEE"
-
-
-                                                utils.sendEmail("Habee TEAM", emailNew, "Bienvenu nouveau Habeebebois !", text);
                                                 res.status(200).json({
                                                     results: "success",
                                                     message: "User added with success!"
@@ -286,17 +205,13 @@ exports.post_userMobile = (req, res, next) => {
                                                 })
                                             })
                                             .catch(err => {
-                                                res.status(500).json({
-                                                    Error: err
-                                                })
+                                                this.utils.defaultError(err)
                                             });
                                     }
                                 });
                             })
                             .catch(err => {
-                                res.status(500).json({
-                                    Error: err
-                                })
+                                this.utils.defaultError(err)
                             });
                     }
                 })
@@ -305,8 +220,10 @@ exports.post_userMobile = (req, res, next) => {
 }
 
 
+
+// This is useed for posting from a web applicationn
 exports.post_user = (req, res, next) => {
-    console.log("File : ", req.file);
+
     User.find({
             "credentials.email": req.body.email
         })
@@ -324,80 +241,20 @@ exports.post_user = (req, res, next) => {
                             Error: err
                         })
                     } else {
-                        const user = new User({
-                            _id: new mongoose.Types.ObjectId,
-                            userId: req.body.userId,
-                            activeCommunity: req.body.activeCommunity,
-                            activeProfileRole: req.body.profileIsAdmin,
-                            credentials: {
-                                firstname: req.body.firstname,
-                                lastname: req.body.lastname,
-                                birthDate: req.body.birthDate,
-                                address: req.body.address,
-                                email: req.body.email,
-                                phone: req.body.phone,
-                                password: hash,
-                            },
-
-                            communities: req.body.communities,
-                            profile: [{
-                                profileCummunityId: req.body.profileCummunityId,
-                                profilePhoto: req.file == undefined ? "uplaods/" : req.file.path,
-                                profileUsername: req.body.profileUsername,
-                                profileIsAdmin: req.body.profileIsAdmin,
-                                profileUserIsActive: req.body.profileUserIsActive,
-                                profileUserIsDeleted: req.body.profileUserIsDeleted ? req.body.profileUserIsDeleted : false,
-                            }],
-                            filterEvent: [{
-                                filterCommunity: req.body.profileCummunityId,
-                                SportValue: false,
-                                ArtsValue: false,
-                                cultureValue: false,
-                                MediaValue: false,
-                                musicValue: false,
-                                socialValue: false,
-                                internValue: false,
-                                businessValue: false,
-                                communityValue: false,
-                                santeValue: false,
-                                itValue: false,
-                                lifestyleValue: false,
-                                partyValue: false,
-                                meetingValue: false,
-                                WorkshopValue: false,
-                            }],
-                            passions: req.body.passions,
-                            skills: req.body.skills,
-                            currentEvents: req.body.currentEvents,
-                            "currentEvents.eventsICreated": req.body.eventsICreated,
-                            "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
-                            parameters: req.body.parameters,
-                            passedEvents: req.body.passedEvents,
-                            "passedEvents.PassedevenementsICreated": req.body.passedEvents,
-                            "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
-                        });
+                        const user = new User(userClass.userClassPost(req, hash, req.file == undefined ? "uplaods/" : req.file.path));
                         user
                             .save()
                             .then(result => {
-                                console.log("User this: ", result)
-                                let emailNew = result.credentials.email;
+                                let msg = userEmailsTemplate.accountCreated(result.credentials.email, pass)
+                                utils.sendEmail("Habee TEAM", result.credentials.email, "Bienvenu nouveau Habeebebois !", msg);
 
-                                let text = "Hello ! \n Vous avez recu une invitaion pour rejoindre la communitee [nom de la communitee] \
-                                \n voila vos logins : \n Email : " + emailNew + "\n Mot de pass : " + pass + "\
-                                \n P.S : Ce mot de pass est genere autoatiquement, vouos devez change votre de pass depuis l'app HABEE \
-                                \n TEAM HABEE"
-
-
-                                utils.sendEmail("Habee TEAM", emailNew, "Bienvenu nouveau Habeebebois !", text);
                                 res.status(200).json({
                                     message: "User added with success!"
                                     // Resulta: result
                                 })
                             })
                             .catch(err => {
-                                res.status(500).json({
-                                    Error: err
-                                })
+                                this.utils.defaultError(err)
                             });
                     }
                 });
@@ -449,7 +306,6 @@ exports.get_user_by_id = (req, res, next) => {
                     message: "User not found or id not valid!"
                 })
             } else {
-                console.log("User qqq :", usr[0].eventsParticipated.length, usr[0].eventsParticipated)
                 if (usr[0].eventsParticipated.length != 0) {
                     Event.find({
                             eventCommunity: usr[0].activeCommunity,
@@ -459,7 +315,6 @@ exports.get_user_by_id = (req, res, next) => {
                         .then(event => {
                             eventService.getAllpublicEvents()
                                 .then(ev => {
-                                    console.log("eee : ", event)
                                     event = utils.concatArraysUser(event, ev)
 
                                     let allUserEvents = [];
@@ -476,7 +331,6 @@ exports.get_user_by_id = (req, res, next) => {
                                         z = 0;
                                         i++;
                                     }
-                                    console.log("test : ", allUserEvents)
                                     usr[0].eventsParticipated = allUserEvents;
 
                                     res.status(200).json({
@@ -493,10 +347,7 @@ exports.get_user_by_id = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
+            this.utils.defaultError(err)
         });
 };
 
@@ -554,8 +405,7 @@ exports.get_userId_communityId = (req, res, next) => {
                             let allUserEvents = [];
                             let i = 0;
                             let z = 0;
-
-                            console.log("Event :", event)
+    
                             while (i < usrs[0].eventsParticipated.length) {
                                 while (z < event.length) {
                                     if (usrs[0].eventsParticipated[i].eventId == event[z].eventId) {
@@ -566,7 +416,6 @@ exports.get_userId_communityId = (req, res, next) => {
                                 z = 0;
                                 i++;
                             }
-                            console.log("test !!!!: ", allUserEvents)
                             usrs[0].eventsParticipated = allUserEvents;
 
                             Event.find({
@@ -575,10 +424,7 @@ exports.get_userId_communityId = (req, res, next) => {
                                     eventIsDeleted: false,
                                 }).exec()
                                 .then(event => {
-                                    console.log("here ty1")
-                                    console.log("Event2 :", event)
                                     let i = 0;
-                                    console.log("DDD", usrs[0].profile.length);
                                     let z = usrs[0].profile.length;
                                     let t = 0;
 
@@ -613,9 +459,7 @@ exports.get_userId_communityId = (req, res, next) => {
                             eventIsDeleted: false,
                         }).exec()
                         .then(event => {
-                            console.log("Event1 :", event)
                             let i = 0;
-                            console.log("DDD", usrs[0].profile.length);
                             let z = usrs[0].profile.length;
                             let t = 0;
 
@@ -625,12 +469,9 @@ exports.get_userId_communityId = (req, res, next) => {
                                 t++;
                             }
 
-                            console.log("DDD", i);
-
                             res.status(200).json({
                                 Users: usrs.map(usr => {
                                     if (usr != undefined) {
-                                        console.log("here III", i)
                                         return {
                                             eventCreated: event.length,
                                             userId: usr.userId,
@@ -647,10 +488,7 @@ exports.get_userId_communityId = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
+            this.utils.defaultError(err)
         });
 };
 

@@ -10,7 +10,6 @@ exports.getUserCommunities = (userId) => {
                 userId: userId
             }).exec()
             .then(usr => {
-                console.log("User : ", usr[0].communities)
                 resolve(usr[0].communities)
             })
     })
@@ -28,13 +27,12 @@ exports.getAllcommunitiesFromUser = (userCommunities) => {
 
 
 exports.ifCommunityExist = (communities, userCommunities, res) => {
+    let i = 0;
     let userCommunitiesById = this.getAllcommunitiesFromUser(userCommunities)
     let allCommunities = utils.concatArrays(communities, userCommunitiesById)
-   console.log("Concat  :", allCommunities)
-    let i = 0;
+   
     while (allCommunities[i]) i++;
     let allCommunitiesUnique = utils.uniqueArray(0, allCommunities, i)
-    console.log("Unique :", allCommunitiesUnique)
     this.getAllcommunities(allCommunitiesUnique, res)
 }
 
@@ -52,7 +50,6 @@ exports.getAllcommunities = (communities, res) => {
 exports.getCommunityByCreator = (userId, res) => {
     this.getUserCommunities(userId)
         .then(communities => {
-            console.log("Communoties list  :", communities)
             Community.find({
                     communityCreator: userId
                 })

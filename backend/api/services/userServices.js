@@ -5,7 +5,7 @@ const userClass = require('../classes/userClass')
 exports.addNewContact = (email, userId, activeCommunity) => {
     let password = utils.randomValueGenerator()
     console.log("Ganaretd password : ", password);
-    
+
     return new Promise((resolve, reject) => {
         userClass.userClassAddNew(password, email, activeCommunity)
             .then(user => {
@@ -85,4 +85,17 @@ exports.addContacts = (emails, userId, activeCommunity) => {
         })
 
     })
+}
+
+exports.getImagePath = (req, imageBody) => {
+    let imagePath;
+    
+    if (imageBody != undefined)
+        imagePath = req.body.communityLogo;
+    else if (req.files == undefined)
+        imagePath = "uploads/defaultEventImage.jpeg"
+    else if (req.files != undefined)
+        imagePath = req.files[0].path;
+
+    return imagePath
 }

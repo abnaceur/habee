@@ -173,3 +173,60 @@ exports.userAddNewCommnity = (email, user, senderId, activeCommunity) => {
             })
     })
 }
+
+exports.userClassPost = (req, hash, imagePathprofilePhoto) => {
+    let userPostClass = {
+        _id: new mongoose.Types.ObjectId,
+        userId: req.body.userId,
+        activeCommunity: req.body.activeCommunity,
+        activeProfileRole: req.body.profileIsAdmin,
+        credentials: {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            birthDate: req.body.birthDate,
+            address: req.body.address,
+            email: req.body.email,
+            phone: req.body.phone,
+            password: hash,
+        },
+
+        communities: req.body.communities,
+        profile: [{
+            profileCummunityId: req.body.profileCummunityId,
+            profilePhoto: imagePathprofilePhoto,
+            profileUsername: req.body.profileUsername,
+            profileIsAdmin: req.body.profileIsAdmin,
+            profileUserIsActive: req.body.profileUserIsActive,
+            profileUserIsDeleted: req.body.profileUserIsDeleted ? req.body.profileUserIsDeleted : false,
+        }],
+        filterEvent: [{
+            filterCommunity: req.body.activeCommunity,
+            SportValue: false,
+            ArtsValue: false,
+            cultureValue: false,
+            MediaValue: false,
+            musicValue: false,
+            socialValue: false,
+            internValue: false,
+            businessValue: false,
+            communityValue: false,
+            santeValue: false,
+            itValue: false,
+            lifestyleValue: false,
+            partyValue: false,
+            meetingValue: false,
+            WorkshopValue: false,
+        }],
+        passions: req.body.passions,
+        skills: req.body.skills,
+        currentEvents: req.body.currentEvents,
+        "currentEvents.eventsICreated": req.body.eventsICreated,
+        "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
+        parameters: req.body.parameters,
+        passedEvents: req.body.passedEvents,
+        "passedEvents.PassedevenementsICreated": req.body.passedEvents,
+        "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
+    }
+
+    return userPostClass
+}

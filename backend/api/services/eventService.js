@@ -56,7 +56,6 @@ exports.eventModal = (event) => {
 }
 
 exports.getAllpublicEvents = () => {
-    console.log("Here")
     return new Promise((resolve, reject) => {
         Event.find({
                 eventIsPublic: true,
@@ -64,7 +63,6 @@ exports.getAllpublicEvents = () => {
                 eventIsOver: false
             }).exec()
             .then(event => {
-                console.log("EVent public : ", event)
                     resolve(event)
             })
     })
