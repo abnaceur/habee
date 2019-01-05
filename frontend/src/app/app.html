@@ -59,7 +59,7 @@
 <ion-menu [content]="content" id="menu-community">
   <ion-content>
     <div #header>
-      <ion-item ion-item>
+      <ion-item ion-item no-line>
         <ion-icon (click)="backToMainMenu()" name="arrow-back" item-left></ion-icon>
         <span style="font-size:4vw; color:white"><b>Changer la communaute</b></span>
         <ion-icon (click)="goToAddCommunityModal()" name="add" item-right></ion-icon>
@@ -72,13 +72,16 @@
         {{community.communityName}}
       </ion-item>
 
-      <ion-item (click)="selectCommunity(community.communityId)" *ngIf="community.selected == 'false'">
-        {{community.communityName}}
+      <ion-item *ngIf="community.selected == 'false'">
+        <span (click)="selectCommunity(community.communityId)" >
+          {{community.communityName}}
+        </span>
      <!-- Added an image 
        <img [src]='url + "/" + community.communityLogo' />
      -->
+        <ion-icon  *ngIf="userData.userId == community.communityCreator" style="color: floralwhite" item-right name="more" (click)="presentPopover($event)" ></ion-icon>
+     
       </ion-item>
-
     </ion-list>
   </ion-content>
 </ion-menu>

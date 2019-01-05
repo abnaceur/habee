@@ -9,6 +9,7 @@ import {
   MenuController,
   ModalController,
   Events,
+  PopoverController,
   NavParams
 } from 'ionic-angular';
 
@@ -73,6 +74,7 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public menu: MenuController,
+    public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
     private communityProvider: CommunityProvider,
     public splashScreen: SplashScreen) {
@@ -183,5 +185,13 @@ export class MyApp {
           });
         }
     })
+  }
+
+  presentPopover(myEvent) {
+    console.log("Event : ", myEvent)
+    let popover = this.popoverCtrl.create("PopoverPageCommunityPage", {}, {cssClass: 'community-popover'});
+    popover.present({
+      ev: myEvent
+    });
   }
 }

@@ -1,25 +1,19 @@
-<ion-header no-border>
-    <ion-navbar transparent>
-      <ion-buttons right>
-        <button ion-button (click)="dismiss(false)">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-navbar>
-  </ion-header>
-  <ion-content fullscreen>
+<ion-header style="height: 50px;
+  background-color: #E96FA1;">
+
+  <ion-icon item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Cree une communaute</span>
+  </ion-title>
+</ion-header>
   
+<ion-content padding>
+  <ion-grid>
     <ion-list>
       <form [formGroup]="addCommunityForm" (ngSubmit)="onSubmit(addCommunityForm.value)">
   
-        <ion-label style="
-        color: white;
-      position: relative;
-      left: 20%;
-      margin-bottom: 10%;
-      margin-top: -20px;
-      font-size: 20px;
-      font-family: fantasy;">Cree une communaute</ion-label>
   
   
         <ion-item>
@@ -43,10 +37,21 @@
           <!--   <ion-label floating>E-mail</ion-label> -->
           <ion-textarea style="color:silver" placeholder="Description" formControlName="communityDescription" type="text"></ion-textarea>
         </ion-item>
+        
   
-        <button ion-button round style="position: relative; background-color: #f3a350; margin-top: 25px; left: 85px" type="submit">Cree</button>
+        <ion-row>
+          <ion-col col-12 text-center>
+            <div class="center">
+              <button ion-button type="submit" style="background-color: #E96FA1;">
+                Ajouter
+              </button>
+            </div>
+          </ion-col>
+    
+        </ion-row>
+
       </form>
     </ion-list>
-  
+  </ion-grid>   
   </ion-content>
   
