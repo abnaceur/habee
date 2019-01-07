@@ -1,8 +1,8 @@
-import { 
-  Component 
+import {
+  Component
 } from '@angular/core';
 
-import { 
+import {
   Platform,
   ActionSheetController,
   LoadingController,
@@ -56,6 +56,16 @@ export class EditCommunityModalPage {
   public url = ENV.BASE_URL;
   public chosenPicture;
   private tabParams: Object;
+  private communityId;
+  public comInfo = {
+    title: "",
+    description: ""
+  }
+
+  public validateInput = {
+    title: true,
+    description: true
+  }
 
   constructor(
     public utils: UtilsProvider,
@@ -71,14 +81,29 @@ export class EditCommunityModalPage {
     private _FB: FormBuilder,
     public viewCtrl: ViewController
   ) {
+
+    this.tabParams = this.navParams.data.userInfo;
+    this.communityId = this.navParams.data.selectCommunity
+
     this.editCommunityForm = formBuilder.group({
-      communityTitle: ['test', Validators.compose([Validators.required])],
-      communityDescription: ['', Validators.compose([Validators.required])],
+      communityTitle: ["", Validators.compose([Validators.required])],
+      communityDescription: ["", Validators.compose([Validators.required])],
     });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditCommunityModalPage');
+  }
+
+  ionViewDidEnter() {
+    console.log("this.tabParams.selectCommunity : ", this.communityId, this.tabParams);
+
+    this.communityProvider.getCommunityById(this.tabParams, this.communityId)
+      .subscribe(data => {
+        console.log("Dta : ", data);
+        this.comInfo.title = data.community[0].communityName;
+        this.comInfo.description = data.community[0].communityDescripton
+      })
   }
 
   changePicture() {
@@ -146,14 +171,44 @@ export class EditCommunityModalPage {
     );
   }
 
+  validateInputFun(vInput, input) {
+    let check = 0;
+
+    input.communityDescription == "" ? 
+    (vInput.title = false , check++) : vInput.title = true
+
+    input.communityTitle == "" ? 
+    (vInput.description = false , check++) : vInput.description = true
+  
+    if (check != 0 ) 
+      return false
+    else
+      return true
+  }
+
   onSubmit(modifiedCommunity) {
-    //TODO FIX IT FOR MOBILE UPLOAD WITH PHOTO.
     console.log("Modified community ", modifiedCommunity);
-    
+    console.log("this.chosenPicture :", this.chosenPicture)
+
+    modifiedCommunity.communityDescription == "" ? 
+    this.validateInput.description = false : this.validateInput.description = true
+
+    modifiedCommunity.communityTitle == "" ? 
+    this.validateInput.title = false : this.validateInput.title = true
+
+    if (this.chosenPicture && this.validateInput.description === true && this.validateInput.title == true) {
+      this.utils.uploadPhoto(this.chosenPicture)
+        .then(comPhoto => {
+          console.log("With photo");  
+          this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, comPhoto)
+        })
+    } else if (this.validateInput.description == true && this.validateInput.title == true) {
+      this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, this.chosenPicture)
+    }
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();  
+    this.viewCtrl.dismiss();
   }
 
 }

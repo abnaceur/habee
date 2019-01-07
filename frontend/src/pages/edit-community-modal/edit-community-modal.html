@@ -16,9 +16,12 @@
   
         <ion-item>
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" placeholder="Nom" formControlName="communityTitle" type="text"></ion-input>
+          <ion-input placeholder={{comInfo.title}} style="color:silver" placeholder="Nom" formControlName="communityTitle" type="text"></ion-input>
         </ion-item>
   
+        <ion-item *ngIf="validateInput.title == false">
+          <p>Ce champs doit etre rempli !</p>
+        </ion-item>
   
         <ion-item>
           <ion-label style="color: gray">
@@ -33,9 +36,13 @@
   
         <ion-item>
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-textarea style="color:silver" placeholder="Description" formControlName="communityDescription" type="text"></ion-textarea>
+          <ion-textarea placeholder={{comInfo.description}} style="color:silver" placeholder="Description" formControlName="communityDescription" type="text"></ion-textarea>
         </ion-item>
         
+
+        <ion-item *ngIf="validateInput.description == false">
+          <p>Ce champs doit etre rempli !</p>
+        </ion-item>
   
         <ion-row>
           <ion-col col-12 text-center>

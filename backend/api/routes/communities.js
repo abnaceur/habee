@@ -57,28 +57,17 @@ router.post('/creator/:userId', communityController.addCommunityByCreator);
 router.post('/selected/:communityId/:userId', communityController.updateSelectedCommunity);
 
 
+/*
+ ** API [POST] for route /communites/ [USED]  
+ */
+
 router.post('/',  upload.single('communityLogo'), communityController.post_community);
 
-
-/*
- ** API route [GET] for /communities/active
- */
-
-router.get('/active', authCkeck, communityController.get_all_active_communities);
-
-/* 
- ** API route [GET] for /communities/isNotActive
- */
-
-
-router.get('/isNotActive', authCkeck, communityController.get_all_notActive_communities);
 
 /*
  ** API routes [GET] [PATCH] for /communities/id
  */
 
 router.get('/:id', communityController.get_community_by_id);
-
-router.patch('/:id', authCkeck, upload.single('communityLogo'), communityController.patch_community_by_id);
 
 module.exports = router;

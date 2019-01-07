@@ -71,7 +71,7 @@ exports.addCommunityByCreator = (req, res, next) => {
     console.log("ADD COMMUNITY !!", imagePath)
 
     Community.find({
-            communityName: req.body.communityName
+            communityId: req.body.communityId
         }).exec()
         .then(com => {
             if (com.length > 0) {
@@ -192,55 +192,6 @@ exports.post_community = (req, res, next) => {
         });
 };
 
-exports.get_all_active_communities = (req, res, next) => {
-    Community.find({
-            communityIsActive: true
-        })
-        .select("communityId communityName dateOfCreation dateOfLastUpdate communityIsActive")
-        .exec()
-        .then(activeCom => {
-            if (activeCom.length === 0) {
-                return res.status(404).json({
-                    code: "101",
-                    message: "There are no active communities!"
-                })
-            } else {
-                res.status(200).json({
-                    Communities: activeCom
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
-exports.get_all_notActive_communities = (req, res, next) => {
-    Community.find({
-            communityIsActive: false
-        })
-        .select("communityId communityName dateOfCreation dateOfLastUpdate communityIsActive")
-        .exec()
-        .then(isNOtActiveCom => {
-            if (isNOtActiveCom.length === 0) {
-                return res.status(404).json({
-                    message: "There are no deactivated communities!"
-                })
-            } else {
-                res.status(200).json({
-                    Communities: isNOtActiveCom
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
 exports.get_community_by_id = (req, res, next) => {
     const id = req.params.id;
     Community.find({
@@ -265,37 +216,5 @@ exports.get_community_by_id = (req, res, next) => {
             res.status(500).json({
                 Error: err
             });
-        });
-};
-
-exports.patch_community_by_id = (req, res, next) => {
-    const id = req.params.id;
-
-    Community.update({
-            communityId: id
-        }, {
-            $set: {
-                communityId: req.body.communityId,
-                communityName: req.body.communityName,
-                communityLogo: req.file.path,
-                communityAdmin: req.body.communityAdmin,
-                communityMembers: req.body.communityMembers,
-                dateOfCreation: req.body.dateOfCreation,
-                dateOfLastUpdate: req.body.dateOfLastUpdate,
-                companyName: req.body.companyName,
-                clientId: req.body.clientId,
-                communityIsActive: req.body.communityIsActive
-            }
-        })
-        .exec()
-        .then(results => {
-            res.status(200).json({
-                success: results
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                Error: err
-            })
         });
 };

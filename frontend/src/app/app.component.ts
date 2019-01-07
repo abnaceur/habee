@@ -197,7 +197,6 @@ export class MyApp {
   }
 
   presentPopover(community) {
-    console.log("User dat : ", this.userData);
     this.optionsMore = true
     this.editableCommunity = community;
   }
