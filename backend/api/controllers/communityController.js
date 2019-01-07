@@ -192,6 +192,13 @@ exports.post_community = (req, res, next) => {
         });
 };
 
+exports.put_community_by_id = (req, res, next) => {
+    const communityId = req.params.communityId
+    const communityPhoto = utils.getImagePath(req, req.body.communityLogo)
+
+    communitySrvice.updateCommunity(res, req.body, communityId, communityPhoto)
+}
+
 exports.get_community_by_id = (req, res, next) => {
     const id = req.params.id;
     Community.find({

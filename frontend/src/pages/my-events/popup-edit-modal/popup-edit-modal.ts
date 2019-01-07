@@ -172,24 +172,9 @@ export class PopupEditModalPage {
   }
 
   onSubmit(event) {
-    let uploadSucessToast = this.toastController.create({
-      message: "Event modifier avec succes !",
-      duration: 2000,
-      position: 'top',
-      cssClass: "modifySucessClass"
-    });
-    
-    let uploadFailedToast = this.toastController.create({
-      message: "Une erreur est apparus !",
-      duration: 2000,
-      position: 'top',
-      cssClass: "modifyFailedClass"
-    });
 
-    console.log("Value sbmited : ", event);
     this.eventProvider.editEvent(event, this.chosenPicture,  this.navParams.data.userInfo)
     .subscribe(response => {
-      console.log("this 555 : ", response)
       if (response.message == "success") {
         this.utils.notification("Event modifier avec succes", "top");
       } else {

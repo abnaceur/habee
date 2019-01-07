@@ -62,11 +62,6 @@ export class EditCommunityModalPage {
     description: ""
   }
 
-  public validateInput = {
-    title: true,
-    description: true
-  }
-
   constructor(
     public utils: UtilsProvider,
     public actionsheetCtrl: ActionSheetController,
@@ -96,7 +91,6 @@ export class EditCommunityModalPage {
   }
 
   ionViewDidEnter() {
-    console.log("this.tabParams.selectCommunity : ", this.communityId, this.tabParams);
 
     this.communityProvider.getCommunityById(this.tabParams, this.communityId)
       .subscribe(data => {
@@ -171,39 +165,30 @@ export class EditCommunityModalPage {
     );
   }
 
-  validateInputFun(vInput, input) {
-    let check = 0;
-
-    input.communityDescription == "" ? 
-    (vInput.title = false , check++) : vInput.title = true
-
-    input.communityTitle == "" ? 
-    (vInput.description = false , check++) : vInput.description = true
-  
-    if (check != 0 ) 
-      return false
-    else
-      return true
-  }
-
   onSubmit(modifiedCommunity) {
-    console.log("Modified community ", modifiedCommunity);
-    console.log("this.chosenPicture :", this.chosenPicture)
 
-    modifiedCommunity.communityDescription == "" ? 
-    this.validateInput.description = false : this.validateInput.description = true
+    modifiedCommunity.communityDescription == "" ?
+      modifiedCommunity.communityDescription = this.comInfo.description
+      : modifiedCommunity.communityDescription
 
-    modifiedCommunity.communityTitle == "" ? 
-    this.validateInput.title = false : this.validateInput.title = true
+    modifiedCommunity.communityTitle == "" ?
+      modifiedCommunity.communityTitle = this.comInfo.title
+      : modifiedCommunity.communityTitle
 
-    if (this.chosenPicture && this.validateInput.description === true && this.validateInput.title == true) {
+    if (this.chosenPicture) {
       this.utils.uploadPhoto(this.chosenPicture)
         .then(comPhoto => {
-          console.log("With photo");  
+          console.log("With photo");
           this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, comPhoto)
         })
-    } else if (this.validateInput.description == true && this.validateInput.title == true) {
+    } else {
       this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, this.chosenPicture)
+        .subscribe(data => {
+          if (data === 200)
+            this.utils.notification("Cette communaute est a jour", "top")
+          else if (data === 202)
+            this.utils.notification("Ce nom exist !", "top")
+        })
     }
   }
 

@@ -70,4 +70,11 @@ router.post('/',  upload.single('communityLogo'), communityController.post_commu
 
 router.get('/:id', communityController.get_community_by_id);
 
+/*
+ ** API routes [PUT] [PATCH] for /communities/id [USED]
+ */
+
+router.put('/:communityId', communityController.put_community_by_id);
+
+
 module.exports = router;

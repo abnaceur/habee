@@ -79,13 +79,13 @@
      <!-- Added an image 
        <img [src]='url + "/" + community.communityLogo' />
      -->
-     <ion-icon *ngIf="optionsMore == true && community.communityName == editableCommunity" style="color: floralwhite" 
-     (click)="editCommunity(community.communityName)" item-right name="create"></ion-icon> 
-     <ion-icon *ngIf="optionsMore == true && community.communityName == editableCommunity" style="color: floralwhite;
+     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: floralwhite" 
+     (click)="editCommunity()" item-right name="create"></ion-icon> 
+     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: floralwhite;
      border-left: 1px solid white;padding-left: 10px;" item-right name="trash"></ion-icon> 
     
-     <ion-icon  *ngIf="optionsMore == false || userData.userId == community.communityCreator && community.communityName != editableCommunity" style="color: floralwhite" item-right name="more" 
-        (click)="presentPopover(community.communityName)" ></ion-icon>
+     <ion-icon  *ngIf="optionsMore == false || userData.userId == community.communityCreator && community.communityId != editableCommunity" style="color: floralwhite" item-right name="more" 
+        (click)="presentPopover(community.communityId)" ></ion-icon>
      
       </ion-item>
     </ion-list>

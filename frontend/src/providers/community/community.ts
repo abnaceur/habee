@@ -74,9 +74,7 @@ export class CommunityProvider {
       .map(response => response.json().count);
   }
 
-  putCommunity (communityId, userInfo, communityDetails, photo){
-    console.log("HERE THIS IS : ");
-    
+  putCommunity (communityId, userInfo, communityDetails, photo){    
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.put(ENV.BASE_URL + '/communities/' + communityId,
@@ -86,8 +84,7 @@ export class CommunityProvider {
       "communityDescripton": communityDetails.communityDescription,
     }
     , { headers: header })
-    .map(response => response.json());
-
+    .map(response => response.json().code);
   }
 
   addCommunity(comInfo, photo, userInfo) {

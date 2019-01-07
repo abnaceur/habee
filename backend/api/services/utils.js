@@ -264,7 +264,7 @@ exports.randomValueGenerator = () => {
 exports.getImagePath = (req, imageBody) => {
     let imagePath;
     
-    if (imageBody != undefined)
+    if (imageBody != undefined && imageBody != "")
         imagePath = imageBody;
     else if (req.files == undefined)
         imagePath = "uploads/defaultEventImage.jpeg"

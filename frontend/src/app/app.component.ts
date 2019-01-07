@@ -193,6 +193,16 @@ export class MyApp {
     const modal = this.modalCtrl.create('EditCommunityModalPage', {
       userInfo: this.userData,
     selectCommunity: this.editableCommunity});
+    modal.onDidDismiss(data => {
+      console.log("Data : ", data);
+      this.communityProvider.getCommunitiesbyCreator(this.userData)
+      .subscribe(data => {
+        this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
+          .then(data => {
+            this.allCommunitiesbyUserId = data;
+          });
+      });
+    })
     modal.present();
   }
 
