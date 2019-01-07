@@ -61,7 +61,7 @@ export class ProposeEventPage {
   public url = ENV.BASE_URL;
 
   constructor(
-    private utils : UtilsProvider,
+    private utils: UtilsProvider,
     public eventProvider: EventProvider,
     public formBuilder: FormBuilder,
     public actionsheetCtrl: ActionSheetController,
@@ -159,27 +159,21 @@ export class ProposeEventPage {
   }
 
   onSubmit(value) {
-    
+
     if (this.chosenPicture) {
-    this.eventProvider.uploadPhoto(this.chosenPicture)
-    .then(data => {
-      this.eventProvider.addEventByCommunity(value, this.tabParams, data)
-      .subscribe(response => {
-        if (response.results == true) {
-          this.utils.notification("Event cree avec succes !", "top")
-        } else {
-          this.utils.notification("Une erreur est apparus !", "top")
-        }
-        });
-    })
+      this.eventProvider.uploadPhoto(this.chosenPicture)
+        .then(data => {
+          this.eventProvider.addEventByCommunity(value, this.tabParams, data)
+            .subscribe(response => {
+              response.results == true ? this.utils.notification("Event cree avec succes !", "top")
+                : this.utils.notification("Une erreur est apparus !", "top")
+            });
+        })
     } else {
       this.eventProvider.addEventByCommunity(value, this.tabParams, this.chosenPicture)
-      .subscribe(response => {
-        if (response.results == true) {
-          this.utils.notification("Event cree avec succes !", "top")
-        } else {
-          this.utils.notification("Une erreur est apparus !", "top")
-        }
+        .subscribe(response => {
+          response.results == true ? this.utils.notification("Event cree avec succes !", "top")
+            : this.utils.notification("Une erreur est apparus !", "top")
         });
     }
 

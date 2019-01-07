@@ -260,3 +260,16 @@ exports.getFilterPosition = (events, communityId) => {
 exports.randomValueGenerator = () => {
     return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7);
 }
+
+exports.getImagePath = (req, imageBody) => {
+    let imagePath;
+    
+    if (imageBody != undefined)
+        imagePath = imageBody;
+    else if (req.files == undefined)
+        imagePath = "uploads/defaultEventImage.jpeg"
+    else if (req.files != undefined)
+        imagePath = req.files[0].path;
+
+    return imagePath
+}

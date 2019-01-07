@@ -5,6 +5,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const utils = require('../services/utils');
 const communitySrvice = require('../services/communityServices/communityService')
+const communityClass = require('../classes/communityClass');
 
 exports.get_all_communities = (req, res, next) => {
 
@@ -59,24 +60,15 @@ exports.updateSelectedCommunity = (req, res, next) => {
                 Error: err
             })
         })
-
-
-
 }
 
 exports.addCommunityByCreator = (req, res, next) => {
     const userId = req.params.userId;
 
-    let imagePath;
+    //TODO REFACTOR THIS FUNCTION 
+    let imagePath = utils.getImagePath(req, req.body.photo);
 
-    // TODO UNDRY THIS
-    if (req.body.photo != undefined)
-        imagePath = req.body.photo;
-    else if (req.files == undefined)
-        imagePath = "uploads/defaultEventImage.jpeg"
-    else if (req.files != undefined)
-        imagePath = req.files[0].path;
-
+    console.log("ADD COMMUNITY !!", imagePath)
 
     Community.find({
             communityName: req.body.communityName
@@ -137,7 +129,8 @@ exports.addCommunityByCreator = (req, res, next) => {
                                 User.findByIdAndUpdate(usr[0]._id,
                                     usr[0], {
                                         new: false,
-                                    }, function (err, results) {
+                                    },
+                                    function (err, results) {
                                         if (err) return res.status(500).json(err);
                                         res.status(200).json({
                                             count: 1,

@@ -67,6 +67,8 @@ export class MyApp {
   };
   public url = ENV.BASE_URL;
   public allCommunitiesbyUserId;
+  public optionsMore = false
+  public editableCommunity: String;
 
   constructor(
     public profileProvider: ProfileProvider,
@@ -187,11 +189,16 @@ export class MyApp {
     })
   }
 
-  presentPopover(myEvent) {
-    console.log("Event : ", myEvent)
-    let popover = this.popoverCtrl.create("PopoverPageCommunityPage", {}, {cssClass: 'community-popover'});
-    popover.present({
-      ev: myEvent
-    });
+  editCommunity() {
+    const modal = this.modalCtrl.create('EditCommunityModalPage', {
+      userInfo: this.userData,
+    selectCommunity: this.editableCommunity});
+    modal.present();
+  }
+
+  presentPopover(community) {
+    console.log("User dat : ", this.userData);
+    this.optionsMore = true
+    this.editableCommunity = community;
   }
 }

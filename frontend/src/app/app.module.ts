@@ -29,7 +29,7 @@ import { RegisterCommunityUserPageModule } from '../pages/register-community-use
 import { RegisterPageModule } from '../pages/register/register.module';
 import { AddCommunityPageModule } from '../pages/add-community/add-community.module';
 import { AddContactPageModule } from '../pages/add-contact/add-contact.module';
-import {  PopoverPageCommunityPageModule } from '../pages/popover-page-community/popover-page-community.module';
+import { EditCommunityModalPageModule } from '../pages/edit-community-modal/edit-community-modal.module';
 
 import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
@@ -61,7 +61,7 @@ import { AddContactProvider } from '../providers/add-contact/add-contact';
     RegisterCommunityUserPageModule,
     RegisterPageModule,
     AddContactPageModule,
-    PopoverPageCommunityPageModule,
+    EditCommunityModalPageModule,
     AddCommunityPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
