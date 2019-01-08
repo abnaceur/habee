@@ -105,7 +105,6 @@ exports.getFilterBycommunityId = (filter, communityId) => {
 
 
 exports.countActiveFilters = (filter) => {
-    console.log("testing", filter)
     let i = 0;
     let activeFilters = []
 

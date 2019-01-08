@@ -141,7 +141,6 @@ export class MyApp {
 
 
   goToAddCommunityModal() {
-    console.log("test test etst ")
     //this.nav.setRoot("AddCommunityPage");
     const modal = this.modalCtrl.create('AddCommunityPage', this.userData);
     modal.onDidDismiss(data => {

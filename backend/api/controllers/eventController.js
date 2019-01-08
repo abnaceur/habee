@@ -48,7 +48,6 @@ exports.get_userEventSubscribed = (req, res, next) => {
 }
 
 exports.upload_mobile_photo = (req, res, next) => {
-    console.log("Path : ", req.files[0].path);
     if (req.files[0].path != undefined) {
         res.send(req.files[0].path)
     } else {
@@ -151,10 +150,8 @@ exports.getFilteredEvent = (req, res, next) => {
                                         message: "There are no events!"
                                     })
                                 } else {
-                                    console.log("Flitered event 111 befor")
                                     utils.filterEvents(events, filter, userId)
                                         .then(filteredEvent => {
-                                            console.log("Flitered event 111 2:", filteredEvent)
                                             res.status(200).json({
                                                 Count: filteredEvent.length,
                                                 Events: filteredEvent.map(event => {
@@ -240,8 +237,6 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
 };
 
 exports.post_event = (req, res, next) => {
-    console.log("Event photo : ", req.files);
-    console.log("Event details : ", req.body);
     let imagePath;
 
     if (req.body.eventPhoto != undefined)
@@ -275,7 +270,6 @@ exports.post_event = (req, res, next) => {
     event
         .save()
         .then(result => {
-            console.log("Event as response : ", result)
             res.status(200).json({
                 results: true,
                 Event: result
@@ -305,7 +299,6 @@ exports.put_eventByUserId = (req, res, next) => {
                     .then(ev => {
                         event = utils.concatArraysUser(event, ev)
                         let i = 0;
-                        console.log("HERE 123", event)
                         let check = 0;
                         while (i < event[0].participants.length) {
                             if (event[0].participants[i] != null) {
@@ -335,14 +328,12 @@ exports.put_eventByUserId = (req, res, next) => {
                             function (err, results) {
                                 if (err) return res.status(500).json(err);
                                 if (check == 0) {
-                                    console.log("User sub :");
                                     updateUserOnEventSubvscription(event, check, userId, communityId);
                                     res.status(200).json({
                                         Subscribe: true,
                                         results: results,
                                     })
                                 } else {
-                                    console.log("User sub222 :");
                                     utils.popObject(user[0].eventsParticipated, event[0].eventId);
                                     updateUserOnEventSubvscription(event, check, userId, communityId);
                                     res.status(200).json({
@@ -372,7 +363,6 @@ updateUserOnEventSubvscription = (event, state, userId, communityId) => {
         .then(user => {
             if (state == 0) {
                 user[0].eventsParticipated.push(event[0])
-                console.log("AAASSS :", user[0].eventsParticipated)
                 User.findByIdAndUpdate(user[0]._id,
                     user[0], {
                         new: false,
@@ -398,7 +388,6 @@ updateUserOnEventSubvscription = (event, state, userId, communityId) => {
 }
 
 exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
-    console.log("getEvntByUserIdAndCommunityId inside the controller !!");
     let communityId = req.params.communityId;
     let eventCreator = req.params.userId;
 
@@ -553,7 +542,6 @@ exports.put_all_events_isOver = (req, res, next) => {
                 })
                 .exec()
                 .then(activeEvent => {
-                    console.log("Event : ", activeEvent)
                     if (activeEvent.length === 0) {
                         return res.status(200).json({
                             code: "42",

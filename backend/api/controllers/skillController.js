@@ -84,7 +84,6 @@ exports.get_skill_by_communityId = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({
                 Error: err
             });
@@ -113,7 +112,6 @@ exports.get_skill_by_id = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({
                 Error: err
             });

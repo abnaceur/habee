@@ -45,7 +45,6 @@ export class CommunityProvider {
   }
 
   getCommunitySelected(com, activeCommunity): Promise<any> {
-    console.log("THIS :", com, activeCommunity);
     
     let comArray = [];
     com.map(data => {

@@ -200,12 +200,10 @@ exports.addCommunity = (req, res, imagePath, userId) => {
                         userId: userId
                     }).exec()
                     .then(usr => {
-                        console.log("BBBBBBBody : ", req.body, imagePath)
                         const community = new Community(communityClass.communityClassModal(req, imagePath));
                         community
                             .save()
                             .then(comm => {
-                                console.log("Number : ", usr[0].profile.length)
                                 communityClass.updateUserWhenCommunityAdd(usr, req, res)
                             })
                             .catch(err => {

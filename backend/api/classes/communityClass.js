@@ -5,7 +5,7 @@ const User = require('../models/user')
 exports.communityClassModal = (req, imagePathcommunityLogo) => {
     let classCom = {
         _id: new mongoose.Types.ObjectId,
-        communityId: req.body.communityId == undefined ? req.body.communityName : req.body.communityId,
+        communityId: req.body.communityId,
         communityName: req.body.communityName,
         communityLogo: imagePathcommunityLogo,
         communityDescripton: req.body.communityDescripton,

@@ -57,15 +57,12 @@ exports.login_user = (req, res, next) => {
 
 exports.updateUserByfirstConnection = (req, res, next) => {
     let userId = req.params.userId;
-    console.log("userId ", userId);
     User.find({
             userId: userId
         })
         .exec()
         .then(usr => {
-            console.log("User : ", usr)
             req.body.firstConnection = usr[0].firstConnection + 1;
-            console.log("Req body", req.body);
             User.findByIdAndUpdate(usr[0]._id,
                 req.body, {
                     new: false,
@@ -158,9 +155,6 @@ exports.post_userMobile = (req, res, next) => {
     let imagePathprofilePhoto = userService.getImagePath(req, req.body.profilePhoto);
     let imagePathcommunityLogo = userService.getImagePath(req, req.body.communityLogocommunityLogo);
 
-    console.log("imagePath : ", req.body, imagePathprofilePhoto, imagePathcommunityLogo);
-
-
     User.find({
             "credentials.email": req.body.email
         })
@@ -191,7 +185,6 @@ exports.post_userMobile = (req, res, next) => {
                             communityIsActive: true,
                             communityIsDeleted: false
                         });
-                        console.log("Community by user: ", community)
                         
                         community
                             .save()
@@ -448,7 +441,6 @@ exports.get_userId_communityId = (req, res, next) => {
                                     res.status(200).json({
                                         Users: usrs.map(usr => {
 
-                                            console.log("here ty")
                                             if (usr != undefined) {
                                                 return {
                                                     eventCreated: event.length,

@@ -80,8 +80,6 @@ export class AddCommunityPage {
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get('activeCommunity')
     };
-
-    console.log("PARAMS : ", this.tabParams)
   }
 
   ionViewDidLoad() {

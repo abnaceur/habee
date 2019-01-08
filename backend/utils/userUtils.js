@@ -17,15 +17,12 @@ exports.get_skills_by_comID = function (usrs, communityId) {
             })
             .exec()
             .then(skill => {
-                console.log('test1');
                 if (skill.length === 0) {
                     return 1;
                 } else
                     return 0;
-           console.log('test4');
        })
        .catch())
-       console.log('sss');
        usrs[0].skills[countSkills - 1] = null;
         countSkills--;
     }

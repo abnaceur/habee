@@ -94,7 +94,6 @@ export class EditCommunityModalPage {
 
     this.communityProvider.getCommunityById(this.tabParams, this.communityId)
       .subscribe(data => {
-        console.log("Dta : ", data);
         this.comInfo.title = data.community[0].communityName;
         this.comInfo.description = data.community[0].communityDescripton
       })
@@ -178,7 +177,6 @@ export class EditCommunityModalPage {
     if (this.chosenPicture) {
       this.utils.uploadPhoto(this.chosenPicture)
         .then(comPhoto => {
-          console.log("With photo");
           this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, comPhoto)
         })
     } else {

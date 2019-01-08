@@ -32,10 +32,8 @@ export class AddContactProvider {
     console.log('Hello AddContactProvider Provider');
   }
 
-  sendContactInvitation (contactArray, userInfo) {
-    console.log(" (contactArray, userInfo) :",  contactArray, userInfo)
+  sendContactInvitation(contactArray, userInfo) {
     let header = this.utils.inihttpHeaderWIthToken(userInfo.token)
-    console.log("HEader :", header)
 
     return this.http.post(ENV.BASE_URL + '/users/invite/contacts/' + userInfo.userId + "/" + userInfo.activeCommunity,
       contactArray,
@@ -43,7 +41,7 @@ export class AddContactProvider {
       .map(response => response.json());
   }
 
-   isFieldEmpty(contactArray, userInfo) {
+  isFieldEmpty(contactArray, userInfo) {
     let check = 0;
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -59,9 +57,9 @@ export class AddContactProvider {
       })
       if (check === 0) {
         this.sendContactInvitation(contactArray, userInfo)
-        .subscribe(data => {
-          resolve(data.msg)
-        })
+          .subscribe(data => {
+            resolve(data.msg)
+          })
       } else {
         resolve(contactArray)
       }
