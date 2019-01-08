@@ -20,6 +20,10 @@ let communitySchema = mongoose.Schema({
     communityIsActive: {
         type: Boolean,
         default: true,
+    },
+    communityIsDeleted: {
+        type: Boolean,
+        default: false,
 	}
 });
 

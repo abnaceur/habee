@@ -38,7 +38,8 @@ exports.ifCommunityExist = (communities, userCommunities, res) => {
 
 exports.getAllcommunities = (communities, res) => {
     Community.find({
-        communityId: communities
+        communityId: communities,
+        communityIsDeleted: false
     }).then(comsInfo => {
         res.status(200).json({
             communities: comsInfo
@@ -47,11 +48,12 @@ exports.getAllcommunities = (communities, res) => {
 }
 
 
-exports.getCommunityByCreator = (userId, res) => {
+exports.getCommunityByCreator =     (userId, res) => {
     this.getUserCommunities(userId)
         .then(communities => {
             Community.find({
-                    communityCreator: userId
+                    communityCreator: userId,
+                    communityIsDeleted: false
                 })
                 .exec()
                 .then(coms => {
@@ -95,7 +97,8 @@ exports.updateThis = (res, community, communityInfo, communityPhoto) => {
 exports.checkIfNameExist = (res, community, communityInfo, communityPhoto) => {
 
     Community.find({
-        communityName: communityInfo.communityName
+        communityName: communityInfo.communityName,
+        communityIsDeleted: false
     }).exec()
     .then(com => {
         if (com.length != 0) {
@@ -112,12 +115,23 @@ exports.checkIfNameExist = (res, community, communityInfo, communityPhoto) => {
 exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
 
     Community.find({
-            communityId: communityId
+            communityId: communityId,
+            communityIsDeleted: false
         }).exec()
         .then(community => {
             if (community[0].communityName != communityInfo.communityName) {
                 this.checkIfNameExist(res, community, communityInfo, communityPhoto)
             }
         })
+}
 
+exports.deleteCommunityById = (res, communityId) => {
+    Community.find({
+        communityId: communityId,
+        communityIsDeleted: false
+    }).exec()
+    .then(community => {
+        community[0].communityIsDeleted = true;
+        this.updateCommunityById(res, community)
+    })
 }

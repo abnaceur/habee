@@ -82,7 +82,7 @@
      <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: floralwhite" 
      (click)="editCommunity()" item-right name="create"></ion-icon> 
      <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: floralwhite;
-     border-left: 1px solid white;padding-left: 10px;" item-right name="trash"></ion-icon> 
+     border-left: 1px solid white;padding-left: 10px;" (click)="deletCommunity()" item-right name="trash"></ion-icon> 
     
      <ion-icon  *ngIf="optionsMore == false || userData.userId == community.communityCreator && community.communityId != editableCommunity" style="color: floralwhite" item-right name="more" 
         (click)="presentPopover(community.communityId)" ></ion-icon>

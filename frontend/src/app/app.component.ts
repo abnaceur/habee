@@ -44,7 +44,13 @@ import {
 import {
   CommunityProvider
 } from '../providers/community/community';
+
+import {
+  UtilsProvider
+} from '../providers/utils/utils'
+
 import { Subscriber } from 'rxjs/Subscriber';
+
 
 
 @Component({
@@ -71,6 +77,7 @@ export class MyApp {
   public editableCommunity: String;
 
   constructor(
+    private utils: UtilsProvider,
     public profileProvider: ProfileProvider,
     public events: Events,
     public platform: Platform,
@@ -127,6 +134,7 @@ export class MyApp {
   }
 
   backToMainMenu() {
+    this.optionsMore = false;
     this.menu.enable(true, "menu-avatar")
     this.menu.toggle("menu-avatar")
   }
@@ -137,13 +145,8 @@ export class MyApp {
     //this.nav.setRoot("AddCommunityPage");
     const modal = this.modalCtrl.create('AddCommunityPage', this.userData);
     modal.onDidDismiss(data => {
-      this.communityProvider.getCommunitiesbyCreator(this.userData)
-        .subscribe(data => {
-          this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
-            .then(data => {
-              this.allCommunitiesbyUserId = data;
-            });
-        });
+      this.updatCommunityList()
+      this.optionsMore = false
     })
     modal.present();
   }
@@ -154,13 +157,7 @@ export class MyApp {
 
     if (page.title == 'Communaute') {
       this.menu.getMenus();
-      this.communityProvider.getCommunitiesbyCreator(this.userData)
-        .subscribe(data => {
-          this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
-            .then(data => {
-              this.allCommunitiesbyUserId = data
-            });
-        });
+      this.updatCommunityList()
       this.menu.enable(true, "menu-community")
       this.menu.toggle("menu-community");
     } else {
@@ -169,39 +166,43 @@ export class MyApp {
     }
   }
 
-  selectCommunity(comId){
+  selectCommunity(comId) {
     this.communityProvider.updateSelectedCommunity(comId, this.userData)
-    .subscribe(data => {
-      console.log("Data : ", data)
+      .subscribe(data => {
         if (data === 1) {
           this.userData.activeCommunity = comId;
           this.communityProvider.getCommunitiesbyCreator(this.userData)
-          .subscribe(data => {
-            this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
-              .then(data => {
-                this.allCommunitiesbyUserId = data;
-                this.menu.enable(true, "menu-avatar")
-              //  this.menu.toggle("menu-avatar");
-                this.nav.push("TabsPage", this.userData);
-              });
-          });
+            .subscribe(data => {
+              this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
+                .then(data => {
+                  this.allCommunitiesbyUserId = data;
+                  this.menu.enable(true, "menu-avatar")
+                  //  this.menu.toggle("menu-avatar");
+                  this.nav.push("TabsPage", this.userData);
+                });
+            });
         }
-    })
+      })
+  }
+
+  updatCommunityList() {
+    this.communityProvider.getCommunitiesbyCreator(this.userData)
+    .subscribe(data => {
+      this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
+        .then(data => {
+          this.allCommunitiesbyUserId = data;
+        });
+    });
   }
 
   editCommunity() {
     const modal = this.modalCtrl.create('EditCommunityModalPage', {
       userInfo: this.userData,
-    selectCommunity: this.editableCommunity});
+      selectCommunity: this.editableCommunity
+    });
     modal.onDidDismiss(data => {
-      console.log("Data : ", data);
-      this.communityProvider.getCommunitiesbyCreator(this.userData)
-      .subscribe(data => {
-        this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
-          .then(data => {
-            this.allCommunitiesbyUserId = data;
-          });
-      });
+      this.updatCommunityList();
+      this.optionsMore = false
     })
     modal.present();
   }
@@ -209,5 +210,17 @@ export class MyApp {
   presentPopover(community) {
     this.optionsMore = true
     this.editableCommunity = community;
+  }
+
+  deletCommunity() {
+    
+    this.communityProvider.deleteCommunity(this.userData, this.editableCommunity)
+      .subscribe(code => {
+        if (code === 200) {
+          this.utils.notification("Cette communaute est suprimer avec succes", "top")
+          this.updatCommunityList();
+        } else
+          this.utils.notification("Une erreur est survenu !", "top")
+      })
   }
 }

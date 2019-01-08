@@ -45,9 +45,11 @@ export class CommunityProvider {
   }
 
   getCommunitySelected(com, activeCommunity): Promise<any> {
+    console.log("THIS :", com, activeCommunity);
+    
     let comArray = [];
     com.map(data => {
-      data.communityName == activeCommunity ?
+      data.communityId == activeCommunity ?
         data.selected = "true"
         : data.selected = "false"
       comArray.push(data)
@@ -117,6 +119,14 @@ export class CommunityProvider {
     return this.http.post(ENV.BASE_URL + '/communities/selected/' + comId + "/" + userInfo.userId,
       { headers: header })
       .map(response => response.json().count);
+  }
+
+  deleteCommunity(userInfo, communityId) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.put(ENV.BASE_URL + '/communities/delete/' + communityId,
+      { headers: header })
+      .map(response => response.json().code);
   }
 
 }

@@ -35,6 +35,8 @@ exports.updateSelectedCommunity = (req, res, next) => {
     const userId = req.params.userId;
     const communityId = req.params.communityId;
 
+    console.log("Commui : ", communityId, userId)
+
     console.log(userId, communityId);
 
     User.find({
@@ -42,7 +44,9 @@ exports.updateSelectedCommunity = (req, res, next) => {
         })
         .exec()
         .then(usr => {
+            console.log("usr", usr)
             usr[0].activeCommunity = communityId;
+            console.log("usr after", usr)
             User.findByIdAndUpdate(usr[0]._id,
                 usr[0], {
                     new: false,
@@ -71,7 +75,8 @@ exports.addCommunityByCreator = (req, res, next) => {
     console.log("ADD COMMUNITY !!", imagePath)
 
     Community.find({
-            communityId: req.body.communityId
+            communityId: req.body.communityId,
+            communityIsDeleted: false
         }).exec()
         .then(com => {
             if (com.length > 0) {
@@ -199,10 +204,17 @@ exports.put_community_by_id = (req, res, next) => {
     communitySrvice.updateCommunity(res, req.body, communityId, communityPhoto)
 }
 
+exports.putDeleteCommunity = (req, res, next) => {
+    const communityId = req.params.communityId;
+    communitySrvice.deleteCommunityById(res, communityId)
+}
+
+
 exports.get_community_by_id = (req, res, next) => {
     const id = req.params.id;
     Community.find({
-            communityId: id
+            communityId: id,
+            communityIsDeleted: false,
         })
         .exec()
         .then(com => {
