@@ -5,20 +5,35 @@ const User = require('../models/user')
 exports.communityClassModal = (req, imagePathcommunityLogo) => {
     let classCom = {
         _id: new mongoose.Types.ObjectId,
-        communityId: req.body.activeCommunity,
-        communityName: req.body.activeCommunity,
-        s: req.body.communityDescripton,
+        communityId: req.body.communityId == undefined ? req.body.communityName : req.body.communityId,
+        communityName: req.body.communityName,
         communityLogo: imagePathcommunityLogo,
-        communityCreator: req.body.userId,
-        communityMembers: [req.body.userId],
-        communityIsActive: true
+        communityDescripton: req.body.communityDescripton,
+        communityCreator: req.body.communityCreator,
+        communityMembers: req.body.communityMembers,
+        communityIsActive: req.body.communityIsActive,
     }
 
     return classCom
 }
 
-exports.updateUserWhenCommunityAdd = (usr, req, res) => {
-    console.log("Here :")
+exports.userToUpdate = (res, usr) => {
+
+    User.findByIdAndUpdate(usr[0]._id,
+        usr[0], {
+            new: false,
+        },
+        function (err, results) {
+            if (err) return res.status(500).json(err);
+            res.status(200).json({
+                count: 1,
+                msg: "Created with success !"
+            })
+        })
+}
+
+exports.formatUser = (usr, req, res) => {
+
     usr[0].profile[usr[0].profile.length] = {
         "profileUserIsActive": true,
         "profileUserIsDeleted": false,
@@ -46,14 +61,9 @@ exports.updateUserWhenCommunityAdd = (usr, req, res) => {
         "WorkshopValue": false,
         "filterCommunity": req.body.communityName
     }
-    User.findByIdAndUpdate(usr[0]._id,
-        usr[0], {
-            new: false,
-        }, function (err, results) {
-            if (err) return res.status(500).json(err);
-            res.status(200).json({
-                count: 1,
-                msg: "Created with success !"
-            })
-        })
+    this.userToUpdate(res, usr)
+}
+
+exports.updateUserWhenCommunityAdd = (usr, req, res) => {
+    this.formatUser(usr, req, res)
 }

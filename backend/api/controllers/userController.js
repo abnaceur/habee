@@ -158,7 +158,7 @@ exports.post_userMobile = (req, res, next) => {
     let imagePathprofilePhoto = userService.getImagePath(req, req.body.profilePhoto);
     let imagePathcommunityLogo = userService.getImagePath(req, req.body.communityLogocommunityLogo);
 
-    console.log("imagePath : ", imagePathprofilePhoto, imagePathcommunityLogo);
+    console.log("imagePath : ", req.body, imagePathprofilePhoto, imagePathcommunityLogo);
 
 
     User.find({
@@ -180,7 +180,19 @@ exports.post_userMobile = (req, res, next) => {
                         })
                     } else {
                         //TODO RANDOM UNIQUE ID
-                        const community = new Community(communityClass.communityClassModal(req, imagePathcommunityLogo));
+                        const community = new Community({
+                            _id: new mongoose.Types.ObjectId,
+                            communityId: req.body.activeCommunity,
+                            communityName: req.body.activeCommunity,
+                            communityLogo: imagePathcommunityLogo,
+                            communityDescripton: req.body.communityDescripton,
+                            communityCreator: req.body.userId,
+                            communityMembers: req.body.userId,
+                            communityIsActive: true,
+                            communityIsDeleted: false
+                        });
+                        console.log("Community by user: ", community)
+                        
                         community
                             .save()
                             .then(com => {

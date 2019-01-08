@@ -58,13 +58,6 @@ router.post('/selected/:communityId/:userId', communityController.updateSelected
 
 
 /*
- ** API [POST] for route /communites/ [USED]  
- */
-
-router.post('/',  upload.single('communityLogo'), communityController.post_community);
-
-
-/*
  ** API routes [GET] [PATCH] for /communities/id
  */
 

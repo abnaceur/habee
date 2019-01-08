@@ -1,6 +1,7 @@
 const Community = require('../../models/community');
 const User = require("../../models/user");
 const utils = require('../utils')
+const communityClass = require('../../classes/communityClass')
 
 
 exports.getUserCommunities = (userId) => {
@@ -25,7 +26,6 @@ exports.getAllcommunitiesFromUser = (userCommunities) => {
     return myComs
 }
 
-
 exports.ifCommunityExist = (communities, userCommunities, res) => {
     let i = 0;
     let userCommunitiesById = this.getAllcommunitiesFromUser(userCommunities)
@@ -33,10 +33,10 @@ exports.ifCommunityExist = (communities, userCommunities, res) => {
 
     while (allCommunities[i]) i++;
     let allCommunitiesUnique = utils.uniqueArray(0, allCommunities, i)
-    this.getAllcommunities(allCommunitiesUnique, res)
+    this.getAllcommunitiesById(allCommunitiesUnique, res)
 }
 
-exports.getAllcommunities = (communities, res) => {
+exports.getAllcommunitiesById = (communities, res) => {
     Community.find({
         communityId: communities,
         communityIsDeleted: false
@@ -47,8 +47,7 @@ exports.getAllcommunities = (communities, res) => {
     })
 }
 
-
-exports.getCommunityByCreator =     (userId, res) => {
+exports.getCommunityByCreator = (userId, res) => {
     this.getUserCommunities(userId)
         .then(communities => {
             Community.find({
@@ -60,7 +59,7 @@ exports.getCommunityByCreator =     (userId, res) => {
                     (coms.length != 0 && communities.length != 0) ?
                     this.ifCommunityExist(communities, coms, res):
                         (coms.length == 0 && communities.length != 0) ?
-                        this.getAllcommunities(communities, res) :
+                        this.getAllcommunitiesById(communities, res) :
                         res.status(200).json({
                             communities: coms
                         })
@@ -73,7 +72,7 @@ exports.getCommunityByCreator =     (userId, res) => {
 }
 
 exports.updateCommunityById = (res, community) => {
-  Community.findByIdAndUpdate(community[0]._id,
+    Community.findByIdAndUpdate(community[0]._id,
         community[0], {
             new: false,
         },
@@ -86,7 +85,6 @@ exports.updateCommunityById = (res, community) => {
         });
 }
 
-
 exports.updateThis = (res, community, communityInfo, communityPhoto) => {
     community[0].communityName = communityInfo.communityName;
     community[0].communityDescripton = communityInfo.communityDescripton;
@@ -97,19 +95,19 @@ exports.updateThis = (res, community, communityInfo, communityPhoto) => {
 exports.checkIfNameExist = (res, community, communityInfo, communityPhoto) => {
 
     Community.find({
-        communityName: communityInfo.communityName,
-        communityIsDeleted: false
-    }).exec()
-    .then(com => {
-        if (com.length != 0) {
-            res.status(200).json({
-                code: 202,
-                msg: "This name exist!"
-            })
-        } else {
-            this.updateThis(res, community, communityInfo, communityPhoto)
-        }
-    })
+            communityName: communityInfo.communityName,
+            communityIsDeleted: false
+        }).exec()
+        .then(com => {
+            if (com.length != 0) {
+                res.status(200).json({
+                    code: 202,
+                    msg: "This name exist!"
+                })
+            } else {
+                this.updateThis(res, community, communityInfo, communityPhoto)
+            }
+        })
 }
 
 exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
@@ -127,11 +125,123 @@ exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
 
 exports.deleteCommunityById = (res, communityId) => {
     Community.find({
-        communityId: communityId,
-        communityIsDeleted: false
-    }).exec()
-    .then(community => {
-        community[0].communityIsDeleted = true;
-        this.updateCommunityById(res, community)
-    })
+            communityId: communityId,
+            communityIsDeleted: false
+        }).exec()
+        .then(community => {
+            community[0].communityIsDeleted = true;
+            this.updateCommunityById(res, community)
+        })
+}
+
+exports.getAllcommunities = (res) => {
+    Community.find()
+        .exec()
+        .then(communities => {
+            if (communities.length === 0) {
+                return res.status(404).json({
+                    code: "101",
+                    message: "There are no communities!"
+                })
+            } else {
+                res.status(200).json({
+                    Commuinities: communities
+                });
+            }
+        })
+        .catch(err => {
+            utils.defaultError(res, err)
+        })
+}
+
+exports.updateUser = (res, usr) => {
+
+    User.findByIdAndUpdate(usr[0]._id,
+        usr[0], {
+            new: false,
+        },
+        function (err, results) {
+            if (err) return res.status(500).json(err);
+            res.status(200).json({
+                count: 1,
+                msg: "Updated with success !"
+            })
+        });
+}
+
+exports.updateSelectedCommunity = (res, communityId, userId) => {
+
+    User.find({
+            userId: userId
+        })
+        .exec()
+        .then(usr => {
+            usr[0].activeCommunity = communityId;
+            this.updateUser(res, usr)
+        })
+        .catch(err => {
+            utils.defaultError(res, err)
+        })
+}
+
+exports.addCommunity = (req, res, imagePath, userId) => {
+    Community.find({
+            communityId: req.body.communityId,
+            communityIsDeleted: false
+        }).exec()
+        .then(com => {
+            if (com.length > 0) {
+                res.status(200).json({
+                    count: 0,
+                    msg: "This name exist !"
+                })
+            } else {
+                User.find({
+                        userId: userId
+                    }).exec()
+                    .then(usr => {
+                        console.log("BBBBBBBody : ", req.body, imagePath)
+                        const community = new Community(communityClass.communityClassModal(req, imagePath));
+                        community
+                            .save()
+                            .then(comm => {
+                                console.log("Number : ", usr[0].profile.length)
+                                communityClass.updateUserWhenCommunityAdd(usr, req, res)
+                            })
+                            .catch(err => {
+                                utils.defaultError(res, err)
+                            });
+                    }).catch(err => {
+                        utils.defaultError(res, err)
+                    })
+
+            }
+        })
+        .catch(err => {
+            utils.defaultError(res, err)
+        })
+}
+
+exports.getCommunityById = (res, id) => {
+    Community.find({
+            communityId: id,
+            communityIsDeleted: false,
+        })
+        .exec()
+        .then(com => {
+            if (com.length === 0) {
+                return res.status(200).json({
+                    count: 0,
+                    message: "Community not found or id not valid!"
+                })
+            } else {
+                res.status(200).json({
+                    count: com.length,
+                    community: com
+                });
+            }
+        })
+        .catch(err => {
+            utils.defaultError(res, err)
+        });
 }
