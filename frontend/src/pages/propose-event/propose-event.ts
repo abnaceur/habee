@@ -11,7 +11,6 @@ import {
   ToastController
 } from 'ionic-angular';
 
-
 import {
   FormBuilder,
   FormGroup,
@@ -35,8 +34,6 @@ import {
   UtilsProvider
 } from '../../providers/utils/utils'
 
-
-
 /**
  * Generated class for the ProposeEventPage page.
  *
@@ -53,7 +50,6 @@ export class ProposeEventPage {
   proposeEventForm: FormGroup;
   public currentDate = "2018";
   myDate: String = new Date().toISOString();
-
 
   placeholder = '../../assets/img/avatar/girl-avatar.png';
   chosenPicture: any;
@@ -96,7 +92,6 @@ export class ProposeEventPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProposeEventPage');
   }
-
 
   changePicture() {
 
@@ -182,5 +177,4 @@ export class ProposeEventPage {
   dismiss() {
     this.viewCtrl.dismiss();
   }
-
 }

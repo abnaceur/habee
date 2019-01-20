@@ -59,7 +59,7 @@ import { Subscriber } from 'rxjs/Subscriber';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = "RegisterCommunityUserPage";
+  rootPage: any = "LoginPage";
 
   pages: Array<{ title: string, component: any, active: boolean, icon: string }>;
   rightMenuItems: Array<{ icon: string, active: boolean }>;

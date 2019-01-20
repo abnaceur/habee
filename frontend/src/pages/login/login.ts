@@ -59,7 +59,6 @@ export class LoginPage {
     this.loginProvider.loginUser(value.email, value.password)
       .subscribe(response => {
         if (response.code == "200") {
-          console.log("asdas : ", response);
           if (response.firstConnection == 0) {
             this.events.publish('user:info', response);
             this.loginProvider.updateUserNbrConnection(response.token, response.userId)
@@ -85,6 +84,10 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
+  }
+
+  loginUser() {
+    document.getElementById("submitLogin").click()
   }
 
 }

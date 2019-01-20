@@ -11,14 +11,12 @@ import {
 } from 'ionic-angular';
 
 import {
-	environment as ENV
+  environment as ENV
 } from '../../environments/environment';
 
 import {
-	UserProvider
+  UserProvider
 } from '../../providers/user/user';
-
-
 
 /**
  * Generated class for the ListContactPage page.
@@ -64,10 +62,10 @@ export class ListContactPage {
   ionViewDidEnter() {
     console.log('ionViewDidLoad ListContactPage', this.tabParams);
     this.userProvider.getAllUserByCommunityId(this.tabParams)
-    .subscribe(response => {
-      this.contact = response.users;
+      .subscribe(response => {
+        this.contact = response.users;
         console.log("Repsonse this list contact : ", response)
-    });
+      });
   }
 
   expand() {
@@ -75,15 +73,15 @@ export class ListContactPage {
     this.contracted = !this.expanded;
     this.showIcon = false;
 
-      console.log("Add contact");
-      setTimeout(() => {
-        const modal = this.modalCtrl.create('AddContactPage', this.tabParams);
-        modal.onDidDismiss(data => {
-          this.expanded = false;
-          this.contracted = !this.expanded;
-          setTimeout(() => this.showIcon = true, 330);
-        });
-        modal.present();
-      }, 200);
-    }
+    console.log("Add contact");
+    setTimeout(() => {
+      const modal = this.modalCtrl.create('AddContactPage', this.tabParams);
+      modal.onDidDismiss(data => {
+        this.expanded = false;
+        this.contracted = !this.expanded;
+        setTimeout(() => this.showIcon = true, 330);
+      });
+      modal.present();
+    }, 200);
+  }
 }
