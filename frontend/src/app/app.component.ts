@@ -116,9 +116,10 @@ export class MyApp {
     ];
 
     this.pages = [
-      { title: 'Acceuil', component: 'TabsPage', active: true, icon: 'home' },
+      { title: 'Accueil', component: 'TabsPage', active: true, icon: 'home' },
       { title: 'Profile', component: 'TabsPage', active: false, icon: 'contact' },
-      { title: 'Communaute', component: '', active: false, icon: 'archive' },
+      { title: 'Communaute', component: '', active: false, icon: 'people' },
+      { title: 'Parametre', component: '', active: false, icon: 'power' },
       { title: 'Deconnexion', component: 'LoginPage', active: false, icon: 'log-out' },
     ];
 
@@ -135,7 +136,7 @@ export class MyApp {
 
   backToMainMenu() {
     this.optionsMore = false;
-    this.menu.enable(true, "menu-avatar")
+    this.menu.enable(true, "menu-material")
     this.menu.toggle("menu-avatar")
   }
 

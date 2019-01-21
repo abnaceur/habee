@@ -62,4 +62,10 @@ export class LoginProvider {
       { headers: header })
       .map(response => response.json());
   }
+
+  createANewAccount(value) {
+    console.log('inside login provider :', value)   
+    return this.http.post(ENV.BASE_URL + '/users/create/newaccount', value)
+      .map(response => response.json());
+  }
 }

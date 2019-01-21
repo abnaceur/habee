@@ -70,7 +70,7 @@ exports.emailExist = (email, userId, activeCommunity) => {
 }
 
 
-// Tghis is the main function 
+// This is the main function 
 exports.addContacts = (emails, userId, activeCommunity) => {
     let emailsList = [];
 
@@ -89,7 +89,7 @@ exports.addContacts = (emails, userId, activeCommunity) => {
 
 exports.getImagePath = (req, imageBody) => {
     let imagePath;
-    
+
     if (imageBody != undefined)
         imagePath = req.body.communityLogo;
     else if (req.files == undefined)
@@ -98,4 +98,45 @@ exports.getImagePath = (req, imageBody) => {
         imagePath = req.files[0].path;
 
     return imagePath
+}
+
+checkIfEmailExist = (email) => {
+
+    console.log("Enail : ", email)
+    return new Promise((resolve, reject) => {
+        User.find({
+                "credentials.email": email
+            }).exec()
+            .then(usr => {
+                console.log("User: ", usr)
+                if (usr.length === 0)
+                    resolve (true)
+                else
+                    resolve (false)
+            }).catch(err => utils.defaultError(res, err))
+
+    })
+}
+
+createNewAccount = (value, res) => {
+    userClass.creatNewAccountUser(value)
+    .then(usr => {
+        let user = new User(usr)
+        console.log("Use : ", user)
+        user.save()
+        .then(result => {
+            res.status(200).json({
+                code: 200,
+                msg:  "Accountcreated with success"
+            })
+        })
+        .catch(err => {
+            utils.defaultError(res, err)
+        });
+    })
+}
+
+module.exports = {
+    checkIfEmailExist,
+    createNewAccount
 }

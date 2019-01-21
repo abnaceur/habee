@@ -185,7 +185,7 @@ exports.post_userMobile = (req, res, next) => {
                             communityIsActive: true,
                             communityIsDeleted: false
                         });
-                        
+
                         community
                             .save()
                             .then(com => {
@@ -410,7 +410,7 @@ exports.get_userId_communityId = (req, res, next) => {
                             let allUserEvents = [];
                             let i = 0;
                             let z = 0;
-    
+
                             while (i < usrs[0].eventsParticipated.length) {
                                 while (z < event.length) {
                                     if (usrs[0].eventsParticipated[i].eventId == event[z].eventId) {
@@ -551,3 +551,20 @@ exports.put_userId_communityId_DeleteUser = (req, res, next) => {
         });
 
 };
+
+exports.creatAnewAccount = (req, res, next) => {
+    console.log("Req body : ", req.body)
+    userService.checkIfEmailExist(req.body.email)
+    .then(data => {
+        console.log("Data : ", data)
+        if (data === false) {
+            console.log("test")
+            res.status(200).json({
+                code: 201,
+                msg: "Email exist."
+            })
+        } else {
+            userService.createNewAccount(req.body, res)
+        }
+    })
+}

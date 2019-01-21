@@ -4,6 +4,70 @@ const User = require('../models/user')
 const utils = require('../services/utils');
 const userEmails = require('../emailsTemplate/userEmails');
 
+exports.creatNewAccountUser = (value) => {
+    let userIdGen = value.email.substring(0, value.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + value.email.substring(value.email.search('@'), value.email.lenght);
+
+    return new Promise((resolve, reject) => {
+
+        bcrypt.hash(value.password, 10, (err, hash) => {
+
+            resolve({
+                _id: new mongoose.Types.ObjectId,
+                userId: userIdGen,
+                activeCommunity: "",
+                activeProfileRole: 0,
+                credentials: {
+                    firstname: value.firstname,
+                    lastname: value.lastname,
+                    birthDate: "",
+                    address: "",
+                    email: value.email,
+                    phone: "",
+                    password: hash,
+                },
+
+                communities: [],
+                profile: [{
+                    profileCummunityId: "",
+                    profilePhoto: "uplaods/",
+                    profileUsername: value.lastName + value.firstName,
+                    profileIsAdmin: 0,
+                    profileUserIsActive: true,
+                    profileUserIsDeleted: false,
+                }],
+                filterEvent: [{
+                    filterCommunity: "",
+                    SportValue: false,
+                    ArtsValue: false,
+                    cultureValue: false,
+                    MediaValue: false,
+                    musicValue: false,
+                    socialValue: false,
+                    internValue: false,
+                    businessValue: false,
+                    communityValue: false,
+                    santeValue: false,
+                    itValue: false,
+                    lifestyleValue: false,
+                    partyValue: false,
+                    meetingValue: false,
+                    WorkshopValue: false,
+                }],
+                passions: [],
+                skills: [],
+                currentEvents: [],
+                "currentEvents.eventsICreated": [],
+                "currentEvents.eventsIParticipate": [],
+                parameters: [],
+                passedEvents: [],
+                "passedEvents.PassedevenementsICreated": [],
+                "passedEvents.PassedEvenementsParticipated": [],
+
+            })
+        })
+    })
+}
+
 exports.userClassAddNew = (password, email, activeCommunity) => {
     let userIdGen = email.substring(0, email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + email.substring(email.search('@'), email.lenght);
 

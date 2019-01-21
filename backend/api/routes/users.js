@@ -133,4 +133,12 @@ router.put('/:id/:communityId',  authCkeck, userController.put_userId_communityI
 
 router.put('/delete/:id/:communityId',  authCkeck, userController.put_userId_communityId_DeleteUser);
 
+
+/*
+ ** API [POST] for route /users/create/newaccount   [USED]
+ */
+
+router.post('/create/newaccount',userController.creatAnewAccount);
+
+
 module.exports = router;
