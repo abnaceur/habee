@@ -16,6 +16,7 @@ import {
 import {
   EventFilterProvider
 } from '../../providers/event-filter/event-filter';
+import { listener } from '@angular/core/src/render3/instructions';
 
 
 /**
@@ -34,6 +35,7 @@ export class EventFilterPage {
   public filterList = {}
 
   public tabParams;
+  public selectAllFilters;
 
   constructor(
     public viewCtrl: ViewController,
@@ -51,17 +53,20 @@ export class EventFilterPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EventFilterPage', this.navParams);
+    let activeFilters = 0;
+  
     this.eventProvider.getFilterOptions(this.tabParams)
       .subscribe(filters => {
         let filter = filters.filterEvent;
         this.eventFilterProvider.initFilterList(this.filterList, filter)
-          .then(filterList => {
-            this.filterList = filterList
+        .then(filterList => {
+            this.filterList = filterList,
+            activeFilters = this.eventFilterProvider.objectFilterCount(filterList),
+            activeFilters != Array.from(Object.keys(filterList)).length - 1
+            ? this.selectAllFilters = false : this.selectAllFilters = true
           })
       })
   }
-
 
   closeFilterModal() {
     this.viewCtrl.dismiss(this.filterList);
@@ -73,5 +78,9 @@ export class EventFilterPage {
         this.filterList = filters;
       });
     this.viewCtrl.dismiss(this.filterList);
+  }
+
+  selectAllFiltersFunc() {
+    this.filterList = this.eventFilterProvider.changeFilterList(this.selectAllFilters);
   }
 }

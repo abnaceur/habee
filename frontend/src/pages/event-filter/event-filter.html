@@ -17,6 +17,12 @@ background-color: #5cbcc1;">
 
     <ion-item>
       <span slot="start" class="dot"></span>
+      <ion-label>Tout selectionné</ion-label>
+      <ion-toggle [(ngModel)]="selectAllFilters" (click)="selectAllFiltersFunc()" color="success"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <span slot="start" class="dot"></span>
       <ion-label>Publique</ion-label>
       <ion-toggle [(ngModel)]="filterList.PublicValue" color="success"></ion-toggle>
     </ion-item>

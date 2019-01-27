@@ -73,6 +73,30 @@ export class EventFilterProvider {
     WorkshopValue: String
   }
 
+  objectFilterCount(filter) {
+
+    let i = 0;
+
+    filter.SportValue == true ? i++ : i = i;
+    filter.ArtsValue == true ?  i++ : i = i;
+    filter.cultureValue == true ? i++ : i = i;
+    filter.MediaValue == true ?  i++ : i = i;
+    filter.musicValue == true ? i++ : i = i;
+    filter.socialValue == true ? i++ : i = i;
+    filter.internValue == true ? i++ : i = i;
+    filter.businessValue == true ?  i++ : i = i;
+    filter.communityValue == true ? i++ : i = i;
+    filter.santeValue == true ?  i++ : i = i;
+    filter.itValue == true ?  i++ : i = i;
+    filter.lifestyleValue == true ?  i++ : i = i;
+    filter.partyValue == true ?  i++ : i = i;
+    filter.meetingValue == true ? i++ : i = i;
+    filter.WorkshopValue == true ?  i++ : i = i;
+
+    console.log("Active filters : ", i);
+    return i;
+  }
+
   initFilterList(filterList, filter): Promise<{}>{
 
     filterList.SportValue = filter.SportValue;
@@ -95,6 +119,39 @@ export class EventFilterProvider {
     return new Promise ((resolve, reject) => {
       resolve(filterList)
     })
+  }
+
+
+  initFilter(value) {
+
+    let filterlist = {
+      SportValue: value,
+      ArtsValue: value,
+      cultureValue: value, 
+      MediaValue: value,
+      musicValue: value, 
+      socialValue: value, 
+      internValue: value, 
+      businessValue: value,
+      communityValue: value, 
+      santeValue: value,
+      itValue: value, 
+      lifestyleValue: value, 
+      partyValue: value,
+      meetingValue: value,
+      PublicValue: value,
+      WorkshopValue: value
+    }
+
+    return filterlist;
+  }
+
+  changeFilterList(selectAllFilters) {
+    if (selectAllFilters == true) {
+      return this.initFilter(true)
+    } else  if (selectAllFilters == false) {
+      return this.initFilter(false)
+    }
   }
 
 }
