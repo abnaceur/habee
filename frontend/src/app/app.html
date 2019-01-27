@@ -49,14 +49,14 @@
     <div #header>
       <ion-item ion-item no-line>
         <ion-icon (click)="backToMainMenu()" name="arrow-back" item-left></ion-icon>
-        <span style="font-size:4vw; color:white"><b>Changer la communaute</b></span>
+        <span style="font-size:4vw; color:silver"><b>Changer la communaute</b></span>
         <ion-icon (click)="goToAddCommunityModal()" name="add" item-right></ion-icon>
       </ion-item>
     </div><br>
 
     <ion-list no-lines *ngFor="let community of allCommunitiesbyUserId">
 
-      <ion-item style="border-left: 5px solid white" *ngIf="community.selected == 'true'">
+      <ion-item style="border-left: 5px solid silver" *ngIf="community.selected == 'true'">
         {{community.communityName}}
       </ion-item>
 
@@ -67,12 +67,12 @@
      <!-- Added an image 
        <img [src]='url + "/" + community.communityLogo' />
      -->
-     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: floralwhite" 
+     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver" 
      (click)="editCommunity()" item-right name="create"></ion-icon> 
-     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: floralwhite;
-     border-left: 1px solid white;padding-left: 10px;" (click)="deletCommunity()" item-right name="trash"></ion-icon> 
+     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver;
+     border-left: 1px solid silver;padding-left: 10px;" (click)="deletCommunity()" item-right name="trash"></ion-icon> 
     
-     <ion-icon  *ngIf="optionsMore == false || userData.userId == community.communityCreator && community.communityId != editableCommunity" style="color: floralwhite" item-right name="more" 
+     <ion-icon  *ngIf="optionsMore == false || userData.userId == community.communityCreator && community.communityId != editableCommunity" style="color: silver" item-right name="more" 
         (click)="presentPopover(community.communityId)" ></ion-icon>
      
       </ion-item>

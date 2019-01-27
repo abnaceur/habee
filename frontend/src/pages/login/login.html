@@ -18,7 +18,7 @@
   
       </ion-row>
 
-      <ion-grid style="position:relative; top: 25%">
+      <ion-grid style="position:relative; top: 15%">
           <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
   
             <ion-item *ngIf="createAccount == true" style="background-color: transparent" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
@@ -32,7 +32,7 @@
                 </ion-item>
           
 
-              <ion-item style="background-color: transparent" [ngClass]="{'error-border':!authForm.controls.email.valid && authForm.controls.email.touched}">
+              <ion-item style="background-color: transparent; color: white" [ngClass]="{'error-border':!authForm.controls.email.valid && authForm.controls.email.touched}">
               <!--   <ion-label floating>E-mail</ion-label> -->
                 <ion-input style="color: white" placeholder="email" formControlName="email" type="text" value="do@do.do"></ion-input>
               </ion-item>

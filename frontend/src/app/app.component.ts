@@ -94,6 +94,7 @@ export class MyApp {
       console.log('Welcome user data : ', userData);
       this.profileProvider.getUserProfileByCommunityId(this.userData)
         .subscribe(response => {
+          console.log("Heree there :", response)
           this.user.name = response.Users[0].profile.profileUsername,
             response.Users[0].profile.profilePhoto ?
               this.user.profileImage = ENV.BASE_URL + '/' + response.Users[0].profile.profilePhoto
@@ -137,7 +138,7 @@ export class MyApp {
   backToMainMenu() {
     this.optionsMore = false;
     this.menu.enable(true, "menu-material")
-    this.menu.toggle("menu-avatar")
+    this.menu.toggle("menu-material")
   }
 
 
@@ -176,7 +177,7 @@ export class MyApp {
               this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
                 .then(data => {
                   this.allCommunitiesbyUserId = data;
-                  this.menu.enable(true, "menu-avatar")
+                  this.menu.enable(true, "menu-material")
                   //  this.menu.toggle("menu-avatar");
                   this.nav.push("TabsPage", this.userData);
                 });
