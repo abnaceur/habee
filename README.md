@@ -171,7 +171,19 @@ app.habeedb.local:3300 -> mongoclient
 	- Host/Port : 192.168.213.1
 	- Database name : habeedb
 
+## Frontend :
 
+Commands and plagins to install
+
+```bash
+npm i -g ionic cordova
+sudo ionic cordova platform add android --save
+sudo npm install @ionic-native/social-sharing
+ionic cordova plugin add cordova-plugin-camera
+ionic cordova plugin add cordova-plugin-file-transfer
+ionic cordova plugin add cordova-plugin-file
+
+```
 
 
 ### Contributors

@@ -346,7 +346,7 @@ exports.get_user_by_id = (req, res, next) => {
                         })
                 } else {
                     res.status(200).json({
-                        Users: usr
+                        User: usr
                     });
                 }
             }

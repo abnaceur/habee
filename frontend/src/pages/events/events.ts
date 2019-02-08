@@ -15,6 +15,10 @@ import {
 } from "../../models/event.model";
 
 import {
+	EventFilterProvider
+  } from '../../providers/event-filter/event-filter';
+  
+import {
 	Http
 } from "@angular/http";
 
@@ -66,8 +70,11 @@ export class EventsPage {
 	public url = ENV.BASE_URL;
 	public queryText;
 	public allEvents_tmp;
+	public searchBar = "none";
+	public activeAllFilters;
 
 	constructor(
+		public eventFilterProvider: EventFilterProvider,
 		public modalCtrl: ModalController,
 		public eventProvider: EventProvider,
 		public http: Http,
@@ -87,7 +94,8 @@ export class EventsPage {
 	}
 
 	ionViewWillEnter() {
-		this.getAllEvents()
+		this.getAllEvents();
+		this.countActiveFilters();
 		this.months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Jun", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 	}
 
@@ -98,6 +106,14 @@ export class EventsPage {
 			token: this.tabParams.token,
 			activeCommunity: this.tabParams.activeCommunity
 		});
+	}
+
+	countActiveFilters() {
+		this.eventProvider.getFilterOptions(this.tabParams)
+		.subscribe(allFilters => {
+			this.activeAllFilters = this.eventFilterProvider.objectFilterCount(allFilters.filterEvent);
+		})
+
 	}
 
 	getAllEvents() {
@@ -139,6 +155,7 @@ export class EventsPage {
 	presentFilter() {
 		const modal = this.modalCtrl.create('EventFilterPage', this.tabParams);
 		modal.onDidDismiss(filterData => {
+			this.countActiveFilters();
 			this.eventProvider.checkFilterOptions(filterData)
 				.then(activeFilters => {
 					let countElem = this.countElements(activeFilters);
@@ -161,6 +178,13 @@ export class EventsPage {
 				});
 		});
 		modal.present();
+	}
+
+	showsearchbar() {
+	if (this.searchBar === "none")
+		this.searchBar = "initial"
+	else if (this.searchBar === "initial")
+		this.searchBar = "none";
 	}
 
 	updateEventlist() {

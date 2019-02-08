@@ -75,6 +75,14 @@ router.post('/filter/:userId/community/:communityId', eventController.postEventF
 
 
 /*
+ * API [GET] for route /events/user/:userId/community/ [TOBE USED]
+ */
+
+router.get('/user/:userId/community', eventController.getNoevent)
+
+
+
+/*
  * API [GET] for route /events/user/:userId/community/:communityId [TOBE USED]
  */
 

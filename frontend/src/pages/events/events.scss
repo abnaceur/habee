@@ -49,24 +49,36 @@ page-events {}
 }
 
 .menuStyle {
-  position:relative; 
-  float: left; 
-  top:10px; 
-  left: 4%; 
-  font-size: 40px; 
-   color: floralwhite
+  position: relative;
+  float: left;
+  top: 10px;
+  left: 4%;
+  font-size: 40px;
+  color: floralwhite
 }
 
 .optionsStyle {
-  position:relative; 
-  float: right; 
-  top:12px; 
-  right: 4%; 
-  font-size: 30px; 
-   color: floralwhite
+  position: relative;
+  float: right;
+  top: 12px;
+  right: 4%;
+  font-size: 30px;
+  color: floralwhite
 }
 
 .toolbar-background-md {
-  background-color: #5cbcc1;;
+  background-color: #5cbcc1;
+  ;
 }
 
+
+#notifications-badge {
+  background-color: #7683ab;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 4px;
+  z-index: 11;
+  right: 3px;
+  border-radius: 100%;
+}

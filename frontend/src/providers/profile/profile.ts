@@ -55,7 +55,7 @@ export class ProfileProvider {
   }
 
   getUserSubPassionsByCommunityId(response, token, userId, activeCommunity) {
-    this.userPassionsList = response.Users[0];
+    this.userPassionsList = response.User[0];
     let UserPassions = [];
     UserPassions = this.userPassionsList['passions'];
 

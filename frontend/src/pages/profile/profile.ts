@@ -84,14 +84,14 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.profileProvider.getUserProfileByCommunityId(this.tabParams)
       .subscribe(response => {
-        console.log("User  : ", response.Users[0], response.Users[0].eventCreated )
-        this.user.name = response.Users[0].profile.profileUsername,
-        response.Users[0].profile.profilePhoto ? this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile.profilePhoto
+        console.log("User  : ", response.User[0], response.User[0].eventCreated )
+        this.user.name = response.User[0].profile.profileUsername,
+        response.User[0].profile.profilePhoto ? this.user.profileImage =  ENV.BASE_URL + '/' + response.Users[0].profile.profilePhoto
         : this.user.profileImage,
-        this.user.proposed = response.Users[0].eventCreated,
+        this.user.proposed = response.User[0].eventCreated,
         
-        this.user.participated = response.Users[0].nbrEventsParticipated,
-        this.userName = response.Users[0].profile.profileUsername
+        this.user.participated = response.User[0].nbrEventsParticipated,
+        this.userName = response.User[0].profile.profileUsername
       });
   }
 

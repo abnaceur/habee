@@ -103,7 +103,7 @@ router.put('/firstConnection/:userId', userController.updateUserByfirstConnectio
  **  API [GET] for route /user/:id
  */
 
-router.get('/:id',   userController.get_user_by_id);
+router.get('/:id', userController.get_user_by_id);
 
 
 /*

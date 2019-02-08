@@ -2,14 +2,23 @@
 background-color: #5cbcc1;">
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
-
+        
+          <ion-badge  id="notifications-badge" color="danger">
+            <span style="font-size: 10px;
+            position: relative;
+            left: -5px;
+            top: -1px;
+        }" > {{activeAllFilters}}</span>
+          </ion-badge>
+        
   <ion-icon class="optionsStyle" (click)='presentFilter()' name="options"></ion-icon>
-
+  <ion-icon style="margin-right: 8px" class="optionsStyle" (click)='showsearchbar()' name="search"></ion-icon>
+ 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
-    <span style="font-size: 17px;color: white; font-weight: bold">Les événements en cours</span>
+    <span style="font-size: 17px;color: white; font-weight: bold"></span>
   </ion-title>
 
-  <expandable-header [scrollArea]="myContent" headerHeight="125">
+  <expandable-header [ngStyle]="{'display': searchBar}" [scrollArea]="myContent" headerHeight="125">
     <ion-toolbar style="position: relative; top:1vw; overflow: hidden;  ">
       <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateEventlist()" placeholder="Rechrcher...">
       </ion-searchbar>

@@ -55,6 +55,15 @@ exports.upload_mobile_photo = (req, res, next) => {
     }
 }
 
+//TODO HUNDLE USER NO COMMUNITY
+exports.getNoevent = (req, res, next) => {
+
+    res.status(200).json({
+        Count: 0,
+        Events: []
+    });
+}
+
 exports.postEventFilter = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
