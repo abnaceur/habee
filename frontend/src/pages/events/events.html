@@ -3,15 +3,10 @@ background-color: #5cbcc1;">
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
         
-          <ion-badge  id="notifications-badge" color="danger">
-            <span style="font-size: 10px;
-            position: relative;
-            left: -5px;
-            top: -1px;
-        }" > {{activeAllFilters}}</span>
-          </ion-badge>
         
-  <ion-icon class="optionsStyle" (click)='presentFilter()' name="options"></ion-icon>
+  <ion-icon class="optionsStyle" (click)='presentFilter()' name="options">
+    <ion-badge class="pull-right" id="badg-notif">{{activeAllFilters}}</ion-badge>
+  </ion-icon>
   <ion-icon style="margin-right: 8px" class="optionsStyle" (click)='showsearchbar()' name="search"></ion-icon>
  
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
