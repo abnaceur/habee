@@ -92,6 +92,7 @@ export class EventFilterProvider {
     filter.partyValue == true ?  i++ : i = i;
     filter.meetingValue == true ? i++ : i = i;
     filter.WorkshopValue == true ?  i++ : i = i;
+    filter.PublicValue == true ?  i++ : i = i;
 
     console.log("Active filters : ", i);
     return i;
