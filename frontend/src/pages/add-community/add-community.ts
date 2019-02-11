@@ -156,7 +156,6 @@ export class AddCommunityPage {
   }
 
   onSubmit(newCommunity) {
-    //TODO FIX IT FOR MOBILE UPLOAD WITH PHOTO.
     this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
       .then(data => {
         if (data === 0)

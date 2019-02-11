@@ -182,9 +182,32 @@ sudo npm install @ionic-native/social-sharing
 ionic cordova plugin add cordova-plugin-camera
 ionic cordova plugin add cordova-plugin-file-transfer
 ionic cordova plugin add cordova-plugin-file
-
+sudo chown $whoami:$whoami -R .
+sudo chmod 755 -R .
 ```
 
+## Backend 
+
+Added a folder uploads
+
+```bash
+mkdir backend/uploads
+```
+
+## Setup a test environemnt in Android
+
+1 - Install android.
+2 - Install Java.
+3 - Download Jdk package.
+4 - Setup the environement variables.
+5 - Start android studio and open frontend/platforme/android
+	help : if it can not open check files permission.
+6 - connect your mobile by USB and activate developer mode (USB debuging on)
+7 - Build the project in your mobile phone.
+
+```bash
+sudo ionic cordova run android --device
+```
 
 ### Contributors
  - Mathias -> 	- Data model v0.0.
