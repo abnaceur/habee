@@ -51,10 +51,18 @@ page-events {}
 .menuStyle {
   position: relative;
   float: left;
-  top: 10px;
+  top: 6px;
   left: 4%;
   font-size: 40px;
   color: floralwhite
+}
+
+.comLogo {
+  position: absolute;
+  display: inline;
+  left: 54px;
+  height: 64%;
+  top: 19%;
 }
 
 .optionsStyle {

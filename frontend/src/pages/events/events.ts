@@ -72,15 +72,17 @@ export class EventsPage {
 	public allEvents_tmp;
 	public searchBar = "none";
 	public activeAllFilters;
+	public communityInfo;
 
 	constructor(
-		public eventFilterProvider: EventFilterProvider,
+		private communityProvider: CommunityProvider,
+		private eventFilterProvider: EventFilterProvider,
 		public modalCtrl: ModalController,
-		public eventProvider: EventProvider,
+		private eventProvider: EventProvider,
 		public http: Http,
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		public utils: UtilsProvider,
+		private utils: UtilsProvider,
 		public menu: MenuController,
 		public nav: NavController) {
 
@@ -91,12 +93,27 @@ export class EventsPage {
 			token: this.navParams.get("token"),
 			activeCommunity: this.navParams.get('activeCommunity')
 		};
+
+		
+	}
+
+	ionViewWillLoad() {
+		this.getCommunityImage();
 	}
 
 	ionViewWillEnter() {
 		this.getAllEvents();
 		this.countActiveFilters();
+		this.getCommunityImage();
 		this.months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Jun", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
+	}
+
+	getCommunityImage() {
+		this.communityProvider.getCommunityById(this.tabParams)
+		.subscribe(comInfo =>{
+			console.log("cominfo :", comInfo.communityLogo),
+			this.communityInfo = comInfo.communityLogo
+		})
 	}
 
 	goToEventDetail(eventDetails) {

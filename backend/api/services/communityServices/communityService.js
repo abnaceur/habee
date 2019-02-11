@@ -235,7 +235,13 @@ exports.getCommunityById = (res, id) => {
             } else {
                 res.status(200).json({
                     count: com.length,
-                    community: com
+                    community: com.map(com => {
+                        return ({
+                            communityDescripton: com.communityDescripton,
+                            communityLogo: com.communityLogo,
+                            communityName: com.communityName
+                        })
+                    })
                 });
             }
         })

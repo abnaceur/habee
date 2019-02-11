@@ -28,12 +28,13 @@ export class CommunityProvider {
     console.log('Hello CommunityProvider Provider');
   }
 
-  getCommunityById(userInfo, communityId) {
+  getCommunityById(userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + "/communities/" + communityId,
+    console.log("ddd: ", userInfo);
+    return this.http.get(ENV.BASE_URL + "/communities/" + userInfo.activeCommunity,
     { headers: header })
-    .map(response => response.json());
+    .map(response => response.json().community[0]);
   }
 
   getCommunitiesbyCreator(userInfo) {

@@ -92,10 +92,10 @@ export class EditCommunityModalPage {
 
   ionViewDidEnter() {
 
-    this.communityProvider.getCommunityById(this.tabParams, this.communityId)
+    this.communityProvider.getCommunityById(this.tabParams)
       .subscribe(data => {
-        this.comInfo.title = data.community[0].communityName;
-        this.comInfo.description = data.community[0].communityDescripton
+        this.comInfo.title = data.communityName;
+        this.comInfo.description = data.communityDescripton
       })
   }
 
