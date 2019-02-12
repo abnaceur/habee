@@ -115,8 +115,7 @@ export class EventsPage {
 	getCommunityImage() {
 		this.communityProvider.getCommunityById(this.tabParams)
 		.subscribe(comInfo =>{
-			console.log("cominfo :", comInfo.communityLogo),
-			this.communityInfo	.communityLogo = comInfo.communityLogo,
+			this.communityInfo.communityLogo = comInfo.communityLogo,
 			this.communityInfo.communityName = comInfo.communityName
 		})
 	}

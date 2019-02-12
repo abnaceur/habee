@@ -7,14 +7,19 @@ background-color: #5cbcc1;">
     <img class="comLogo" [src]='url + "/" + communityInfo.communityLogo'>
   </ion-thumbnail>
   <ion-thumbnail>
-    <span class="commName" >{{communityInfo.communityName}}</span>
+    <span class="commName">{{communityInfo.communityName}}</span>
   </ion-thumbnail>
 
   <ion-icon class="optionsStyle" (click)='presentFilter()' name="options">
-    <ion-badge class="pull-right" id="badg-notif">{{activeAllFilters}}</ion-badge>
+
+    <span *ngIf="activeAllFilters != 0">
+      <ion-badge class="pull-right" id="badg-notif">{{activeAllFilters}}</ion-badge>
+    </span>
   </ion-icon>
+
+
   <ion-icon style="margin-right: 8px" class="optionsStyle" (click)='showsearchbar()' name="search"></ion-icon>
- 
+
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: white; font-weight: bold"></span>
   </ion-title>
