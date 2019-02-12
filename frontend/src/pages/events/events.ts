@@ -72,7 +72,11 @@ export class EventsPage {
 	public allEvents_tmp;
 	public searchBar = "none";
 	public activeAllFilters;
-	public communityInfo;
+	communityInfo = {
+		communityLogo: String,
+		communityName: String,
+	};
+	
 
 	constructor(
 		private communityProvider: CommunityProvider,
@@ -112,7 +116,8 @@ export class EventsPage {
 		this.communityProvider.getCommunityById(this.tabParams)
 		.subscribe(comInfo =>{
 			console.log("cominfo :", comInfo.communityLogo),
-			this.communityInfo = comInfo.communityLogo
+			this.communityInfo	.communityLogo = comInfo.communityLogo,
+			this.communityInfo.communityName = comInfo.communityName
 		})
 	}
 

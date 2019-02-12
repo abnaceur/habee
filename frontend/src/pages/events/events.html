@@ -4,9 +4,12 @@ background-color: #5cbcc1;">
   <ion-icon class="menuStyle" menuToggle name="menu">
   </ion-icon>
   <ion-thumbnail>
-    <img class="comLogo" [src]='url + "/" + communityInfo' >
+    <img class="comLogo" [src]='url + "/" + communityInfo.communityLogo'>
   </ion-thumbnail>
-        
+  <ion-thumbnail>
+    <span class="commName" >{{communityInfo.communityName}}</span>
+  </ion-thumbnail>
+
   <ion-icon class="optionsStyle" (click)='presentFilter()' name="options">
     <ion-badge class="pull-right" id="badg-notif">{{activeAllFilters}}</ion-badge>
   </ion-icon>
