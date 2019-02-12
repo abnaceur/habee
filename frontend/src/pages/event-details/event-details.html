@@ -5,20 +5,49 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>{{eventDetails.eventName}}</ion-title>
+  <ion-navbar transparent style="z-index: 111;background-color: #1b2026;">
+    <!-- <ion-title>{{eventDetails.eventName}}</ion-title> -->
+    <ion-icon style="color: white;
+    float: right;
+    margin-right: 14px;
+    font-size: x-large;" name="share"></ion-icon>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content fullscreen elestic-header>
-  <ion-card>
+<ion-content fullscreen>
 
-    <img [src]='url + "/" + eventDetails.eventPhoto' />
 
-    <ion-card-content>
+  <h1 style="position: absolute; z-index: 1111;  left:15rem; font-weight:bolder; color: white">{{eventDetails.eventName}}</h1>
+
+  <ion-item style="background-color: darkslategray; padding: 42px 20px;" no-lines>
+
+    <ion-thumbnail item-start>
+      <img [src]='url + "/" + eventDetails.eventPhoto'>
+    </ion-thumbnail>
+    <br><br>
+    <p style="color: white">
+      <ion-icon style=" color: white;" name="calendar"></ion-icon>
+      {{eventDetails.eventStartDate.substring(8,10)}}.{{eventDetails.eventStartDate.substring(5,
+      7)}}.{{eventDetails.eventStartDate.substring(0, 4)}} {{eventDetails.eventStartHour}}
+    </p>
+    <p style="color: white">
+      <ion-icon style=" color: white;" name="calendar"></ion-icon>
+      {{eventDetails.eventEndDate.substring(8,10)}}.{{eventDetails.eventEndDate.substring(5,
+      7)}}.{{eventDetails.eventEndDate.substring(0, 4)}} {{eventDetails.eventEndHour}}
+    </p>
+    <p style="color: white">
+      <ion-icon style=" color: white;" name="pin"></ion-icon>
+      {{eventDetails.eventLocation}}
+    </p><br>
+    <p style="color: white">
+      <span class="styleParticipants">{{eventDetails.nbrSubscribedParticipants}}/{{eventDetails.nbrParticipants}}</span>
+      Participants
+    </p>
+  </ion-item>
+
+
+  <!-- 
       <ion-item>
         <ion-icon style=" color: #46a4da; font-size: 2.1em" name="calendar"></ion-icon>
         <span style="font-size: 1 .9em;text-align: left; margin-left: 30px ">{{eventDetails.eventStartDate.substring(8,
@@ -41,51 +70,94 @@
         <ion-icon style=" color: #46a4da; font-size: 2.1em" name="compass"></ion-icon>
         <span style="font-size: 1 .9em;text-align: left; margin-left: 30px ">{{eventDetails.eventLocation}}</span>
 
-      </ion-item>
+      </ion-item> -->
 
-      <ion-item>
-        <b>Description : </b>
+  <ion-item no-lines>
+    <p style="position: relative;margin-bottom: 5px">
+      <b>Detail</b></p>
 
-        <p>
-          {{eventDetails.eventDescription}}
-        </p>
-      </ion-item>
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-item>
-    <ion-row>
-      <ion-item>
-        <b>Participants : </b>
-      </ion-item>
-      <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 270px;
-              min-height: 100px;">
-        <a *ngFor="let participant of eventDetails.participants">
-          <img *ngIf='participant != null' class="img-scroll" [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/avatar.png"' (click)="openUserDetailsModal(participant)" >
-        </a>
-      </ion-scroll>
-    </ion-row>
-
+    <p>
+      {{eventDetails.eventDescription}}
+    </p>
   </ion-item>
 
+  <ion-item>
+    <p style="position: relative;margin-bottom: 5px">
+
+      <b>Participants </b>
+
+      <p>
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 100%;
+              min-height: 100px;">
+          <a *ngFor="let participant of eventDetails.participants">
+            <img *ngIf='participant != null' class="img-scroll" [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/avatar.png"'
+              (click)="openUserDetailsModal(participant)">
+
+              <img class="img-scroll"  [src]='url + "/" + eventDetails.eventPhoto'>
+  
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
+
+            </a>
+        </ion-scroll>
+  </ion-item>
+
+
+
+  <div *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
+        class="col col-50 button button-block">
+        {{isSubscribed}}
+      </button>
+    </div>
+  </div>
+
+
+  <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+    style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
+        class="col col-50 button button-block">
+        {{isSubscribed}}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+    style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
+        class="col col-50 button button-block">
+        Evenement est complet
+      </button>
+    </div>
+  </div>
+  <!--  
   <ion-row no-padding>
     <ion-col text-left>
-      <button *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" (click)='subscribeToEvent(eventDetails.eventId)'
+      <button *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed != 'Desinscrir'"
         ion-button clear small color="danger" icon-start>
         <ion-icon name='people'></ion-icon>
         <span>
-          {{isSubscribed}}
+            {{isSubscribed}}
         </span>
 
       </button>
 
 
-      <button *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'" (click)='subscribeToEvent(eventDetails.eventId)'
-        ion-button clear small color="danger" icon-start>
+      <button *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+        (click)='subscribeToEvent(eventDetails.eventId)' ion-button clear small color="danger" icon-start>
         <ion-icon name='people'></ion-icon>
         <span>
-            {{isSubscribed}}
+          {{isSubscribed}}
         </span>
 
       </button>
@@ -120,7 +192,5 @@
         Full
       </ion-note>
     </ion-col>
-  </ion-row>
-
-
+  </ion-row> -->
 </ion-content>

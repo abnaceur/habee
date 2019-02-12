@@ -155,7 +155,7 @@ background-color: #5cbcc1;">
 
   <ion-list>
     <ion-item-sliding *ngFor="let event of allEvents">
-      <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px">
+      <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
         <ion-thumbnail item-start>
           <img [src]='url + "/" + event.eventPhoto'>
         </ion-thumbnail>

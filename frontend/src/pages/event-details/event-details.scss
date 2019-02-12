@@ -1,5 +1,25 @@
 page-event-details {
 
+  .img-scroll {
+    height: 63px;
+    width: 57px;
+    position: relative;
+    bottom: 10px;
+    border-radius: 100%;
+}
+
+  .item-md ion-avatar[item-left], .item-md ion-thumbnail[item-left], .item-md ion-avatar[item-start], .item-md ion-thumbnail[item-start] {
+    margin: -38px 26px 9px 0;
+}
+
+  .item ion-thumbnail {
+    width: 10rem;    
+    height: 10rem;
+    img {
+      width: 10rem;
+      height: 15rem;
+    }
+  }
 }
 
 .bar-sep {
@@ -13,12 +33,29 @@ page-event-details {
 }
 
 
-.img-scroll {
-    height: 63px;
-    width: 57px;
-    position: relative;
-    bottom: 10px;  
+.toolbar-title-md {
+  padding: 0 12px;
+  font-size: 2rem;
+  font-weight: 500;
+  color: white;
 }
+
+.bar-button-default-md, .bar-button-clear-md-default, .bar-button-md-default {
+  color: white;
+  background-color: transparent;
+}
+
+
+.styleParticipants {
+  margin-top: 11px;
+  color: rgb(204, 162, 184);
+  font-weight: bolder;
+  font-size: 17px;
+  font-family: sans-serif;
+}
+
+
+
 
 .img-scroll-add {
     height: 33px;
