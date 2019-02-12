@@ -123,7 +123,7 @@ background-color: #5cbcc1;">
   </timeline>
 
   -->
-  <ion-list style="position: relative; top: 7%" padding>
+  <!-- <ion-list style="position: relative; top: 7%" padding>
     <span *ngFor="let item of allEvents">
       <ion-item style="
       background-color: aliceblue;
@@ -151,6 +151,21 @@ background-color: #5cbcc1;">
         </button>
       </ion-item>
     </span>
+  </ion-list> -->
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let event of allEvents">
+      <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px">
+        <ion-thumbnail item-start>
+          <img [src]='url + "/" + event.eventPhoto'>
+        </ion-thumbnail>
+        <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+        <p>{{event.eventLocation}} • 
+          {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5, 7)}}.{{event.eventEndDate.substring(0, 4)}} {{event.eventEndHour}}
+        </p>
+        <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 
 
