@@ -65,9 +65,15 @@ background-color: #906DA7;">
             <ion-icon name="eye"></ion-icon>
             Voir
           </button>
-          <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand(item)"
+          <!-- <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand(item)"
             style="position: relative; width: 100px" ion-button color="secondary">
             <ion-icon [hidden]="!showIcon" name="create"></ion-icon>
+            Modifier
+          </button> -->
+
+                    <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand(item)"
+            style="position: relative; width: 100px" ion-button color="secondary">
+            <ion-icon name="create"></ion-icon>
             Modifier
           </button>
           <button ion-button style="position: relative; width: 100px" color="danger" (click)="deleteEvent(item)">
