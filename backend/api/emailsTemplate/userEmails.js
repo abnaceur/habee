@@ -24,3 +24,11 @@ exports.accountCreated = (email, password) => {
 
     return msg
 }
+
+exports.accountFirstCreation = (email, password) => {
+    let msg = "Hello! bienvenue \n Vous venez de cree votre compte pour rejoindre la communitee Habee \
+    \n Voila vos logins : \n Email : " + email + "\n Mot de pass : " + password + "\
+    \n TEAM HABEE"
+
+    return msg
+}

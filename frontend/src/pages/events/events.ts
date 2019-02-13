@@ -63,7 +63,7 @@ export class EventsPage {
 		icon: 'pin',
 	};
 
-	public tabParams;
+	private tabParams;
 	public allEvents = [];
 	public isSubscribed = "S'inscrir3";
 	public months: String[];
@@ -113,11 +113,13 @@ export class EventsPage {
 	}
 
 	getCommunityImage() {
-		this.communityProvider.getCommunityById(this.tabParams)
-		.subscribe(comInfo =>{
-			this.communityInfo.communityLogo = comInfo.communityLogo,
-			this.communityInfo.communityName = comInfo.communityName
-		})
+		if (this.tabParams.activeCommunity != "") {
+			this.communityProvider.getCommunityById(this.tabParams)
+			.subscribe(comInfo =>{
+				this.communityInfo.communityLogo = comInfo.communityLogo,
+				this.communityInfo.communityName = comInfo.communityName
+			})
+		}
 	}
 
 	goToEventDetail(eventDetails) {

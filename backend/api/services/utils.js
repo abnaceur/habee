@@ -75,7 +75,7 @@ exports.sendEmail = (from, to, subject, txt) => {
         }
     });
     var mailOptions = {
-        from: from,
+        from: process.env.USER,
         to: to,
         subject: subject,
         text: txt

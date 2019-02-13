@@ -14,7 +14,7 @@ exports.creatNewAccountUser = (value) => {
             resolve({
                 _id: new mongoose.Types.ObjectId,
                 userId: userIdGen,
-                activeCommunity: "",
+                activeCommunity: "habee",
                 activeProfileRole: 0,
                 credentials: {
                     firstname: value.firstname,
@@ -26,17 +26,17 @@ exports.creatNewAccountUser = (value) => {
                     password: hash,
                 },
 
-                communities: [],
+                communities: ["habee"],
                 profile: [{
-                    profileCummunityId: "",
-                    profilePhoto: "uplaods/",
+                    profileCummunityId: "habee",
+                    profilePhoto: "uplaods/avatar.png",
                     profileUsername: value.lastName + value.firstName,
                     profileIsAdmin: 0,
                     profileUserIsActive: true,
                     profileUserIsDeleted: false,
                 }],
                 filterEvent: [{
-                    filterCommunity: "",
+                    filterCommunity: "habee",
                     SportValue: false,
                     ArtsValue: false,
                     cultureValue: false,
@@ -153,10 +153,10 @@ exports.saveUser = (userClass, email, password, userId) => {
     return new Promise((resolve, reject) => {
         this.getUserFirstAndLastname(userId)
             .then(sendInfo => {
-                let msg = userEmails.inviteNewContact(email, password, sendInfo);
-                utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
                 user.save()
                     .then(usr => {
+                        let msg = userEmails.inviteNewContact(email, password, sendInfo);
+                        utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
                         emailRes = {
                             value: email,
                             status: 200

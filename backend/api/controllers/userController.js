@@ -558,7 +558,6 @@ exports.creatAnewAccount = (req, res, next) => {
     .then(data => {
         console.log("Data : ", data)
         if (data === false) {
-            console.log("test")
             res.status(200).json({
                 code: 201,
                 msg: "Email exist."

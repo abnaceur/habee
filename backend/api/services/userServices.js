@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const utils = require('../services/utils')
 const userClass = require('../classes/userClass')
+const userEmails = require('../emailsTemplate/userEmails')
 
 exports.addNewContact = (email, userId, activeCommunity) => {
     let password = utils.randomValueGenerator()
@@ -125,6 +126,8 @@ createNewAccount = (value, res) => {
         console.log("Use : ", user)
         user.save()
         .then(result => {
+            let msg = userEmails.accountFirstCreation(value.email, value.password);
+            utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
             res.status(200).json({
                 code: 200,
                 msg:  "Accountcreated with success"

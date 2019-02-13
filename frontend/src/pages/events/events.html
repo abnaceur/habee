@@ -3,10 +3,10 @@ background-color: #5cbcc1;">
 
   <ion-icon class="menuStyle" menuToggle name="menu">
   </ion-icon>
-  <ion-thumbnail>
+  <ion-thumbnail *ngIf="communityInfo.communityLogo">
     <img class="comLogo" [src]='url + "/" + communityInfo.communityLogo'>
   </ion-thumbnail>
-  <ion-thumbnail>
+  <ion-thumbnail *ngIf="communityInfo.communityName">
     <span class="commName">{{communityInfo.communityName}}</span>
   </ion-thumbnail>
 

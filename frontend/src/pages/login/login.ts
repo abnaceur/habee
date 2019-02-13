@@ -66,7 +66,6 @@ export class LoginPage {
 
   onSubmit(value: any): void {
 
-    console.log("test")
     if (this.createAccount === false) {
       this.loginProvider.loginUser(value.email, value.password)
         .subscribe(response => {
@@ -95,7 +94,7 @@ export class LoginPage {
             console.log("Data : ", data)
             if (data.code === 201)
               this.utils.notification("Email exist !", "top")
-            if (data.code == 200)
+            else if (data.code == 200)
               this.utils.notification("Compte cree avec succes", "top")
             else
               this.utils.notification("Une erreur est survenu", "top")
@@ -110,7 +109,6 @@ export class LoginPage {
   }
 
   loginUser() {
-    console.log("sss");
     document.getElementById("submitLogin").click()
   }
 
