@@ -17,6 +17,21 @@ exports.communityClassModal = (req, imagePathcommunityLogo) => {
     return classCom
 }
 
+exports.communityClassModalOnUserCreaton = (user) => {
+    let classCom = {
+        _id: new mongoose.Types.ObjectId,
+        communityId: user.activeCommunity,
+        communityName: user.activeCommunity.substring(0, user.activeCommunity.length - 4),
+        communityLogo: "uploads/defaultCommunityLogo.png",
+        communityDescripton: "",
+        communityCreator: user.userId,
+        communityMembers: [user.userId],
+        communityIsActive: true,
+    }
+
+    return classCom;
+}
+
 exports.userToUpdate = (res, usr) => {
 
     User.findByIdAndUpdate(usr[0]._id,

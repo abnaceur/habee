@@ -179,6 +179,20 @@ export class MyEventsPage {
     }
   }
 
+  expandPopModal(popPage, navInfo) {
+    setTimeout(() => {
+      const modal = this.modalCtrl.create(popPage, navInfo);
+      modal.onDidDismiss(data => {
+        this.updatePrticipatedEventList();
+        this.updateProposedEventList();
+        this.expanded = false;
+        this.contracted = !this.expanded;
+        setTimeout(() => (this.showIcon = true), 330);
+      });
+      modal.present();
+    }, 200);
+  }
+
   expand(event) {
     this.expanded = true;
     this.contracted = !this.expanded;
@@ -189,51 +203,7 @@ export class MyEventsPage {
       event: event
     };
 
-    if (event === "this") {
-      console.log("Add event");
-      setTimeout(() => {
-        const modal = this.modalCtrl.create("ProposeEventPage", navInfo);
-        modal.onDidDismiss(data => {
-          this.eventProvider
-            .getUserInformation(this.tabParams)
-            .subscribe(response => {
-              console.log("this : ", response.User);
-              //      this.userInfo = response.User[0].eventsParticipated
-            });
-          this.eventProvider
-            .getAllProposedEvevnstByUser(this.tabParams)
-            .subscribe(response => {
-              (this.proposedEvents = response.Events),
-                console.log("this 1113232: ", response);
-            });
-          this.expanded = false;
-          this.contracted = !this.expanded;
-          setTimeout(() => (this.showIcon = true), 330);
-        });
-        modal.present();
-      }, 200);
-    } else {
-      setTimeout(() => {
-        const modal = this.modalCtrl.create("PopupEditModalPage", navInfo);
-        modal.onDidDismiss(data => {
-          this.eventProvider
-            .getUserInformation(this.tabParams)
-            .subscribe(response => {
-              console.log("this : ", response.User[0].eventsParticipated),
-                (this.userInfo = response.User[0].eventsParticipated);
-            });
-          this.eventProvider
-            .getAllProposedEvevnstByUser(this.tabParams)
-            .subscribe(response => {
-              (this.proposedEvents = response.Events),
-                console.log("this 1113232: ", response.Events[0]);
-            });
-          this.expanded = false;
-          this.contracted = !this.expanded;
-          setTimeout(() => (this.showIcon = true), 330);
-        });
-        modal.present();
-      }, 200);
-    }
+    if (event === "this") this.expandPopModal("ProposeEventPage", navInfo);
+    else this.expandPopModal("PopupEditModalPage", navInfo);
   }
 }

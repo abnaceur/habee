@@ -4,6 +4,7 @@ const userClass = require('../classes/userClass')
 const userEmails = require('../emailsTemplate/userEmails')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const communityService = require("../services/communityServices/communityService");
 
 exports.addNewContact = (email, userId, activeCommunity) => {
     let password = utils.randomValueGenerator()
@@ -128,6 +129,7 @@ createNewAccount = (value, res) => {
             console.log("Use : ", user)
             user.save()
                 .then(result => {
+                    communityService.newUserCommunity(user);
                     let msg = userEmails.accountFirstCreation(value.email, value.password);
                     utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
                     res.status(200).json({

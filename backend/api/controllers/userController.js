@@ -494,7 +494,6 @@ exports.creatAnewAccount = (req, res, next) => {
     console.log("Req body : ", req.body)
     userService.checkIfEmailExist(req.body.email)
     .then(data => {
-        console.log("Data : ", data)
         if (data === false) {
             res.status(200).json({
                 code: 201,

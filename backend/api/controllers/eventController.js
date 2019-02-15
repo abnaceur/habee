@@ -111,7 +111,7 @@ exports.getFilteredEvent = (req, res, next) => {
     let communityId = req.params.communityId;
 
 
-
+    console.log("heryer", communityId)
     User.find({
             userId: userId,
             "filterEvent.filterCommunity": communityId
@@ -119,7 +119,7 @@ exports.getFilteredEvent = (req, res, next) => {
         .select("filterEvent")
         .exec()
         .then(usr => {
-
+            console.log("user: ", usr)
             let filter = utils.getFilterBycommunityId(usr[0].filterEvent, communityId);
             Event.find({
                     eventCommunity: communityId,

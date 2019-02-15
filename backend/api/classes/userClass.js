@@ -6,6 +6,7 @@ const userEmails = require('../emailsTemplate/userEmails');
 
 exports.creatNewAccountUser = (value) => {
     let userIdGen = value.email.substring(0, value.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + value.email.substring(value.email.search('@'), value.email.lenght);
+    let communityId = value.email.substring(0, value.email.search('@')) + Math.floor(Math.random() * 10000);
 
     return new Promise((resolve, reject) => {
 
@@ -14,7 +15,7 @@ exports.creatNewAccountUser = (value) => {
             resolve({
                 _id: new mongoose.Types.ObjectId,
                 userId: userIdGen,
-                activeCommunity: "habee",
+                activeCommunity: communityId,
                 activeProfileRole: 0,
                 credentials: {
                     firstname: value.firstname,
@@ -26,17 +27,19 @@ exports.creatNewAccountUser = (value) => {
                     password: hash,
                 },
 
-                communities: ["habee"],
+                communities: [
+                    communityId
+                ],
                 profile: [{
-                    profileCummunityId: "habee",
+                    profileCummunityId: communityId,
                     profilePhoto: "uplaods/avatar.png",
-                    profileUsername: value.lastName + value.firstName,
+                    profileUsername: value.lastname + ' ' + value.firstname,
                     profileIsAdmin: 0,
                     profileUserIsActive: true,
                     profileUserIsDeleted: false,
                 }],
                 filterEvent: [{
-                    filterCommunity: "habee",
+                    filterCommunity: communityId,
                     SportValue: false,
                     ArtsValue: false,
                     cultureValue: false,

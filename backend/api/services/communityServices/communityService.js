@@ -249,3 +249,13 @@ exports.getCommunityById = (res, id) => {
             utils.defaultError(res, err)
         });
 }
+
+exports.newUserCommunity = (user) => {
+    console.log("use: ", user)
+    const community = new Community(communityClass
+        .communityClassModalOnUserCreaton(user));
+    community
+        .save()
+        .then(comm => comm)
+        .catch(err => utils.defaultError(res, err));
+}
