@@ -18,10 +18,10 @@ exports.formatDate = (event) => {
     });
 }
 
-exports.updateEcevntIsOver = (event) => {
+updateEcevntIsOver = (event) => {
     let formatedEndDate = this.formatDate(event).formatedEndDate;
     let currentMdate = this.formatDate(event).currentMdate;
-
+    
     if (formatedEndDate <= currentMdate) {
         event.eventIsOver = true;
         Event.findByIdAndUpdate(event._id,
@@ -35,7 +35,7 @@ exports.updateEcevntIsOver = (event) => {
     }
 }
 
-exports.eventModal = (event) => {
+eventModal = (event) => {
     let test = {
         _id: event._id,
         eventId: event.eventId,
@@ -63,7 +63,7 @@ exports.eventModal = (event) => {
     return test
 }
 
-exports.getAllpublicEvents = () => {
+getAllpublicEvents = () => {
     return new Promise((resolve, reject) => {
         Event.find({
                 eventIsPublic: true,
@@ -76,7 +76,7 @@ exports.getAllpublicEvents = () => {
     })
 }
 
-exports.updateUserOnEventSubvscription = (event, state, userId, communityId) => {
+updateUserOnEventSubvscription = (event, state, userId, communityId) => {
 
     User.find({
             userId: userId,
@@ -117,14 +117,14 @@ exports.updateEvent = (userData, check) => {
         function (err, results) {
             if (err) return userData.res.status(500).json(err);
             if (check == 0) {
-                updateUserOnEventSubvscription(userData.event, check, userData.userId, userData.communityId);
+                this.updateUserOnEventSubvscription(userData.event, check, userData.userId, userData.communityId);
                 userData.res.status(200).json({
                     Subscribe: true,
                     results: results,
                 })
             } else {
                 utils.popObject(userData.user[0].eventsParticipated, userData.event[0].eventId);
-                updateUserOnEventSubvscription(userData.event, check, userData.userId, userData.communityId);
+                this.updateUserOnEventSubvscription(userData.event, check, userData.userId, userData.communityId);
                 userData.res.status(200).json({
                     Subscribe: false,
                     results: results,
@@ -160,7 +160,7 @@ exports.updatWithinPutEventByUserId = (userData_org) => {
     let communityId = userData_org.communityId;
     let userId = userData_org.userId;
 
-    this.getAllpublicEvents()
+    getAllpublicEvents()
         .then(ev => {
             event = utils.concatArraysUser(event, ev)
             let i = 0;
@@ -183,7 +183,7 @@ exports.updatWithinPutEventByUserId = (userData_org) => {
         })
 }
 
-exports.putEventByUserId = (req, res) => {
+putEventByUserId = (req, res) => {
     let eventId = req.params.eventId;
     let userId = req.params.userId;
     let communityId = req.params.communityId;
@@ -208,4 +208,12 @@ exports.putEventByUserId = (req, res) => {
         .catch(err => {
             utils.defaultError(res, err)
         })
+}
+
+module.exports = {
+    getAllpublicEvents,
+    eventModal,
+    updateEcevntIsOver,
+    updateUserOnEventSubvscription,
+    putEventByUserId
 }

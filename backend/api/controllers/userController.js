@@ -17,30 +17,7 @@ exports.login_user = (req, res, next) => {
 };
 
 exports.updateUserByfirstConnection = (req, res, next) => {
-    let userId = req.params.userId;
-    User.find({
-            userId: userId
-        })
-        .exec()
-        .then(usr => {
-            req.body.firstConnection = usr[0].firstConnection + 1;
-            User.findByIdAndUpdate(usr[0]._id,
-                req.body, {
-                    new: false,
-                },
-                function (err, results) {
-                    if (err) return res.status(500).json(err);
-                    res.status(200).json({
-                        results: true
-                    })
-                });
-        })
-        .catch(err => {
-            res.status(500).json({
-                results: false,
-                Error: err
-            })
-        })
+   userService.updateFirstConnection(req, res);
 }
 
 exports.getAllusersByCommunityId = (req, res, next) => {

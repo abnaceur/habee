@@ -111,6 +111,7 @@ exports.getFilteredEvent = (req, res, next) => {
     let communityId = req.params.communityId;
 
 
+
     User.find({
             userId: userId,
             "filterEvent.filterCommunity": communityId
@@ -120,7 +121,6 @@ exports.getFilteredEvent = (req, res, next) => {
         .then(usr => {
 
             let filter = utils.getFilterBycommunityId(usr[0].filterEvent, communityId);
-
             Event.find({
                     eventCommunity: communityId,
                     eventIsOver: false,
@@ -143,8 +143,9 @@ exports.getFilteredEvent = (req, res, next) => {
                             message: "There are no events!"
                         })
                     } else {
-
+                        console.log("test11")
                         activeEvent.map(event => {
+                            console.log("ddd123", event)
                             eventService.updateEcevntIsOver(event)
                         })
                         Event.find({

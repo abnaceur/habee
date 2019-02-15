@@ -117,7 +117,7 @@ export class MyEventsPage {
 
 
   unsubscrib(eventId) {
-    this.eventProvider.getEventSubscription(eventId, this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity)
+    this.eventProvider.getEventSubscription(eventId, this.tabParams)
       .subscribe(response => {
         if (response.Subscribe == true) {
           let subscribedToast = this.toastController.create({

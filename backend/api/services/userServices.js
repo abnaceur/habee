@@ -113,9 +113,9 @@ checkIfEmailExist = (email) => {
             .then(usr => {
                 console.log("User: ", usr)
                 if (usr.length === 0)
-                    resolve (true)
+                    resolve(true)
                 else
-                    resolve (false)
+                    resolve(false)
             }).catch(err => utils.defaultError(res, err))
 
     })
@@ -123,22 +123,22 @@ checkIfEmailExist = (email) => {
 
 createNewAccount = (value, res) => {
     userClass.creatNewAccountUser(value)
-    .then(usr => {
-        let user = new User(usr)
-        console.log("Use : ", user)
-        user.save()
-        .then(result => {
-            let msg = userEmails.accountFirstCreation(value.email, value.password);
-            utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
-            res.status(200).json({
-                code: 200,
-                msg:  "Accountcreated with success"
-            })
+        .then(usr => {
+            let user = new User(usr)
+            console.log("Use : ", user)
+            user.save()
+                .then(result => {
+                    let msg = userEmails.accountFirstCreation(value.email, value.password);
+                    utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
+                    res.status(200).json({
+                        code: 200,
+                        msg: "Accountcreated with success"
+                    })
+                })
+                .catch(err => {
+                    utils.defaultError(res, err)
+                });
         })
-        .catch(err => {
-            utils.defaultError(res, err)
-        });
-    })
 }
 
 checkPassword = (req, res, users) => {
@@ -167,28 +167,45 @@ checkPassword = (req, res, users) => {
 
 loginUser = (req, res) => {
     User.find({
-        "credentials.email": req.body.credentials.email
-    })
-    .exec()
-    .then(users => {
-        if (users.length === 0) {
-            return res.status(200).json({
-                message: "Auth failed",
-                code: "404"
-            })
-        } else {
-            checkPassword(req, res, users);
-        }
-    })
-    .catch(err => {
-        res.status(200).json({
-            Error: err
+            "credentials.email": req.body.credentials.email
         })
-    })
+        .exec()
+        .then(users => {
+            if (users.length === 0) {
+                return res.status(200).json({
+                    message: "Auth failed",
+                    code: "404"
+                })
+            } else
+                checkPassword(req, res, users);
+        })
+        .catch(err => utils.defaultError(res, err))
 }
 
+updateFirstConnection = (req, res) => {
+    let userId = req.params.userId;
+    User.find({
+            userId: userId
+        })
+        .exec()
+        .then(usr => {
+            req.body.firstConnection = usr[0].firstConnection + 1;
+            User.findByIdAndUpdate(usr[0]._id,
+                req.body, {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                    res.status(200).json({
+                        results: true
+                    })
+                });
+        })
+        .catch(err => utils.defaultError(res, err))
+}
 
 module.exports = {
+    updateFirstConnection,
     checkPassword,
     checkIfEmailExist,
     createNewAccount,

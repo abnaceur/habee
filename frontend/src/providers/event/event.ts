@@ -66,15 +66,16 @@ export class EventProvider {
   getFilteredAllEventsByCommunityId(userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
+
     return this.http.get(ENV.BASE_URL + '/events/filtered/user/' + userInfo.userId +'/community/' + userInfo.activeCommunity,
       { headers: header })
       .map(response => response.json());
   }
 
-  getEventSubscription(eventId, token, userId, communityId) {
-    const header = this.utils.inihttpHeaderWIthToken(token);
+  getEventSubscription(eventId, userInfo) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.put(ENV.BASE_URL + '/events/' + eventId + '/user/' + userId + '/community/' + communityId,
+    return this.http.put(ENV.BASE_URL + '/events/' + eventId + '/user/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
       { headers: header })
       .map(response => response.json());
   }
