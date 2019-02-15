@@ -120,7 +120,7 @@ export class MyApp {
       { title: 'Accueil', component: 'TabsPage', active: true, icon: 'home' },
       { title: 'Profile', component: 'TabsPage', active: false, icon: 'contact' },
       { title: 'Communaute', component: '', active: false, icon: 'people' },
-      { title: 'Parametre', component: '', active: false, icon: 'power' },
+      { title: 'Parametre', component: 'TabsPage', active: false, icon: 'settings' },
       { title: 'Deconnexion', component: 'LoginPage', active: false, icon: 'log-out' },
     ];
 
@@ -162,6 +162,7 @@ export class MyApp {
       this.menu.enable(true, "menu-community")
       this.menu.toggle("menu-community");
     } else {
+      console.log("inside here")
       let menuData = [page.title, this.userData]
       this.nav.setRoot(page.component, menuData);
     }
@@ -214,7 +215,6 @@ export class MyApp {
   }
 
   deletCommunity() {
-    
     this.communityProvider.deleteCommunity(this.userData, this.editableCommunity)
       .subscribe(code => {
         if (code === 200) {
