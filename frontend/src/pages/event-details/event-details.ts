@@ -64,7 +64,7 @@ export class EventDetailsPage {
       "eventIsOver": false,
       "eventIsDeleted": false,
   };
-  public months: String[];
+  public months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
   public isSubscribed = "S'inscrir";
   quotes: any;
 
@@ -92,7 +92,6 @@ export class EventDetailsPage {
           this.isSubscribed = "Desinscrir";
       }
     })
-    this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
     this.getQuotes();
   }
 

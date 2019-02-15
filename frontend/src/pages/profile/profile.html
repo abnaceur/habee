@@ -15,72 +15,35 @@ background-color: #77B650;">
   </ion-title>
 </ion-header>
 
-<ion-content padding class="transparent-header">
+<ion-content no-padding >
 
-  <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + user.coverImage +')'}"></div>
+<ion-grid></ion-grid>
+  <ion-item id="profile-bg" [ngStyle]="{'background-image': 'url(' + user.coverImage +')'}">
+
+      <ion-thumbnail item-start>
+          <img id="profile-image" [src]='url + "/uploads/avatar.png"'/>
+    </ion-thumbnail>
+    <p class="profileTitle  ">{{user.name}}</p>
+  </ion-item>
+
   <div id="content">
-    <div id="profile-info" padding>
-      <img id="profile-image" [src]="user.profileImage">
-      <h3 id="profile-name">{{user.name}}</h3>
-      </div>
-    <hr/>
-    <ion-row style="position: relative;top: -138px" class="profile-numbers">
+    <ion-row class="profileStat" [ngStyle]="{'background-image': 'url(' + user.coverImage +')'}" >
     
-    <!-- Followers
       <ion-col col-4>
-        <p>Coeur</p>
-        <span>{{user.coeur}}</span>
+        <p style="color:honeydew">Communautes</p>
+        <span style="color:honeydew">13</span>
       </ion-col>
-    -->
+    
+      <ion-col col-4>
+        <p style="color:honeydew">Proposer</p>
+        <span style="color:honeydew">{{user.proposed}}</span>
+      </ion-col>
 
-      <ion-col col-6>
-        <p>Proposer</p>
-        <span>{{user.proposed}}</span>
-      </ion-col>
-      <ion-col col-6>
-        <p>Participer</p>
-        <span>{{user.participated}}</span>
+      <ion-col col-4>
+        <p style="color:honeydew">Participer</p>
+        <span style="color:honeydew">{{user.participated}}</span>
       </ion-col>
     </ion-row>
   
-  <!-- Post area
-
-    <div id="posts">
-      <ion-card *ngFor="let post of posts">
-        <ion-item>
-          <ion-avatar item-start>
-            <img [src]="user.profileImage">
-          </ion-avatar>
-          <h2 class="sticky">{{user.name}}</h2>
-          <p>{{post.date}}</p>
-        </ion-item>
-        <img [src]="post.postImageUrl" (click)="imageTapped(post)">
-        <ion-card-content>
-          <p>{{post.text}}</p>
-        </ion-card-content>
-        <ion-row>
-          <ion-col col-4>
-            <button ion-button color="purple" clear small icon-left (click)="like(post)">
-                <ion-icon name='thumbs-up'></ion-icon>
-                {{post.likes}} Likes
-              </button>
-          </ion-col>
-          <ion-col col-5>
-            <button ion-button no-padding color="purple" clear small icon-left (click)="comment(post)">
-                <ion-icon name='text'></ion-icon>
-                {{post.comments}} Comments
-              </button>
-          </ion-col>
-          <ion-col col-3 align-self-center text-center>
-            <p>
-              {{post.timestamp}}
-            </p>
-          </ion-col>
-        </ion-row>
-      </ion-card>
-    </div>
-
-
-  -->
   </div>
 </ion-content>

@@ -2,6 +2,8 @@ const User = require('../models/user')
 const utils = require('../services/utils')
 const userClass = require('../classes/userClass')
 const userEmails = require('../emailsTemplate/userEmails')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.addNewContact = (email, userId, activeCommunity) => {
     let password = utils.randomValueGenerator()
@@ -139,7 +141,56 @@ createNewAccount = (value, res) => {
     })
 }
 
+checkPassword = (req, res, users) => {
+    if (bcrypt.compareSync(req.body.credentials.password, users[0].credentials.password) == true) {
+        const token = jwt.sign({
+            id: req.body.userId,
+            email: req.body.credentials.email
+        }, process.env.JWT_KEY, {
+            expiresIn: process.env.TOKEN_DURATION
+        })
+        res.status(200).json({
+            message: "Auth success",
+            code: "200",
+            userId: users[0].userId,
+            activeCommunity: users[0].activeCommunity,
+            firstConnection: users[0].firstConnection,
+            token: token
+        })
+    } else {
+        res.status(200).json({
+            message: "Auth failed",
+            code: "409",
+        })
+    }
+}
+
+loginUser = (req, res) => {
+    User.find({
+        "credentials.email": req.body.credentials.email
+    })
+    .exec()
+    .then(users => {
+        if (users.length === 0) {
+            return res.status(200).json({
+                message: "Auth failed",
+                code: "404"
+            })
+        } else {
+            checkPassword(req, res, users);
+        }
+    })
+    .catch(err => {
+        res.status(200).json({
+            Error: err
+        })
+    })
+}
+
+
 module.exports = {
+    checkPassword,
     checkIfEmailExist,
-    createNewAccount
+    createNewAccount,
+    loginUser
 }

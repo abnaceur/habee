@@ -13,46 +13,7 @@ const userClass = require('../classes/userClass')
 const userEmailsTemplate = require('../emailsTemplate/userEmails');
 
 exports.login_user = (req, res, next) => {
-    User.find({
-            "credentials.email": req.body.credentials.email
-        })
-        .exec()
-        .then(users => {
-
-            if (users.length === 0) {
-                return res.status(200).json({
-                    message: "Auth failed",
-                    code: "404"
-                })
-            } else {
-                if (bcrypt.compareSync(req.body.credentials.password, users[0].credentials.password) == true) {
-                    const token = jwt.sign({
-                        id: req.body.userId,
-                        email: req.body.credentials.email
-                    }, process.env.JWT_KEY, {
-                        expiresIn: process.env.TOKEN_DURATION
-                    })
-                    res.status(200).json({
-                        message: "Auth success",
-                        code: "200",
-                        userId: users[0].userId,
-                        activeCommunity: users[0].activeCommunity,
-                        firstConnection: users[0].firstConnection,
-                        token: token
-                    })
-                } else {
-                    res.status(200).json({
-                        message: "Auth failed",
-                        code: "409",
-                    })
-                }
-            }
-        })
-        .catch(err => {
-            res.status(404).json({
-                Error: err
-            })
-        })
+ userService.loginUser(req, res);
 };
 
 exports.updateUserByfirstConnection = (req, res, next) => {
@@ -439,7 +400,7 @@ exports.get_userId_communityId = (req, res, next) => {
                                         t++;
                                     }
                                     res.status(200).json({
-                                        Users: usrs.map(usr => {
+                                        User: usrs.map(usr => {
 
                                             if (usr != undefined) {
                                                 return {
@@ -474,7 +435,7 @@ exports.get_userId_communityId = (req, res, next) => {
                             }
 
                             res.status(200).json({
-                                Users: usrs.map(usr => {
+                                User: usrs.map(usr => {
                                     if (usr != undefined) {
                                         return {
                                             eventCreated: event.length,
