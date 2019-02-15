@@ -88,10 +88,10 @@ export class EventProvider {
       .map(response => response.json());
   }
 
-  getUserInformation(token, userId) {
-    const header = this.utils.inihttpHeaderWIthToken(token);
+  getUserInformation(userInfo) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + '/users/' + userId,
+    return this.http.get(ENV.BASE_URL + '/users/' + userInfo.userId,
       { headers: header })
       .map(response => response.json());
   }

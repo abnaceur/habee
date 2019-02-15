@@ -21,7 +21,7 @@ exports.formatDate = (event) => {
 updateEcevntIsOver = (event) => {
     let formatedEndDate = this.formatDate(event).formatedEndDate;
     let currentMdate = this.formatDate(event).currentMdate;
-    
+
     if (formatedEndDate <= currentMdate) {
         event.eventIsOver = true;
         Event.findByIdAndUpdate(event._id,
@@ -175,7 +175,14 @@ exports.updatWithinPutEventByUserId = (userData_org) => {
                 i++;
             }
             req = this.initBodyReq(check, req, user, event);
-            let userData = {event, userId, communityId, req, res, user}
+            let userData = {
+                event,
+                userId,
+                communityId,
+                req,
+                res,
+                user
+            }
             this.updateEvent(userData, check)
         })
         .catch(err => {
@@ -198,8 +205,15 @@ putEventByUserId = (req, res) => {
                     eventCommunity: communityId
                 }).exec()
                 .then(event => {
-                let userData_org = {event, userId, communityId, req, res, user}
-                this.updatWithinPutEventByUserId(userData_org);
+                    let userData_org = {
+                        event,
+                        userId,
+                        communityId,
+                        req,
+                        res,
+                        user
+                    }
+                    this.updatWithinPutEventByUserId(userData_org);
                 })
                 .catch(err => {
                     utils.defaultError(res, err)

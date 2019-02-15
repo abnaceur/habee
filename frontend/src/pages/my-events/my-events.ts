@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from "@angular/core";
 
 import {
   IonicPage,
@@ -8,20 +6,13 @@ import {
   NavParams,
   ToastController,
   ModalController
-} from 'ionic-angular';
+} from "ionic-angular";
 
-import {
-  UtilsProvider
-} from '../../providers/utils/utils';
+import { UtilsProvider } from "../../providers/utils/utils";
 
-import {
-  EventProvider
-} from '../../providers/event/event';
+import { EventProvider } from "../../providers/event/event";
 
-import {
-  environment as ENV
-} from '../../environments/environment';
-
+import { environment as ENV } from "../../environments/environment";
 
 /**
  * Generated class for the MyEventsPage page.
@@ -32,50 +23,64 @@ import {
 
 @IonicPage()
 @Component({
-  selector: 'page-my-events',
-  templateUrl: 'my-events.html',
+  selector: "page-my-events",
+  templateUrl: "my-events.html"
 })
 export class MyEventsPage {
-
   public tabParams;
 
   // Not used var TODO CHECK AND DELETE
   items1 = [
     {
-      imageUrl: 'assets/img/lists/stadium.jpg',
-      title: 'First Cup',
-      place: 'Madison Square',
-      date: '05/06/2016'
+      imageUrl: "assets/img/lists/stadium.jpg",
+      title: "First Cup",
+      place: "Madison Square",
+      date: "05/06/2016"
     },
     {
-      imageUrl: 'assets/img/lists/stadium-3.png',
-      title: 'Season',
-      place: 'Hooli',
-      date: '15/03/2016'
+      imageUrl: "assets/img/lists/stadium-3.png",
+      title: "Season",
+      place: "Hooli",
+      date: "15/03/2016"
     },
     {
-      imageUrl: 'assets/img/lists/stadium-2.jpg',
-      title: '2nd Season',
-      place: 'Castelão',
-      date: '05/12/2015'
-    },
+      imageUrl: "assets/img/lists/stadium-2.jpg",
+      title: "2nd Season",
+      place: "Castelão",
+      date: "05/12/2015"
+    }
   ];
   eventParticipated = [
     {
-      name: 'Evenement participer',
-    },
-  ]
+      name: "Evenement participer"
+    }
+  ];
 
-  eventPropose = [{
-    name: 'Evenement proposer'
-  },]
+  eventPropose = [
+    {
+      name: "Evenement proposer"
+    }
+  ];
 
   public userInfo;
   public proposedEvents;
   public url = ENV.BASE_URL;
-  public months: String[];
+  public months = [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Avr",
+    "Mai",
+    "Jun",
+    "Jui",
+    "Aout",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
 
-  // Moadal declaration 
+  // Moadal declaration
   expanded: any;
   contracted: any;
   showIcon = true;
@@ -89,62 +94,53 @@ export class MyEventsPage {
     public navCtrl: NavController,
     public utils: UtilsProvider,
     public navParams: NavParams
-    
   ) {
-
     this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
-      activeCommunity: this.navParams.get('activeCommunity')
+      activeCommunity: this.navParams.get("activeCommunity")
     };
   }
 
-  ionViewWillEnter() {
-    this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+  updateProposedEventList() {
+    this.eventProvider
+      .getAllProposedEvevnstByUser(this.tabParams)
       .subscribe(response => {
-        console.log("this : ", response.User[0].eventsParticipated),
-          this.userInfo = response.User[0].eventsParticipated
+        this.proposedEvents = response.Events;
       });
-
-    this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
-      .subscribe(response => {
-        this.proposedEvents = response.Events
-      });
-
-    this.months = ["Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jui", "Aout", "Sep", "Oct", "Nov", "Dec"];
   }
 
+  updatePrticipatedEventList() {
+    this.eventProvider
+      .getUserInformation(this.tabParams)
+      .subscribe(response => {
+        this.userInfo = response.User[0].eventsParticipated;
+      });
+  }
 
+  ionViewWillEnter() {
+    this.updatePrticipatedEventList();
+    this.updateProposedEventList();
+  }
 
   unsubscrib(eventId) {
-    this.eventProvider.getEventSubscription(eventId, this.tabParams)
+    this.eventProvider
+      .getEventSubscription(eventId, this.tabParams)
       .subscribe(response => {
         if (response.Subscribe == true) {
-          let subscribedToast = this.toastController.create({
-            message: "Inscription reussie !",
-            duration: 2000,
-            position: 'top',
-            cssClass: "subscribedClass"
-          });
-          // TODO ADD WHEN SUBSCRIBED
-          this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
-            .subscribe(response => {
-              this.userInfo = response.User[0].eventsParticipated
-            });
-          subscribedToast.present();
+          this.updatePrticipatedEventList();
+          this.updateProposedEventList();
+          this.utils.notification("Inscription reussie !", "top");
         } else if (response.Subscribe == false) {
-          this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
-            .subscribe(response => {
-              this.userInfo = response.User[0].eventsParticipated
-            });
-            this.utils.notification("Desinscription reussie !", "top");
+          this.updatePrticipatedEventList();
+          this.updateProposedEventList();
+          this.utils.notification("Desinscription reussie !", "top");
         }
       });
   }
 
-
   viewEventDetails(eventDetails) {
-    eventDetails.nbrSubscribedParticipants = eventDetails.participants.length,
+    (eventDetails.nbrSubscribedParticipants = eventDetails.participants.length),
       this.nav.push("EventDetailsPage", {
         data: eventDetails,
         userId: this.tabParams.userId,
@@ -153,39 +149,34 @@ export class MyEventsPage {
       });
   }
 
-  deleteEvent(event) {
-    console.log("this : ", event, event.nbrSubscribedParticipants, event.participants.length);
-    if (event.participants.length != 0) {
-      this.utils.notification("Vous ne pouvez pas suprimer cet event car il contien des participants !", "top")
-    } else {
-      this.eventProvider.deleteTheiEvent(event, this.tabParams)
-    .subscribe(response => {
-      if (response.message == "success") {
-        this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
+  deleteEventResponse(response) {
+    if (response.message == "success") {
+      this.eventProvider
+        .getAllProposedEvevnstByUser(this.tabParams)
         .subscribe(response => {
-            console.log("this 1113232: ", response);
-            if (response.message == "There are no events!") {
-              this.proposedEvents = []
-            } else {
-              this.proposedEvents = response.Events
-            }
+          if (response.message == "There are no events!") {
+            this.proposedEvents = [];
+          } else this.proposedEvents = response.Events;
         });
-        this.utils.notification("Event suprimer avec succes", "top");
-      } else {
-        this.utils.notification("Une erreur est survenu !", "top");
-      }
-      });
+      this.utils.notification("Event suprimer avec succes", "top");
+    } else {
+      this.utils.notification("Une erreur est survenu !", "top");
     }
+  }
 
-    /**this.eventProvider.deleteTheiEvent(event, this.tabParams)
-    .subscribe(response => {
-      if (response.message == "success") {
-        this.utils.notification("Event suprimer avec succes", "top")
-      } else {
-        this.utils.notification("Une erreur est survenu !", "top");
-      }
-      }); */
-    
+  deleteEvent(event) {
+    if (event.participants.length != 0) {
+      this.utils.notification(
+        "Vous ne pouvez pas suprimer cet event car il contien des participants !",
+        "top"
+      );
+    } else {
+      this.eventProvider
+        .deleteTheiEvent(event, this.tabParams)
+        .subscribe(response => {
+          this.deleteEventResponse(response);
+        });
+    }
   }
 
   expand(event) {
@@ -196,52 +187,53 @@ export class MyEventsPage {
     let navInfo = {
       userInfo: this.tabParams,
       event: event
-    }
+    };
 
-    if (event === 'this') {
+    if (event === "this") {
       console.log("Add event");
       setTimeout(() => {
-        const modal = this.modalCtrl.create('ProposeEventPage', navInfo);
+        const modal = this.modalCtrl.create("ProposeEventPage", navInfo);
         modal.onDidDismiss(data => {
-          this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+          this.eventProvider
+            .getUserInformation(this.tabParams)
             .subscribe(response => {
-              console.log("this : ", response.User)
-          //      this.userInfo = response.User[0].eventsParticipated
+              console.log("this : ", response.User);
+              //      this.userInfo = response.User[0].eventsParticipated
             });
-          this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
+          this.eventProvider
+            .getAllProposedEvevnstByUser(this.tabParams)
             .subscribe(response => {
-              this.proposedEvents = response.Events,
-                console.log("this 1113232: ", response)
+              (this.proposedEvents = response.Events),
+                console.log("this 1113232: ", response);
             });
           this.expanded = false;
           this.contracted = !this.expanded;
-          setTimeout(() => this.showIcon = true, 330);
+          setTimeout(() => (this.showIcon = true), 330);
         });
         modal.present();
       }, 200);
-
     } else {
       setTimeout(() => {
-        const modal = this.modalCtrl.create('PopupEditModalPage', navInfo);
+        const modal = this.modalCtrl.create("PopupEditModalPage", navInfo);
         modal.onDidDismiss(data => {
-          this.eventProvider.getUserInformation(this.tabParams.token, this.tabParams.userId)
+          this.eventProvider
+            .getUserInformation(this.tabParams)
             .subscribe(response => {
               console.log("this : ", response.User[0].eventsParticipated),
-                this.userInfo = response.User[0].eventsParticipated
+                (this.userInfo = response.User[0].eventsParticipated);
             });
-          this.eventProvider.getAllProposedEvevnstByUser(this.tabParams)
+          this.eventProvider
+            .getAllProposedEvevnstByUser(this.tabParams)
             .subscribe(response => {
-              this.proposedEvents = response.Events,
-                console.log("this 1113232: ", response.Events[0])
+              (this.proposedEvents = response.Events),
+                console.log("this 1113232: ", response.Events[0]);
             });
           this.expanded = false;
           this.contracted = !this.expanded;
-          setTimeout(() => this.showIcon = true, 330);
+          setTimeout(() => (this.showIcon = true), 330);
         });
         modal.present();
       }, 200);
     }
-
   }
-
 }
