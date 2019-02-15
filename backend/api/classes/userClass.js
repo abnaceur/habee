@@ -32,7 +32,7 @@ exports.creatNewAccountUser = (value) => {
                 ],
                 profile: [{
                     profileCummunityId: communityId,
-                    profilePhoto: "uplaods/avatar.png",
+                    profilePhoto: "uploads/avatar.png",
                     profileUsername: value.lastname + ' ' + value.firstname,
                     profileIsAdmin: 0,
                     profileUserIsActive: true,

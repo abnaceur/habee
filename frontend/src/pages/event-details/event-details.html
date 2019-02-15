@@ -45,8 +45,8 @@
       Participants
     </p>
   </ion-item>
-
-  <ion-item no-lines>
+  
+  <ion-item no-lines text-wrap>
     <p style="position: relative;margin-bottom: 5px">
       <b>Detail</b></p>
 
@@ -66,20 +66,7 @@
           <a *ngFor="let participant of eventDetails.participants">
             <img *ngIf='participant != null' class="img-scroll" [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/avatar.png"'
               (click)="openUserDetailsModal(participant)">
-
-              <img class="img-scroll"  [src]='url + "/" + eventDetails.eventPhoto'>
-  
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>              <img class="img-scroll" [src]='url + "/" + eventDetails.eventPhoto'>
-
-            </a>
+        </a>
         </ion-scroll>
   </ion-item>
 

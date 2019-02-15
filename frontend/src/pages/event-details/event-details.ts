@@ -83,6 +83,9 @@ export class EventDetailsPage {
     public navParams: NavParams
   ) {
     this.eventDetails = navParams.get("data");
+  //  this.splitTextOnScreenWidth();
+    let a = window.screen.width
+    console.log("width :", a);
     this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
