@@ -52,7 +52,7 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.1.11",
+    "@ionic/app-scripts": "^3.2.2",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",
@@ -65,9 +65,7 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-x-socialsharing": {
-        "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
-      },
+      "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-camera": {},
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-file": {}

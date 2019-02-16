@@ -182,6 +182,7 @@ sudo npm install @ionic-native/social-sharing
 ionic cordova plugin add cordova-plugin-camera
 ionic cordova plugin add cordova-plugin-file-transfer
 ionic cordova plugin add cordova-plugin-file
+ionic cordova plugin add cordova-plugin-x-socialsharing
 sudo chown $whoami:$whoami -R .
 sudo chmod 755 -R .
 ```
