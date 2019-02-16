@@ -30,6 +30,7 @@ import { SocialSharing } from "@ionic-native/social-sharing";
   selector: "page-event-details",
   templateUrl: "event-details.html"
 })
+
 export class EventDetailsPage {
   public userName;
   public tabParams;
@@ -73,7 +74,7 @@ export class EventDetailsPage {
   public isSubscribed = "S'inscrir";
   quotes: any;
 
-  constructor(
+  constructor (
     private socialSharing: SocialSharing,
     private utils: UtilsProvider,
     public actionSheetCtrl: ActionSheetController,
@@ -84,6 +85,7 @@ export class EventDetailsPage {
     public modalCtrl: ModalController,
     public navParams: NavParams
   ) {
+
     this.eventDetails = navParams.get("data");
     this.tabParams = {
       userId: this.navParams.get("userId"),
@@ -131,14 +133,17 @@ export class EventDetailsPage {
     var msg = this.compilemsg();
     this.socialSharing.share(msg, null, null, null);
   }
+
   twitterShare() {
     var msg = this.compilemsg();
     this.socialSharing.shareViaTwitter(msg, null, null);
   }
+
   whatsappShare() {
     var msg = this.compilemsg();
     this.socialSharing.shareViaWhatsApp(msg, null, null);
   }
+  
   facebookShare() {
     var msg = this.compilemsg();
     this.socialSharing.shareViaFacebook(msg, null, null);
@@ -234,4 +239,5 @@ export class EventDetailsPage {
       .create("PopupUserDetailModalPage", navInfo, { cssClass: "inset-modal" })
       .present();
   }
+
 }

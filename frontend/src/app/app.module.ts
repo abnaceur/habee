@@ -30,6 +30,7 @@ import { RegisterPageModule } from '../pages/register/register.module';
 import { AddCommunityPageModule } from '../pages/add-community/add-community.module';
 import { AddContactPageModule } from '../pages/add-contact/add-contact.module';
 import { EditCommunityModalPageModule } from '../pages/edit-community-modal/edit-community-modal.module';
+import { EditProfilePageModule } from '../pages/edit-profile/edit-profile.module';
 
 import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
@@ -63,6 +64,7 @@ import { AddContactProvider } from '../providers/add-contact/add-contact';
     AddContactPageModule,
     EditCommunityModalPageModule,
     AddCommunityPageModule,
+    EditProfilePageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
   ],

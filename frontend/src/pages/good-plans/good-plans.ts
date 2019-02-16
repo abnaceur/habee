@@ -1,5 +1,12 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { 
+  Component 
+} from '@angular/core';
+
+import { 
+  ModalController,
+  IonicPage, 
+  NavController, 
+  NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the GoodPlansPage page.
@@ -14,12 +21,30 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'good-plans.html',
 })
 export class GoodPlansPage {
+  private tabParams;
+  
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    ) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+      this.tabParams = {
+        userId: this.navParams.get("userId"),
+        token: this.navParams.get("token"),
+        activeCommunity: this.navParams.get('activeCommunity')
+      };
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GoodPlansPage');
+  }
+
+  modifyProfileModal() {
+    const modal = this.modalCtrl.create('EditProfilePage', this.tabParams);
+		modal.onDidDismiss(data => console.log("test this"));
+		modal.present();
   }
 
 }

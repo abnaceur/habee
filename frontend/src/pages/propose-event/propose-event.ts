@@ -7,8 +7,7 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ViewController,
-  ToastController
+  ViewController
 } from 'ionic-angular';
 
 import {
@@ -65,7 +64,6 @@ export class ProposeEventPage {
     public platform: Platform,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
-    private toastController: ToastController,
     public viewCtrl: ViewController,
     public navParams: NavParams) {
 
