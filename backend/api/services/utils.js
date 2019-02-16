@@ -177,11 +177,10 @@ exports.filterEvents = (argEvents, filter, userId) => {
                             filterPublicEvent.push(event)
                         })
                     }
-                    filterPublicEvent = this.concatArrays(filterPublicEvent, filteredEvent)
+                    filterPublicEvent = this.concatArraysUser(filterPublicEvent, filteredEvent)
                     resolve(filterPublicEvent)
                 })
         })
-
     } else {
         return new Promise((resolve, reject) => {
             resolve(filteredEvent)

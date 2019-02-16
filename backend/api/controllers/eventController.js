@@ -109,79 +109,8 @@ exports.getEventFilter = (req, res, next) => {
 exports.getFilteredEvent = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-
-
-    console.log("heryer", communityId)
-    User.find({
-            userId: userId,
-            "filterEvent.filterCommunity": communityId
-        })
-        .select("filterEvent")
-        .exec()
-        .then(usr => {
-            console.log("user: ", usr)
-            let filter = utils.getFilterBycommunityId(usr[0].filterEvent, communityId);
-            Event.find({
-                    eventCommunity: communityId,
-                    eventIsOver: false,
-                    eventIsDeleted: false,
-                })
-                .exec()
-                .then(activeEvent => {
-                    if (activeEvent.length === 0 && filter.PublicValue === true) {
-                        utils.filterEvents(activeEvent, filter, userId)
-                            .then(filteredEvent => {
-                                res.status(200).json({
-                                    Count: filteredEvent.length,
-                                    Events: filteredEvent.map(event => {
-                                        return eventService.eventModal(event)
-                                    })
-                                });
-                            })
-                    } else if (activeEvent.length === 0) {
-                        return res.status(200).json({
-                            message: "There are no events!"
-                        })
-                    } else {
-                        console.log("test11")
-                        activeEvent.map(event => {
-                            console.log("ddd123", event)
-                            eventService.updateEcevntIsOver(event)
-                        })
-                        Event.find({
-                                eventCommunity: communityId,
-                                eventIsOver: false,
-                                eventIsDeleted: false,
-                            })
-                            .exec()
-                            .then(events => {
-                                if (events.length === 0) {
-                                    return res.status(200).json({
-                                        message: "There are no events!"
-                                    })
-                                } else {
-                                    utils.filterEvents(events, filter, userId)
-                                        .then(filteredEvent => {
-                                            res.status(200).json({
-                                                Count: filteredEvent.length,
-                                                Events: filteredEvent.map(event => {
-                                                    return eventService.eventModal(event)
-                                                })
-                                            });
-                                        })
-                                }
-                            })
-                            .catch(err => {
-                                utils.defaultError(res, err)
-                            })
-                    }
-                })
-                .catch(err => {
-                    utils.defaultError(res, err)
-                })
-
-        })
-
+    
+    eventService.filterEvent(req, res, userId, communityId);
 }
 
 exports.get_all_events_byCommunityId = (req, res, next) => {

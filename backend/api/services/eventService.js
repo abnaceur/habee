@@ -18,11 +18,11 @@ exports.formatDate = (event) => {
     });
 }
 
-updateEcevntIsOver = (event) => {
+updateEventIsOver = (event) => {
     let formatedEndDate = this.formatDate(event).formatedEndDate;
-    let currentMdate = this.formatDate(event).currentMdate;
+    let currentDate = this.formatDate(event).currentMdate;
 
-    if (formatedEndDate <= currentMdate) {
+    if (formatedEndDate <= currentDate) {
         event.eventIsOver = true;
         Event.findByIdAndUpdate(event._id,
             event, {
@@ -224,10 +224,75 @@ putEventByUserId = (req, res) => {
         })
 }
 
+
+filterWithPublicTrue = (res, activeEvent, filter, userId) => {
+    utils.filterEvents(activeEvent, filter, userId)
+        .then(filteredEvent => {
+            res.status(200).json({
+                Count: filteredEvent.length,
+                Events: filteredEvent.map(event => {
+                    return eventModal(event)
+                })
+            });
+        })
+}
+
+returnNoevent = (res) => {
+    return res.status(200).json({
+        message: "There are no events!"
+    })
+}
+
+updateCommunityEvents = (communityId, res, filter, activeEvent, userId) => {
+    if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(res, activeEvent, filter, userId)
+    else if (activeEvent.length === 0) returnNoevent(res);
+    else {
+        activeEvent.map(event => {
+            updateEventIsOver(event)
+        })
+        Event.find({
+                eventCommunity: communityId,
+                eventIsOver: false,
+                eventIsDeleted: false,
+            })
+            .exec()
+            .then(events => {
+                if (events.length === 0) returnNoevent(res);
+                else filterWithPublicTrue(res, activeEvent, filter, userId)
+            })
+            .catch(err => {
+                utils.defaultError(res, err)
+            })
+    }
+
+}
+
+
+filterEvent = (req, res, userId, communityId) => {
+    User.find({
+            userId: userId,
+            "filterEvent.filterCommunity": communityId
+        })
+        .select("filterEvent")
+        .exec()
+        .then(usr => {
+            let filter = utils.getFilterBycommunityId(usr[0].filterEvent, communityId);
+            Event.find({
+                    eventCommunity: communityId,
+                    eventIsOver: false,
+                    eventIsDeleted: false,
+                })
+                .exec()
+                .then(activeEvent => updateCommunityEvents(communityId, res, filter, activeEvent, userId))
+                .catch(err => utils.defaultError(res, err))
+        }).catch(err => utils.defaultError(res, err))
+}
+
 module.exports = {
+    filterEvent,
     getAllpublicEvents,
     eventModal,
-    updateEcevntIsOver,
+    updateEventIsOver,
     updateUserOnEventSubvscription,
     putEventByUserId
 }
