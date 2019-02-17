@@ -33,6 +33,8 @@ import { EditCommunityModalPageModule } from '../pages/edit-community-modal/edit
 import { EditProfilePageModule } from '../pages/edit-profile/edit-profile.module';
 import { EditPasswordPageModule } from '../pages/edit-password/edit-password.module';
 import { DeleteMyAccountPageModule } from '../pages/delete-my-account/delete-my-account.module';
+import { EditAccountPageModule } from '../pages/edit-account/edit-account.module';
+
 
 import { CameraProvider } from '../providers/camera/camera';
 import { SharedModule   } from './shared.module';
@@ -69,6 +71,7 @@ import { AddContactProvider } from '../providers/add-contact/add-contact';
     EditProfilePageModule,
     EditPasswordPageModule,
     DeleteMyAccountPageModule,
+    EditAccountPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
   ],

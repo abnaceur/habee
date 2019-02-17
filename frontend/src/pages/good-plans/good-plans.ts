@@ -61,4 +61,10 @@ export class GoodPlansPage {
     this.executeModal("DeleteMyAccountPage");
   }
 
+  modifyAccountModal() {
+    const modal = this.modalCtrl.create("EditAccountPage", this.tabParams);
+		modal.onDidDismiss(data => console.log("test this"));
+		modal.present();
+  }
+
 }
