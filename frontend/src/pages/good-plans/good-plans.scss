@@ -6,47 +6,6 @@ page-good-plans {
         background-size: cover;
       }
       
-      .card-background-page {
-      
-        ion-card {
-          position: relative;
-          text-align: center;
-        }
-      
-        .card-title {
-          position: absolute;
-          top: 47%;
-          font-size: 2.0em;
-          width: 100%;
-          font-weight: bold;
-          color: #fff;
-          left: -2px;
-        }
-      
-        .card-subtitle {
-          font-size: 1.0em;
-          position: absolute;
-          bottom: 10%;
-          left: 25%;
-          width: 100%;
-          color: #fff;
-        }
-      
-      }
-      
-      .timeStyle {
-        font-size: 1.4em;
-        position: absolute;
-        display: inline-block;
-        color: #3594cb;
-        top: 15%;
-        left: 67%;
-      }
-      
-      .eventFooter {
-        position: relative;
-        height: 65px;
-      }
       
       .menuStyle {
         position: relative;
@@ -57,42 +16,6 @@ page-good-plans {
         color: floralwhite
       }
       
-      .comLogo {
-        position: absolute;
-        display: inline;
-        left: 54px;
-        height: 64%;
-        top: 19%;
-      }
-      
-      .item ion-thumbnail {
-        min-width: 5rem;    
-        min-height: 5rem;
-        img {
-            max-width: 6rem;    
-            min-width: 5rem;
-        }
-      }
-      
-      
-      .styleParticipants {
-        margin-top: 11px;
-        color: deeppink;
-        font-weight: bolder;
-        font-size: small;
-        font-family: sans-serif;
-      }
-      
-      .commName {
-        position: absolute;
-        display: inline-flex;
-        left: 27%;
-        top: 37%;
-        color: aliceblue;
-        font-weight: bolder;
-        font-size: 19px;
-        font-family: sans-serif;
-      }
       
       .optionsStyle {
         position: relative;
@@ -103,34 +26,37 @@ page-good-plans {
         color: floralwhite
       }
       
-      .toolbar-background-md {
-        background-color: #5cbcc1;
-        ;
+      
+      
+      ion-modal,
+      .show-page {
+        // transparent black background overlay
+        background-color: rgba(0, 0, 0, .5) !important;
+        padding: 50px !important;
       }
-      
-      
-      #notifications-badge {
-        background-color: #7683ab;
-        position: absolute;
-       // display: inline-table;
-        width: 18px;
-        height: 18px;
-        top: 6px;
-        z-index: 11;
-        right: 5px;
-        border-radius: 100%;
+      .toolbar-background {
+        color: red !important;
       }
-      
-      #badg-notif {
-        position: absolute;
-        z-index: 11;
-        right: -10px;
-        font-size: 12px;
-        /* height: 16px; */
-        top: -8px;
-        border-radius: 100%;
+      ion-modal.modal-wrapper {
+        transform: translateY(30%) !important;
       }
-      
-
+      ion-page.modal {
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .modal-backdrop-bg {
+        background-color: #000;
+        opacity: 0;
+      }
+      .active .modal-backdrop-bg {
+        opacity: 0.5;
+      }
+}
+    
+ion-modal.inset-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  transition: opacity .25s ease-in-out;
+  padding: 20vh 10vw;
 }
 

@@ -31,9 +31,11 @@ import { AddCommunityPageModule } from '../pages/add-community/add-community.mod
 import { AddContactPageModule } from '../pages/add-contact/add-contact.module';
 import { EditCommunityModalPageModule } from '../pages/edit-community-modal/edit-community-modal.module';
 import { EditProfilePageModule } from '../pages/edit-profile/edit-profile.module';
+import { EditPasswordPageModule } from '../pages/edit-password/edit-password.module';
+import { DeleteMyAccountPageModule } from '../pages/delete-my-account/delete-my-account.module';
 
-import {SharedModule} from './shared.module';
 import { CameraProvider } from '../providers/camera/camera';
+import { SharedModule   } from './shared.module';
 
 import { Camera } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -65,6 +67,8 @@ import { AddContactProvider } from '../providers/add-contact/add-contact';
     EditCommunityModalPageModule,
     AddCommunityPageModule,
     EditProfilePageModule,
+    EditPasswordPageModule,
+    DeleteMyAccountPageModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
   ],

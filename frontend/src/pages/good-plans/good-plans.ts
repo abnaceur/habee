@@ -41,10 +41,24 @@ export class GoodPlansPage {
     console.log('ionViewDidLoad GoodPlansPage');
   }
 
-  modifyProfileModal() {
-    const modal = this.modalCtrl.create('EditProfilePage', this.tabParams);
+  executeModal(page) {
+    const modal = this.modalCtrl.create(page, this.tabParams, { cssClass: 'inset-modal' });
 		modal.onDidDismiss(data => console.log("test this"));
 		modal.present();
+  }
+
+  modifyProfileModal() {
+    const modal = this.modalCtrl.create("EditProfilePage", this.tabParams);
+		modal.onDidDismiss(data => console.log("test this"));
+		modal.present();
+  }
+
+  modifyPasswordModal() {
+    this.executeModal("EditPasswordPage");
+  }
+
+  deletemyAccount() {
+    this.executeModal("DeleteMyAccountPage");
   }
 
 }
