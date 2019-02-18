@@ -211,8 +211,7 @@ getProfileCommunityProsion = (user, communityId) => {
     let pos = 0;
 
     user[0].profile.map(pr => {
-        console.log("Profile : ", pr)
-        if (pr.profileCummunityId = communityId)
+        if (pr.profileCummunityId == communityId)
             pos = i;
         i++;
     })
@@ -230,6 +229,8 @@ editProfileByCommunityId = (pos, user, profileName, image) => {
 }
 
 updateUser = (res, user) => {
+
+    console.log("User :", user);
     User.findByIdAndUpdate(user[0]._id,
         user[0], {
             new: false,
@@ -254,6 +255,7 @@ updateProfile = (res, image, profileName, userId, communityId) => {
         .exec()
         .then(usr => {
             let pos = getProfileCommunityProsion(usr, communityId);
+            console.log("Pos : ", pos)
             editProfileByCommunityId(pos, usr, profileName, image)
             .then(user => updateUser(res, user));
         })

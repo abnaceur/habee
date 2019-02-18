@@ -31,10 +31,12 @@ keepOnProfile = (usrs, nbProfile, communityId) => {
 }
 
 userResponse = (res, usrs, event, i) => {
+    console.log("i : ", i);
     res.status(200).json({
         User: usrs.map(usr => {
             if (usr != undefined) {
                 return {
+                    usr,
                     eventCreated: event.length,
                     userId: usr.userId,
                     profile: usr.profile[i],
@@ -49,22 +51,22 @@ userResponse = (res, usrs, event, i) => {
 
 getUserEventInfo = (res, id, communityId, usrs) => {
     Event.find({
-        eventCreator: id,
-        eventCommunity: communityId,
-        eventIsDeleted: false,
-    }).exec()
-    .then(event => {
-        let i = 0;
-        let z = usrs[0].profile.length;
-        let t = 0;
+            eventCreator: id,
+            eventCommunity: communityId,
+            eventIsDeleted: false,
+        }).exec()
+        .then(event => {
+            let z = usrs[0].profile.length;
+            let t = -1;
 
-        while (t < z) {
-            if (usrs[0].profile[i] == undefined || usrs[0].profile[i] == null)
-                i++;
-            t++;
-        }
-        userResponse(res, usrs, event, i);
-    })
+            while (t < z) {
+                t++;
+                if (usrs[0].profile[t] != undefined || usrs[0].profile[t] != null)
+                    if (usrs[0].profile[t].profileCummunityId === communityId)
+                        break;
+            }
+            userResponse(res, usrs, event, t);
+        })
 }
 
 getAllUserEvents = (usrs, ) => {
@@ -106,7 +108,7 @@ getUserInfo = (req, res, id, communityId) => {
                             eventCommunity: communityId,
                             eventIsDeleted: false,
                         }).exec()
-                        .then(event => {                            
+                        .then(event => {
                             usrs[0].eventsParticipated = getAllUserEvents(usrs);
                             getUserEventInfo(res, id, communityId, usrs)
                         })
