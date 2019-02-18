@@ -391,13 +391,16 @@ exports.creatAnewAccount = (req, res, next) => {
 exports.editProfile = (req,res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-
     let imagePath = utils.getImagePath(req, req.body.profileImage);
     userService.updateProfile(res, imagePath, req.body.profileUsername, userId, communityId)
 }
 
 exports.checkPsw = (req, res, next) => {
     let userId = req.params.userId;
+    pswService.verfiyPsw(res, req.body.oldPassword, userId)
+}
 
-    pswService.verfiyPsw(res, req.oldPassword, userId)
+exports.updatePsw = (req, res, next) => {
+    let userId = req.params.userId;
+    pswService.updateThisPsw(res, req.body.newPassword, userId)
 }

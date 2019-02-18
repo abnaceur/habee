@@ -32,6 +32,7 @@ export class PasswordProvider {
   checkPasswords (psw, userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
+    console.log("here")
     return this.http.post(ENV.BASE_URL + "/users/account/psw/user/" + userInfo.userId,
       {
         oldPassword: psw
@@ -40,4 +41,17 @@ export class PasswordProvider {
     )
     .map(response => response.json().code);
   }
+
+  updatePassword (psw, userInfo) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.put(ENV.BASE_URL + "/users/account/psw/user/" + userInfo.userId,
+      {
+        newPassword: psw
+      },
+      { headers: header }
+    )
+    .map(response => response.json().code);
+  }
+
 }

@@ -48,7 +48,10 @@ export class EditPasswordPage {
   ) {
     this.modifyPasswordForm = formBuilder.group({
       oldPassword: ["", Validators.compose([Validators.required])],
-      newPassword: ["", Validators.compose([Validators.required, Validators.minLength(8)])],
+      newPassword: [
+        "",
+        Validators.compose([Validators.required, Validators.minLength(8)])
+      ],
       confirmPassword: ["", Validators.compose([Validators.required])]
     });
 
@@ -71,14 +74,29 @@ export class EditPasswordPage {
     if (values.newPassword != values.confirmPassword)
       this.utils.notification("Nouveaux mot de passe sont differents", "top");
     else {
-      this.pswService.checkPasswords(values.oldPassword, this.tabParams);
+      this.pswService
+        .checkPasswords(values.oldPassword, this.tabParams)
+        .subscribe(code => {
+          if (code === 200) {
+            this.pswService
+              .updatePassword(values.newPassword, this.tabParams)
+              .subscribe(code => {
+                if (code === 200)
+                  this.utils.notification(
+                    "Votre mot de passe est mise a jour.",
+                    "top"
+                  );
+                else this.utils.notification("Une erreur est survenu!", "top");
+              });
+          } else this.utils.notification("Mauvais mot de passe.", "top");
+        });
     }
   }
 
-  switchVisible () {
+  switchVisible() {
     this.showPasswordText = !this.showPasswordText;
-    this.showPasswordText == false ? 
-    this.passwordType = "text" :
-    this.passwordType = "password"; 
+    this.showPasswordText == false
+      ? (this.passwordType = "text")
+      : (this.passwordType = "password");
   }
 }

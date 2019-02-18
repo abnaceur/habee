@@ -146,5 +146,16 @@ router.post('/create/newaccount',userController.creatAnewAccount);
 
 router.put('/profile/user/:userId/community/:communityId',userController.editProfile);
 
+/*
+ ** API [POST] for route /users/account/psw/user/:userId [USED]
+ */
+
+router.post('/account/psw/user/:userId',userController.checkPsw);
+
+/*
+ ** API [PUT] for route /users/account/psw/user/:userId [USED]
+ */
+
+router.put('/account/psw/user/:userId' ,userController.updatePsw);
 
 module.exports = router;
