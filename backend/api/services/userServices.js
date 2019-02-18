@@ -248,6 +248,8 @@ updateUser = (res, user) => {
 }
 
 updateProfile = (res, image, profileName, userId, communityId) => {
+
+    console.log('Image :', image);
     User.find({
             userId: userId,
             "profile.profileCummunityId": communityId

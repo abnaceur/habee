@@ -36,7 +36,7 @@ userResponse = (res, usrs, event, i) => {
         User: usrs.map(usr => {
             if (usr != undefined) {
                 return {
-                    usr,
+                    nbrCommunities : usr.communities.length,
                     eventCreated: event.length,
                     userId: usr.userId,
                     profile: usr.profile[i],

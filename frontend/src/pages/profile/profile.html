@@ -18,30 +18,30 @@ background-color: #77B650;">
 <ion-content no-padding >
 
 <ion-grid></ion-grid>
-  <ion-item id="profile-bg" [ngStyle]="{'background-image': 'url(' + user.coverImage +')'}">
+  <ion-item id="profile-bg" [ngStyle]="{'background-image': 'url(' + coverImage +')'}">
 
       <ion-thumbnail item-start>
-          <img id="profile-image" [src]='url + "/uploads/avatar.png"'/>
+          <img id="profile-image" [src]='url + "/" + user.profile.profilePhoto'/>
     </ion-thumbnail>
-    <p class="profileTitle  ">{{user.name}}</p>
+    <p class="profileTitle  ">{{user.profile.profileUsername}}</p>
   </ion-item>
 
   <div id="content">
-    <ion-row class="profileStat" [ngStyle]="{'background-image': 'url(' + user.coverImage +')'}" >
+    <ion-row class="profileStat" [ngStyle]="{'background-image': 'url(' + coverImage +')'}" >
     
       <ion-col col-4>
         <p style="color:honeydew">Communautes</p>
-        <span style="color:honeydew">13</span>
+        <span style="color:honeydew">{{user.nbrCommunities}}</span>
       </ion-col>
     
       <ion-col col-4>
         <p style="color:honeydew">Proposer</p>
-        <span style="color:honeydew">{{user.proposed}}</span>
+        <span style="color:honeydew">{{user.eventCreated}}</span>
       </ion-col>
 
       <ion-col col-4>
         <p style="color:honeydew">Participer</p>
-        <span style="color:honeydew">{{user.participated}}</span>
+        <span style="color:honeydew">{{user.nbrEventsParticipated}}</span>
       </ion-col>
     </ion-row>
   
