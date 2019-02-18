@@ -54,7 +54,7 @@ exports.formatUser = (usr, req, res) => {
         "profileUserIsDeleted": false,
         "profileCummunityId": req.body.communityName,
         "profilePhoto": usr[0].profile[usr[0].profile.length - 1].profilePhoto,
-        "profileUsername": usr[0].credentials.firstname + usr[0].credentials.lastname,
+        "profileUsername": usr[0].credentials.lastname + " " + usr[0].credentials.firstname,
         "profileIsAdmin": 0
     }
     usr[0].communities.push(req.body.communityName);

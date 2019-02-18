@@ -206,7 +206,66 @@ updateFirstConnection = (req, res) => {
         .catch(err => utils.defaultError(res, err))
 }
 
+getProfileCommunityProsion = (user, communityId) => {
+    let i = 0;
+    let pos = 0;
+
+    user[0].profile.map(pr => {
+        console.log("Profile : ", pr)
+        if (pr.profileCummunityId = communityId)
+            pos = i;
+        i++;
+    })
+
+    return pos;
+}
+
+editProfileByCommunityId = (pos, user, profileName, image) => {
+    return new Promise((resolve, reject) => {
+        user[0].profile[pos].profileDateOfLastUpdate = Date.now;
+        user[0].profile[pos].profileUsername = profileName;
+        user[0].profile[pos].profilePhoto = image;
+        resolve(user);
+    })
+}
+
+updateUser = (res, user) => {
+    User.findByIdAndUpdate(user[0]._id,
+        user[0], {
+            new: false,
+        },
+        function (err, results) {
+            if (err) return res.status(200).json({
+                code: 500,
+                msg: "An error occured"
+            });
+            res.status(200).json({
+                code: 200,
+                msg: "Profile updated with success !"
+            })
+        });
+}
+
+updateProfile = (res, image, profileName, userId, communityId) => {
+    User.find({
+            userId: userId,
+            "profile.profileCummunityId": communityId
+        })
+        .exec()
+        .then(usr => {
+            let pos = getProfileCommunityProsion(usr, communityId);
+            editProfileByCommunityId(pos, usr, profileName, image)
+            .then(user => updateUser(res, user));
+        })
+        .catch(err => utils.defaultError(res, err))
+}
+
+
 module.exports = {
+    updateUser,
+    editProfileByCommunityId,
+    getProfileCommunityProsion,
+    updateProfile,
     updateFirstConnection,
     checkPassword,
     checkIfEmailExist,

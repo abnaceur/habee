@@ -75,7 +75,7 @@ export class MyEventsPage {
     "Jui",
     "Aout",
     "Sep",
-    "Oct",
+    "Oct",  
     "Nov",
     "Dec"
   ];

@@ -140,5 +140,11 @@ router.put('/delete/:id/:communityId',  authCkeck, userController.put_userId_com
 
 router.post('/create/newaccount',userController.creatAnewAccount);
 
+/*
+ ** API [PUT] for route /users/profile/user/:userId/community/:communityId   [USED]
+ */
+
+router.put('/profile/user/:userId/community/:communityId',userController.editProfile);
+
 
 module.exports = router;

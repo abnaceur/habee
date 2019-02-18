@@ -11,6 +11,8 @@ const eventService = require('../services/eventService')
 const communityClass = require('../classes/communityClass')
 const userClass = require('../classes/userClass')
 const userEmailsTemplate = require('../emailsTemplate/userEmails');
+const getUserByCommunityIdService = require('../services/userServices/getUserbyCommunityIdService')
+
 
 exports.login_user = (req, res, next) => {
  userService.loginUser(req, res);
@@ -312,126 +314,7 @@ exports.get_userId_communityId = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
 
-    let nbProfile = 0;
-    Community.count().exec()
-        .then(count => {
-            nbProfile = count;
-        });
-
-    User.find({
-            userId: id,
-        })
-        .exec()
-        .then(usrs => {
-            if (usrs.length === 0) {
-                return res.status(200).json({
-                    message: "User not found or id not valid!"
-                })
-            } else {
-                Object.entries(usrs).forEach(
-                    ([key, value]) => {
-                        nbProfile = value.profile.length - 1;
-                        while (nbProfile >= 0) {
-                            if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
-                                delete value.profile[nbProfile];
-                            }
-                            nbProfile--;
-                        }
-                    }
-                );
-                if (usrs[0].eventsParticipated.length != 0) {
-                    Event.find({
-                            eventCommunity: communityId,
-                            eventIsDeleted: false,
-                        }).exec()
-                        .then(event => {
-                            let allUserEvents = [];
-                            let i = 0;
-                            let z = 0;
-
-                            while (i < usrs[0].eventsParticipated.length) {
-                                while (z < event.length) {
-                                    if (usrs[0].eventsParticipated[i].eventId == event[z].eventId) {
-                                        allUserEvents.push(event[z]);
-                                    }
-                                    z++;
-                                }
-                                z = 0;
-                                i++;
-                            }
-                            usrs[0].eventsParticipated = allUserEvents;
-
-                            Event.find({
-                                    eventCreator: id,
-                                    eventCommunity: communityId,
-                                    eventIsDeleted: false,
-                                }).exec()
-                                .then(event => {
-                                    let i = 0;
-                                    let z = usrs[0].profile.length;
-                                    let t = 0;
-
-                                    while (t < z) {
-                                        if (usrs[0].profile[i] == undefined || usrs[0].profile[i] == null)
-                                            i++;
-                                        t++;
-                                    }
-                                    res.status(200).json({
-                                        User: usrs.map(usr => {
-
-                                            if (usr != undefined) {
-                                                return {
-                                                    eventCreated: event.length,
-                                                    userId: usr.userId,
-                                                    profile: usr.profile[i],
-                                                    nbrEventsParticipated: usr.eventsParticipated.length,
-                                                    profileIsActive: usr.profile[i].profileUserIsActive,
-                                                    profileRole: usr.profile[i].profileIsAdmin,
-                                                }
-                                            }
-                                        })
-                                    });
-                                })
-
-                        })
-                } else {
-                    Event.find({
-                            eventCreator: id,
-                            eventCommunity: communityId,
-                            eventIsDeleted: false,
-                        }).exec()
-                        .then(event => {
-                            let i = 0;
-                            let z = usrs[0].profile.length;
-                            let t = 0;
-
-                            while (t < z) {
-                                if (usrs[0].profile[i] == undefined || usrs[0].profile[i] == null)
-                                    i++;
-                                t++;
-                            }
-
-                            res.status(200).json({
-                                User: usrs.map(usr => {
-                                    if (usr != undefined) {
-                                        return {
-                                            eventCreated: event.length,
-                                            userId: usr.userId,
-                                            profile: usr.profile[i],
-                                            nbrEventsParticipated: usr.eventsParticipated.length,
-                                            profileIsActive: usr.profile[i].profileUserIsActive,
-                                            profileRole: usr.profile[i].profileIsAdmin,
-                                        }
-                                    }
-                                })
-                            });
-                        })
-                }
-            }
-        })
-        .catch(err => {
-            this.utils.defaultError(err)
-        });
+    getUserByCommunityIdService.getUserInfo(req, res, id, communityId);
 };
 
 
@@ -503,4 +386,12 @@ exports.creatAnewAccount = (req, res, next) => {
             userService.createNewAccount(req.body, res)
         }
     })
+}
+
+exports.editProfile = (req,res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    let imagePath = utils.getImagePath(req, req.body.profileImage);
+    userService.updateProfile(res, imagePath, req.body.profileUsername, userId, communityId)
 }

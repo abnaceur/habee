@@ -35,6 +35,10 @@ import {
   CameraProvider
 } from '../../providers/camera/camera';
 
+import {
+ProfileProvider
+} from '../../providers/profile/profile'
+
 /**
  * Generated class for the EditProfilePage page.
  *
@@ -55,8 +59,9 @@ export class EditProfilePage {
 
 
   constructor(
-    public utils: UtilsProvider,
-    public actionsheetCtrl: ActionSheetController,
+    private utils: UtilsProvider,
+    private profileService : ProfileProvider,
+    private actionsheetCtrl: ActionSheetController,
     public cameraProvider: CameraProvider,
     public platform: Platform,
     public loadingCtrl: LoadingController,
@@ -76,7 +81,6 @@ export class EditProfilePage {
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get('activeCommunity')
     };
-
   }
 
   ionViewDidLoad() {
@@ -153,7 +157,14 @@ export class EditProfilePage {
   }
   
   onSubmit(editProfile) {
-    console.log("profileedit :", editProfile)
+    console.log("profileedit :", editProfile, this.chosenPicture)
+    this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
+      .then(data => {
+        if (data === 200)
+          this.utils.notification("Votre profile est mise a jour !", "top");
+        if (data != 200 )
+          this.utils.notification("Une erreur est survenu !", "top");
+      })
   }
 
 }
