@@ -12,7 +12,7 @@ const communityClass = require('../classes/communityClass')
 const userClass = require('../classes/userClass')
 const userEmailsTemplate = require('../emailsTemplate/userEmails');
 const getUserByCommunityIdService = require('../services/userServices/getUserbyCommunityIdService')
-
+const pswService = require("..//services/userServices/pswService");
 
 exports.login_user = (req, res, next) => {
  userService.loginUser(req, res);
@@ -394,4 +394,10 @@ exports.editProfile = (req,res, next) => {
 
     let imagePath = utils.getImagePath(req, req.body.profileImage);
     userService.updateProfile(res, imagePath, req.body.profileUsername, userId, communityId)
+}
+
+exports.checkPsw = (req, res, next) => {
+    let userId = req.params.userId;
+
+    pswService.verfiyPsw(res, req.oldPassword, userId)
 }

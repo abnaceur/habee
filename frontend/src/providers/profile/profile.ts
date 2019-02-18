@@ -26,15 +26,8 @@ export class ProfileProvider {
 
   getUserProfileByCommunityId(userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
-    console.log("HHHHHH : ", userInfo);
 
-    return this.http
-      .get(
-        ENV.BASE_URL +
-          "/users/" +
-          userInfo.userId +
-          "/" +
-          userInfo.activeCommunity,
+    return this.http.get( ENV.BASE_URL + "/users/" + userInfo.userId + "/" + userInfo.activeCommunity,
         { headers: header }
       )
       .map(response => response.json());
@@ -93,10 +86,14 @@ export class ProfileProvider {
   postProfile(userInfo, profileName, photo, header) {
     return this.http
       .put(
-        ENV.BASE_URL + "/users/profile/user/" + userInfo.userId + "/community/" + userInfo.activeCommunity,
+        ENV.BASE_URL +
+          "/users/profile/user/" +
+          userInfo.userId +
+          "/community/" +
+          userInfo.activeCommunity,
         {
-          "profileUsername" : profileName.profileUsername,
-          "profileImage" : photo
+          profileUsername: profileName.profileUsername,
+          profileImage: photo
         },
         { headers: header }
       )
@@ -119,12 +116,11 @@ export class ProfileProvider {
         return new Promise((resolve, reject) => {
           this.postProfile(userInfo, profileName, data, header).subscribe(
             data => {
-               resolve(data);
+              resolve(data);
             }
           );
         });
       });
     }
   }
-  
 }

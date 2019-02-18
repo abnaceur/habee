@@ -45,6 +45,7 @@ import { File } from '@ionic-native/file';
 import { RegisterProvider } from '../providers/register/register';
 import { EventFilterProvider } from '../providers/event-filter/event-filter';
 import { AddContactProvider } from '../providers/add-contact/add-contact';
+import { PasswordProvider } from '../providers/password/password';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { AddContactProvider } from '../providers/add-contact/add-contact';
     RegisterProvider,
     EventFilterProvider,
     AddContactProvider,
+    PasswordProvider,
   ]
 })
 export class AppModule { }
