@@ -93,6 +93,8 @@ export class EventDetailsPage {
       activeCommunity: this.navParams.get("activeCommunity")
     };
 
+    console.log("this.eventDetails.participants : ", this.eventDetails)
+
     this.eventDetails.participants.map(pr => {
       if (pr != null) {
         if (pr.participantId == this.tabParams.userId)
@@ -240,5 +242,5 @@ export class EventDetailsPage {
       .create("PopupUserDetailModalPage", navInfo, { cssClass: "inset-modal" })
       .present();
   }
-  
+
 }

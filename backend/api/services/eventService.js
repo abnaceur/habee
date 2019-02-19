@@ -133,15 +133,28 @@ exports.updateEvent = (userData, check) => {
         });
 }
 
-exports.initBodyReq = (check, req, user, event) => {
+getProfilePosition = (user, communtyId) => {
+    let pos = 0;
+    let i = 0
+    user.profile.map(pr => {
+        if (pr.profileCummunityId == communtyId)
+            pos = i;
+        i++;
+    })
 
+    return pos
+}
+
+exports.initBodyReq = (check, req, user, event) => {
+    let pos = getProfilePosition(user[0], event[0].eventCommunity)
+    
     if (check != 1) {
         req.body.participants = event[0].participants;
         req.body.nbrSubscribedParticipants = event[0].participants.length;
         req.body.participants.push({
             "participantId": user[0].userId,
-            "participantname": user[0].profile[0].profileUsername,
-            "participantPhoto": user[0].profile[0].profilePhoto,
+            "participantname": user[0].profile[pos].profileUsername,
+            "participantPhoto": user[0].profile[pos].profilePhoto,
         })
     } else {
         req.body.nbrSubscribedParticipants = event[0].participants.length;
@@ -290,6 +303,7 @@ filterEvent = (req, res, userId, communityId) => {
 
 module.exports = {
     filterEvent,
+    getProfilePosition,
     getAllpublicEvents,
     eventModal,
     updateEventIsOver,
