@@ -408,5 +408,11 @@ exports.updatePsw = (req, res, next) => {
 exports.getAccountInfo = (req, res, next) => {
     let userId = req.params.userId;
     userAccountService.getThisAccountInfo(res, userId)
+}
 
+exports.updateAccountInfo = (req, res, next) => {
+    let userId = req.params.userId;
+   
+    userAccountService.updateThisUserAccount(res, req.body, userId);
+    console.log("Data :", userId, req.body)
 }

@@ -36,7 +36,16 @@ export class AccountProvider {
 
     return this.http.get(ENV.BASE_URL + '/users/account/info/' + userInfo.userId,
       { headers: header })
-      .map(response => response.json().User);
+      .map(response => response.json());
+  }
+
+  updateUserAccount (data, userInfo) {
+    let header = this.utils.inihttpHeaderWIthToken(userInfo.token)
+
+    return this.http.put(ENV.BASE_URL + '/users/account/info/' + userInfo.userId,
+      data,
+      { headers: header })
+      .map(response => response.json().code);
   }
 
 }

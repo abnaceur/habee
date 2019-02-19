@@ -15,6 +15,9 @@ import {
     AbstractControl
   } from '@angular/forms';
 
+  import {
+    UtilsProvider
+  } from '../../providers/utils/utils'
 
   import { 
     environment as ENV 
@@ -43,6 +46,7 @@ export class EditAccountPage {
   public accInfo = {};
 
   constructor(
+    private utils: UtilsProvider,
     private accountService: AccountProvider,
     public navCtrl: NavController, 
     public formBuilder: FormBuilder,
@@ -83,7 +87,15 @@ export class EditAccountPage {
   }
 
   onSubmit(values) {
-
+    if (values.email != values.confirmEmail)
+      this.utils.notification("Emails sont differents!", "top");
+    else {
+      this.accountService.updateUserAccount(values, this.tabParams)
+      .subscribe(data => {
+        if (data === 200) this.utils.notification("Compte est mise ajour", "top")
+        else if (data === 500) this.utils.notification("Une erreur est survenu", "top");
+      })
+    }
   }
 
 }
