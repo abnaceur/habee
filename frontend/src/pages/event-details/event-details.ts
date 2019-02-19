@@ -232,12 +232,13 @@ export class EventDetailsPage {
 
   openUserDetailsModal(userDetails) {
     let navInfo = {
-      userInfo: this.tabParams,
-      userDetails: userDetails
+      userId: userDetails.participantId,
+      token:  this.tabParams.token,
+      activeCommunity: this.tabParams.activeCommunity
     };
     this.modalCtrl
       .create("PopupUserDetailModalPage", navInfo, { cssClass: "inset-modal" })
       .present();
   }
-
+  
 }

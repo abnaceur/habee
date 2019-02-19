@@ -1,44 +1,159 @@
 page-popup-user-detail-modal {
-     #profile-bg {
-        position: fixed;
-        left: 0;
-        //top: 44px;
-        width: 100%;
-        height: 150px;
+  border-radius: 10%;
+  
+  .profileStat {
+    padding-top: 5vw;
+    padding-bottom: 5vw;
+    position: fixed;
+    width: 100%;
+    /* padding-top: 12rem; */
+    top: 14rem;
+    background-color: black;
+    opacity: 0.7;
+  }
 
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: 50% 20%;
+  .profileTitle {
+    color: white;
+    position: absolute;
+    top: 6rem;
+    font-size: 18px;
+    font-weight: 900;
+  }
 
-        text-align: center;
-      }
+ 
 
-      #content {
-        left: 15%;
-        position: relative;
-        margin-top: 150px;
-        background-color: white;
-      }
+  .item ion-thumbnail {
+    min-width: 5rem;
+    min-height: 5rem;
 
-      #profile-info {
-        position: relative;
-        top: -81px;
-        left: 19%;
-        width: 100%;
-        z-index: 2;
-        text-align: center;
-      }
-      #profile-name {
-        color: #444;
-        font-size: 26px;
-      }
-      #profile-image {
-        display: block;
-        border-radius: 100px;
-        border: 1px solid #fff;
-        width: 128px;
-        height: 128px;
-        margin: 30px auto 0;
-      }
+    img {
+      max-width: 6rem;
+      min-width: 5rem;
+    }
+  }
 
+
+  .styleParticipants {
+    margin-top: 11px;
+    color: deeppink;
+    font-weight: bolder;
+    font-size: small;
+    font-family: sans-serif;
+  }
+
+  .commName {
+    position: absolute;
+    display: inline-flex;
+    left: 27%;
+    top: 37%;
+    color: aliceblue;
+    font-weight: bolder;
+    font-size: 19px;
+    font-family: sans-serif;
+  }
+
+  .textStyle {
+
+    color: honeydew;
+    font-size: 4vw;
+    font-weight: 900;
+  }
+
+  .optionsStyle {
+    position: relative;
+    float: right;
+    top: 12px;
+    right: 4%;
+    font-size: 30px;
+    color: floralwhite
+  }
+
+  .toolbar-background-md {
+    background-color: #5cbcc1;
+    ;
+  }
+
+
+  #notifications-badge {
+    background-color: #7683ab;
+    position: absolute;
+    // display: inline-table;
+    width: 18px;
+    height: 18px;
+    top: 6px;
+    z-index: 11;
+    right: 5px;
+    border-radius: 100%;
+  }
+
+  #badg-notif {
+    position: absolute;
+    z-index: 11;
+    right: -10px;
+    font-size: 12px;
+    /* height: 16px; */
+    top: -8px;
+    border-radius: 100%;
+  }
+
+  ion-content {
+    background: linear-gradient(0deg, #eeeef1 0%, white 80%, white 100%);
+  }
+
+
+  // Cover image
+  #profile-bg {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    margin-top: -16px;
+    height: 160px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+  }
+
+  // Profile content
+  #content {
+    position: relative;
+    margin-top: 21vw;
+    padding-top: 49vw;
+    text-align: center;
+  }
+
+  #profile-image {
+    height: 63px;
+    width: 57px;
+    position: relative;
+    bottom: 10px;
+    border-radius: 100%;
+  }
+
+  #profile-info {
+    position: absolute;
+    top: -95px;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+  }
+
+  #profile-name {
+    color: #444;
+    font-size: 26px;
+  }
+
+  .profile-description {
+    font-size: 15px;
+    color: #888;
+  }
+
+  .follow-button {
+    text-transform: none;
+    border-radius: 3px !important;
+  }
+
+  // Following, Followers and all..
+  padding-bottom: 0px;
+  margin:  0 0 0 0;
 }

@@ -69,7 +69,8 @@ getUserEventInfo = (res, id, communityId, usrs) => {
         })
 }
 
-getAllUserEvents = (usrs, ) => {
+getAllUserEvents = (usrs, event) => {
+    console.log("Event :", event)
     let allUserEvents = [];
     let i = 0;
     let z = 0;
@@ -109,7 +110,7 @@ getUserInfo = (req, res, id, communityId) => {
                             eventIsDeleted: false,
                         }).exec()
                         .then(event => {
-                            usrs[0].eventsParticipated = getAllUserEvents(usrs);
+                            usrs[0].eventsParticipated = getAllUserEvents(usrs, event);
                             getUserEventInfo(res, id, communityId, usrs)
                         })
                 } else {

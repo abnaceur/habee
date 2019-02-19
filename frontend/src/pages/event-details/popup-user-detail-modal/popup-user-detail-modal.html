@@ -5,33 +5,51 @@
   Ionic pages and navigation.
 -->
 
-<ion-content [style.background-color]="color" class="round">
-    <ion-slides  class="round-top">
-        <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + imageUrl +')'}">
+<ion-content fullscreen>
 
-<ion-header no-border>
-    <ion-navbar transparent>
-      <ion-buttons right>
-        <button ion-button (click)="dismiss()">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-navbar>
-  </ion-header>
 
-        </div>
-        <div id="content">
-          <div id="profile-info" *ngIf="userProfileImage">
-            <img id="profile-image" [src]='url + "/" + userProfileImage' >
-            <h3 id="profile-name">{{userFullname}}</h3>
-          </div>
+  <ion-item id="profile-bg" [ngStyle]="{'background-image': 'url(' + coverImage +')'}">
+    <ion-thumbnail item-start>
+      <img id="profile-image" [src]='url + "/" + user.profile.profilePhoto' />
+    </ion-thumbnail>
+    <p class="profileTitle  ">{{user.profile.profileUsername}}</p>
+  </ion-item>
 
-          <div id="profile-info" *ngIf="!userProfileImage">
-            <img id="profile-image" src='assets/img/profile/profile-cover.jpg'>
-            <h3 id="profile-name">{{userFullname}}</h3>
-          </div>
+  <div id="content">
+    <ion-row class="profileStat" [ngStyle]="{'background-image': 'url(' + coverImage +')'}">
 
-        </div>
-    </ion-slides>
+      <ion-col col-12 class="textStyle">
+        <ion-col col-6 style="float: left">
+            Communautes
+        </ion-col>
+        <ion-col col-6 style="float: right">
+            {{user.nbrCommunities}}
+        </ion-col>
+      </ion-col>
+
+      <ion-col col-12 class="textStyle">
+          <ion-col col-6 style="float: left">
+              Proposer
+          </ion-col>
+          <ion-col col-6 style="float: right">
+              {{user.eventCreated}}
+          </ion-col>
+      </ion-col>
+
+      <ion-col col-12 class="textStyle">
+          <ion-col col-6 style="float: left">
+              Participer
+          </ion-col>
+          <ion-col col-6 style="float: right">
+              {{user.nbrEventsParticipated}}
+          </ion-col>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>
-  
+
+
+<ion-footer>
+  <button ion-button full style="background-color:deeppink" (click)="dismiss()">Okay
+  </button>
+</ion-footer>

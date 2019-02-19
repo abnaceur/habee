@@ -13,6 +13,10 @@ import {
   environment as ENV
 } from '../../../environments/environment';
 
+import {
+ProfileProvider
+} from '../../../providers/profile/profile'
+
 
 /**
  * Generated class for the PopupUserDetailModalPage page.
@@ -28,24 +32,35 @@ import {
 })
 export class PopupUserDetailModalPage {
   public tabParams;
-  imageUrl: string = 'assets/img/profile/profile-cover.jpg';
-  public userProfileImage;
+  public coverImage = "assets/img/background/background-5.jpg";
   public url = ENV.BASE_URL;
-  public userFullname;
+  public user = {
+    nbrCommunities: "",
+    nbrEventsParticipated: "",
+    profile: {
+      profileUsername: "",
+      profilePhoto: ""
+    },
+    eventCreated: ""
+  };
 
 
   constructor(
+    private profileProvider : ProfileProvider,
     public navCtrl: NavController,
     public viewCtrl: ViewController,
     public navParams: NavParams
   ) {
-    this.tabParams = this.navParams.data.userDetails
+    console.log("this.navParams : ", this.navParams.data);
+    this.tabParams = this.navParams.data
   }
 
   ionViewWillEnter() {
-    this.userProfileImage = this.tabParams.participantPhoto;
-    this.userFullname = this.tabParams.participantname;
-    console.log('ionViewDidLoad PopupUserDetailModalPage');
+    this.profileProvider
+    .getUserProfileByCommunityId(this.tabParams)
+    .subscribe(response => {
+      this.user = response.User[0];
+    });
   }
 
   dismiss() {
