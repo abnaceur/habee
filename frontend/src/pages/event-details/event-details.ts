@@ -34,6 +34,7 @@ import { SocialSharing } from "@ionic-native/social-sharing";
 export class EventDetailsPage {
   public userName;
   public tabParams;
+  public showComments = false;
   public subPassions;
   public url = ENV.BASE_URL;
   eventDetails: {

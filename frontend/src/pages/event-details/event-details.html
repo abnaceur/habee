@@ -55,7 +55,8 @@
     </p>
   </ion-item>
 
-  <ion-item>
+  
+  <ion-item no-lines>
     <p style="position: relative;margin-bottom: 5px">
 
       <b>Participants </b>
@@ -69,6 +70,34 @@
         </a>
         </ion-scroll>
   </ion-item>
+
+  <ion-item no-line><b>Commentaire</b> - 
+    <span (click)="showComments = !showComments" style="color:blueviolet"> Voir tout</span>
+  </ion-item>
+    <div *ngIf="showComments == true" class="message-wrapper" >
+      <div >
+        <img class="profile-pic left" [src]="'../assets/imgs/avatar.png'" />
+        <!--  wave-->
+        <div class="chat-bubble left slide-left">
+  
+          <div class="message" [innerHTML]="'ssssssssss'" autolinker>
+          </div>
+  
+          <div class="message-detail">
+            <span class="bold">Abdel</span>,
+            <span>12min agao</span>
+          </div>
+  
+        </div>
+      </div>
+      <div class="cf"></div>
+    </div>
+    <form (submit)="send(chatBox)" novalidate style="margin-bottom: 11vw">
+      <ion-item>
+        <ion-input placeholder="Send  a message..."></ion-input>
+        <button ion-button clear (click)="send(chatBox)" item-end><ion-icon class="footer-btn" name="send"></ion-icon></button>
+      </ion-item>
+    </form>
 </ion-content>
 
 
