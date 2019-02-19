@@ -1,18 +1,18 @@
-const express = require('express');
 const User = require('../models/user');
 const Community = require('../models/community');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Event = require('../models/event');
 const utils = require('../services/utils');
 const userService = require('../services/userServices');
 const eventService = require('../services/eventService')
-const communityClass = require('../classes/communityClass')
 const userClass = require('../classes/userClass')
 const userEmailsTemplate = require('../emailsTemplate/userEmails');
 const getUserByCommunityIdService = require('../services/userServices/getUserbyCommunityIdService')
-const pswService = require("..//services/userServices/pswService");
+const pswService = require("../services/userServices/pswService");
+const userAccountService = require('../services/userServices/userAccount')
+
+
 
 exports.login_user = (req, res, next) => {
  userService.loginUser(req, res);
@@ -403,4 +403,10 @@ exports.checkPsw = (req, res, next) => {
 exports.updatePsw = (req, res, next) => {
     let userId = req.params.userId;
     pswService.updateThisPsw(res, req.body.newPassword, userId)
+}
+
+exports.getAccountInfo = (req, res, next) => {
+    let userId = req.params.userId;
+    userAccountService.getThisAccountInfo(res, userId)
+
 }

@@ -20,7 +20,11 @@ import {
     environment as ENV 
   } from "../../environments/environment";
 
-/**
+  import {
+ AccountProvider
+  } from '../../providers/account/account';
+
+  /**
  * Generated class for the EditAccountPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
@@ -36,21 +40,23 @@ export class EditAccountPage {
   editAccountForm: FormGroup;
   public url = ENV.BASE_URL;
   private tabParams: Object;
-
+  public accInfo = {};
 
   constructor(
+    private accountService: AccountProvider,
     public navCtrl: NavController, 
     public formBuilder: FormBuilder,
     public viewCtrl: ViewController,
     public navParams: NavParams
     ) {
+      //TODO Validate phone number.
       this.editAccountForm = formBuilder.group({
         lastName: ['', Validators.compose([Validators.required])],
         firstName: ['', Validators.compose([Validators.required])],
-        address: ['', Validators.compose([Validators.required])],
-        phoneNumber: ['', Validators.compose([Validators.required])],
-        email: ['', Validators.compose([Validators.required])],
-        confirmEmail: ['', Validators.compose([Validators.required])]
+        address: [''],
+        phoneNumber: [''],
+        email: ["", Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$")])],
+        confirmEmail: ['', Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$")])]
       });
   
       this.tabParams = {
@@ -62,6 +68,22 @@ export class EditAccountPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditAccountPage');
+  }
+
+  ionViewWillEnter() {
+    this.accountService.getAccountInfo(this.tabParams)
+    .subscribe(accountInfo => {
+      console.log("Account info : ", accountInfo.User);
+      this.accInfo = accountInfo.User
+    })
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
+
+  onSubmit(values) {
+
   }
 
 }

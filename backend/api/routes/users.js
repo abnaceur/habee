@@ -158,4 +158,11 @@ router.post('/account/psw/user/:userId',userController.checkPsw);
 
 router.put('/account/psw/user/:userId' ,userController.updatePsw);
 
+/*
+ ** API [GET] for route /users/account/info/:userId [USED]
+ */
+
+router.get('/account/info/:userId' ,userController.getAccountInfo);
+
+
 module.exports = router;

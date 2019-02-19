@@ -46,6 +46,7 @@ import { RegisterProvider } from '../providers/register/register';
 import { EventFilterProvider } from '../providers/event-filter/event-filter';
 import { AddContactProvider } from '../providers/add-contact/add-contact';
 import { PasswordProvider } from '../providers/password/password';
+import { AccountProvider } from '../providers/account/account';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { PasswordProvider } from '../providers/password/password';
     EventFilterProvider,
     AddContactProvider,
     PasswordProvider,
+    AccountProvider,
   ]
 })
 export class AppModule { }
