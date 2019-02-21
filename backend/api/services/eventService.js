@@ -227,7 +227,7 @@ putEventByUserId = (req, res) => {
                         res,
                         user
                     }
-                    console.log("Event : ", event, communityId);
+                    console.log("Event : ", event);
                     this.updatWithinPutEventByUserId(userData_org);
                 })
                 .catch(err => {

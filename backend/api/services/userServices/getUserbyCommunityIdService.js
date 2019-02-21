@@ -14,6 +14,25 @@ countCommunity = () => {
     return nbProfile;
 }
 
+checkIfProfileCommunityExist = (usr, nbProfile, communityId) => {
+    let i = 0;
+
+    Object.entries(usr).forEach(
+        ([key, value]) => {
+            nbProfile = value.profile.length - 1;
+            while (nbProfile >= 0) {
+                if (value.profile[nbProfile]['profileCummunityId'] == communityId) {
+                    i++;
+                }
+                nbProfile--;
+            }
+        }
+    );
+
+    return i;
+}
+
+
 keepOnProfile = (usrs, nbProfile, communityId) => {
     Object.entries(usrs).forEach(
         ([key, value]) => {
@@ -26,17 +45,15 @@ keepOnProfile = (usrs, nbProfile, communityId) => {
             }
         }
     );
-
     return usrs
 }
 
 userResponse = (res, usrs, event, i) => {
-    console.log("i : ", i);
     res.status(200).json({
         User: usrs.map(usr => {
             if (usr != undefined) {
                 return {
-                    nbrCommunities : usr.communities.length,
+                    nbrCommunities: usr.communities.length,
                     eventCreated: event.length,
                     userId: usr.userId,
                     profile: usr.profile[i],
@@ -49,7 +66,8 @@ userResponse = (res, usrs, event, i) => {
     });
 }
 
-getUserEventInfo = (res, id, communityId, usrs) => {
+getUserEventInfo = (res, id, communityId, usrs, check) => {
+    
     Event.find({
             eventCreator: id,
             eventCommunity: communityId,
@@ -65,7 +83,10 @@ getUserEventInfo = (res, id, communityId, usrs) => {
                     if (usrs[0].profile[t].profileCummunityId === communityId)
                         break;
             }
-            userResponse(res, usrs, event, t);
+
+            check == 0 ? 
+            userResponse(res, usrs, event, 0)
+            : userResponse(res, usrs, event, t)
         })
 }
 
@@ -102,19 +123,37 @@ getUserInfo = (req, res, id, communityId) => {
                     message: "User not found or id not valid!"
                 })
             } else {
-                usrs = keepOnProfile(usrs, nbProfile, communityId);
-                if (usrs[0].eventsParticipated.length != 0) {
-                    Event.find({
-                            eventCommunity: communityId,
-                            eventIsDeleted: false,
-                        }).exec()
-                        .then(event => {
-                            usrs[0].eventsParticipated = getAllUserEvents(usrs, event);
-                            getUserEventInfo(res, id, communityId, usrs)
-                        })
+                let check = checkIfProfileCommunityExist(usrs, nbProfile, communityId)
+
+                if (check > 0) {
+                    usrs = keepOnProfile(usrs, nbProfile, communityId);
+                    if (usrs[0].eventsParticipated.length != 0) {
+                        Event.find({
+                                eventCommunity: communityId,
+                                eventIsDeleted: false,
+                            }).exec()
+                            .then(event => {
+                                usrs[0].eventsParticipated = getAllUserEvents(usrs, event);
+                                getUserEventInfo(res, id, communityId, usrs, check)
+                            })
+                    } else {
+                        getUserEventInfo(res, id, communityId, usrs, check)
+                    }
                 } else {
-                    getUserEventInfo(res, id, communityId, usrs)
+                    if (usrs[0].eventsParticipated.length != 0) {
+                        Event.find({
+                                eventCommunity: communityId,
+                                eventIsDeleted: false,
+                            }).exec()
+                            .then(event => {
+                                usrs[0].eventsParticipated = getAllUserEvents(usrs, event);
+                                getUserEventInfo(res, id, communityId, usrs, check)
+                            })
+                    } else {
+                        getUserEventInfo(res, id, communityId, usrs, check)
+                    }
                 }
+
             }
         })
         .catch(err => {
