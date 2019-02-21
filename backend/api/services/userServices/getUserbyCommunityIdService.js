@@ -70,7 +70,6 @@ getUserEventInfo = (res, id, communityId, usrs) => {
 }
 
 getAllUserEvents = (usrs, event) => {
-    console.log("Event :", event)
     let allUserEvents = [];
     let i = 0;
     let z = 0;

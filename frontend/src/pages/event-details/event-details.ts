@@ -119,6 +119,9 @@ export class EventDetailsPage {
           this.isSubscribed = "Desinscrir";
       }
     });
+  
+    console.log("    this.eventDetails : ",     this.eventDetails);
+    
   }
 
   ionViewWillLoad() {
@@ -126,8 +129,19 @@ export class EventDetailsPage {
     this.eventProvider
       .getComments(this.tabParams, this.eventDetails)
       .subscribe(comments => {
-        if (comments.conmments.length != 0)
-          this.allComments.push(comments.conmments);
+        console.log("Comme : ", comments)
+        if (comments.conmments[0].messages.length != 0) {
+          console.log("comments.conmments :" ,comments.conmments[0].messages);
+          comments.conmments[0].messages.map(msg => {
+            this.allComments.push({
+              userId: msg.userId,
+              photo: msg.userPhoto,
+              username: msg.username,
+              date: msg.dateOfCreation,
+              comment: msg.userMessage
+            });
+          })
+        }
         console.log("All comments : ", this.allComments);
       });
 
@@ -274,13 +288,17 @@ export class EventDetailsPage {
       .getEventById(eventId, this.tabParams.token)
       .subscribe(response => {
         this.eventDetails.participants = response.Event[0].participants;
+        console.log("this.eventDetails.participants :", this.eventDetails.participants);
+        
       });
   }
 
   subscribeToEvent(eventId) {
+    console.log("eventId : ", eventId)
     this.eventProvider
       .getEventSubscription(eventId, this.tabParams)
       .subscribe(response => {
+        console.log("eventId : ", response)
         if (response.Subscribe == true) {
           this.updateParticipantsList(true, eventId);
           this.utils.notification("inscription reussie !", "top");
@@ -309,6 +327,8 @@ export class EventDetailsPage {
   onSubmit() {
     console.log("Date.now", moment().toNow());
     let comment = {
+      eventId: this.eventDetails.eventId,
+      eventCommunity: this.eventDetails.eventCommunity,
       userId: this.profileInfo.userId,
       photo: this.profileInfo.photo,
       username: this.profileInfo.username,

@@ -135,4 +135,12 @@ router.put('/:eventId/user/:userId/community/:communityId', eventController.put_
 
 router.put('/all/isover/:userId/:communityId', eventController.put_all_events_isOver);
 
+
+/*
+ ** API route [GET] for /events/comments [USED]
+ */
+
+router.get('/comments/:eventId/community/:communityId', eventController.getCommentByEventId);
+
+
 module.exports = router;

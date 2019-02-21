@@ -133,11 +133,12 @@ exports.updateEvent = (userData, check) => {
         });
 }
 
-getProfilePosition = (user, communtyId) => {
+getProfilePosition = (profiles, communtyId) => {
     let pos = 0;
     let i = 0
-    user.profile.map(pr => {
-        if (pr.profileCummunityId == communtyId)
+
+    profiles.map(pr => {
+        if (pr.profileCummunityId === communtyId)
             pos = i;
         i++;
     })
@@ -145,10 +146,12 @@ getProfilePosition = (user, communtyId) => {
     return pos
 }
 
-exports.initBodyReq = (check, req, user, event) => {
-    let pos = getProfilePosition(user[0], event[0].eventCommunity)
+exports.initBodyReq = (check, req, user, event, communityId) => {
+    
+    let pos = getProfilePosition(user[0].profile, communityId)
     
     if (check != 1) {
+        console.log("Pos : ", pos)
         req.body.participants = event[0].participants;
         req.body.nbrSubscribedParticipants = event[0].participants.length;
         req.body.participants.push({
@@ -187,7 +190,7 @@ exports.updatWithinPutEventByUserId = (userData_org) => {
                 }
                 i++;
             }
-            req = this.initBodyReq(check, req, user, event);
+            req = this.initBodyReq(check, req, user, event, communityId);
             let userData = {
                 event,
                 userId,
@@ -210,12 +213,10 @@ putEventByUserId = (req, res) => {
 
     User.find({
             userId: userId,
-            "profile.profileCummunityId": communityId
         }).exec()
         .then(user => {
             Event.find({
                     eventId: eventId,
-                    eventCommunity: communityId
                 }).exec()
                 .then(event => {
                     let userData_org = {
@@ -226,6 +227,7 @@ putEventByUserId = (req, res) => {
                         res,
                         user
                     }
+                    console.log("Event : ", event, communityId);
                     this.updatWithinPutEventByUserId(userData_org);
                 })
                 .catch(err => {

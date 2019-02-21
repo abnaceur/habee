@@ -4,7 +4,8 @@ const User = require('../models/user');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const utils = require('../services/utils');
-const eventService = require('../services/eventService')
+const eventService = require('../services/eventService');
+const eventCommentService = require('../services/eventServices/eventCommentsService');
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -109,7 +110,7 @@ exports.getEventFilter = (req, res, next) => {
 exports.getFilteredEvent = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-    
+
     eventService.filterEvent(req, res, userId, communityId);
 }
 
@@ -203,12 +204,11 @@ exports.post_event = (req, res, next) => {
         eventCategory: req.body.eventCategory,
         eventIsPublic: req.body.eventIsPublic,
         eventIsDeleted: false,
-        //     participantsId: req.body.participantsId,
-        //     eventIsOver: req.body.eventIsOver,
     });
     event
         .save()
         .then(result => {
+            eventCommentService.createCommentsForEvent(req.body.eventId, req.body.eventCommunity)
             res.status(200).json({
                 results: true,
                 Event: result
@@ -219,7 +219,7 @@ exports.post_event = (req, res, next) => {
         });
 };
 
-exports.put_eventByUserId = (req, res, next) => {   
+exports.put_eventByUserId = (req, res, next) => {
     eventService.putEventByUserId(req, res)
 }
 
@@ -358,6 +358,15 @@ exports.get_event_by_id = (req, res, next) => {
             utils.defaultError(res, err)
         });
 };
+
+
+exports.getCommentByEventId = (req, res, next) => {
+    let eventId = req.params.eventId;
+    let communityId = req.params.communityId;
+   
+    eventCommentService.getCommentsByEventId(res, req, eventId, communityId)
+}
+
 
 
 // TODO - events should be filtered by end date not start date.

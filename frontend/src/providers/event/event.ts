@@ -140,7 +140,7 @@ export class EventProvider {
 
     return this.http.post(ENV.BASE_URL + '/events',
       {
-        "eventId": event.eventTitle + "_" + Math.floor(Math.random() * 100000),
+        "eventId": event.eventTitle + "_" + Math.floor(Math.random() * 100000) + "_" + userInfo.userId,
         "eventCommunity": userInfo.activeCommunity,
         "eventCreator": userInfo.userId,
         "eventName": event.eventTitle,
@@ -339,10 +339,10 @@ export class EventProvider {
 
 
   getComments(userInfo, event) {
-
+    console.log("UserInfo : ", userInfo )
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + '/events/comments/' + event.eventId + '/community/' + userInfo.activeCommunity,
+    return this.http.get(ENV.BASE_URL + '/events/comments/' + event.eventId + '/community/' + event.eventCommunity,
       { headers: header })
       .map(response => response.json());
   }
