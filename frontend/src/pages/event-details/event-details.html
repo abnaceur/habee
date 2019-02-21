@@ -10,7 +10,8 @@
     <ion-icon style="color: white;
     float: right;
     margin-right: 14px;
-    font-size: x-large;" (click)="presentActionSheet()" name="share"></ion-icon>
+    font-size: x-large;" (click)="presentActionSheet()"
+      name="share"></ion-icon>
   </ion-navbar>
 </ion-header>
 
@@ -45,7 +46,7 @@
       Participants
     </p>
   </ion-item>
-  
+
   <ion-item no-lines text-wrap>
     <p style="position: relative;margin-bottom: 5px">
       <b>Detail</b></p>
@@ -55,7 +56,7 @@
     </p>
   </ion-item>
 
-  
+
   <ion-item no-lines>
     <p style="position: relative;margin-bottom: 5px">
 
@@ -67,69 +68,77 @@
           <a *ngFor="let participant of eventDetails.participants">
             <img *ngIf='participant != null' class="img-scroll" [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/avatar.png"'
               (click)="openUserDetailsModal(participant)">
-        </a>
+          </a>
         </ion-scroll>
   </ion-item>
 
-  <ion-item no-line><b>Commentaire</b> - 
+  <ion-item no-line><b>Commentaire</b> -
     <span (click)="showComments = !showComments" style="color:blueviolet"> Voir tout</span>
   </ion-item>
-    <div *ngIf="showComments == true" class="message-wrapper" >
-      <div >
-        <img class="profile-pic left" [src]="'../assets/imgs/avatar.png'" />
-        <!--  wave-->
-        <div class="chat-bubble left slide-left">
-  
-          <div class="message" [innerHTML]="'ssssssssss'" autolinker>
+  <span *ngIf="allComments.length != 0">
+    <div *ngFor="let comment of allComments">
+      <div *ngIf="showComments == true" class="message-wrapper">
+        <div>
+          <img class="profile-pic left" [src]="url + '/' + comment.photo" />
+          <!--  wave-->
+          <div class="chat-bubble left slide-left">
+
+            <div class="message-detail">
+              <span class="bold">{{comment.username}}</span>,
+              <span>{{transform(comment.date)}}</span>
+            </div>
+
+            <div class="message" [innerHTML]="comment.comment" autolinker>
+            </div>
+
           </div>
-  
-          <div class="message-detail">
-            <span class="bold">Abdel</span>,
-            <span>12min agao</span>
-          </div>
-  
         </div>
+        <div class="cf"></div>
       </div>
-      <div class="cf"></div>
+
     </div>
-    <form (submit)="send(chatBox)" novalidate style="margin-bottom: 11vw">
-      <ion-item>
-        <ion-input placeholder="Send  a message..."></ion-input>
-        <button ion-button clear (click)="send(chatBox)" item-end><ion-icon class="footer-btn" name="send"></ion-icon></button>
-      </ion-item>
-    </form>
+  </span>
+  <div style="margin-bottom: 11vw">
+    <ion-item>
+      <ion-input [(ngModel)]="commentText" placeholder="Laissez un commentaire..."></ion-input>
+      <button ion-button clear (click)="onSubmit()" item-end>
+        <ion-icon class="footer-btn" name="send"></ion-icon>
+      </button>
+    </ion-item>
+  </div>
+
 </ion-content>
 
 
 <ion-footer>
-    <div *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
-        <div class="row">
-          <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
-            class="col col-50 button button-block">
-            {{isSubscribed}}
-          </button>
-        </div>
-      </div>
-    
-    
-      <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
-        style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
-        <div class="row">
-          <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
-            class="col col-50 button button-block">
-            {{isSubscribed}}
-          </button>
-        </div>
-      </div>
-    
-      <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
-        style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
-        <div class="row">
-          <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
-            class="col col-50 button button-block">
-            Evenement est complet
-          </button>
-        </div>
-      </div>
+  <div *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
+        class="col col-50 button button-block">
+        {{isSubscribed}}
+      </button>
+    </div>
+  </div>
+
+
+  <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+    style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
+        class="col col-50 button button-block">
+        {{isSubscribed}}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+    style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
+        class="col col-50 button button-block">
+        Evenement est complet
+      </button>
+    </div>
+  </div>
 
 </ion-footer>

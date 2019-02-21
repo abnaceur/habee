@@ -47,6 +47,12 @@ import { EventFilterProvider } from '../providers/event-filter/event-filter';
 import { AddContactProvider } from '../providers/add-contact/add-contact';
 import { PasswordProvider } from '../providers/password/password';
 import { AccountProvider } from '../providers/account/account';
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import { environment } from '../environments/environment.prod';
+const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
+ 
+
+
 
 @NgModule({
   declarations: [
@@ -74,6 +80,7 @@ import { AccountProvider } from '../providers/account/account';
     EditPasswordPageModule,
     DeleteMyAccountPageModule,
     EditAccountPageModule,
+    SocketIoModule.forRoot(config),
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
   ],

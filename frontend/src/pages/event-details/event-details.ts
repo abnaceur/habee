@@ -9,6 +9,17 @@ import {
   ActionSheetController
 } from "ionic-angular";
 
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl
+} from "@angular/forms";
+
+import { Socket } from "ng-socket-io";
+
+import moment from "moment";
+
 import { environment as ENV } from "../../environments/environment";
 
 import { EventProvider } from "../../providers/event/event";
@@ -16,7 +27,10 @@ import { EventProvider } from "../../providers/event/event";
 import { Http } from "@angular/http";
 
 import { UtilsProvider } from "../../providers/utils/utils";
+
 import { SocialSharing } from "@ionic-native/social-sharing";
+
+import { ProfileProvider } from "../../providers/profile/profile";
 
 /**
  * Generated class for the EventDetailsPage page.
@@ -30,9 +44,11 @@ import { SocialSharing } from "@ionic-native/social-sharing";
   selector: "page-event-details",
   templateUrl: "event-details.html"
 })
-
 export class EventDetailsPage {
   public userName;
+  public commentText = "";
+  public allComments = [];
+  public profileInfo;
   public tabParams;
   public showComments = false;
   public subPassions;
@@ -75,18 +91,21 @@ export class EventDetailsPage {
   public isSubscribed = "S'inscrir";
   quotes: any;
 
-  constructor (
+  constructor(
+    private socket: Socket,
+    private profileProvider: ProfileProvider,
     private socialSharing: SocialSharing,
     private utils: UtilsProvider,
     public actionSheetCtrl: ActionSheetController,
     private http: Http,
+    public formBuilder: FormBuilder,
     private toastController: ToastController,
     public eventProvider: EventProvider,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public navParams: NavParams
   ) {
-
+    this.socket.connect();
     this.eventDetails = navParams.get("data");
     this.tabParams = {
       userId: this.navParams.get("userId"),
@@ -94,14 +113,53 @@ export class EventDetailsPage {
       activeCommunity: this.navParams.get("activeCommunity")
     };
 
-    console.log("this.eventDetails.participants : ", this.eventDetails)
-
     this.eventDetails.participants.map(pr => {
       if (pr != null) {
         if (pr.participantId == this.tabParams.userId)
           this.isSubscribed = "Desinscrir";
       }
     });
+  }
+
+  ionViewWillLoad() {
+    this.socket.emit("getmessage");
+    this.eventProvider
+      .getComments(this.tabParams, this.eventDetails)
+      .subscribe(comments => {
+        if (comments.conmments.length != 0)
+          this.allComments.push(comments.conmments);
+        console.log("All comments : ", this.allComments);
+      });
+
+    this.profileProvider
+      .getUserProfileByCommunityId(this.tabParams)
+      .subscribe(profile => {
+        console.log("Profile :", profile.User[0].profile.profilePhoto);
+        this.profileInfo = {
+          userId: profile.User[0].userId,
+          photo: profile.User[0].profile.profilePhoto,
+          username: profile.User[0].profile.profileUsername
+        };
+      });
+
+    this.socket.on("live-message", data => {
+      console.log("Live msg 1:", data);
+      data.map(d => {
+        this.allComments.push(d);
+      });
+      console.log("Push live : ", this.allComments);
+    });
+
+    this.socket.on("broad-msg", data => {
+      console.log("Broadcast msg 1:", data);
+      this.allComments.push(data);
+      console.log("Push : ", this.allComments);
+    });
+  }
+
+  ionViewWillLeave() {
+    this.socket.disconnect(true);
+    this.allComments = [];
   }
 
   compilemsg(): string {
@@ -146,7 +204,7 @@ export class EventDetailsPage {
     var msg = this.compilemsg();
     this.socialSharing.shareViaWhatsApp(msg, null, null);
   }
-  
+
   facebookShare() {
     var msg = this.compilemsg();
     this.socialSharing.shareViaFacebook(msg, null, null);
@@ -236,7 +294,7 @@ export class EventDetailsPage {
   openUserDetailsModal(userDetails) {
     let navInfo = {
       userId: userDetails.participantId,
-      token:  this.tabParams.token,
+      token: this.tabParams.token,
       activeCommunity: this.tabParams.activeCommunity
     };
     this.modalCtrl
@@ -244,4 +302,27 @@ export class EventDetailsPage {
       .present();
   }
 
+  sendMsg() {
+    console.log("Here inside");
+  }
+
+  onSubmit() {
+    console.log("Date.now", moment().toNow());
+    let comment = {
+      userId: this.profileInfo.userId,
+      photo: this.profileInfo.photo,
+      username: this.profileInfo.username,
+      date: moment(),
+      comment: this.commentText
+    };
+    console.log("Comment : ", comment);
+    this.eventProvider.emitSendMsg(comment);
+  }
+
+  transform(value) {
+    moment.locale("fr");
+    let a = moment(value).fromNow();
+    return a;
+    //return value.toLowerCase();
+  }
 }

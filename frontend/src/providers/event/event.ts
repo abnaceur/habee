@@ -9,6 +9,8 @@ import {
   Headers
 } from '@angular/http';
 
+import { Socket } from 'ng-socket-io';
+
 import {
   UtilsProvider
 } from '../../providers/utils/utils';
@@ -46,6 +48,7 @@ export class EventProvider {
 
   constructor(
     public http: Http,
+    private socket: Socket,
     public utils: UtilsProvider,
     private file: File,
     private transfer: FileTransfer,
@@ -332,6 +335,21 @@ export class EventProvider {
     filter,
       { headers: header })
       .map(response => response.json());
+  }
+
+
+  getComments(userInfo, event) {
+
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.get(ENV.BASE_URL + '/events/comments/' + event.eventId + '/community/' + userInfo.activeCommunity,
+      { headers: header })
+      .map(response => response.json());
+  }
+
+  emitSendMsg (msg) {
+    console.log("inside emit msg");
+    this.socket.emit('send-message', msg);
   }
 
 }
