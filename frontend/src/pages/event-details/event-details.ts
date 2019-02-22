@@ -48,6 +48,7 @@ export class EventDetailsPage {
   public userName;
   public commentText = "";
   public allComments = [];
+  private liveComments = [];
   public profileInfo;
   public tabParams;
   public showComments = true;
@@ -120,8 +121,6 @@ export class EventDetailsPage {
       }
     });
   
-    console.log("    this.eventDetails : ",     this.eventDetails);
-    
   }
 
   ionViewWillLoad() {
@@ -129,9 +128,7 @@ export class EventDetailsPage {
     this.eventProvider
       .getComments(this.tabParams, this.eventDetails)
       .subscribe(comments => {
-        console.log("Comme : ", comments)
         if (comments.conmments[0].messages.length != 0) {
-          console.log("comments.conmments :" ,comments.conmments[0].messages);
           comments.conmments[0].messages.map(msg => {
             this.allComments.push({
               userId: msg.userId,
@@ -142,13 +139,16 @@ export class EventDetailsPage {
             });
           })
         }
-        console.log("All comments : ", this.allComments);
+        if (this.liveComments.length != 0) {
+          this.liveComments.map(cm => {
+            this.allComments.push(cm)
+          })
+        }
       });
 
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
       .subscribe(profile => {
-        console.log("Profile :", profile.User[0].profile.profilePhoto);
         this.profileInfo = {
           userId: profile.User[0].userId,
           photo: profile.User[0].profile.profilePhoto,
@@ -156,19 +156,15 @@ export class EventDetailsPage {
         };
       });
 
-    this.socket.on("live-message", data => {
-      console.log("Live msg 1:", data);
-      data.map(d => {
-        this.allComments.push(d);
-      });
-      console.log("Push live : ", this.allComments);
-    });
-
-    this.socket.on("broad-msg", data => {
-      console.log("Broadcast msg 1:", data);
-      this.allComments.push(data);
-      console.log("Push : ", this.allComments);
-    });
+        this.socket.on("live-message", data => {
+          data.map(d => {
+            this.liveComments.unshift(d);
+          });
+        });
+    
+        this.socket.on("broad-msg", data => {
+          this.allComments.push(data);
+        });
   }
 
   ionViewWillLeave() {
