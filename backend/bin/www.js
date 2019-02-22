@@ -63,7 +63,8 @@ io.on('connection', function (client) {
     client.disconnect(true)
     connections.splice(connections.indexOf(client), 1);
     if (connections.length === 0) {
-      saveComments.updateComments(comments)
+      if (comments.length > 0)
+        saveComments.updateComments(comments)
       unshiftComm = [];
       comments = [];
     }

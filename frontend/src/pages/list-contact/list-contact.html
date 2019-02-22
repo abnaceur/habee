@@ -10,8 +10,18 @@
 
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
+
+
   <ion-icon class="optionsStyle pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand()"
     name="person-add"></ion-icon>
+
+    <div (click)="openInvitationsList()">
+      <ion-icon  style="margin-right: 10px" class="optionsStyle pop-in"  name="notifications">
+        <span>
+            <ion-badge class="pull-right" class="icon-badge">3</ion-badge>
+        </span>
+    </ion-icon>
+    </div>
 
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
@@ -19,7 +29,7 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding >
 
     <ion-fab bottom right edge>
         <button ion-fab mini><ion-icon name="add"></ion-icon></button>

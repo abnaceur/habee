@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar style="color: black">
+    <ion-title>List des invitation</ion-title>
+    <ion-buttons end (click)="dismiss()">
+      <button ion-button icon-only>
+        <ion-icon color="primary" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding fullscreen class="invitation-list">
+  <ion-grid>
+
+    <ion-scroll id="scrollBar" scrollY="true" style="white-space: nowrap; height: 100%; width: 100%;
+    ">
+
+      <ion-item>
+          hisec4ever@gmail.com
+        <ion-badge class="pull-right" color="danger" slot="end">rejeter</ion-badge>
+        <ion-badge class="pull-right" color="primary" slot="end">accepter</ion-badge>
+      </ion-item>
+
+      <ion-item>
+          hisec4ever@gmail.com
+        <ion-badge class="pull-right" style="background-color: darkorange" slot="end">pending...</ion-badge>
+      </ion-item>
+
+      <ion-item>
+          hisec4ever@gmail.com
+        <ion-badge class="pull-right" style="background-color: green" slot="end">accpte</ion-badge>
+      </ion-item>
+
+
+      <ion-item>
+          hisec4ever@gmail.com
+        <ion-badge class="pull-right" color="danger" slot="end">rejete</ion-badge>
+      </ion-item>
+  
+    </ion-scroll>
+
+  </ion-grid>
+  
+
+</ion-content>

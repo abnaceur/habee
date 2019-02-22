@@ -17,4 +17,4 @@ RUN apt-get update \
     && npm install -g ionic \
     && npm rebuild node-sass --force
 
-CMD ionic serve
+CMD ionic serve --browser

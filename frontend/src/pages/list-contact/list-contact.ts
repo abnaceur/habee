@@ -84,4 +84,13 @@ export class ListContactPage {
       modal.present();
     }, 200);
   }
+
+  openInvitationsList() {
+
+    const modal = this.modalCtrl.create("InvitationListPage", this.tabParams);
+		modal.onDidDismiss(data => console.log("test this"));
+		modal.present();
+  }
+
 }
+  

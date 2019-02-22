@@ -1,69 +1,126 @@
 page-list-contact {
+  .icon-badge {
+    position: absolute;
+    z-index: 11;
+    right: -10px;
+    font-size: 12px;
+    /* height: 16px; */
+    top: -8px;
+    border-radius: 100%;
+    background: brown;
+    color: white;
+  }
+  ion-icon {
+    line-height: 1;
+  }
 
-    .myview_events {
-        background-image: url('../assets/imgs/MainBackground_1.png');
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-      
-      .timeStyle {
-        font-size: 1.4em;
-        position: absolute;
-        display: inline-block;
-        color: #3594cb;
-        top: 15%;
-        left: 67%;
-      }
-      
-      .eventFooter {
-        position: relative;
-        height: 65px;
-      }
-      
-      .menuStyle {
-        position: relative;
-        float: left;
-        top: 6px;
-        left: 4%;
-        font-size: 40px;
-        color: floralwhite
-      }
-      
-      
-      
-      .styleParticipants {
-        margin-top: 11px;
-        color: deeppink;
-        font-weight: bolder;
-        font-size: small;
-        font-family: sans-serif;
-      }
-      
-      .commName {
-        position: absolute;
-        display: inline-flex;
-        left: 27%;
-        top: 37%;
-        color: aliceblue;
-        font-weight: bolder;
-        font-size: 19px;
-        font-family: sans-serif;
-      }
-      
-      .optionsStyle {
-        position: relative;
-        float: right;
-        top: 12px;
-        right: 4%;
-        font-size: 30px;
-        color: floralwhite
-      }
-      
-      .toolbar-background-md {
-        background-color: #5cbcc1;
-        ;
-      }
-      
+  .myview_events {
+    background-image: url('../assets/imgs/MainBackground_1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
+  .timeStyle {
+    font-size: 1.4em;
+    position: absolute;
+    display: inline-block;
+    color: #3594cb;
+    top: 15%;
+    left: 67%;
+  }
+
+  .eventFooter {
+    position: relative;
+    height: 65px;
+  }
+
+  #badg-notif {
+    position: absolute;
+    z-index: 11;
+    right: -10px;
+    font-size: 12px;
+    /* height: 16px; */
+    top: -8px;
+    border-radius: 100%;
+  }
+
+  .menuStyle {
+    position: relative;
+    float: left;
+    top: 6px;
+    left: 4%;
+    font-size: 40px;
+    color: floralwhite
+  }
+
+
+
+  .styleParticipants {
+    margin-top: 11px;
+    color: deeppink;
+    font-weight: bolder;
+    font-size: small;
+    font-family: sans-serif;
+  }
+
+  .commName {
+    position: absolute;
+    display: inline-flex;
+    left: 27%;
+    top: 37%;
+    color: aliceblue;
+    font-weight: bolder;
+    font-size: 19px;
+    font-family: sans-serif;
+  }
+
+  .optionsStyle {
+    position: relative;
+    float: right;
+    top: 12px;
+    right: 4%;
+    font-size: 30px;
+    color: floralwhite
+  }
+
+  .toolbar-background-md {
+    background-color: #5cbcc1;
+    ;
+  }
+
+  ion-modal,
+  .show-page {
+    // transparent black background overlay
+    background-color: rgba(0, 0, 0, .5) !important;
+    padding: 50px !important;
+  }
+
+  .toolbar-background {
+    color: red !important;
+  }
+
+  ion-modal.modal-wrapper {
+    transform: translateY(30%) !important;
+  }
+
+  ion-page.modal {
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-backdrop-bg {
+    background-color: #000;
+    opacity: 0;
+  }
+
+  .active .modal-backdrop-bg {
+    opacity: 0.5;
+  }
 }
 
+ion-modal.inset-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  transition: opacity .25s ease-in-out;
+  padding: 20vh 10vw;
+}
