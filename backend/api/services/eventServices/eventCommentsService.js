@@ -48,7 +48,7 @@ pushCommentsToclass = (data, comments) => {
 
 updateComments = (comments) => {
     console.log("Comments : ", comments)
-    if (comments[0].eventId != undefined) {
+    if (comments != []) {
         let eventId = comments[0].eventId;
         let communityId = comments[0].eventCommunity;
 

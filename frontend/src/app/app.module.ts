@@ -49,7 +49,7 @@ import { PasswordProvider } from '../providers/password/password';
 import { AccountProvider } from '../providers/account/account';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { environment } from '../environments/environment.prod';
-const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
+const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} };
  
 
 

@@ -12,6 +12,12 @@ page-popup-user-detail-modal {
     opacity: 0.7;
   }
 
+  input .messageDraft {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+}
+
   .profileTitle {
     color: white;
     position: absolute;

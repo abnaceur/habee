@@ -75,42 +75,58 @@
   <ion-item no-line><b>Commentaire</b> -
     <span (click)="showComments = !showComments" style="color:blueviolet"> Voir tout</span>
   </ion-item>
-  <span *ngIf="allComments.length != 0">
-    <div *ngFor="let comment of allComments">
-      <div *ngIf="showComments == true" class="message-wrapper">
-        <div>
-          <img class="profile-pic left" [src]="url + '/' + comment.photo" />
-          <!--  wave-->
-          <div class="chat-bubble left slide-left">
 
-            <div class="message-detail">
-              <span class="bold">{{comment.username}}</span>,
-              <span>{{transform(comment.date)}}</span>
+  <span *ngIf="allComments.length != 0" >
+    <ion-scroll  id="scrollBar" scrollY="true" style="white-space: nowrap; height: 40%; width: 100%;
+      min-height: 100px;">
+      <div *ngFor="let comment of allComments">
+        <div *ngIf="showComments == true" class="message-wrapper">
+          <div>
+            <img class="profile-pic left" [src]="url + '/' + comment.photo" />
+            <!--  wave-->
+            <div class="chat-bubble left slide-left">
+
+              <div class="message-detail">
+                <span class="bold">{{comment.username}}</span>,
+                <span>{{transform(comment.date)}}</span>
+              </div>
+
+              <div class="message" [innerHTML]="comment.comment" autolinker>
+              </div>
+
             </div>
-
-            <div class="message" [innerHTML]="comment.comment" autolinker>
-            </div>
-
           </div>
+          <div class="cf"></div>
         </div>
-        <div class="cf"></div>
+
       </div>
 
-    </div>
+    </ion-scroll>
   </span>
-  <div style="margin-bottom: 11vw">
-    <ion-item>
-      <ion-input [(ngModel)]="commentText" placeholder="Laissez un commentaire..."></ion-input>
-      <button ion-button clear (click)="onSubmit()" item-end>
-        <ion-icon class="footer-btn" name="send"></ion-icon>
-      </button>
-    </ion-item>
-  </div>
+
+
 
 </ion-content>
 
 
 <ion-footer>
+    <ion-row  style="margin-bottom: 11vw">
+
+        <ion-toolbar>
+            <ion-item>
+                <ion-input type="text" autocorrect clearInput inputmode="full-width-latin" spellcheck="true" 
+                [(ngModel)]="commentText" placeholder="Laissez un commentaire..."></ion-input>
+               
+                <button ion-button clear (click)="onSubmit()" item-end>
+                  <ion-icon class="footer-btn" name="send"></ion-icon>
+                </button>
+              </ion-item>
+        </ion-toolbar>
+      </ion-row>
+
+      
+
+
   <div *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
       <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"

@@ -53,28 +53,20 @@ io.on('connection', function (client) {
   if (comments.length > 0)
   {
     client.on('getmessage', function (data) {
-      console.log("unshiftComm :c", unshiftComm)
-      console.log("comments :c", comments)
       client.emit('live-message', unshiftComm);
     });
   }
 
   client.on('disconnect', function () {
-    console.log("unshiftComm :d", unshiftComm)
-    console.log("comments :d", comments)
 
     console.log("Disconnected here ... ", client.id)
     client.disconnect(true)
     connections.splice(connections.indexOf(client), 1);
-    console.log('Connected clients 2 ...', connections.length);
-    console.log("Disconnected here ... ", client.id)
     if (connections.length === 0) {
-      console.log("Empty comments", comments)
       saveComments.updateComments(comments)
       unshiftComm = [];
       comments = [];
     }
-    console.log("comments : ", comments)
   });
 });
 /**

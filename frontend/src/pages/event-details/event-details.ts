@@ -50,7 +50,7 @@ export class EventDetailsPage {
   public allComments = [];
   public profileInfo;
   public tabParams;
-  public showComments = false;
+  public showComments = true;
   public subPassions;
   public url = ENV.BASE_URL;
   eventDetails: {
@@ -336,6 +336,7 @@ export class EventDetailsPage {
       comment: this.commentText
     };
     console.log("Comment : ", comment);
+    this.commentText = "";
     this.eventProvider.emitSendMsg(comment);
   }
 
