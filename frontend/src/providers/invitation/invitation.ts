@@ -8,7 +8,6 @@ import { environment as ENV } from "../../environments/environment";
 
 import { UtilsProvider } from "../../providers/utils/utils";
 
-
 /*
   Generated class for the InvitationProvider provider.
 
@@ -17,21 +16,54 @@ import { UtilsProvider } from "../../providers/utils/utils";
 */
 @Injectable()
 export class InvitationProvider {
-
-  constructor(
-    public http: Http, 
-    public utils: UtilsProvider
-  ) {
-    console.log('Hello InvitationProvider Provider');
+  constructor(public http: Http, public utils: UtilsProvider) {
+    console.log("Hello InvitationProvider Provider");
   }
 
-  getAllUserInvitations (userInfo) {
+  getAllUserInvitations(userInfo) {
     console.log("UserId :", userInfo);
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get( ENV.BASE_URL + "/users/list/invitation/" + userInfo.userId + "/community/" + userInfo.activeCommunity,
+    return this.http
+      .get(
+        ENV.BASE_URL +
+          "/users/list/invitation/" +
+          userInfo.userId +
+          "/community/" +
+          userInfo.activeCommunity,
         { headers: header }
       )
       .map(response => response.json().data);
+  }
+
+  updateNotification(userInfo) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http
+      .put(
+        ENV.BASE_URL +
+          "/users/update/invitation/" +
+          userInfo.userId +
+          "/community/" +
+          userInfo.activeCommunity,
+        { headers: header }
+      )
+      .map(response => response.json().data);
+  }
+
+  getCountNotification (userInfo) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http
+      .get(
+        ENV.BASE_URL +
+          "/users/count/invitation/" +
+          userInfo.userId +
+          "/community/" +
+          userInfo.activeCommunity,
+        { headers: header }
+      )
+      .map(response => response.json().count);
+    
   }
 }

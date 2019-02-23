@@ -414,7 +414,6 @@ exports.updateAccountInfo = (req, res, next) => {
     let userId = req.params.userId;
    
     userAccountService.updateThisUserAccount(res, req.body, userId);
-    console.log("Data :", userId, req.body)
 }
 
 
@@ -423,4 +422,18 @@ exports.getListInvitationn = (req, res, next) => {
     let communityId = req.params.communityId;
   
     userInvitationService.listAllUserInvitation(res, userId, communityId)
+}
+
+exports.updateInvitationNotification = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+  
+    userInvitationService.updateNotification(res, userId, communityId)
+}
+
+exports.countNotificationbyUserId = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+  
+    userInvitationService.updateNotification(res, userId, communityId)
 }

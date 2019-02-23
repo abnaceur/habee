@@ -174,8 +174,20 @@ router.put('/account/info/:userId' ,userController.updateAccountInfo);
  ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
  */
 
-
 router.get('/list/invitation/:userId/community/:communityId' ,userController.getListInvitationn);
+
+/*
+ ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
+ */
+
+router.put('/update/invitation/:userId/community/:communityId' ,userController.updateInvitationNotification);
+
+
+/*
+ ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
+ */
+
+router.get('/count/invitation/:userId/community/:communityId' ,userController.countNotificationbyUserId);
 
 
 module.exports = router;

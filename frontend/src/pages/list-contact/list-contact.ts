@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from "@angular/core";
 
 import {
   IonicPage,
@@ -8,15 +6,13 @@ import {
   ModalController,
   ToastController,
   NavParams
-} from 'ionic-angular';
+} from "ionic-angular";
 
-import {
-  environment as ENV
-} from '../../environments/environment';
+import { InvitationProvider } from "../../providers/invitation/invitation";
 
-import {
-  UserProvider
-} from '../../providers/user/user';
+import { environment as ENV } from "../../environments/environment";
+
+import { UserProvider } from "../../providers/user/user";
 
 /**
  * Generated class for the ListContactPage page.
@@ -27,19 +23,16 @@ import {
 
 @IonicPage()
 @Component({
-  selector: 'page-list-contact',
-  templateUrl: 'list-contact.html',
+  selector: "page-list-contact",
+  templateUrl: "list-contact.html"
 })
-
-
 export class ListContactPage {
-
   public url = ENV.BASE_URL;
   public contact;
   public tabParams;
+  public notificationCount = 0;
 
-
-  // Moadal declaration 
+  // Moadal declaration
   expanded: any;
   contracted: any;
   showIcon = true;
@@ -48,23 +41,33 @@ export class ListContactPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private invitationProvider: InvitationProvider,
     public modalCtrl: ModalController,
     private userProvider: UserProvider,
-    private toastController: ToastController,
+    private toastController: ToastController
   ) {
     this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
-      activeCommunity: this.navParams.get('activeCommunity')
+      activeCommunity: this.navParams.get("activeCommunity")
     };
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidLoad ListContactPage', this.tabParams);
-    this.userProvider.getAllUserByCommunityId(this.tabParams)
+    this.invitationProvider
+    .getCountNotification(this.tabParams)
+    .subscribe(count => {
+      setTimeout(() => {
+        this.notificationCount = count
+      }, 500)
+    })
+
+    console.log("ionViewDidLoad ListContactPage", this.notificationCount);
+    this.userProvider
+      .getAllUserByCommunityId(this.tabParams)
       .subscribe(response => {
         this.contact = response.users;
-        console.log("Repsonse this list contact : ", response)
+        console.log("Repsonse this list contact : ", response);
       });
   }
 
@@ -73,24 +76,21 @@ export class ListContactPage {
     this.contracted = !this.expanded;
     this.showIcon = false;
 
-    console.log("Add contact");
-    setTimeout(() => {
-      const modal = this.modalCtrl.create('AddContactPage', this.tabParams);
+      const modal = this.modalCtrl.create("AddContactPage", this.tabParams);
       modal.onDidDismiss(data => {
         this.expanded = false;
         this.contracted = !this.expanded;
-        setTimeout(() => this.showIcon = true, 330);
+        setTimeout(() => (this.showIcon = true), 330);
       });
       modal.present();
-    }, 200);
   }
 
   openInvitationsList() {
-
+    this.tabParams.countNotification = this.notificationCount
     const modal = this.modalCtrl.create("InvitationListPage", this.tabParams);
-		modal.onDidDismiss(data => console.log("test this"));
-		modal.present();
+    modal.onDidDismiss(data => {
+      this.notificationCount = 0;
+    });
+    modal.present();
   }
-
 }
-  

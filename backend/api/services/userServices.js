@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const communityService = require("../services/communityServices/communityService");
 const Invitation = require('../models/invitation');
 const invitationClass = require('../classes/invitationClass')
+const invitationService = require('./userServices/userInvitationService')
 
 
 getUserInformation = (userId, activeCommunity) => {
@@ -221,15 +222,18 @@ checkIfEmailExist = (email) => {
     })
 }
 
+
 createNewAccount = (value, res) => {
     userClass.creatNewAccountUser(value)
         .then(usr => {
             let user = new User(usr)
             user.save()
-                .then(result => {
+                .then(user => {
                     communityService.newUserCommunity(user);
                     let msg = userEmails.accountFirstCreation(value.email, value.password);
                     utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
+                    invitationService
+                    .invitationService(user.credentials.email, user.userId, user.credentials.lastname, user.credentials.firstname)
                     res.status(200).json({
                         code: 200,
                         msg: "Accountcreated with success"

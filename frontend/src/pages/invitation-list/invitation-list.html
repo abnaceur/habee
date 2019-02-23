@@ -1,13 +1,14 @@
-<ion-header>
-  <ion-navbar style="color: black">
-    <ion-title>List des invitation</ion-title>
-    <ion-buttons end (click)="dismiss()">
-      <button ion-button icon-only>
-        <ion-icon color="primary" name="close"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+<ion-header style="height: 50px;
+  background-color: #E96FA1;">
+
+  <ion-icon item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
+    <span style="font-size: 17px;color: white; font-weight: bold">List des nvitations</span>
+  </ion-title>
 </ion-header>
+  
 
 <ion-content no-padding fullscreen class="invitation-list">
   <ion-grid>

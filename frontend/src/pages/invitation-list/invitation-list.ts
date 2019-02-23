@@ -11,9 +11,7 @@ import {
 
 import { environment as ENV } from "../../environments/environment";
 
-import {
-  InvitationProvider
-} from '../../providers/invitation/invitation'
+import { InvitationProvider } from "../../providers/invitation/invitation";
 
 /**
  * Generated class for the InvitationListPage page.
@@ -43,25 +41,27 @@ export class InvitationListPage {
     this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
-      activeCommunity: this.navParams.get("activeCommunity")
+      activeCommunity: this.navParams.get("activeCommunity"),
+      countNotification: this.navParams.get("countNotification")
     };
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad InvitationListPage");
-  }
-
   ionViewDidEnter() {
-    console.log("ionViewDidEnter InvitationListPage");
-    this.invitationProvider.getAllUserInvitations(this.tabParams)
-    .subscribe(data => {
-      console.log("Data : ", data);
-      this.invitationList = data;
-    })
-
+    this.invitationProvider
+      .getAllUserInvitations(this.tabParams)
+      .subscribe(data => {
+        this.invitationList = data;
+      });
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+
+    if (this.tabParams.countNotification != 0) {
+      this.invitationProvider
+        .updateNotification(this.tabParams)
+        .subscribe(data => {
+          this.viewCtrl.dismiss();
+        });
+    } else this.viewCtrl.dismiss();
   }
 }

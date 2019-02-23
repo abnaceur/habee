@@ -16,9 +16,9 @@
     name="person-add"></ion-icon>
 
     <div (click)="openInvitationsList()">
-      <ion-icon  style="margin-right: 10px" class="optionsStyle pop-in"  name="notifications">
-        <span>
-            <ion-badge class="pull-right" class="icon-badge">3</ion-badge>
+      <ion-icon  style="margin-right: 10px; z-index:1111" class="optionsStyle pop-in"  name="notifications">
+        <span *ngIf="notificationCount != 0">
+            <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
         </span>
     </ion-icon>
     </div>
