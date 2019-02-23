@@ -34,7 +34,7 @@ import { EditProfilePageModule } from '../pages/edit-profile/edit-profile.module
 import { EditPasswordPageModule } from '../pages/edit-password/edit-password.module';
 import { DeleteMyAccountPageModule } from '../pages/delete-my-account/delete-my-account.module';
 import { EditAccountPageModule } from '../pages/edit-account/edit-account.module';
-import { InvitationListPageModule } from '../pages/invitation-list/invitation-list.module'
+import { InvitationListPageModule } from '../pages/invitation-list/invitation-list.module';
 
 import { CameraProvider } from '../providers/camera/camera';
 import { SharedModule   } from './shared.module';
@@ -49,6 +49,7 @@ import { PasswordProvider } from '../providers/password/password';
 import { AccountProvider } from '../providers/account/account';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { environment } from '../environments/environment.prod';
+import { InvitationProvider } from '../providers/invitation/invitation';
 const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} };
  
 
@@ -113,6 +114,7 @@ const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} 
     AddContactProvider,
     PasswordProvider,
     AccountProvider,
+    InvitationProvider,
   ]
 })
 export class AppModule { }

@@ -14,32 +14,44 @@
 
     <ion-scroll id="scrollBar" scrollY="true" style="white-space: nowrap; height: 100%; width: 100%;
     ">
+      <div *ngFor="let invit of invitationList">
 
-      <ion-item>
-          hisec4ever@gmail.com
-        <ion-badge class="pull-right" color="danger" slot="end">rejeter</ion-badge>
-        <ion-badge class="pull-right" color="primary" slot="end">accepter</ion-badge>
-      </ion-item>
+        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false">
+          {{invit.invitedEmail}}
+          <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+        </ion-item>
 
-      <ion-item>
-          hisec4ever@gmail.com
-        <ion-badge class="pull-right" style="background-color: darkorange" slot="end">pending...</ion-badge>
-      </ion-item>
-
-      <ion-item>
-          hisec4ever@gmail.com
-        <ion-badge class="pull-right" style="background-color: green" slot="end">accpte</ion-badge>
-      </ion-item>
+        <ion-item *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId">
+          {{invit.invitorFullname}}
+          <ion-badge class="pull-right"  style="float:right;" color="danger" slot="end">rejeter</ion-badge>
+          <ion-badge class="pull-right"  style="float:right;"  color="primary" slot="end">accepter</ion-badge>
+        </ion-item>
 
 
-      <ion-item>
-          hisec4ever@gmail.com
-        <ion-badge class="pull-right" color="danger" slot="end">rejete</ion-badge>
-      </ion-item>
-  
+        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
+        && invit.status == 'pending' ">
+        {{invit.invitedFullname}}
+          <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+        </ion-item>
+
+        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
+        && invit.status == 'accepted' ">
+        {{invit.invitedFullname}}
+          <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">accpte</ion-badge>
+        </ion-item>
+
+
+        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
+        && invit.status == 'rejected' "> 
+        {{invit.invitedFullname}}
+          <ion-badge class="pull-right" style="float:right;" color="danger" slot="end">rejete</ion-badge>
+        </ion-item>
+
+      </div>
+
     </ion-scroll>
 
   </ion-grid>
-  
+
 
 </ion-content>

@@ -86,8 +86,8 @@ getInvitedUserInformation = (user, activeCommunity) => {
     })
 }
 
-saveInvitationExistingUser = (profileInvitor, profileInvited, userId, email, activeCommunity) => {
-    const invitation = new Invitation(invitationClass.classInvitationExistingAccount(profileInvitor, profileInvited, userId, email, activeCommunity))
+saveInvitationExistingUser = (invitedId, profileInvitor, profileInvited, userId, email, activeCommunity) => {
+    const invitation = new Invitation(invitationClass.classInvitationExistingAccount(invitedId, profileInvitor, profileInvited, userId, email, activeCommunity))
 
      return new Promise((resolve, reject) => {
          invitation.save()
@@ -107,7 +107,7 @@ inviteExistingContactToCommunity = (email, existingUser, userId, activeCommunity
                         .then(profileInvitor => {
                             getInvitedUserInformation(existingUser, activeCommunity)
                             .then(profileInvited => {
-                                saveInvitationExistingUser(profileInvitor, profileInvited, userId, email, activeCommunity)
+                                saveInvitationExistingUser(existingUser[0].userId, profileInvitor, profileInvited, userId, email, activeCommunity)
                                 .then(invitedEmail => {
                                     emailRes = {
                                         value: invitedEmail,

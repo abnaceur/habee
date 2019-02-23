@@ -7,6 +7,7 @@ let invitationSchema = mongoose.Schema({
     invitatorId: String,
     invitorFullname: String,
     invitedEmail: String,
+    invitedId: String,
     invitedFullname: String,
     contactExist: Boolean,
     status: String,

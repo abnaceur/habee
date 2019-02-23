@@ -170,4 +170,12 @@ router.get('/account/info/:userId' ,userController.getAccountInfo);
 
 router.put('/account/info/:userId' ,userController.updateAccountInfo);
 
+/*
+ ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
+ */
+
+
+router.get('/list/invitation/:userId/community/:communityId' ,userController.getListInvitationn);
+
+
 module.exports = router;

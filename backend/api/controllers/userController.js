@@ -11,7 +11,7 @@ const userEmailsTemplate = require('../emailsTemplate/userEmails');
 const getUserByCommunityIdService = require('../services/userServices/getUserbyCommunityIdService')
 const pswService = require("../services/userServices/pswService");
 const userAccountService = require('../services/userServices/userAccount')
-
+const userInvitationService = require('../services/userServices/userInvitationService');
 
 
 exports.login_user = (req, res, next) => {
@@ -415,4 +415,12 @@ exports.updateAccountInfo = (req, res, next) => {
    
     userAccountService.updateThisUserAccount(res, req.body, userId);
     console.log("Data :", userId, req.body)
+}
+
+
+exports.getListInvitationn = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+  
+    userInvitationService.listAllUserInvitation(res, userId, communityId)
 }

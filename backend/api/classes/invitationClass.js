@@ -10,6 +10,7 @@ exports.classInvitationNewAccount = (invitor, invitorId, invitedEmail, community
         invitatorId: invitorId,
         invitorFullname: invitor.profileUsername,
         invitedEmail: invitedEmail,
+        invitedId: "",
         invitedFullname: "",
         contactExist: false,
         status: "pending",
@@ -19,7 +20,7 @@ exports.classInvitationNewAccount = (invitor, invitorId, invitedEmail, community
     return classInvitation
 }
 
-exports.classInvitationExistingAccount = (invitor, invited, invitorId, invitedEmail, communityId) => {
+exports.classInvitationExistingAccount = (invitedId, invitor, invited, invitorId, invitedEmail, communityId) => {
 
     let classInvitation = {
         _id: new mongoose.Types.ObjectId,
@@ -27,6 +28,7 @@ exports.classInvitationExistingAccount = (invitor, invited, invitorId, invitedEm
         invitatorId: invitorId,
         invitorFullname: invitor.profileUsername,
         invitedEmail: invitedEmail,
+        invitedId: invitedId,
         invitedFullname: invited.profileUsername,
         contactExist: true,
         status: "pending",
