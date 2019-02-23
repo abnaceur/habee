@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 
 import {
   IonicPage,
@@ -6,6 +6,7 @@ import {
   NavParams,
   ToastController,
   ModalController,
+  Content,
   ActionSheetController
 } from "ionic-angular";
 
@@ -45,13 +46,14 @@ import { ProfileProvider } from "../../providers/profile/profile";
   templateUrl: "event-details.html"
 })
 export class EventDetailsPage {
+  @ViewChild("content") content: Content;
   public userName;
   public commentText = "";
   public allComments = [];
   private liveComments = [];
   public profileInfo;
   public tabParams;
-  public showComments = true;
+  public showComments = false;
   public subPassions;
   public url = ENV.BASE_URL;
   eventDetails: {
@@ -120,7 +122,13 @@ export class EventDetailsPage {
           this.isSubscribed = "Desinscrir";
       }
     });
-  
+  }
+
+  scrolltobottomnfun() {
+    setTimeout(() => {
+      console.log("Scrollbottomn");
+      this.content.scrollToBottom(0);
+    }, 200);
   }
 
   ionViewWillLoad() {
@@ -137,12 +145,12 @@ export class EventDetailsPage {
               date: msg.dateOfCreation,
               comment: msg.userMessage
             });
-          })
+          });
         }
         if (this.liveComments.length != 0) {
           this.liveComments.map(cm => {
-            this.allComments.push(cm)
-          })
+            this.allComments.push(cm);
+          });
         }
       });
 
@@ -156,15 +164,17 @@ export class EventDetailsPage {
         };
       });
 
-        this.socket.on("live-message", data => {
-          data.map(d => {
-            this.liveComments.unshift(d);
-          });
-        });
-    
-        this.socket.on("broad-msg", data => {
-          this.allComments.push(data);
-        });
+    this.socket.on("live-message", data => {
+      data.map(d => {
+        this.liveComments.unshift(d);
+        this.scrolltobottomnfun();
+      });
+    });
+
+    this.socket.on("broad-msg", data => {
+      this.allComments.push(data);
+      this.scrolltobottomnfun();
+    });
   }
 
   ionViewWillLeave() {
@@ -284,17 +294,19 @@ export class EventDetailsPage {
       .getEventById(eventId, this.tabParams.token)
       .subscribe(response => {
         this.eventDetails.participants = response.Event[0].participants;
-        console.log("this.eventDetails.participants :", this.eventDetails.participants);
-        
+        console.log(
+          "this.eventDetails.participants :",
+          this.eventDetails.participants
+        );
       });
   }
 
   subscribeToEvent(eventId) {
-    console.log("eventId : ", eventId)
+    console.log("eventId : ", eventId);
     this.eventProvider
       .getEventSubscription(eventId, this.tabParams)
       .subscribe(response => {
-        console.log("eventId : ", response)
+        console.log("eventId : ", response);
         if (response.Subscribe == true) {
           this.updateParticipantsList(true, eventId);
           this.utils.notification("inscription reussie !", "top");
@@ -333,6 +345,7 @@ export class EventDetailsPage {
     };
     console.log("Comment : ", comment);
     this.commentText = "";
+    this.scrolltobottomnfun();
     this.eventProvider.emitSendMsg(comment);
   }
 

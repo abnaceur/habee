@@ -16,7 +16,7 @@
 </ion-header>
 
 
-<ion-content fullscreen>
+<ion-content fullscreen #content>
 
 
   <h1 style="position: absolute; z-index: 1111;  left:15rem; font-weight:bolder; color: white">{{eventDetails.eventName}}</h1>
@@ -77,9 +77,7 @@
   </ion-item>
 
   <span *ngIf="allComments.length != 0" >
-    <ion-scroll  id="scrollBar" scrollY="true" style="white-space: nowrap; height: 40%; width: 100%;
-      min-height: 100px;">
-      <div *ngFor="let comment of allComments">
+      <div *ngFor="let comment of allComments;">
         <div *ngIf="showComments == true" class="message-wrapper">
           <div>
             <img class="profile-pic left" [src]="url + '/' + comment.photo" />
@@ -101,7 +99,6 @@
 
       </div>
 
-    </ion-scroll>
   </span>
 
 
