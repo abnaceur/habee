@@ -26,13 +26,18 @@
         <ion-input (click)="contactArray[0].check = ''" type="email" text-right [(ngModel)]="contactArray[0].value"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="contactArray[0].check != ''">
+      <ion-item *ngIf="contactArray[0].check != '' && contactArray[0].status == ''">
         <p>{{contactArray[0].check}}</p>
       </ion-item>
        
       <ion-item *ngIf="contactArray[0].status == 500">
         <p text-right>Ce contact exist !</p>
       </ion-item>
+
+      <ion-item *ngIf="contactArray[0].status == 204">
+          <p text-right>Ce contact est deja invite</p>
+        </ion-item>
+
 
 
       <ion-item *ngIf="contactArray[0].status == 202">
@@ -64,7 +69,7 @@
         </ion-item>
 
 
-      <ion-item *ngIf="contactArray[idx].check != ''">
+      <ion-item *ngIf="contactArray[idx].check != '' && contactArray[idx].status == ''">
           <p>{{contactArray[idx].check}}</p>
         </ion-item>
          
@@ -74,13 +79,17 @@
         </ion-item>
 
 
+        <ion-item *ngIf="contactArray[idx].status == 204">
+            <p text-right>Ce contact est deja invite</p>
+          </ion-item>
+
         <ion-item *ngIf="contactArray[idx].status == 202">
           <p text-right>Contact ajouter avec succes</p>
         </ion-item>
 
 
         <ion-item *ngIf="contactArray[idx].status == 200">
-          <p text-right>Invitation envoyer avec succes</p>
+          <p text-right style="color:green" >Invitation envoyer avec succes</p>
         </ion-item>
 
 

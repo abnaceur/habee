@@ -5,31 +5,132 @@ const userEmails = require('../emailsTemplate/userEmails')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const communityService = require("../services/communityServices/communityService");
+const Invitation = require('../models/invitation');
+const invitationClass = require('../classes/invitationClass')
 
-exports.addNewContact = (email, userId, activeCommunity) => {
-    let password = utils.randomValueGenerator()
-    console.log("Ganaretd password : ", password);
 
+getUserInformation = (userId, activeCommunity) => {
     return new Promise((resolve, reject) => {
-        userClass.userClassAddNew(password, email, activeCommunity)
-            .then(user => {
-                userClass.saveUser(user, email, password, userId)
-                    .then(email => {
-                        resolve(email)
-                    })
+        User.find({
+                userId: userId,
+                "profile.profileCummunityId": activeCommunity
+            }).select("profile")
+            .exec()
+            .then(usr => {
+                var pos = getProfileCommunityProsion(usr, activeCommunity)
+                resolve(usr[0].profile[pos])
             })
     })
 }
 
-exports.addExistingContactToCommunity = (email, existingUser, senderId, activeCommunity) => {
+
+saveInvitation = (invitor, invitorId, invitedEmail, communityId) => {
+    const invitation = new Invitation(invitationClass.classInvitationNewAccount(invitor, invitorId, invitedEmail, communityId))
 
     return new Promise((resolve, reject) => {
-        userClass.userAddNewCommnity(email, existingUser, senderId, activeCommunity)
-            .then(email => resolve(email))
+        invitation.save()
+            .then(inv => {
+                resolve(invitedEmail)
+            }).catch(err => utils.defaultError())
     })
 }
 
-exports.checkIfCommunityExist = (email, activeCommunity) => {
+invitationIfExist = (email, userId, activeCommunity) => {
+    return new Promise((resolve, reject) => {
+        Invitation.find({
+                invitationCommunityId: activeCommunity,
+                invitatorId: userId,
+                invitedEmail: email
+            }).exec()
+            .then(res => {
+                resolve(res.length)
+            })
+    })
+}
+
+inviteNewContact = (email, userId, activeCommunity) => {
+
+    return new Promise((resolve, reject) => {
+        invitationIfExist(email, userId, activeCommunity)
+            .then(count => {
+                if (count == 0) {
+                    getUserInformation(userId, activeCommunity)
+                        .then(profileInvitor => {
+                            saveInvitation(profileInvitor, userId, email, activeCommunity)
+                                .then(invitedEmail => {
+                                    emailRes = {
+                                        value: invitedEmail,
+                                        status: 200
+                                    }
+                                    resolve(emailRes)
+                                }).catch(err => console.log("Err : ", err))
+                        })
+                } else {
+                    emailRes = {
+                        value: email,
+                        status: 204
+                    }
+                    resolve(emailRes)
+                }
+            })
+
+
+    })
+}
+
+getInvitedUserInformation = (user, activeCommunity) => {
+
+    return new Promise((resolve, reject) => {
+        var pos = getProfileCommunityProsion(user, activeCommunity)
+        resolve(user[0].profile[pos])
+    })
+}
+
+saveInvitationExistingUser = (profileInvitor, profileInvited, userId, email, activeCommunity) => {
+    const invitation = new Invitation(invitationClass.classInvitationExistingAccount(profileInvitor, profileInvited, userId, email, activeCommunity))
+
+     return new Promise((resolve, reject) => {
+         invitation.save()
+            .then(inv => {
+                resolve(email)
+            }).catch(err => console.log("Err : ", err))
+    })
+}
+
+inviteExistingContactToCommunity = (email, existingUser, userId, activeCommunity) => {
+
+    return new Promise((resolve, reject) => {
+        invitationIfExist(email, userId, activeCommunity)
+            .then(count => {
+                if (count == 0) {
+                    getUserInformation(userId, activeCommunity)
+                        .then(profileInvitor => {
+                            getInvitedUserInformation(existingUser, activeCommunity)
+                            .then(profileInvited => {
+                                saveInvitationExistingUser(profileInvitor, profileInvited, userId, email, activeCommunity)
+                                .then(invitedEmail => {
+                                    emailRes = {
+                                        value: invitedEmail,
+                                        status: 200
+                                    }
+                                    resolve(emailRes)
+                                }).catch(err => console.log("Err : ", err));
+                            })
+                        })
+                } else {
+                    emailRes = {
+                        value: email,
+                        status: 204
+                    }
+                    resolve(emailRes)
+                }
+            })
+
+
+    })
+}
+
+checkIfCommunityExist = (email, activeCommunity) => {
 
     return new Promise((resolve, reject) => {
         User.find({
@@ -42,7 +143,7 @@ exports.checkIfCommunityExist = (email, activeCommunity) => {
     })
 }
 
-exports.emailExist = (email, userId, activeCommunity) => {
+emailExist = (email, userId, activeCommunity) => {
 
     return new Promise((resolve, reject) => {
         User.find({
@@ -50,10 +151,10 @@ exports.emailExist = (email, userId, activeCommunity) => {
             }).exec()
             .then(usr => {
                 if (usr.length === 0) {
-                    this.addNewContact(email.value, userId, activeCommunity)
+                    inviteNewContact(email.value, userId, activeCommunity)
                         .then(email => resolve(email))
                 } else {
-                    this.checkIfCommunityExist(email.value, activeCommunity)
+                    checkIfCommunityExist(email.value, activeCommunity)
                         .then(results => {
                             if (results === 1) {
                                 let newEmail = {
@@ -62,7 +163,7 @@ exports.emailExist = (email, userId, activeCommunity) => {
                                 }
                                 resolve(newEmail)
                             } else if (results === 0) {
-                                this.addExistingContactToCommunity(email.value, usr, userId, activeCommunity)
+                                inviteExistingContactToCommunity(email.value, usr, userId, activeCommunity)
                                     .then(email => {
                                         resolve(email)
                                     })
@@ -75,12 +176,12 @@ exports.emailExist = (email, userId, activeCommunity) => {
 
 
 // This is the main function 
-exports.addContacts = (emails, userId, activeCommunity) => {
+addContacts = (emails, userId, activeCommunity) => {
     let emailsList = [];
 
     return new Promise((resolve, reject) => {
         emails.map(email => {
-            this.emailExist(email, userId, activeCommunity)
+            emailExist(email, userId, activeCommunity)
                 .then(response => {
                     emailsList.push(response)
                     if (emails.length === emailsList.length)
@@ -91,7 +192,7 @@ exports.addContacts = (emails, userId, activeCommunity) => {
     })
 }
 
-exports.getImagePath = (req, imageBody) => {
+getImagePath = (req, imageBody) => {
     let imagePath;
 
     if (imageBody != undefined)
@@ -106,13 +207,11 @@ exports.getImagePath = (req, imageBody) => {
 
 checkIfEmailExist = (email) => {
 
-    console.log("Enail : ", email)
     return new Promise((resolve, reject) => {
         User.find({
                 "credentials.email": email
             }).exec()
             .then(usr => {
-                console.log("User: ", usr)
                 if (usr.length === 0)
                     resolve(true)
                 else
@@ -126,7 +225,6 @@ createNewAccount = (value, res) => {
     userClass.creatNewAccountUser(value)
         .then(usr => {
             let user = new User(usr)
-            console.log("Use : ", user)
             user.save()
                 .then(result => {
                     communityService.newUserCommunity(user);
@@ -230,7 +328,6 @@ editProfileByCommunityId = (pos, user, profileName, image) => {
 
 updateUser = (res, user) => {
 
-    console.log("User :", user);
     User.findByIdAndUpdate(user[0]._id,
         user[0], {
             new: false,
@@ -249,7 +346,6 @@ updateUser = (res, user) => {
 
 updateProfile = (res, image, profileName, userId, communityId) => {
 
-    console.log('Image :', image);
     User.find({
             userId: userId,
             "profile.profileCummunityId": communityId
@@ -257,15 +353,23 @@ updateProfile = (res, image, profileName, userId, communityId) => {
         .exec()
         .then(usr => {
             let pos = getProfileCommunityProsion(usr, communityId);
-            console.log("Pos : ", pos)
             editProfileByCommunityId(pos, usr, profileName, image)
-            .then(user => updateUser(res, user));
+                .then(user => updateUser(res, user));
         })
         .catch(err => utils.defaultError(res, err))
 }
 
 
 module.exports = {
+    inviteExistingContactToCommunity,
+    invitationIfExist,
+    saveInvitation,
+    inviteNewContact,
+    checkIfCommunityExist,
+    emailExist,
+    getImagePath,
+    getUserInformation,
+    addContacts,
     updateUser,
     editProfileByCommunityId,
     getProfileCommunityProsion,

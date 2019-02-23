@@ -42,19 +42,19 @@ export class AddContactPage {
   }
 
   ionViewWillLoad() {
-    this.contactArray = [{value: "", check: ""}];
+    this.contactArray = [{value: "", check: "", status: ""}];
     this.contactArrayLenght = 0;
     this.validateInput = 0;
  
   }
 
   AddContact() {
-    this.contactArray.push({ 'value': '', 'check': ''});
+    this.contactArray.push({ 'value': '', 'check': '', 'status': ""});
     this.contactArrayLenght = this.contactArray.length;
   }
 
   dismiss() {
-    this.contactArray = [{value: "", check:''}];
+    this.contactArray = [{value: "", check:"", status: ""}];
     this.contactArrayLenght = 0;
     this.viewCtrl.dismiss();
   }
@@ -68,6 +68,7 @@ export class AddContactPage {
 
     emailsList = await this.addContactProvider.isFieldEmpty(this.contactArray, this.tabParams)
     this.contactArray = emailsList;
+    console.log("Here : ", this.contactArray)
   }
 
 }
