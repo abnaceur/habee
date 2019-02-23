@@ -42,19 +42,19 @@ export class AddContactPage {
   }
 
   ionViewWillLoad() {
-    this.contactArray = [{value: ""}];
+    this.contactArray = [{value: "", check: ""}];
     this.contactArrayLenght = 0;
     this.validateInput = 0;
  
   }
 
   AddContact() {
-    this.contactArray.push({ 'value': '' });
+    this.contactArray.push({ 'value': '', 'check': ''});
     this.contactArrayLenght = this.contactArray.length;
   }
 
   dismiss() {
-    this.contactArray = [{value: ""}];
+    this.contactArray = [{value: "", check:''}];
     this.contactArrayLenght = 0;
     this.viewCtrl.dismiss();
   }

@@ -48,11 +48,11 @@ export class AddContactProvider {
     return new Promise((resolve, reject) => {
       contactArray.map(cc => {
         if (cc.value === "") {
-          cc.value = "Ce champ doit etre rempli"
+          cc.check = "Ce champ doit etre rempli"
           check++;
         } else if (re.test(cc.value) === false) {
           check++;
-          cc.value = cc.value + " non valid";
+          cc.check = cc.value + " : email non valid";
         }
       })
       if (check === 0) {

@@ -23,9 +23,12 @@
     <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
       <ion-item>
         <ion-label color="primary">Contact 1</ion-label>
-        <ion-input type="email" text-right [(ngModel)]="contactArray[0].value"></ion-input>
+        <ion-input (click)="contactArray[0].check = ''" type="email" text-right [(ngModel)]="contactArray[0].value"></ion-input>
       </ion-item>
 
+      <ion-item *ngIf="contactArray[0].check != ''">
+        <p>{{contactArray[0].check}}</p>
+      </ion-item>
        
       <ion-item *ngIf="contactArray[0].status == 500">
         <p text-right>Ce contact exist !</p>
@@ -57,9 +60,14 @@
 
         <ion-item>
           <ion-label color="primary">Contact {{idx+1}}</ion-label>
-          <ion-input type="email" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
+          <ion-input (click)="contactArray[idx].check = ''" type="email" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
         </ion-item>
 
+
+      <ion-item *ngIf="contactArray[idx].check != ''">
+          <p>{{contactArray[idx].check}}</p>
+        </ion-item>
+         
          
         <ion-item *ngIf="contactArray[idx].status == 500">
           <p text-right>Ce contact exist !</p>
