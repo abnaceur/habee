@@ -412,3 +412,11 @@ exports.countNotificationbyUserId = (req, res, next) => {
   
     userInvitationService.updateNotification(res, userId, communityId)
 }
+
+exports.statusAccepetedInvitation = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+  
+    console.log("Req body :", req.body)
+   userInvitationService.updateInvitationStatus(req.body, userId, res)   
+}

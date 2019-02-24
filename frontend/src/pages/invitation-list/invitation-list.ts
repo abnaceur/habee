@@ -9,6 +9,10 @@ import {
   NavParams
 } from "ionic-angular";
 
+import {
+  UtilsProvider
+} from '../../providers/utils/utils'
+
 import { environment as ENV } from "../../environments/environment";
 
 import { InvitationProvider } from "../../providers/invitation/invitation";
@@ -31,6 +35,7 @@ export class InvitationListPage {
   public invitationList: any;
 
   constructor(
+    private utils: UtilsProvider,
     private invitationProvider: InvitationProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -55,7 +60,6 @@ export class InvitationListPage {
   }
 
   dismiss() {
-
     if (this.tabParams.countNotification != 0) {
       this.invitationProvider
         .updateNotification(this.tabParams)
@@ -63,5 +67,22 @@ export class InvitationListPage {
           this.viewCtrl.dismiss();
         });
     } else this.viewCtrl.dismiss();
+  }
+
+  acceptInvitation(invit) {
+    this.invitationProvider
+      .acceptedInvitatioo(invit, this.tabParams)
+      .subscribe(data => {
+        console.log("Here data :", data);
+        if (data == 200) {
+          this.invitationProvider
+            .getAllUserInvitations(this.tabParams)
+            .subscribe(data => {
+              this.invitationList = data;
+            });
+        } else {
+          this.utils.notification("Sorry, something went wrong!", "top");
+        }
+      });
   }
 }

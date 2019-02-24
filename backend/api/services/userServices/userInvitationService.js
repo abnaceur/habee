@@ -1,5 +1,6 @@
 const Invitation = require('../../models/invitation')
-
+const userClass = require('../../classes/userClass');
+const User = require('../../models/user')
 
 getMyInvitations = (userId) => {
     return new Promise((resolve, reject) => {
@@ -41,9 +42,9 @@ getReceivedInvitation = (userId) => {
 
     return new Promise((resolve, reject) => {
         Invitation.find({
-            invitedId: userId,
-            status: "pending",
-            notification: true
+                invitedId: userId,
+                status: "pending",
+                notification: true
             }).exec()
             .then(receivedInvitations => {
                 resolve(receivedInvitations)
@@ -61,7 +62,6 @@ getAcceptedNotifications = (userId, communityId, status) => {
                 notification: true
             }).exec()
             .then(accRejInvitation => {
-                console.log("accRejInvitation : ", accRejInvitation)
                 resolve(accRejInvitation)
             })
             .catch(err => console.log("listAllUserInvitation Err: ", err))
@@ -104,7 +104,7 @@ updateNotification = (res, userId, communityId) => {
                                     code: 200,
                                     msg: "No updates!"
                                 })
-                            } 
+                            }
 
                         })
                         .catch(err => console.log("getAcceptedNotifications Err :", err))
@@ -119,28 +119,62 @@ updateNotification = (res, userId, communityId) => {
 invitationService = (email, userId, lastename, firstname) => {
 
     Invitation.find({
-        invitedEmail: email
-    }).exec()
-    .then(invitations => {
-        invitations.map(invit => {
-            invit.invitedId = userId;
-            invit.invitedFullname = lastename + " " + firstname;
-            invit.contactExist = true;
-            Invitation.findByIdAndUpdate(invit._id,
-                invit, {
-                    new: false,
-                },
-                function (err, results) {
-                    if (err) console.log("invitationService Err : ", err);
-                    console.log("invitation updated !")
-                })
+            invitedEmail: email
+        }).exec()
+        .then(invitations => {
+            invitations.map(invit => {
+                invit.invitedId = userId;
+                invit.invitedFullname = lastename + " " + firstname;
+                invit.contactExist = true;
+                Invitation.findByIdAndUpdate(invit._id,
+                    invit, {
+                        new: false,
+                    },
+                    function (err, results) {
+                        if (err) console.log("invitationService Err : ", err);
+                        console.log("invitation updated !")
+                    })
+            })
         })
-    })
-    .catch(err => console.log("invitationService Err :", err))
+        .catch(err => console.log("invitationService Err :", err))
 }
- 
+
+
+
+updateInvitationStatus = (invit, userId, res) => {
+    if (invit.status == "accepted" && invit.contactExist == true) {
+        User.find({
+                userId: userId
+            }).exec()
+            .then(user => {
+                userClass.userAddNewCommnity(invit, user)
+                    .then(code => {
+                        if (code == 200) {
+                            Invitation.findByIdAndUpdate(invit._id,
+                                invit, {
+                                    new: false,
+                                },
+                                function (err, results) {
+                                    if (err) console.log("updateInvitationStatus Err : ", err);
+                                    res.status(200).json({
+                                        code: 200,
+                                        msg: "Invitation accepted."
+                                    })
+                                })
+                        } else {
+                            res.status(200).json({
+                                code: 500,
+                                msg: "Sorry!, something went wrong."
+                            })
+                        }
+                    })
+            })
+            .catch(err => console.log("ERR : ", err))
+    }
+}
 
 module.exports = {
+    updateInvitationStatus,
     invitationService,
     updateNotif,
     getAcceptedNotifications,

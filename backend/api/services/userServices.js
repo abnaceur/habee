@@ -44,6 +44,7 @@ invitationIfExist = (email, userId, activeCommunity) => {
                 invitedEmail: email
             }).exec()
             .then(res => {
+                console.log("Res : ", res)
                 resolve(res.length)
             })
     })
@@ -54,6 +55,7 @@ inviteNewContact = (email, userId, activeCommunity) => {
     return new Promise((resolve, reject) => {
         invitationIfExist(email, userId, activeCommunity)
             .then(count => {
+                console.log("Count :", count)
                 if (count == 0) {
                     getUserInformation(userId, activeCommunity)
                         .then(profileInvitor => {
@@ -229,6 +231,7 @@ createNewAccount = (value, res) => {
             let user = new User(usr)
             user.save()
                 .then(user => {
+                    console.log("User created :", user)
                     communityService.newUserCommunity(user);
                     let msg = userEmails.accountFirstCreation(value.email, value.password);
                     utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);

@@ -194,13 +194,13 @@ exports.filterEventClass = (activeCommunity) => {
     })
 }
 
-exports.profileClass = (activeCommunity) => {
+exports.profileClass = (invitation) => {
 
     return new Promise((resolve, reject) => {
         resolve({
-            profileCummunityId: activeCommunity,
+            profileCummunityId: invitation.invitationCommunityId,
             profilePhoto: "uplaods/",
-            profileUsername: 'UserName_' + Math.floor(Math.random() * 10000),
+            profileUsername: invitation.invitedFullname,
             profileIsAdmin: 0,
             profileUserIsActive: true,
             profileUserIsDeleted: false,
@@ -212,32 +212,29 @@ exports.profileClass = (activeCommunity) => {
 
 
 
-exports.userAddNewCommnity = (email, user, senderId, activeCommunity) => {
+exports.userAddNewCommnity = (invitation, user) => {
 
     return new Promise((resolve, reject) => {
-        this.filterEventClass(activeCommunity)
+        this.filterEventClass(invitation.invitationCommunityId)
             .then(filter => {
                 user[0].filterEvent.push(filter);
-                user[0].communities.push(activeCommunity);
-                this.profileClass(activeCommunity)
+                user[0].communities.push(invitation.invitationCommunityId);
+                this.profileClass(invitation)
                     .then(profile => {
                         user[0].profile.push(profile)
-                        this.getUserFirstAndLastname(senderId)
+                        this.getUserFirstAndLastname(invitation.invitatorId)
                             .then(sendInfo => {
                                 let msg = userEmails.inviteExistingContact(sendInfo);
-                                utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
+                                // utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
                                 const userToSave  = new User(user[0])
+                                console.log("Hello there : ", userToSave)
                                 userToSave.save()
                                     .then(usr => {
-                                        emailRes = {
-                                            value: email,
-                                            status: 202
-                                        }
-                                        resolve(emailRes)
+                                        resolve(200)
                                     }).catch(err => console.log("ERROR: ", err))
                             })
                     })
-            })
+            }).catch(err => utils.defaultError(res, err))
     })
 }
 

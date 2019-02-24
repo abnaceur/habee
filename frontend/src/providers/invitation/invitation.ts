@@ -66,4 +66,22 @@ export class InvitationProvider {
       .map(response => response.json().count);
     
   }
+
+  acceptedInvitatioo(invit, userInfo) {
+    invit.status = "accepted"
+
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http
+      .post(
+        ENV.BASE_URL +
+          "/users/invitation/accepted/" +
+          userInfo.userId +
+          "/community/" +
+          userInfo.activeCommunity, invit,
+        { headers: header }
+      )
+      .map(response => response.json().code);
+    
+  }
 }

@@ -190,4 +190,10 @@ router.put('/update/invitation/:userId/community/:communityId' ,userController.u
 router.get('/count/invitation/:userId/community/:communityId' ,userController.countNotificationbyUserId);
 
 
+/*
+ ** API [POST] for route /users/invitation/accepted/:userId/community/:communityId [USED]
+ */
+
+router.post('/invitation/accepted/:userId/community/:communityId' ,userController.statusAccepetedInvitation);
+
 module.exports = router;

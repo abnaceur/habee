@@ -24,8 +24,8 @@
 
         <ion-item *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId">
           {{invit.invitorFullname}}
-          <ion-badge class="pull-right"  style="float:right;" color="danger" slot="end">rejeter</ion-badge>
-          <ion-badge class="pull-right"  style="float:right;"  color="primary" slot="end">accepter</ion-badge>
+          <button ion-button class="pull-right"  style="float:right;" color="danger" slot="end">rejeter</button>
+          <button ion-button (click)="acceptInvitation(invit)" class="pull-right"  style="float:right;"  color="primary" slot="end">accepter</button>
         </ion-item>
 
 
