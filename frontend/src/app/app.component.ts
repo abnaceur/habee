@@ -175,6 +175,8 @@ export class MyApp {
           this.userData.activeCommunity = comId;
           this.communityProvider.getCommunitiesbyCreator(this.userData)
             .subscribe(data => {
+              this.communityProvider.getCommunitiesByParticipation(this.userData)
+              .subscribe(data => console.log("Participated communities :", data))
               this.communityProvider.getCommunitySelected(data.communities, this.userData.activeCommunity)
                 .then(data => {
                   this.allCommunitiesbyUserId = data;

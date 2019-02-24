@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ContentChild } from "@angular/core";
 
 import {
   IonicPage,
@@ -8,6 +8,8 @@ import {
   ToastController,
   NavParams
 } from "ionic-angular";
+
+import moment from "moment";
 
 import {
   UtilsProvider
@@ -51,10 +53,11 @@ export class InvitationListPage {
     };
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.invitationProvider
       .getAllUserInvitations(this.tabParams)
       .subscribe(data => {
+        console.log("ddd : ", data)
         this.invitationList = data;
       });
   }
@@ -84,5 +87,13 @@ export class InvitationListPage {
           this.utils.notification("Sorry, something went wrong!", "top");
         }
       });
+  }
+
+
+  transform(value) {
+    moment.locale("fr");
+    let a = moment(value).fromNow();
+    return a;
+    //return value.toLowerCase();
   }
 }

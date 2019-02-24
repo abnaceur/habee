@@ -37,6 +37,14 @@ export class CommunityProvider {
     .map(response => response.json().community[0]);
   }
 
+  getCommunitiesByParticipation(userInfo) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.get(ENV.BASE_URL + '/communities/byparticipation/' + userInfo.userId,
+      { headers: header })
+      .map(response => response.json());
+  }
+
   getCommunitiesbyCreator(userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 

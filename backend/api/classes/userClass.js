@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const User = require('../models/user')
 const utils = require('../services/utils');
 const userEmails = require('../emailsTemplate/userEmails');
+const Community = require('../models/community');
+
 
 exports.creatNewAccountUser = (value) => {
     let userIdGen = value.email.substring(0, value.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + value.email.substring(value.email.search('@'), value.email.lenght);
@@ -210,6 +212,17 @@ exports.profileClass = (invitation) => {
 
 
 
+exports.addUsertoCommunity = (userId, communityId) => {
+
+    Community.find({
+        communityId: communityId
+    }).exec()
+    .then(community => {
+        community[0].communityMembers.push(userId)
+        console.log("Community : ", community)
+    }).catch(err => console.log("addUsertoCommunity error : ", err))
+}
+
 
 
 exports.userAddNewCommnity = (invitation, user) => {
@@ -225,6 +238,7 @@ exports.userAddNewCommnity = (invitation, user) => {
                         this.getUserFirstAndLastname(invitation.invitatorId)
                             .then(sendInfo => {
                                 let msg = userEmails.inviteExistingContact(sendInfo);
+                                this.addUsertoCommunity(user[0].userId, invitation.invitationCommunityId)
                                 // utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
                                 const userToSave  = new User(user[0])
                                 console.log("Hello there : ", userToSave)

@@ -76,4 +76,12 @@ router.put('/:communityId', communityController.put_community_by_id);
 
 router.put('/delete/:communityId', communityController.putDeleteCommunity)
 
+
+/*
+ ** API routes [GET] /communities/byparticipation/:userId [USED]
+ */
+
+router.get('/byparticipation/:userId', communityController.getCommunitiesByParticipation);
+
+
 module.exports = router;

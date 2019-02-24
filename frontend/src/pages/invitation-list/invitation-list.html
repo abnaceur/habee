@@ -8,7 +8,7 @@
     <span style="font-size: 17px;color: white; font-weight: bold">List des nvitations</span>
   </ion-title>
 </ion-header>
-  
+
 
 <ion-content no-padding fullscreen class="invitation-list">
   <ion-grid>
@@ -17,35 +17,70 @@
     ">
       <div *ngFor="let invit of invitationList">
 
-        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false">
-          {{invit.invitedEmail}}
-          <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false
+        && invit.status == 'pending'">
+          <ion-item no-lines>
+            <p><b>Vous avez invité</b> {{invit.invitedEmail}}</p>
+          </ion-item>
+          <ion-item style="margin-top: -17px">
+            <p>{{transform(invit.dateOfCreation)}}
+              <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+            </p>
+          </ion-item>
         </ion-item>
 
-        <ion-item *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId">
-          {{invit.invitorFullname}}
-          <button ion-button class="pull-right"  style="float:right;" color="danger" slot="end">rejeter</button>
-          <button ion-button (click)="acceptInvitation(invit)" class="pull-right"  style="float:right;"  color="primary" slot="end">accepter</button>
+        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
+        && invit.status == 'pending'">
+          <ion-item no-lines>
+            <p><b>Vous avez invité</b> {{invit.invitedFullname}}</p>
+          </ion-item>
+          <ion-item style="margin-top: -17px">
+            <p>{{transform(invit.dateOfCreation)}}
+              <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+            </p>
+          </ion-item>
         </ion-item>
 
-
-        <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
-        && invit.status == 'pending' ">
-        {{invit.invitedFullname}}
-          <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+        <ion-item *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId
+        && invit.contactExist == true && invit.status == 'pending'">
+          <ion-item>
+            <p><b>Vous avez été invité par </b> {{invit.invitorFullname}}</p>
+          </ion-item>
+          <ion-item style="margin-top: -17px">
+            <p>{{transform(invit.dateOfCreation)}}
+              <button ion-button class="pull-right" style="float:right;" color="danger" slot="end">rejeter</button>
+              <button ion-button (click)="acceptInvitation(invit)" class="pull-right" style="float:right;" color="primary"
+                slot="end">accepter</button>
+            </p>
+          </ion-item>
         </ion-item>
 
         <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
         && invit.status == 'accepted' ">
-        {{invit.invitedFullname}}
-          <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">accpte</ion-badge>
+          <ion-item>
+            <p>{{invit.invitedFullname}} <b>a accepté votre invitation.</b></p>
+          </ion-item>
+
+          <ion-item style="margin-top: -17px">
+            <p>{{transform(invit.dateOfCreation)}}
+              <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">accpte</ion-badge>
+            </p>
+          </ion-item>
+
         </ion-item>
 
 
         <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
-        && invit.status == 'rejected' "> 
-        {{invit.invitedFullname}}
-          <ion-badge class="pull-right" style="float:right;" color="danger" slot="end">rejete</ion-badge>
+        && invit.status == 'rejected' ">
+          <ion-item>
+            <p>{{invit.invitedFullname}} <b>a rejeté votre invitation.</b></p>
+          </ion-item>
+          <ion-item style="margin-top: -17px">
+            <p>{{transform(invit.dateOfCreation)}}
+              <ion-badge class="pull-right" style="float:right;" color="danger" slot="end">rejete</ion-badge>
+            </p>
+          </ion-item>
+
         </ion-item>
 
       </div>

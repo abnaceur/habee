@@ -11,7 +11,11 @@ let invitationSchema = mongoose.Schema({
     invitedFullname: String,
     contactExist: Boolean,
     status: String,
-    notification: Boolean
+    notification: Boolean,
+    dateOfCreation: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 let Invitation = module.exports = mongoose.model('Invitation', invitationSchema);

@@ -259,3 +259,7 @@ exports.newUserCommunity = (user) => {
         .then(comm => comm)
         .catch(err => utils.defaultError(res, err));
 }
+
+exports.getCommunitiesByParticipation = (res, userId) => {
+
+}

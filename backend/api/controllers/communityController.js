@@ -41,3 +41,9 @@ exports.get_community_by_id = (req, res, next) => {
     const id = req.params.id;
     communitySrvice.getCommunityById(res, id)
 };
+
+exports.getCommunitiesByParticipation = (req, res, next) => {
+    const userId = req.params.userId;
+ 
+    communitySrvice.getCommunitiesByParticipation(userId, res)
+}
