@@ -62,12 +62,10 @@ export class ListContactPage {
       }, 500)
     })
 
-    console.log("ionViewDidLoad ListContactPage", this.notificationCount);
     this.userProvider
       .getAllUserByCommunityId(this.tabParams)
       .subscribe(response => {
         this.contact = response.users;
-        console.log("Repsonse this list contact : ", response);
       });
   }
 

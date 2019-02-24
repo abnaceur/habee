@@ -12,6 +12,7 @@ const getUserByCommunityIdService = require('../services/userServices/getUserbyC
 const pswService = require("../services/userServices/pswService");
 const userAccountService = require('../services/userServices/userAccount')
 const userInvitationService = require('../services/userServices/userInvitationService');
+const userProfileService = require('../services/userServices/getUserProfile')
 
 
 exports.login_user = (req, res, next) => {
@@ -59,34 +60,8 @@ exports.getAllusersByCommunityId = (req, res, next) => {
 
 exports.getAllusersByCommunityIdMobile = (req, res, next) => {
     let communityId = req.params.communityId;
-    User.find({
-            "profile.profileCummunityId": communityId,
-            "profile.profileUserIsDeleted": false,
-            "profile.profileUserIsActive": true,
-        })
-        .exec()
-        .then(users => {
-            if (users.length === 0) {
-                return res.status(404).json({
-                    message: "There are no users !"
-                })
-            } else {
-                res.status(200).json({
-                    users: users.map(usr => {
-                        return {
-                            userId: usr.userId,
-                            profileUsername: usr.profile[0].profileUsername,
-                            profilePhoto: usr.profile[0].profilePhoto,
-                        }
-                    })
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
+
+    userProfileService.getUserProfileInfo(res, communityId)
 }
 
 
