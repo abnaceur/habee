@@ -251,7 +251,6 @@ exports.getCommunityById = (res, id) => {
 }
 
 exports.newUserCommunity = (user) => {
-    console.log("use: ", user)
     const community = new Community(communityClass
         .communityClassModalOnUserCreaton(user));
     community
@@ -260,6 +259,29 @@ exports.newUserCommunity = (user) => {
         .catch(err => utils.defaultError(res, err));
 }
 
-exports.getCommunitiesByParticipation = (res, userId) => {
+exports.filterCommunities = (data, userId) => {
+    return new Promise ((resolve, reject) => {
+        let uniq = [];
+        data.map(com => {
+            if (com.communityCreator != userId)
+                uniq.push(com)
+        })
+        resolve(uniq);
+    })
+}
 
+exports.getCommunitiesByParticipation = (res, userId) => {
+    Community.find({
+        communityMembers: userId
+    }).exec()
+    .then(data => {
+        this.filterCommunities(data, userId)
+        .then(data => {
+            res.status(200).json({
+                code: 200,
+                data: data
+            })
+        })
+        .catch(err => console.log("filterCommunities : ", err))
+    }).catch(err => utils.defaultError(res, err))
 }

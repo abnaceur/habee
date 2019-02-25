@@ -31,7 +31,6 @@ export class CommunityProvider {
   getCommunityById(userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    console.log("ddd: ", userInfo);
     return this.http.get(ENV.BASE_URL + "/communities/" + userInfo.activeCommunity,
     { headers: header })
     .map(response => response.json().community[0]);
@@ -42,7 +41,7 @@ export class CommunityProvider {
 
     return this.http.get(ENV.BASE_URL + '/communities/byparticipation/' + userInfo.userId,
       { headers: header })
-      .map(response => response.json());
+      .map(response => response.json().data);
   }
 
   getCommunitiesbyCreator(userInfo) {
@@ -54,7 +53,7 @@ export class CommunityProvider {
   }
 
   getCommunitySelected(com, activeCommunity): Promise<any> {
-    
+   
     let comArray = [];
     com.map(data => {
       data.communityId == activeCommunity ?

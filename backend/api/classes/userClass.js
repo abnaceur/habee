@@ -201,7 +201,7 @@ exports.profileClass = (invitation) => {
     return new Promise((resolve, reject) => {
         resolve({
             profileCummunityId: invitation.invitationCommunityId,
-            profilePhoto: "uplaods/",
+            profilePhoto: "uploads/avatar.png",
             profileUsername: invitation.invitedFullname,
             profileIsAdmin: 0,
             profileUserIsActive: true,
@@ -213,13 +213,20 @@ exports.profileClass = (invitation) => {
 
 
 exports.addUsertoCommunity = (userId, communityId) => {
-
     Community.find({
         communityId: communityId
     }).exec()
     .then(community => {
         community[0].communityMembers.push(userId)
         console.log("Community : ", community)
+        Community.findByIdAndUpdate(community[0]._id,
+            community[0], {
+                new: false,
+            },
+            function (err, results) {
+                if (err) return console.log("addUsertoCommunity : ", err);
+                console.log("Community updated with success!")
+            });
     }).catch(err => console.log("addUsertoCommunity error : ", err))
 }
 

@@ -69,13 +69,14 @@
      -->
      <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver" 
      (click)="editCommunity()" item-right name="create"></ion-icon> 
+
      <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver;
      border-left: 1px solid silver;padding-left: 10px;" (click)="deletCommunity()" item-right name="trash"></ion-icon> 
     
-     <ion-icon  *ngIf="optionsMore == false || userData.userId == community.communityCreator && community.communityId != editableCommunity" style="color: silver" item-right name="more" 
+     <ion-icon  *ngIf="optionsMore == false && userData.userId == community.communityCreator && community.communityId != editableCommunity" style="color: silver" item-right name="more" 
         (click)="presentPopover(community.communityId)" ></ion-icon>
-     
       </ion-item>
+
     </ion-list>
   </ion-content>
 </ion-menu>
