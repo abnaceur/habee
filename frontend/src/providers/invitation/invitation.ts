@@ -81,7 +81,24 @@ export class InvitationProvider {
           userInfo.activeCommunity, invit,
         { headers: header }
       )
-      .map(response => response.json().code);
-    
+      .map(response => response.json().code); 
   }
+
+  rejectedInvitation (invit, userInfo) {
+    invit.status = "rejected"
+
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http
+      .post(
+        ENV.BASE_URL +
+          "/users/invitation/rejected/" +
+          userInfo.userId +
+          "/community/" +
+          userInfo.activeCommunity, invit,
+        { headers: header }
+      )
+      .map(response => response.json().code); 
+  }
+
 }

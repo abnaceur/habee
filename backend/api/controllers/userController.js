@@ -16,11 +16,11 @@ const userProfileService = require('../services/userServices/getUserProfile')
 
 
 exports.login_user = (req, res, next) => {
- userService.loginUser(req, res);
+    userService.loginUser(req, res);
 };
 
 exports.updateUserByfirstConnection = (req, res, next) => {
-   userService.updateFirstConnection(req, res);
+    userService.updateFirstConnection(req, res);
 }
 
 exports.getAllusersByCommunityId = (req, res, next) => {
@@ -351,19 +351,19 @@ exports.put_userId_communityId_DeleteUser = (req, res, next) => {
 exports.creatAnewAccount = (req, res, next) => {
     console.log("Req body : ", req.body)
     userService.checkIfEmailExist(req.body.email)
-    .then(data => {
-        if (data === false) {
-            res.status(200).json({
-                code: 201,
-                msg: "Email exist."
-            })
-        } else {
-            userService.createNewAccount(req.body, res)
-        }
-    })
+        .then(data => {
+            if (data === false) {
+                res.status(200).json({
+                    code: 201,
+                    msg: "Email exist."
+                })
+            } else {
+                userService.createNewAccount(req.body, res)
+            }
+        })
 }
 
-exports.editProfile = (req,res, next) => {
+exports.editProfile = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
     let imagePath = utils.getImagePath(req, req.body.profileImage);
@@ -387,7 +387,7 @@ exports.getAccountInfo = (req, res, next) => {
 
 exports.updateAccountInfo = (req, res, next) => {
     let userId = req.params.userId;
-   
+
     userAccountService.updateThisUserAccount(res, req.body, userId);
 }
 
@@ -395,27 +395,34 @@ exports.updateAccountInfo = (req, res, next) => {
 exports.getListInvitationn = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-  
+
     userInvitationService.listAllUserInvitation(res, userId, communityId)
 }
 
 exports.updateInvitationNotification = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-  
+
     userInvitationService.updateNotification(res, userId, communityId)
 }
 
 exports.countNotificationbyUserId = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-  
+
     userInvitationService.updateNotification(res, userId, communityId)
 }
 
 exports.statusAccepetedInvitation = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-  
-   userInvitationService.updateInvitationStatus(req.body, userId, res)   
+
+    userInvitationService.updateInvitationStatus(req.body, userId, res)
+}
+
+exports.statusRejectedInvitation = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    userInvitationService.updateInvitationStatus(req.body, userId, res)
 }

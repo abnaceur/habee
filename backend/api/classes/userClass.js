@@ -9,6 +9,7 @@ const Community = require('../models/community');
 exports.creatNewAccountUser = (value) => {
     let userIdGen = value.email.substring(0, value.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + value.email.substring(value.email.search('@'), value.email.lenght);
     let communityId = value.email.substring(0, value.email.search('@')) + Math.floor(Math.random() * 10000);
+    let profileAvatar = Math.floor(Math.random() * 10);
 
     return new Promise((resolve, reject) => {
 
@@ -34,7 +35,7 @@ exports.creatNewAccountUser = (value) => {
                 ],
                 profile: [{
                     profileCummunityId: communityId,
-                    profilePhoto: "uploads/avatar.png",
+                    profilePhoto: "uploads/" + profileAvatar + ".png",
                     profileUsername: value.lastname + ' ' + value.firstname,
                     profileIsAdmin: 0,
                     profileUserIsActive: true,
@@ -197,11 +198,13 @@ exports.filterEventClass = (activeCommunity) => {
 }
 
 exports.profileClass = (invitation) => {
+    let profileAvatar = Math.floor(Math.random() * 10);
+
 
     return new Promise((resolve, reject) => {
         resolve({
             profileCummunityId: invitation.invitationCommunityId,
-            profilePhoto: "uploads/avatar.png",
+            profilePhoto: "uploads/" + profileAvatar + ".png",
             profileUsername: invitation.invitedFullname,
             profileIsAdmin: 0,
             profileUserIsActive: true,

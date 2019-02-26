@@ -196,4 +196,12 @@ router.get('/count/invitation/:userId/community/:communityId' ,userController.co
 
 router.post('/invitation/accepted/:userId/community/:communityId' ,userController.statusAccepetedInvitation);
 
+/*
+ ** API [POST] for route /users/invitation/rejected/:userId/community/:communityId [USED]
+ */
+
+router.post('/invitation/rejected/:userId/community/:communityId' ,userController.statusRejectedInvitation);
+
+
+
 module.exports = router;

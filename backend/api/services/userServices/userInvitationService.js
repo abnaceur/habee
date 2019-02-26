@@ -139,10 +139,26 @@ invitationService = (email, userId, lastename, firstname) => {
         .catch(err => console.log("invitationService Err :", err))
 }
 
+updateInvitationOnStatus = (invit, res) => {
+
+    Invitation.findByIdAndUpdate(invit._id,
+        invit, {
+            new: false,
+        },
+        function (err, results) {
+            if (err) res.send(err);
+            res.status(200).json({
+                code: 200,
+                msg: "Invitation accepted."
+            })
+        })
+}
 
 
 updateInvitationStatus = (invit, userId, res) => {
-    if (invit.status == "accepted" && invit.contactExist == true) {
+    if (invit.status == "rejected" && invit.contactExist == true) { 
+        updateInvitationOnStatus(invit, res)
+    } else if (invit.status == "accepted" && invit.contactExist == true) {
         User.find({
                 userId: userId
             }).exec()

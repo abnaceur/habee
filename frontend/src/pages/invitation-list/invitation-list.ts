@@ -11,9 +11,7 @@ import {
 
 import moment from "moment";
 
-import {
-  UtilsProvider
-} from '../../providers/utils/utils'
+import { UtilsProvider } from "../../providers/utils/utils";
 
 import { environment as ENV } from "../../environments/environment";
 
@@ -57,7 +55,7 @@ export class InvitationListPage {
     this.invitationProvider
       .getAllUserInvitations(this.tabParams)
       .subscribe(data => {
-        console.log("ddd : ", data)
+        console.log("ddd : ", data);
         this.invitationList = data;
       });
   }
@@ -89,11 +87,26 @@ export class InvitationListPage {
       });
   }
 
+  rejectInvitation(invit) {
+    this.invitationProvider
+      .rejectedInvitation(invit, this.tabParams)
+      .subscribe(data => {
+        console.log("Here data test :", data);
+        if (data == 200) {
+          this.invitationProvider
+            .getAllUserInvitations(this.tabParams)
+            .subscribe(data => {
+              this.invitationList = data;
+            });
+        } else {
+          this.utils.notification("Sorry, something went wrong!", "top");
+        }
+      });
+  }
 
   transform(value) {
     moment.locale("fr");
     let a = moment(value).fromNow();
     return a;
-    //return value.toLowerCase();
   }
 }
