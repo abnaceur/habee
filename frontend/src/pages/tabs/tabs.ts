@@ -39,6 +39,7 @@ export class TabsPage {
       if (this.navParams.data[0] == "Acceuil") this.tabRef.select(0);
       if (this.navParams.data[0] == "Parametre") this.tabRef.select(4);
       if (this.navParams.data[0] == "Profile") this.tabRef.select(3);
+      if (this.navParams.data[0] == "listContact") this.tabRef.select(2);
     }
   }
 }

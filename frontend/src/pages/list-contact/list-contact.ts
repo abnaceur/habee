@@ -12,6 +12,10 @@ import {
  AddContactProvider
 } from "../../providers/add-contact/add-contact"
 
+import {
+UtilsProvider
+} from "../../providers/utils/utils"
+
 import { InvitationProvider } from "../../providers/invitation/invitation";
 
 import { environment as ENV } from "../../environments/environment";
@@ -46,6 +50,7 @@ export class ListContactPage {
   preload = true;
 
   constructor(
+    private utils: UtilsProvider,
     private addContactProvider: AddContactProvider,
     private barcodeScanner: BarcodeScanner,
     public navCtrl: NavController,
@@ -104,7 +109,9 @@ export class ListContactPage {
 
   scanBrCode() {
     this.options = {
-      prompt: "Scanner le codebare"
+      prompt: "Scanner le codebare",
+      showFlipCameraButton: true,
+      showTorchButton: true,
     }
 
     this.barcodeScanner.scan(this.options).then(barcodeData => {
@@ -113,6 +120,15 @@ export class ListContactPage {
       this.addContactProvider.isFieldEmpty(email, this.tabParams)
       .then(data => {
         console.log("invitation sent :", data);
+        if (data[0].status == 200)
+          this.utils.notification("Votre invitation est bien envoyer", "top")
+        else if (data[0].status == 500)
+        this.utils.notification("Ce compte exist!", "top")
+        //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
+        if (data[0].check != '') {
+          let menuData = ["listContact", this.tabParams];
+          this.navCtrl.push("TabsPage", menuData)
+        }
       })
     }, (err) => {
       console.log("eee ; ", err)
