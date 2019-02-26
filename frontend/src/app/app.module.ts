@@ -51,7 +51,7 @@ import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { environment } from '../environments/environment.prod';
 import { InvitationProvider } from '../providers/invitation/invitation';
 const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
- 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner'; 
 
 
 
@@ -91,6 +91,7 @@ const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
     MyApp,
   ],
   providers: [
+    BarcodeScanner,
     SocialSharing,
     StatusBar,
     SplashScreen,

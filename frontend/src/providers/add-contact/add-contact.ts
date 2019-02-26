@@ -64,7 +64,5 @@ export class AddContactProvider {
         resolve(contactArray)
       }
     })
-
   }
-
 }

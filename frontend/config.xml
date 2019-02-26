@@ -86,4 +86,7 @@
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <engine name="android" spec="7.1.1" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.4" />
+    <plugin name="phonegap-plugin-barcodescanner" spec="8.0.1">
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
+    </plugin>
 </widget>

@@ -11,12 +11,12 @@
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
 
-
+<!-- 
   <ion-icon class="optionsStyle pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand()"
-    name="person-add"></ion-icon>
+    name="person-add"></ion-icon> -->
 
   <div (click)="openInvitationsList()">
-    <ion-icon style="margin-right: 10px; z-index:1111" class="optionsStyle pop-in" name="notifications">
+    <ion-icon style="z-index:1111" class="optionsStyle pop-in" name="notifications">
       <span *ngIf="notificationCount != 0">
         <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
       </span>
@@ -55,11 +55,14 @@
           <ion-icon name="add"></ion-icon>
         </button>
         <ion-fab-list side="top">
-          <button ion-fab mini>
-              <ion-icon name="qr-scanner"></ion-icon>
+          <button ion-fab mini (click)="scanBrCode()">
+              <ion-icon  name="qr-scanner"></ion-icon>
           </button>
-          <button ion-fab mini>
+          <button ion-fab mini (click)="encodeData()">
               <ion-icon name="barcode"></ion-icon>
+          </button>
+          <button ion-fab mini (click)="expand()">
+              <ion-icon name="person-add"></ion-icon>
           </button>
         </ion-fab-list>
       </ion-fab>

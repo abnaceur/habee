@@ -13,6 +13,7 @@ sendProfileInfo = (res, user, communityId) => {
                 if (usr.profile[pos] != null) {
                     allusersProfile.push({
                         userId: usr.userId,
+                        userEmail: usr.credentials.email,
                         profileUsername: usr.profile[pos].profileUsername,
                         profilePhoto: usr.profile[pos].profilePhoto
                     })

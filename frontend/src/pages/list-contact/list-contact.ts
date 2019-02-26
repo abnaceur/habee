@@ -8,11 +8,17 @@ import {
   NavParams
 } from "ionic-angular";
 
+import {
+ AddContactProvider
+} from "../../providers/add-contact/add-contact"
+
 import { InvitationProvider } from "../../providers/invitation/invitation";
 
 import { environment as ENV } from "../../environments/environment";
 
 import { UserProvider } from "../../providers/user/user";
+
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
 /**
  * Generated class for the ListContactPage page.
@@ -31,6 +37,7 @@ export class ListContactPage {
   public contact;
   public tabParams;
   public notificationCount = 0;
+  options: BarcodeScannerOptions;
 
   // Moadal declaration
   expanded: any;
@@ -39,6 +46,8 @@ export class ListContactPage {
   preload = true;
 
   constructor(
+    private addContactProvider: AddContactProvider,
+    private barcodeScanner: BarcodeScanner,
     public navCtrl: NavController,
     public navParams: NavParams,
     private invitationProvider: InvitationProvider,
@@ -65,6 +74,7 @@ export class ListContactPage {
     this.userProvider
       .getAllUserByCommunityId(this.tabParams)
       .subscribe(response => {
+        console.log("Contact : ", response.users)
         this.contact = response.users;
       });
   }
@@ -91,4 +101,42 @@ export class ListContactPage {
     });
     modal.present();
   }
+
+  scanBrCode() {
+    this.options = {
+      prompt: "Scanner le codebare"
+    }
+
+    this.barcodeScanner.scan(this.options).then(barcodeData => {
+      let email = [];
+      email.push({ 'value': barcodeData.text, 'check': '', 'status': ""})
+      this.addContactProvider.isFieldEmpty(email, this.tabParams)
+      .then(data => {
+        console.log("invitation sent :", data);
+      })
+    }, (err) => {
+      console.log("eee ; ", err)
+    });
+  }
+
+  getUserEmail() {
+    let email = "";
+    this.contact.map(cn => {
+      if (cn.userId == this.tabParams.userId)
+        email = cn.userEmail
+    })
+    return email
+  }
+
+  encodeData() {
+    let encodText = this.getUserEmail();
+
+    this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, encodText)
+    .then(data => {
+      console.log("Encoded with success!")
+    }, err => {
+      console.log("Error : ", err)
+    })
+  }
+
 }
