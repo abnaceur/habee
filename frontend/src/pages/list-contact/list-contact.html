@@ -15,13 +15,13 @@
   <ion-icon class="optionsStyle pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand()"
     name="person-add"></ion-icon>
 
-    <div (click)="openInvitationsList()">
-      <ion-icon  style="margin-right: 10px; z-index:1111" class="optionsStyle pop-in"  name="notifications">
-        <span *ngIf="notificationCount != 0">
-            <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
-        </span>
+  <div (click)="openInvitationsList()">
+    <ion-icon style="margin-right: 10px; z-index:1111" class="optionsStyle pop-in" name="notifications">
+      <span *ngIf="notificationCount != 0">
+        <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
+      </span>
     </ion-icon>
-    </div>
+  </div>
 
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
@@ -29,20 +29,12 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding >
-
-    <ion-fab bottom right edge>
-        <button ion-fab mini><ion-icon name="add"></ion-icon></button>
-        <ion-fab-list>
-          <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
-          <button ion-fab><ion-icon name="logo-twitter"></ion-icon></button>
-          <button ion-fab><ion-icon name="logo-vimeo"></ion-icon></button>
-          <button ion-fab><ion-icon name="logo-googleplus"></ion-icon></button>
-        </ion-fab-list>
-      </ion-fab>
+<ion-content padding>
   <ion-grid>
-    
-    
+
+
+
+
     <ion-list *ngFor='let user of contact'>
       <ion-item>
         <ion-avatar item-left>
@@ -55,6 +47,20 @@
       </ion-item>
     </ion-list>
   </ion-grid>
-
-
 </ion-content>
+
+<ion-footer>
+    <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
+        <button ion-fab style="background-color: darkgray;" mini>
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <ion-fab-list side="top">
+          <button ion-fab mini>
+              <ion-icon name="qr-scanner"></ion-icon>
+          </button>
+          <button ion-fab mini>
+              <ion-icon name="barcode"></ion-icon>
+          </button>
+        </ion-fab-list>
+      </ion-fab>
+</ion-footer>

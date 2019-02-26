@@ -52,7 +52,7 @@
             <button ion-button (click)="rejectInvitation(invit)" class="pull-right" style="float:right;" color="danger" slot="end">rejeter</button>
             <button ion-button (click)="acceptInvitation(invit)" class="pull-right" style="float:right;" color="primary"
               slot="end">accepter</button>
-        
+            
           </ion-item>
         </ion-item>
 
@@ -79,6 +79,7 @@
           <ion-item style="margin-top: -17px">
             <p>{{transform(invit.dateOfCreation)}}
               <ion-badge class="pull-right" style="float:right;" color="danger" slot="end">rejete</ion-badge>
+              <ion-badge class="pull-right" style="float:right;" color="info" slot="end">re-envoyer</ion-badge>
             </p>
           </ion-item>
 
@@ -89,6 +90,4 @@
     </ion-scroll>
 
   </ion-grid>
-
-
 </ion-content>
