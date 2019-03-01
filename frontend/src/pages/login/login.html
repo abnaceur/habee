@@ -6,63 +6,66 @@
 -->
 
 <ion-content class="myview" padding>
-    <ion-row>
-        <ion-col col-12 text-center>
-          <div class="center">
-            <img src="../../assets/imgs/xxhdpi.png"/>
-            <ion-label style="font-family: -webkit-body; margin-top:-10px; font-weight:bold;font-size:28px; color:white">
-              Habee
-            </ion-label>
-          </div>
-        </ion-col>
-  
-      </ion-row>
+  <ion-row>
+    <ion-col col-12 text-center>
+      <div class="center">
+        <img src="../../assets/imgs/xxhdpi.png" />
+        <ion-label style="font-family: -webkit-body; margin-top:-10px; font-weight:bold;font-size:28px; color:white">
+          Habee
+        </ion-label>
+      </div>
+    </ion-col>
 
-      <ion-grid style="position:relative; top: 15%">
-          <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
-  
-            <ion-item *ngIf="createAccount == true"  style="background-color: white;  opacity: 0.7"[ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
-              <!--  <ion-label floating>Mot de passe</ion-label> -->
-                <ion-input style="color: darkblue" formControlName="lastname" placeholder="Nom" type="text" ></ion-input>
-              </ion-item>
-        
-              <ion-item *ngIf="createAccount == true"  style="background-color: white;  opacity: 0.7" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
-                <!--  <ion-label floating>Mot de passe</ion-label> -->
-                  <ion-input style="color: darkblue" formControlName="firstname" placeholder="Prenom" type="test" ></ion-input>
-                </ion-item>
-          
+  </ion-row>
 
-              <ion-item style="background-color: white;  opacity: 0.7 ; color: white" [ngClass]="{'error-border':!authForm.controls.email.valid && authForm.controls.email.touched}">
-              <!--   <ion-label floating>E-mail</ion-label> -->
-                <ion-input style="color: darkblue" placeholder="email" formControlName="email" type="text" value="hisec4ever@gmail.com"></ion-input>
-              </ion-item>
-              <!--
+  <ion-grid style="position:relative; top: 15%">
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
+
+      <ion-item *ngIf="createAccount == true" style="background-color: white;  opacity: 0.7" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
+        <!--  <ion-label floating>Mot de passe</ion-label> -->
+        <ion-input style="color: darkblue" formControlName="lastname" placeholder="Nom" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="createAccount == true" style="background-color: white;  opacity: 0.7" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
+        <!--  <ion-label floating>Mot de passe</ion-label> -->
+        <ion-input style="color: darkblue" formControlName="firstname" placeholder="Prenom" type="test"></ion-input>
+      </ion-item>
+
+
+      <ion-item style="background-color: white;  opacity: 0.7 ; color: white" [ngClass]="{'error-border':!authForm.controls.email.valid && authForm.controls.email.touched}">
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input style="color: darkblue" placeholder="email" formControlName="email" type="text" value="hisec4ever@gmail.com"></ion-input>
+      </ion-item>
+
+      <!--
               <ion-item *ngIf="authForm.controls.email.hasError('required') && authForm.controls.email.touched">
                 <p>Sorry, field email is required!</p>
               </ion-item>
               <ion-item *ngIf="authForm.controls.email.hasError('pattern') && authForm.controls.email.touched">
                  <p>Sorry, email format not valid!</p>
               </ion-item> -->
-        
-              <ion-item style="background-color: white;  opacity: 0.7" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
-              <!--  <ion-label floating>Mot de passe</ion-label> -->
-                <ion-input style="color: darkblue"   placeholder="Mot de passe" formControlName="password" type="password" value="abdeljalil"></ion-input>
-              </ion-item>
-        
-              <ion-item style="background-color: white;  opacity: 0.7" *ngIf="createAccount == true"  [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}">
-                <!--  <ion-label floating>Mot de passe</ion-label> -->
-                  <ion-input style="color: darkblue" formControlName="confPass" placeholder="Confirme mot de passe" type="password" ></ion-input>
-                </ion-item>
 
-                <!-- <ion-item *ngIf="createAccount == true" style="background-color: transparent" [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}"> -->
-                  <!--  <ion-label floating>Mot de passe</ion-label> -->
-                  <!-- <ion-checkbox color="primary" > </ion-checkbox>
+
+
+      <ion-item style="background-color: white;  opacity: 0.7" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
+        <!--  <ion-label floating>Mot de passe</ion-label> -->
+        <ion-input style="color: darkblue" placeholder="Mot de passe" formControlName="password" type="password" value="abdeljalil"></ion-input>
+      </ion-item>
+
+      <ion-item style="background-color: white;  opacity: 0.7" *ngIf="createAccount == true" [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}">
+        <!--  <ion-label floating>Mot de passe</ion-label> -->
+        <ion-input style="color: darkblue" formControlName="confPass" placeholder="Confirme mot de passe" type="password"></ion-input>
+      </ion-item>
+
+      <!-- <ion-item *ngIf="createAccount == true" style="background-color: transparent" [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}"> -->
+      <!--  <ion-label floating>Mot de passe</ion-label> -->
+      <!-- <ion-checkbox color="primary" > </ion-checkbox>
                   <span style="color:white">
                   J'accepte les terme de service  
                   </span>  
                   </ion-item> -->
-          
-              <!--
+
+      <!--
               <ion-item *ngIf="authForm.controls.password.hasError('required') && authForm.controls.password.touched">
                  <p>Sorry, field password is required!</p>
               </ion-item>
@@ -70,23 +73,31 @@
                 <p style="position: relative;">Sorry, minimum password length is 8!</p>
               </ion-item>
             -->
-                  <button id="submitLogin" ion-button round small [disabled]="!authForm.valid" style="display: none" type="submit">Connexion</button>
-            </form>
-      </ion-grid>
-  
+      <div style="float: right;color: lightgray;">
+        <ion-label>
+          Mot de passe oublier ?
+        </ion-label>
+      </div>
+
+      <button id="submitLogin" ion-button round small [disabled]="!authForm.valid" style="display: none" type="submit">Connexion</button>
+    </form>
+  </ion-grid>
+
 </ion-content>
 
 <div *ngIf="createAccount == false" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
   <div class="row">
-  <button ion-button  (click)="loginUser()" style="color: wite; background-color:#45D8E5;" [disabled]="!authForm.valid" class="col col-50 button button-block">CONNEXION </button>
-  <button ion-button   (click)="showInscription()" style="color:#45D8E5; background-color: #FFFFFF;" class="col col-50 button button-block">INSCRIPTION</button>
+    <button ion-button (click)="loginUser()" style="color: wite; background-color:#45D8E5;" class="col col-50 button button-block">CONNEXION
+    </button>
+    <button ion-button (click)="showInscription()" style="color:#45D8E5; background-color: #FFFFFF;" class="col col-50 button button-block">INSCRIPTION</button>
   </div>
-</div> 
+</div>
 
 <div *ngIf="createAccount == true" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
-    <div class="row">
-    <button ion-button  (click)="createAccount = false" style="color: #45D8E5; background-color:#FFFFFF;" class="col col-50 button button-block">
-      <ion-icon style="color: #45D8E5;" name='arrow-backward'></ion-icon> RETOUR </button>
-    <button ion-button   (click)="loginUser()" style="color:wite; background-color:rgb(31, 199, 214);" class="col col-50 button button-block">CREE</button>
-    </div>
-</div> 
+  <div class="row">
+    <button ion-button (click)="createAccount = false" style="color: #45D8E5; background-color:#FFFFFF;" class="col col-50 button button-block">
+      <ion-icon style="color: #45D8E5;" name='arrow-backward'></ion-icon> RETOUR
+    </button>
+    <button ion-button (click)="loginUser()" style="color:wite; background-color:rgb(31, 199, 214);" class="col col-50 button button-block">CREE</button>
+  </div>
+</div>
