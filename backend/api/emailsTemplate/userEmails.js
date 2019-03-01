@@ -32,3 +32,13 @@ exports.accountFirstCreation = (email, password) => {
 
     return msg
 }
+
+exports.resetPassword = (email, password) => {
+    let msg = "Hello! \n Votre mot de passe est bien reinitialiser \
+    \n Voila vos logins : \n Email : " + email + "\n Mot de pass : " + password + "\
+    \n \n P.S: Ce mot de passe est genere automatiquement \
+    rappellez vous de le changer \
+    \n TEAM HABEE"
+
+    return msg
+}

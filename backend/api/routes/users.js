@@ -202,6 +202,10 @@ router.post('/invitation/accepted/:userId/community/:communityId' ,userControlle
 
 router.post('/invitation/rejected/:userId/community/:communityId' ,userController.statusRejectedInvitation);
 
+/*
+ ** API [PUT] for route /users/reset/email [USED]
+ */
 
+router.post('/reset/email/:email' ,userController.resetPassword);
 
 module.exports = router;

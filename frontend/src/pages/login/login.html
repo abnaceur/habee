@@ -28,7 +28,7 @@
 
       <ion-item *ngIf="createAccount == true" style="background-color: white;  opacity: 0.7" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
         <!--  <ion-label floating>Mot de passe</ion-label> -->
-        <ion-input style="color: darkblue" formControlName="firstname" placeholder="Prenom" type="test"></ion-input>
+        <ion-input style="color: darkblue" formControlName="firstname" placeholder="Prenom" type="text"></ion-input>
       </ion-item>
 
 
@@ -73,7 +73,7 @@
                 <p style="position: relative;">Sorry, minimum password length is 8!</p>
               </ion-item>
             -->
-      <div style="float: right;color: lightgray;">
+      <div (click)="resetPassword()" style="float: right;color: lightgray;">
         <ion-label>
           Mot de passe oublier ?
         </ion-label>

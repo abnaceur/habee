@@ -35,6 +35,7 @@ import { EditPasswordPageModule } from '../pages/edit-password/edit-password.mod
 import { DeleteMyAccountPageModule } from '../pages/delete-my-account/delete-my-account.module';
 import { EditAccountPageModule } from '../pages/edit-account/edit-account.module';
 import { InvitationListPageModule } from '../pages/invitation-list/invitation-list.module';
+import { ForgotPasswordPageModule } from "../pages/forgot-password/forgot-password.module"
 
 import { CameraProvider } from '../providers/camera/camera';
 import { SharedModule   } from './shared.module';
@@ -82,6 +83,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     DeleteMyAccountPageModule,
     EditAccountPageModule,
     InvitationListPageModule,
+    ForgotPasswordPageModule,
     SocketIoModule.forRoot(config),
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,

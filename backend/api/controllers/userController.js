@@ -13,7 +13,7 @@ const pswService = require("../services/userServices/pswService");
 const userAccountService = require('../services/userServices/userAccount')
 const userInvitationService = require('../services/userServices/userInvitationService');
 const userProfileService = require('../services/userServices/getUserProfile')
-
+const pswReset = require('../services/userServices/resetPassword')
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -425,4 +425,9 @@ exports.statusRejectedInvitation = (req, res, next) => {
     let communityId = req.params.communityId;
 
     userInvitationService.updateInvitationStatus(req.body, userId, res)
+}
+
+exports.resetPassword = (req, res, next) => {
+    let email = req.params.email;
+    pswReset.resetPsw(email, res)
 }

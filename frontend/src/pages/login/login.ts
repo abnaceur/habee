@@ -113,4 +113,8 @@ export class LoginPage {
   showInscription() {
     this.createAccount = true;
   }
+
+  resetPassword() {
+    this.navCtrl.push("ForgotPasswordPage")
+  }
 }
