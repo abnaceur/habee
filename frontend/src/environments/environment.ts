@@ -1,6 +1,6 @@
 export var environment = {
    // Local machine
-  //           BASE_URL: "http://localhost:3000",
+            BASE_URL: "http://localhost:3000",
    
    // Device emulator
    // BASE_URL: "http://10.0.2.2:3000",
@@ -9,5 +9,5 @@ export var environment = {
    //BASE_URL: "http://10.18.187.205:3000",
   
    //USB connected device
-   BASE_URL: "http://192.168.42.140:3000",   
+   //BASE_URL: "http://192.168.42.140:3000",   
 }

@@ -4,6 +4,21 @@ const utils = require('../utils')
 const communityClass = require('../../classes/communityClass')
 
 
+//TODO GET COMMUNITYIES ONLY FOR A USER
+exports.getAllcommunitiesIds = () => {
+ return new Promise((resolve, reject) => {
+    Community.find()
+    .exec().then(data => {
+        let arr = [];
+        data.map(d => {
+            arr.push(d.communityId)
+        })
+        console.log("Da :", arr)
+        resolve(arr)
+    })
+ })
+}
+
 exports.getUserCommunities = (userId) => {
 
     return new Promise((resolve, reject) => {

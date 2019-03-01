@@ -78,7 +78,7 @@
 
 <div *ngIf="createAccount == false" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
   <div class="row">
-  <button ion-button  (click)="loginUser()" style="color: wite; background-color:#45D8E5;" class="col col-50 button button-block">CONNEXION </button>
+  <button ion-button  (click)="loginUser()" style="color: wite; background-color:#45D8E5;" [disabled]="!authForm.valid" class="col col-50 button button-block">CONNEXION </button>
   <button ion-button   (click)="showInscription()" style="color:#45D8E5; background-color: #FFFFFF;" class="col col-50 button button-block">INSCRIPTION</button>
   </div>
 </div> 

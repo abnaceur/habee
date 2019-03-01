@@ -116,6 +116,9 @@ export class EventDetailsPage {
       activeCommunity: this.navParams.get("activeCommunity")
     };
 
+    this.socket.emit("join", this.tabParams.activeCommunity);
+    this.socket.emit("getmessage", this.tabParams.activeCommunity);
+
     this.eventDetails.participants.map(pr => {
       if (pr != null) {
         if (pr.participantId == this.tabParams.userId)
@@ -125,14 +128,14 @@ export class EventDetailsPage {
   }
 
   scrolltobottomnfun() {
-    setTimeout(() => {
-      console.log("Scrollbottomn");
-      this.content.scrollToBottom(0);
-    }, 200);
+    if(this.content._scroll) {
+      setTimeout(() => {
+        this.content.scrollToBottom(0);
+      }, 200);
+    }
   }
 
   ionViewWillLoad() {
-    this.socket.emit("getmessage");
     this.eventProvider
       .getComments(this.tabParams, this.eventDetails)
       .subscribe(comments => {
@@ -147,11 +150,19 @@ export class EventDetailsPage {
             });
           });
         }
-        if (this.liveComments.length != 0) {
-          this.liveComments.map(cm => {
-            this.allComments.push(cm);
+
+        this.socket.on("live-message", data => {
+          data.map(d => {
+            this.liveComments.unshift(d);
+            this.scrolltobottomnfun();
           });
-        }
+
+          if (this.liveComments.length != 0) {
+            this.liveComments.map(cm => {
+              this.allComments.push(cm);
+            });
+          }
+        });
       });
 
     this.profileProvider
@@ -163,13 +174,6 @@ export class EventDetailsPage {
           username: profile.User[0].profile.profileUsername
         };
       });
-
-    this.socket.on("live-message", data => {
-      data.map(d => {
-        this.liveComments.unshift(d);
-        this.scrolltobottomnfun();
-      });
-    });
 
     this.socket.on("broad-msg", data => {
       this.allComments.push(data);
@@ -294,19 +298,13 @@ export class EventDetailsPage {
       .getEventById(eventId, this.tabParams.token)
       .subscribe(response => {
         this.eventDetails.participants = response.Event[0].participants;
-        console.log(
-          "this.eventDetails.participants :",
-          this.eventDetails.participants
-        );
       });
   }
 
   subscribeToEvent(eventId) {
-    console.log("eventId : ", eventId);
     this.eventProvider
       .getEventSubscription(eventId, this.tabParams)
       .subscribe(response => {
-        console.log("eventId : ", response);
         if (response.Subscribe == true) {
           this.updateParticipantsList(true, eventId);
           this.utils.notification("inscription reussie !", "top");
@@ -333,7 +331,6 @@ export class EventDetailsPage {
   }
 
   onSubmit() {
-    console.log("Date.now", moment().toNow());
     let comment = {
       eventId: this.eventDetails.eventId,
       eventCommunity: this.eventDetails.eventCommunity,
@@ -343,7 +340,6 @@ export class EventDetailsPage {
       date: moment(),
       comment: this.commentText
     };
-    console.log("Comment : ", comment);
     this.commentText = "";
     this.scrolltobottomnfun();
     this.eventProvider.emitSendMsg(comment);

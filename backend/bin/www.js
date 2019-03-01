@@ -8,8 +8,7 @@ var app = require('../app');
 var debug = require('debug')('backoffice:server');
 var http = require('http');
 var socket = require('socket.io')
-var saveComments = require('../api/services/eventServices/eventCommentsService')
-
+var feedbackEvent = require('../api/socketio/eventFeedback')
 /**
  * Get port from environment and store in Express.
  */
@@ -32,44 +31,8 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 var io = socket(server);
-connections = [];
-let comments = [];
-let unshiftComm = [];
+feedbackEvent.feedbackEvent(io)
 
-io.on('connection', function (client) {
-  console.log('Client connected...', client.id);
-
-  connections.push(client);
-  console.log('Connected clients ...', connections.length);
-
-
-  client.on('send-message', function (data) {
-    client.emit('broad-msg', data);
-    comments.push(data)
-    unshiftComm.unshift(data)
-    client.broadcast.emit('broad-msg', data);
-  });
-
-  if (comments.length > 0)
-  {
-    client.on('getmessage', function (data) {
-      client.emit('live-message', unshiftComm);
-    });
-  }
-
-  client.on('disconnect', function () {
-
-    console.log("Disconnected here ... ", client.id)
-    client.disconnect(true)
-    connections.splice(connections.indexOf(client), 1);
-    if (connections.length === 0) {
-      if (comments.length > 0)
-        saveComments.updateComments(comments)
-      unshiftComm = [];
-      comments = [];
-    }
-  });
-});
 /**
  * Normalize a port into a number, string, or false.
  */
