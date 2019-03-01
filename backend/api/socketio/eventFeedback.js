@@ -23,6 +23,7 @@ feedbackEvent = (io) => {
     let unshiftComm = [];
     let communities = [];
     let comConnectedClient = [];
+
     allCommuntiesByIds.getAllcommunitiesIds()
         .then(data => {
             communities = data
@@ -39,7 +40,6 @@ feedbackEvent = (io) => {
                 i++;
             }
         })
-
 
     io.on('connection', function (client) {
 
@@ -69,8 +69,6 @@ feedbackEvent = (io) => {
                 client.emit('live-message', unshiftComm[pos][data]);
             });
         }
-
-
 
         client.on('disconnect', function (data) {
             let i = 0;

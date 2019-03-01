@@ -164,4 +164,5 @@ export class AddCommunityPage {
           this.utils.notification("Votre communaute est ajouter avec success !", "top");
       })
   }
+  
 }

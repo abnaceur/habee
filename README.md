@@ -183,6 +183,7 @@ ionic cordova plugin add cordova-plugin-camera
 ionic cordova plugin add cordova-plugin-file-transfer
 ionic cordova plugin add cordova-plugin-file
 ionic cordova plugin add cordova-plugin-x-socialsharing
+ionic cordova plugin add phonegap-plugin-barcodescanner
 sudo chown $whoami:$whoami -R .
 sudo chmod 755 -R .
 ```
