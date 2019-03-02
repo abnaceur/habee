@@ -48,4 +48,14 @@ export class AccountProvider {
       .map(response => response.json().code);
   }
 
+  deleteUserAccount(userInfo) {
+    let header = this.utils.inihttpHeaderWIthToken(userInfo.token)
+
+    return this.http.post(ENV.BASE_URL + '/users/account/delete/' + userInfo.userId,
+      "",
+      { headers: header })
+      .map(response => response.json().code);
+    
+  }
+
 }

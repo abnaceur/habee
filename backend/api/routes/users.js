@@ -208,4 +208,10 @@ router.post('/invitation/rejected/:userId/community/:communityId' ,userControlle
 
 router.post('/reset/email/:email' ,userController.resetPassword);
 
+/*
+ ** API [POST] for route /users/account/delete/:userId [USED]
+ */
+
+router.post('/account/delete/:userId' ,userController.deleteUserAccount);
+
 module.exports = router;

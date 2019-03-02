@@ -287,7 +287,8 @@ exports.filterCommunities = (data, userId) => {
 
 exports.getCommunitiesByParticipation = (res, userId) => {
     Community.find({
-        communityMembers: userId
+        communityMembers: userId,
+        communityIsDeleted: false
     }).exec()
     .then(data => {
         this.filterCommunities(data, userId)

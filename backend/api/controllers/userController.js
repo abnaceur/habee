@@ -14,6 +14,8 @@ const userAccountService = require('../services/userServices/userAccount')
 const userInvitationService = require('../services/userServices/userInvitationService');
 const userProfileService = require('../services/userServices/getUserProfile')
 const pswReset = require('../services/userServices/resetPassword')
+const deleteUserAccount = require("../services/userServices/deleteAccount")
+
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -430,4 +432,9 @@ exports.statusRejectedInvitation = (req, res, next) => {
 exports.resetPassword = (req, res, next) => {
     let email = req.params.email;
     pswReset.resetPsw(email, res)
+}
+
+exports.deleteUserAccount = (req, res, next) => {
+    let userId = req.params.userId;
+    deleteUserAccount.deleteThisUserAccount(res, userId)
 }
