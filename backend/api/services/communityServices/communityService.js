@@ -7,7 +7,9 @@ const communityClass = require('../../classes/communityClass')
 //TODO GET COMMUNITYIES ONLY FOR A USER
 exports.getAllcommunitiesIds = () => {
  return new Promise((resolve, reject) => {
-    Community.find()
+    Community.find({
+        communityIsDeleted: false
+    })
     .exec().then(data => {
         let arr = [];
         data.map(d => {

@@ -177,14 +177,7 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
 };
 
 exports.post_event = (req, res, next) => {
-    let imagePath;
-
-    if (req.body.eventPhoto != undefined)
-        imagePath = req.body.eventPhoto;
-    else if (req.files == undefined)
-        imagePath = "uploads/defaultEventImage.jpeg"
-    else if (req.files != undefined)
-        imagePath = req.files[0].path;
+    let imagePath = utils.getImagePath(req, req.body.eventPhoto);
 
     const event = new Event({
         _id: new mongoose.Types.ObjectId,

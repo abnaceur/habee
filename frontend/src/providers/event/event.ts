@@ -352,4 +352,28 @@ export class EventProvider {
     this.socket.emit('send-message', msg);
   }
 
+  checkIfNotifIsActive (filter, activeCategory) {
+
+    return new Promise((resolve, reject) => {
+      let i = 0;
+      if (filter.SportValue == true && "Sports" == activeCategory) i++;
+      if (filter.ArtsValue == true && "Arts" == activeCategory) i++;
+      if (filter.cultureValue == true && "Culture" == activeCategory) i++; 
+      if (filter.MediaValue == true && "Media" == activeCategory)  i++;
+      if (filter.musicValue == true && "Music" == activeCategory) i++;
+      if (filter.socialValue == true && "Social" == activeCategory) i++;
+      if (filter.internValue == true && "International" == activeCategory) i++;
+      if (filter.businessValue == true && "Business" == activeCategory) i++;
+      if (filter.communityValue == true && "Communite" == activeCategory) i++;
+      if (filter.santeValue == true && "Sante" == activeCategory) i++;
+      if (filter.partyValue == true && "Science et technologie" == activeCategory) i++;
+      if (filter.lifestyleValue == true && "Style de vie" == activeCategory) i++;
+      if (filter.partyValue == true && "Fete" == activeCategory) i++;
+      if (filter.meetingValue == true && "Rencontre" == activeCategory) i++;
+      if (filter.WorkshopValue == true && "Workshop" == activeCategory) i++;
+  
+      resolve(i)
+    }) 
+  }
+
 }

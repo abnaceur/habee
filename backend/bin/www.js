@@ -9,6 +9,8 @@ var debug = require('debug')('backoffice:server');
 var http = require('http');
 var socket = require('socket.io')
 var feedbackEvent = require('../api/socketio/eventFeedback')
+var eventAdd = require("../api/socketio/addEventSocket")
+
 /**
  * Get port from environment and store in Express.
  */
@@ -31,7 +33,8 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 var io = socket(server);
-feedbackEvent.feedbackEvent(io)
+feedbackEvent.feedbackEvent(io);
+eventAdd.neweventAdded(io);
 
 /**
  * Normalize a port into a number, string, or false.

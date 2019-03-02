@@ -20,6 +20,8 @@ import { ProfileProvider } from "../providers/profile/profile";
 
 import { EventsPage } from "../pages/events/events";
 
+import { Socket } from "ng-socket-io";
+
 import { TabsPage } from "../pages/tabs/tabs";
 
 import { HabeeWalkthroughPage } from "../pages/habee-walkthrough/habee-walkthrough";
@@ -30,7 +32,13 @@ import { UtilsProvider } from "../providers/utils/utils";
 
 import { Subscriber } from "rxjs/Subscriber";
 
-import { BackgroundMode } from '@ionic-native/background-mode';
+import { BackgroundMode } from "@ionic-native/background-mode";
+
+import { EventFilterProvider } from "../providers/event-filter/event-filter";
+
+import { EventProvider } from "../providers/event/event";
+
+import { LocalNotifications } from "@ionic-native/local-notifications";
 
 @Component({
   templateUrl: "app.html"
@@ -61,6 +69,10 @@ export class MyApp {
   public editableCommunity: String;
 
   constructor(
+    public localNotifications: LocalNotifications,
+    private eventFilterProvider: EventFilterProvider,
+    private eventProvider: EventProvider,
+    private socket: Socket,
     private backgroundMode: BackgroundMode,
     private utils: UtilsProvider,
     public profileProvider: ProfileProvider,
@@ -76,9 +88,9 @@ export class MyApp {
     this.initializeApp();
 
     this.backgroundMode.enable();
-    this.backgroundMode.excludeFromTaskList()
+    this.backgroundMode.excludeFromTaskList();
     this.backgroundMode.overrideBackButton();
-    
+
     events.subscribe("user:info", userData => {
       this.userData = userData;
       // user and time are the same arguments passed in `events.publish(user, time)`
@@ -130,12 +142,62 @@ export class MyApp {
     ];
   }
 
+  pushLocalNotification () {
+    this.localNotifications.schedule({
+      id: Math.floor(Math.random() * 10000),
+      text:
+        "Vous avez un nouveau evenement dans votre comunaute",
+      badge: 1
+    });
+  }
+
   initializeApp() {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      this.platform.pause.subscribe(() => {
+        if (this.userData) {
+          this.backgroundMode.on("activate").subscribe(data => {
+            this.socket.connect();
+            this.socket.emit("join", this.userData.activeCommunity);
+            this.socket.on("broad-event", data => {
+              if (data != "") {
+                this.eventProvider
+                  .getFilterOptions(this.userData)
+                  .subscribe(allFilters => {
+                    let activeAllFilters = this.eventFilterProvider.objectFilterCount(
+                      allFilters.filterEvent
+                    );
+                    if (activeAllFilters != 0) {
+                      this.eventProvider
+                        .checkIfNotifIsActive(
+                          allFilters.filterEvent,
+                          data.eventCategory
+                        )
+                        .then(count => {
+                          if (count > 0) {
+                            this.pushLocalNotification()
+                          }
+                        });
+                    } else {
+                      this.pushLocalNotification()
+                    }
+                  });
+              }
+            });
+          });
+        }
+      });
+
+      this.platform.resume.subscribe(() => {
+        console.log("[INFO] App resumed");
+        this.backgroundMode.on("deactivate").subscribe(data => {
+          this.socket.disconnect();
+        });
+      });
     });
   }
 
@@ -207,13 +269,13 @@ export class MyApp {
         this.communityProvider
           .getCommunitiesByParticipation(this.userData)
           .subscribe(dataParticipation => {
-            let arr =  dataCreator.communities.concat(dataParticipation);
-            
+            let arr = dataCreator.communities.concat(dataParticipation);
+
             this.communityProvider
-            .getCommunitySelected(arr, this.userData.activeCommunity)
-            .then(data => {
-              this.allCommunitiesbyUserId = data;
-            });
+              .getCommunitySelected(arr, this.userData.activeCommunity)
+              .then(data => {
+                this.allCommunitiesbyUserId = data;
+              });
           });
       });
   }

@@ -55,6 +55,9 @@ const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner'; 
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BackgroundMode } from '@ionic-native/background-mode';
+import { ProposeEventProvider } from '../providers/propose-event/propose-event';
+
+
 
 @NgModule({
   declarations: [
@@ -119,7 +122,8 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     AccountProvider,
     InvitationProvider,
     LocalNotifications,
-    BackgroundMode
+    BackgroundMode,
+    ProposeEventProvider
   ]
 })
 export class AppModule { }

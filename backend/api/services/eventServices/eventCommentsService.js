@@ -41,24 +41,20 @@ pushCommentsToclass = (data, comments) => {
         })
     })
 
-    console.log("Comments after : ", data);
     saveUpdatedCommentsByeventId(data)
 }
 
 
 updateComments = (comments) => {
-    console.log("Comments : ", comments)
     if (comments != []) {
         let eventId = comments[0].eventId;
         let communityId = comments[0].eventCommunity;
 
-        console.log("Save comments", comments)
         Comment.find({
                 eventId: eventId,
                 communityId: communityId,
             }).exec()
             .then(data => {
-                console.log('Data comment : ', data)
                 pushCommentsToclass(data, comments)
             }).catch(err => utils.defaultError(res, err))
     }
@@ -66,9 +62,7 @@ updateComments = (comments) => {
 }
 
 createCommentsForEvent = (eventId, communityId) => {
-    console.log("Infor : ", eventId, communityId)
     let comment = new Comment(classComment.commentClassModal(eventId, communityId))
-    console.log("Comment : ", comment)
     comment.save()
         .then(result => {
             console.log('Comments : ', result)
