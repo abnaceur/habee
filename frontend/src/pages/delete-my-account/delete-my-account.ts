@@ -56,8 +56,13 @@ export class DeleteMyAccountPage {
     this.accountService.deleteUserAccount(this.tabParams)
     .subscribe(data => {
       console.log("data : ", data)
-      if (data == 200) this.utils.notification("Votre compte est bien suprimer", "bottomn")
-      else if (data == 500) this.utils.notification("Une erreur est survenu", "bottomn")
+      if (data == 200) {
+        this.utils.notification("Votre compte est bien suprimer", "bottomn")
+        setTimeout(() => {
+          this.tabParams = "";
+          this.navCtrl.push("LoginPage")
+        }, 1000)
+      } else if (data == 500) this.utils.notification("Une erreur est survenu", "bottomn")
       else this.utils.notification("Une erreur est survenu", "bottomn")
     })
   }

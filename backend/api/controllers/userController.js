@@ -435,6 +435,7 @@ exports.resetPassword = (req, res, next) => {
 }
 
 exports.deleteUserAccount = (req, res, next) => {
+    console.log("Here")
     let userId = req.params.userId;
     deleteUserAccount.deleteThisUserAccount(res, userId)
 }

@@ -39,9 +39,7 @@ updateUserProfile = (usr, communityIn) => {
                         communities.push(usr[0].communities[i])
                     i++;
                 }
-                console.log("Communities : ", communities)
                 usr[0].communities = communities;
-                console.log("User here : ", usr)
                 updatingThisUser(usr)
                     .then(data => {
                         if (data == 200)
@@ -80,11 +78,9 @@ checkAndUpdateUserCommunity = (userId, communityIn) => {
 deleteCommunityFromMembers = (com, userId) => {
     return new Promise((resolve, reject) => {
         let i = 0;
-        console.log("Here : ", com.communityMembers.length)
         if (com.communityMembers.length > 1) {
             while (i < com.communityMembers.length) {
                 if (com.communityMembers[i] != userId) {
-                    console.log("fff : ", com.communityMembers[i])
                     checkAndUpdateUserCommunity(com.communityMembers[i], com)
                         .then(data => {
                             if (data == 200)
@@ -95,7 +91,8 @@ deleteCommunityFromMembers = (com, userId) => {
                 }
                 i++;
             }
-        }
+        } else
+            resolve(200)
     })
 }
 
@@ -131,16 +128,13 @@ deleteAllcommunitiesBycreator = (userId) => {
                 communityCreator: userId
             }).exec()
             .then(com => {
-                console.log("Comm", com)
                 if (com.length != 0) {
                     com.map(cm => {
                         deleteCommunityByCreator(cm, userId)
                             .then(check => {
                                 if (check == 200) {
-                                    console.log("ddd : ", check)
                                     resolve(200)
                                 } else {
-                                    console.log("ddd 1: ", check)
                                     resolve(500)
                                 }
                             })
@@ -171,7 +165,6 @@ deleteThisUserAccount = (res, userId) => {
             userId: userId
         }).exec()
         .then(usr => {
-            console.log("User 123 :", usr)
             if (usr.length == 0) {
                 res.status(200).json({
                     code: 404,
@@ -180,7 +173,6 @@ deleteThisUserAccount = (res, userId) => {
             } else {
                 deleteAllcommunitiesBycreator(usr[0].userId)
                     .then(data => {
-                        console.log("Here====================")
                         if (data == 200) {
                             deleteThisUser(usr)
                                 .then(delUser => {

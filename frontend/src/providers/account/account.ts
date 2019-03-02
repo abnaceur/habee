@@ -51,6 +51,7 @@ export class AccountProvider {
   deleteUserAccount(userInfo) {
     let header = this.utils.inihttpHeaderWIthToken(userInfo.token)
 
+    console.log("Post thois")
     return this.http.post(ENV.BASE_URL + '/users/account/delete/' + userInfo.userId,
       "",
       { headers: header })
