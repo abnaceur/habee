@@ -30,6 +30,8 @@ import { UtilsProvider } from "../providers/utils/utils";
 
 import { Subscriber } from "rxjs/Subscriber";
 
+import { BackgroundMode } from '@ionic-native/background-mode';
+
 @Component({
   templateUrl: "app.html"
 })
@@ -59,6 +61,7 @@ export class MyApp {
   public editableCommunity: String;
 
   constructor(
+    private backgroundMode: BackgroundMode,
     private utils: UtilsProvider,
     public profileProvider: ProfileProvider,
     public events: Events,
@@ -71,6 +74,11 @@ export class MyApp {
     public splashScreen: SplashScreen
   ) {
     this.initializeApp();
+
+    this.backgroundMode.enable();
+    this.backgroundMode.excludeFromTaskList()
+    this.backgroundMode.overrideBackButton();
+    
     events.subscribe("user:info", userData => {
       this.userData = userData;
       // user and time are the same arguments passed in `events.publish(user, time)`

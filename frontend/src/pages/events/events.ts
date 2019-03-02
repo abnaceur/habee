@@ -14,6 +14,9 @@ import {
 	Event
 } from "../../models/event.model";
 
+import { BackgroundMode } from '@ionic-native/background-mode';
+
+
 import {
 	EventFilterProvider
   } from '../../providers/event-filter/event-filter';
@@ -48,6 +51,10 @@ import {
 	environment as ENV
 } from '../../environments/environment';
 
+
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
+
 import {
 	UtilsProvider
 } from '../../providers/utils/utils';
@@ -79,6 +86,8 @@ export class EventsPage {
 	
 
 	constructor(
+		private backgroundMode: BackgroundMode,
+		public localNotifications: LocalNotifications,
 		private communityProvider: CommunityProvider,
 		private eventFilterProvider: EventFilterProvider,
 		public modalCtrl: ModalController,
@@ -98,7 +107,6 @@ export class EventsPage {
 			activeCommunity: this.navParams.get('activeCommunity')
 		};
 
-		
 	}
 
 	ionViewWillLoad() {
@@ -106,6 +114,30 @@ export class EventsPage {
 	}
 
 	ionViewWillEnter() {
+		console.log("heii : ",this.backgroundMode.isActive()); 
+		if (this.backgroundMode.isActive()) { 
+			this.backgroundMode.on("enable")
+			.subscribe(data => {
+				console.log("data : ", data)
+				this.localNotifications.schedule({
+					id: 1,
+					text: 'Single ILocalNotification',
+					badge: 3
+				});
+			});
+		}
+
+		this.backgroundMode.on("activate")
+			.subscribe(data => {
+				console.log("data : ", data)
+				this.localNotifications.schedule({
+					id: 1,
+					text: 'outside this',
+					badge: 3
+				});
+			});
+
+		  
 		this.getAllEvents();
 		this.countActiveFilters();
 		this.getCommunityImage();
