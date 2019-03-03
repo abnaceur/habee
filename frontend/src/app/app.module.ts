@@ -17,7 +17,6 @@ import { ProposeEventPageModule } from '../pages/propose-event/propose-event.mod
 import { RetrieveEventsProvider } from '../providers/retrieve-events/retrieve-events';
 import { CommunityProvider } from '../providers/community/community';
 import { ProfileProvider } from '../providers/profile/profile';
-import { PassionProvider } from '../providers/passion/passion';
 import { UserProvider } from '../providers/user/user'
 import { EventDetailsPageModule } from '../pages/event-details/event-details.module';
 import { UtilsProvider } from '../providers/utils/utils';
@@ -110,7 +109,6 @@ import { ProposeEventProvider } from '../providers/propose-event/propose-event';
     CommunityProvider,
     ProfileProvider,
     UtilsProvider,
-    PassionProvider,
     UtilsProvider,
     EventProvider,
     CameraProvider,

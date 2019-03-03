@@ -18,19 +18,11 @@ import { environment as ENV } from "../environments/environment";
 
 import { ProfileProvider } from "../providers/profile/profile";
 
-import { EventsPage } from "../pages/events/events";
-
 import { Socket } from "ng-socket-io";
-
-import { TabsPage } from "../pages/tabs/tabs";
-
-import { HabeeWalkthroughPage } from "../pages/habee-walkthrough/habee-walkthrough";
 
 import { CommunityProvider } from "../providers/community/community";
 
 import { UtilsProvider } from "../providers/utils/utils";
-
-import { Subscriber } from "rxjs/Subscriber";
 
 import { BackgroundMode } from "@ionic-native/background-mode";
 
@@ -166,6 +158,7 @@ export class MyApp {
             this.socket.connect();
             this.socket.emit("join", this.userData.activeCommunity);
             this.socket.on("broad-event", data => {
+              this.backgroundMode.disableWebViewOptimizations()
               if (data != "") {
                 if (events.indexOf(data.eventId) == -1) {
                   events.push(data.eventId);
