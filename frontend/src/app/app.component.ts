@@ -142,16 +142,17 @@ export class MyApp {
     ];
   }
 
-  pushLocalNotification () {
+  pushLocalNotification() {
     this.localNotifications.schedule({
       id: Math.floor(Math.random() * 10000),
-      text:
-        "Vous avez un nouveau evenement dans votre comunaute",
+      text: "Vous avez un nouveau evenement dans votre comunaute",
       badge: 1
     });
   }
 
   initializeApp() {
+    let events = [];
+
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -159,33 +160,37 @@ export class MyApp {
       this.splashScreen.hide();
 
       this.platform.pause.subscribe(() => {
+        console.log("[INFO] App paused");
         if (this.userData) {
           this.backgroundMode.on("activate").subscribe(data => {
             this.socket.connect();
             this.socket.emit("join", this.userData.activeCommunity);
             this.socket.on("broad-event", data => {
               if (data != "") {
-                this.eventProvider
-                  .getFilterOptions(this.userData)
-                  .subscribe(allFilters => {
-                    let activeAllFilters = this.eventFilterProvider.objectFilterCount(
-                      allFilters.filterEvent
-                    );
-                    if (activeAllFilters != 0) {
-                      this.eventProvider
-                        .checkIfNotifIsActive(
-                          allFilters.filterEvent,
-                          data.eventCategory
-                        )
-                        .then(count => {
-                          if (count > 0) {
-                            this.pushLocalNotification()
-                          }
-                        });
-                    } else {
-                      this.pushLocalNotification()
-                    }
-                  });
+                if (events.indexOf(data.eventId) == -1) {
+                  events.push(data.eventId);
+                  this.eventProvider
+                    .getFilterOptions(this.userData)
+                    .subscribe(allFilters => {
+                      let activeAllFilters = this.eventFilterProvider.objectFilterCount(
+                        allFilters.filterEvent
+                      );
+                      if (activeAllFilters != 0) {
+                        this.eventProvider
+                          .checkIfNotifIsActive(
+                            allFilters.filterEvent,
+                            data.eventCategory
+                          )
+                          .then(count => {
+                            if (count > 0) {
+                              this.pushLocalNotification();
+                            }
+                          });
+                      } else {
+                        this.pushLocalNotification();
+                      }
+                    });
+                }
               }
             });
           });
@@ -193,9 +198,10 @@ export class MyApp {
       });
 
       this.platform.resume.subscribe(() => {
+        events = [];
         console.log("[INFO] App resumed");
         this.backgroundMode.on("deactivate").subscribe(data => {
-          this.socket.disconnect();
+          this.socket.disconnect(true);
         });
       });
     });
