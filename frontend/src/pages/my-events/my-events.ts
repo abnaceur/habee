@@ -166,18 +166,11 @@ export class MyEventsPage {
   }
 
   deleteEvent(event) {
-    if (event.participants.length != 0) {
-      this.utils.notification(
-        "Vous ne pouvez pas suprimer cet event car il contien des participants !",
-        "top"
-      );
-    } else {
       this.eventProvider
         .deleteTheiEvent(event, this.tabParams)
         .subscribe(response => {
           this.deleteEventResponse(response);
         });
-    }
   }
 
   expandPopModal(popPage, navInfo) {

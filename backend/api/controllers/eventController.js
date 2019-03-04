@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const utils = require('../services/utils');
 const eventService = require('../services/eventService');
 const eventCommentService = require('../services/eventServices/eventCommentsService');
+const deletEvent = require('../services/eventServices/deleteEvent')
+
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -305,25 +307,7 @@ exports.deleteEventByCommunityId = (req, res, next) => {
     let eventId = req.params.eventId;
     let communityId = req.params.communityId;
 
-    Event.find({
-            eventId: eventId,
-            eventCommunity: communityId
-        }).exec()
-        .then(event => {
-            Event.findByIdAndUpdate(event[0]['_id'],
-                req.body, {
-                    new: false,
-                },
-                function (err, results) {
-                    if (err) return res.status(500).json(err);
-                    res.status(200).json({
-                        message: "success"
-                    })
-                });
-        })
-        .catch(err => {
-            utils.defaultError(res, err)
-        });
+    deletEvent.deleteThisEvent(eventId, communityId, req, res)
 }
 
 exports.get_event_by_id = (req, res, next) => {
