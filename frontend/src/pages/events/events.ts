@@ -10,10 +10,6 @@ import {
   Item
 } from "ionic-angular";
 
-import { Event } from "../../models/event.model";
-
-import { BackgroundMode } from "@ionic-native/background-mode";
-
 import { EventFilterProvider } from "../../providers/event-filter/event-filter";
 
 import { Http } from "@angular/http";

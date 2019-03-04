@@ -158,7 +158,6 @@ export class MyApp {
             this.socket.connect();
             this.socket.emit("join", this.userData.activeCommunity);
             this.socket.on("broad-event", data => {
-              this.backgroundMode.disableWebViewOptimizations()
               if (data != "") {
                 if (events.indexOf(data.eventId) == -1) {
                   events.push(data.eventId);

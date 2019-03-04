@@ -116,8 +116,10 @@ export class EventDetailsPage {
       activeCommunity: this.navParams.get("activeCommunity")
     };
 
-    this.socket.emit("join", this.tabParams.activeCommunity);
-    this.socket.emit("getmessage", this.tabParams.activeCommunity);
+    this.socket.emit("join", this.tabParams.activeCommunity + this.eventDetails.eventId);
+    setTimeout(() => {
+      this.socket.emit("getmessage", this.tabParams.activeCommunity + this.eventDetails.eventId);
+    }, 200)
 
     this.eventDetails.participants.map(pr => {
       if (pr != null) {

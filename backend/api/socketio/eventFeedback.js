@@ -3,72 +3,83 @@ const allCommuntiesByIds = require("../services/communityServices/communityServi
 
 
 getCommmunityPosition = (community, comments, countComm) => {
-    let i = 0;
-    let a;
 
-    while (i < countComm) {
-        if (Object.keys(comments[i]) != null && Object.keys(comments[i]) != undefined) {
-            a = Object.keys(comments[i]);
-            if (community == a[0])
-                break;
+    return new Promise((resolve, reject) => {
+        let i = 0;
+        let a;
+        
+        while (i < countComm) {
+            if (Object.keys(comments[i]) != null && Object.keys(comments[i]) != undefined) {
+                a = Object.keys(comments[i]);
+                if (community == a[0]) {
+                    console.log("community == a[0] : ", community, a[0], i, comments[i])
+                    resolve(i)
+                    break;
+                }
+            }
+            i++;
         }
-        i++;
-    }
-    return i;
+
+        resolve(0);
+    })
 }
 
 feedbackEvent = (io) => {
     let connections = [];
     let comments = [];
     let unshiftComm = [];
-    let communities = [];
     let comConnectedClient = [];
 
-    allCommuntiesByIds.getAllcommunitiesIds()
-        .then(data => {
-            communities = data
-            let i = 0;
-            let comm;
-            while (i < data.length) {
-                comm = data[i];
-                unshiftComm.push({
-                    [comm]: new Array
-                })
-                comments.push({
-                    [comm]: new Array
-                })
-                i++;
-            }
-        })
 
     io.on('connection', function (client) {
 
         connections.push(client);
         client.on('join', function (communityId) {
-            if (communities.includes(communityId)) {
-                client.join(communityId)
-                comConnectedClient.push({
-                    [client.id]: communityId,
+            client.join(communityId)
+            comConnectedClient.push(client);
+            console.log("Client joined!")
+
+            getCommmunityPosition(communityId, comments, comments.length)
+                .then(pos => {
+                    if (pos == 0) {
+                        unshiftComm.push({
+                            [communityId]: new Array
+                        })
+                        comments.push({
+                            [communityId]: new Array
+                        })
+                    }
                 })
-            }
         });
 
         client.on('send-message', function (data) {
-            io.to(data.eventCommunity).emit('broad-msg', data);
 
-            let comm = data.eventCommunity;
-            let pos = getCommmunityPosition(comm, comments, communities.length)
-
-            comments[pos][comm].push(data)
-            unshiftComm[pos][comm].unshift(data)
+            let comm = data.eventCommunity + data.eventId;
+            getCommmunityPosition(comm, comments, (comments.length + 1))
+                .then(pos => {
+                    comments[pos][comm].push(data)
+                    getCommmunityPosition(comm, unshiftComm, (unshiftComm.length + 1))
+                        .then(pos => {
+                            unshiftComm[pos][comm].unshift(data)
+                        })
+                })
+            io.to(data.eventCommunity + data.eventId).emit('broad-msg', data);
         });
 
         if (comments.length > 0) {
             client.on('getmessage', function (data) {
-                let pos = getCommmunityPosition(data, unshiftComm, communities.length)
-                client.emit('live-message', unshiftComm[pos][data]);
+                getCommmunityPosition(data, unshiftComm, unshiftComm.length + 1)
+                    .then(pos => {
+                        client.emit('live-message', unshiftComm[pos][data]);
+                       // io.to(data.eventCommunity + data.eventId).emit('live-message', unshiftComm[pos][data]);
+                    })
             });
         }
+
+        client.on('new-event', function (event) {
+            client.to(event.eventCommunity).emit('broad-event', event);
+        });
+
 
         client.on('disconnect', function (data) {
             let i = 0;
@@ -91,14 +102,20 @@ feedbackEvent = (io) => {
                 i++;
             }
 
+
             if (communityId != undefined && i === 0) {
-                let pos = getCommmunityPosition(communityId, comments, communities.length)
-                if (comments[pos][communityId] && comments[pos][communityId].length > 0)
-                    saveComments.updateComments(comments[pos][communityId])
-                unshiftComm[pos][communityId] = [];
-                comments[pos][communityId] = [];
+                getCommmunityPosition(communityId, comments, comments.length + 1)
+                    .then(pos => {
+                        if (comments[pos][communityId] && comments[pos][communityId].length > 0)
+                            saveComments.updateComments(comments[pos][communityId])
+                        unshiftComm[pos][communityId] = [];
+                        comments[pos][communityId] = [];
+
+                    })
             }
+
             client.disconnect(true)
+            console.log("Client disconnected!")
         });
     });
 }

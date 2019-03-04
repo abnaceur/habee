@@ -34,7 +34,7 @@ server.on('listening', onListening);
 
 var io = socket(server);
 feedbackEvent.feedbackEvent(io);
-eventAdd.neweventAdded(io);
+//eventAdd.neweventAdded(io);
 
 /**
  * Normalize a port into a number, string, or false.

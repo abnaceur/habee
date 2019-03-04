@@ -111,7 +111,7 @@
 
         <ion-toolbar>
             <ion-item>
-                <ion-input type="text" autocorrect clearInput inputmode="full-width-latin" spellcheck="true" 
+                <ion-input id="messageInput" type="text" autocorrect clearInput inputmode="full-width-latin" spellcheck="true" 
                 [(ngModel)]="commentText" placeholder="Laissez un commentaire..."></ion-input>
                
                 <button ion-button clear (click)="onSubmit()" item-end>
