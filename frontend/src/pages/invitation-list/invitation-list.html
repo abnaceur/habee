@@ -12,10 +12,7 @@
 
 <ion-content no-padding fullscreen class="invitation-list">
   <ion-grid>
-
-    <ion-scroll id="scrollBar" scrollY="true" style="white-space: nowrap; height: 100%; width: 100%;
-    ">
-      <div *ngFor="let invit of invitationList">
+     <div *ngFor="let invit of invitationList">
 
         <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false
         && invit.status == 'pending'">
@@ -87,7 +84,6 @@
 
       </div>
 
-    </ion-scroll>
 
   </ion-grid>
 </ion-content>
