@@ -55,7 +55,15 @@ export class AccountProvider {
       "",
       { headers: header })
       .map(response => response.json().code);
-    
   }
+
+  updateNotifiacationStatus(userInfo, notifStatus) {
+    let header = this.utils.inihttpHeaderWIthToken(userInfo.token)
+    
+      return this.http.put(ENV.BASE_URL + '/users/notification/update/' + userInfo.userId,
+      {notifStatus},
+      { headers: header })
+      .map(response => response.json().code);
+    }
 
 }

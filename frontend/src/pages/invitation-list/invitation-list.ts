@@ -47,7 +47,8 @@ export class InvitationListPage {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get("activeCommunity"),
-      countNotification: this.navParams.get("countNotification")
+      countNotification: this.navParams.get("countNotification"),
+      notificationStatus: this.navParams.get("notificationStatus")
     };
   }
 

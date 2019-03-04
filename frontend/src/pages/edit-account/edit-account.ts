@@ -66,7 +66,8 @@ export class EditAccountPage {
       this.tabParams = {
         userId: this.navParams.get("userId"),
         token: this.navParams.get("token"),
-        activeCommunity: this.navParams.get('activeCommunity')
+        activeCommunity: this.navParams.get('activeCommunity'),
+        notificationStatus: this.navParams.get("notificationStatus")
       };
   }
 

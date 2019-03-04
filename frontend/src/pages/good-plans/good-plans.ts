@@ -8,6 +8,16 @@ import {
   NavController, 
   NavParams } from 'ionic-angular';
 
+
+  import {
+    UtilsProvider
+  } from "../../providers/utils/utils"
+
+
+  import { 
+    AccountProvider
+  } from "../../providers/account/account"
+
 /**
  * Generated class for the GoodPlansPage page.
  *
@@ -22,8 +32,11 @@ import {
 })
 export class GoodPlansPage {
   private tabParams;
-  
+  public notifStatus: Boolean;
+
   constructor(
+    private accountProvider: AccountProvider,
+    private utils: UtilsProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
     public modalCtrl: ModalController,
@@ -32,13 +45,13 @@ export class GoodPlansPage {
       this.tabParams = {
         userId: this.navParams.get("userId"),
         token: this.navParams.get("token"),
-        activeCommunity: this.navParams.get('activeCommunity')
+        activeCommunity: this.navParams.get('activeCommunity'),
+        notificationStatus: this.navParams.get("notificationStatus")
       };
-
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GoodPlansPage');
+  ionViewWillEnter() {
+    this.notifStatus = this.tabParams.notificationStatus;
   }
 
   executeModal(page) {
@@ -67,4 +80,12 @@ export class GoodPlansPage {
 		modal.present();
   }
 
+  updateNotificationStatus () {
+    this.accountProvider.updateNotifiacationStatus(this.tabParams, this.notifStatus)
+    .subscribe(data => {
+      if (data != 200) {
+        this.utils.notification("Un problem est survenu", "bottomn");
+      } 
+    })
+  }
 }

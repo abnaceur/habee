@@ -6,6 +6,10 @@ let userSchema = mongoose.Schema({
 	userId: String,
 	activeCommunity: String,
 	activeProfileRole: Number,
+	notificationStatus: {
+		type: Boolean,
+		default: true,
+	},
 	firstConnection: {
 		type: Number,
 		default: 0,

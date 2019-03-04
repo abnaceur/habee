@@ -21,16 +21,17 @@ export class TabsPage {
       this.tabParams = {
         userId: this.navParams.data[1]["userId"],
         token: this.navParams.data[1]["token"],
-        activeCommunity: this.navParams.data[1]["activeCommunity"]
+        activeCommunity: this.navParams.data[1]["activeCommunity"],
+        notificationStatus: this.navParams.data[1]["notificationStatus"]
       };
     } else {
       this.tabParams = {
         userId: this.navParams.get("userId"),
         token: this.navParams.get("token"),
-        activeCommunity: this.navParams.get("activeCommunity")
+        activeCommunity: this.navParams.get("activeCommunity"),
+        notificationStatus: this.navParams.get("notificationStatus")
       };
     }
-    console.log("UserID12: ", this.tabParams);
   }
 
   ionViewWillEnter() {

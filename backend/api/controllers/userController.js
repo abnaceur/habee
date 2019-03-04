@@ -15,7 +15,7 @@ const userInvitationService = require('../services/userServices/userInvitationSe
 const userProfileService = require('../services/userServices/getUserProfile')
 const pswReset = require('../services/userServices/resetPassword')
 const deleteUserAccount = require("../services/userServices/deleteAccount")
-
+const updateNotificationAccount = require("../services/userServices/updateNotification")
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -424,8 +424,7 @@ exports.statusAccepetedInvitation = (req, res, next) => {
 
 exports.statusRejectedInvitation = (req, res, next) => {
     let userId = req.params.userId;
-    let communityId = req.params.communityId;
-
+   
     userInvitationService.updateInvitationStatus(req.body, userId, res)
 }
 
@@ -438,4 +437,11 @@ exports.deleteUserAccount = (req, res, next) => {
     console.log("Here")
     let userId = req.params.userId;
     deleteUserAccount.deleteThisUserAccount(res, userId)
+}
+
+exports.updateNotificationStatus = (req, res, next) => {
+    let userId = req.params.userId;
+    let notifStatus = req.body.notifStatus;
+    
+    updateNotificationAccount.updateThisUserNotification(res, userId, notifStatus)
 }

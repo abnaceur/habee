@@ -68,7 +68,8 @@ export class ProposeEventPage {
     this.tabParams = {
       userId: this.navParams.data.userInfo.userId,
       token: this.navParams.data.userInfo.token,
-      activeCommunity: this.navParams.data.userInfo.activeCommunity
+      activeCommunity: this.navParams.data.userInfo.activeCommunity,
+      notificationStatus: this.navParams.data.userInfo.notificationStatus
     };
 
     this.proposeEventForm = formBuilder.group({

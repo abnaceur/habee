@@ -214,4 +214,10 @@ router.post('/reset/email/:email' ,userController.resetPassword);
 
 router.post('/account/delete/:userId' ,userController.deleteUserAccount);
 
+/*
+ ** API [PUT] for route /users/notification/update/:userId [USED]
+ */
+
+router.put('/notification/update/:userId' ,userController.updateNotificationStatus);
+
 module.exports = router;

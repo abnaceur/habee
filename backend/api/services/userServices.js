@@ -262,6 +262,7 @@ checkPassword = (req, res, users) => {
             userId: users[0].userId,
             activeCommunity: users[0].activeCommunity,
             firstConnection: users[0].firstConnection,
+            notificationStatus: users[0].notificationStatus,
             token: token
         })
     } else {
