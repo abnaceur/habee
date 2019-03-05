@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var db = require('./config/dbConnection');
 var bodyParser = require('body-parser');
+const rateLimiter = require('express-rate-limit-middleware').rateLimit
+
 
 // Main app
 var app = express();
@@ -14,10 +16,19 @@ var app = express();
 // Logs
 app.use(logger('dev'));
 
+// important if behind a proxy to ensure client IP is passed to req.ip
+//app.enable('trust proxy'); 
+ 
 // Body parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
+// Limit request per ip address
+app.use(rateLimiter({
+  limit: 1000, 
+  reset: '1 hour'
+}))
 
 // Fix CORS errors
 app.use((req, res, next) => {
