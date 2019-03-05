@@ -9,7 +9,7 @@ const Community = require('../models/community');
 exports.creatNewAccountUser = (value) => {
     let userIdGen = value.email.substring(0, value.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + value.email.substring(value.email.search('@'), value.email.lenght);
     let communityId = value.email.substring(0, value.email.search('@')) + Math.floor(Math.random() * 10000);
-    let profileAvatar = Math.floor(Math.random() * 10);
+    let profileAvatar = Math.floor(Math.random() * 38) + 1;
 
     return new Promise((resolve, reject) => {
 
@@ -198,7 +198,7 @@ exports.filterEventClass = (activeCommunity) => {
 }
 
 exports.profileClass = (invitation) => {
-    let profileAvatar = Math.floor(Math.random() * 10);
+    let profileAvatar = Math.floor(Math.random() * 38) + 1;
 
 
     return new Promise((resolve, reject) => {
