@@ -1,7 +1,6 @@
 /**
  * Declared dependencies
  */
-
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
@@ -14,6 +13,10 @@ const Event = require("../models/event");
 const jwt = require ('jsonwebtoken');
 const authCkeck = require('../middleware/check-auth');
 const userController = require('../controllers/userController');
+var ExpressBrute = require('express-brute');
+ 
+var store = new ExpressBrute.MemoryStore(); // stores state locally, don't use this in production
+var bruteforce = new ExpressBrute(store);
 
 //=> End of declared dependencies
 
@@ -52,7 +55,7 @@ const upload = multer({
  * API [POST] for roure /users/login 
  */
 
- router.post('/login', userController.login_user);
+ router.post('/login', bruteforce.prevent, userController.login_user);
 
 /* 
  ** API [GET] [POST] for route /users

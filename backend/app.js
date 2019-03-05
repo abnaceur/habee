@@ -7,11 +7,13 @@ var logger = require('morgan');
 var db = require('./config/dbConnection');
 var bodyParser = require('body-parser');
 const rateLimiter = require('express-rate-limit-middleware').rateLimit
-
+const helmet = require('helmet')
 
 // Main app
 var app = express();
 
+//Use hamlet 
+app.use(helmet())
 
 // Logs
 app.use(logger('dev'));
