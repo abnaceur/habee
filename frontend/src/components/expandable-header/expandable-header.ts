@@ -18,37 +18,37 @@ export class ExpandableHeaderComponent {
 
   constructor(public element: ElementRef, public renderer: Renderer) {
   }
-  ngOnInit() {
-    this.renderer.setElementStyle(this.element.nativeElement, 'height', this.headerHeight + 'px');
-    this.scrollArea.ionScroll.subscribe((ev) => {
-      this.resizeHeader(ev);
-    });
-  }
+  // ngOnInit() {
+  //   this.renderer.setElementStyle(this.element.nativeElement, 'height', this.headerHeight + 'px');
+  //   this.scrollArea.ionScroll.subscribe((ev) => {
+  //     this.resizeHeader(ev);
+  //   });
+  // }
 
-  resizeHeader(ev) {
+  // resizeHeader(ev) {
 
-    // ev.domWrite(() => {
-    //   this.newHeaderHeight = this.headerHeight - ev.scrollTop;
+  //   ev.domWrite(() => {
+  //     this.newHeaderHeight = this.headerHeight - ev.scrollTop;
 
-    //   if (this.newHeaderHeight < 0) {
-    //     this.newHeaderHeight = 0;
-    //   }
+  //     if (this.newHeaderHeight < 0) {
+  //       this.newHeaderHeight = 0;
+  //     }
 
-    //   this.renderer.setElementStyle(this.element.nativeElement, 'height', this.newHeaderHeight + 'px');
+  //     this.renderer.setElementStyle(this.element.nativeElement, 'height', this.newHeaderHeight + 'px');
 
-    //   for (const headerElement of this.element.nativeElement.children) {
+  //     for (const headerElement of this.element.nativeElement.children) {
 
-    //     const totalHeight = headerElement.offsetTop + headerElement.clientHeight;
+  //       const totalHeight = headerElement.offsetTop + headerElement.clientHeight;
 
-    //     if (totalHeight > this.newHeaderHeight && !headerElement.isHidden) {
-    //       headerElement.isHidden = true;
-    //       this.renderer.setElementStyle(headerElement, 'opacity', '0');
-    //     } else if (totalHeight <= this.newHeaderHeight && headerElement.isHidden) {
-    //       headerElement.isHidden = false;
-    //       this.renderer.setElementStyle(headerElement, 'opacity', '0.7');
-    //     }
-    //   }
-    // });
-  }
+  //       if (totalHeight > this.newHeaderHeight && !headerElement.isHidden) {
+  //         headerElement.isHidden = true;
+  //         this.renderer.setElementStyle(headerElement, 'opacity', '0');
+  //       } else if (totalHeight <= this.newHeaderHeight && headerElement.isHidden) {
+  //         headerElement.isHidden = false;
+  //         this.renderer.setElementStyle(headerElement, 'opacity', '0.7');
+  //       }
+  //     }
+  //   });
+  // }
 
 }
