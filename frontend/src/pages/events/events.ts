@@ -52,6 +52,7 @@ export class EventsPage {
   public queryText;
   public allEvents_tmp;
   public searchBar = "none";
+  public topList = "0vw";
   public activeAllFilters;
   communityInfo = {
     communityLogo: String,
@@ -205,8 +206,13 @@ export class EventsPage {
   }
 
   showsearchbar() {
-    if (this.searchBar === "none") this.searchBar = "initial";
-    else if (this.searchBar === "initial") this.searchBar = "none";
+    if (this.searchBar === "none") {
+      this.topList = "12vw";
+      this.searchBar = "initial";
+    } else if (this.searchBar === "initial") {
+      this.searchBar = "none";
+      this.topList = "0vw";
+    }
   }
 
   updateEventlist() {

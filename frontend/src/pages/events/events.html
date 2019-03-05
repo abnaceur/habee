@@ -45,7 +45,7 @@ background-color: #5cbcc1;">
   </ion-refresher>
   <!-- END OF THE TEMPLATE-->
 
-  <ion-list>
+  <ion-list [ngStyle]="{'margin-top': topList}">
     <ion-item-sliding *ngFor="let event of allEvents">
       <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
         <ion-thumbnail item-start>
