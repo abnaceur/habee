@@ -79,7 +79,7 @@ export class EventProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.put(ENV.BASE_URL + '/events/' + eventId + '/user/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
-      { headers: header })
+      {}, { headers: header })
       .map(response => response.json());
   }
 

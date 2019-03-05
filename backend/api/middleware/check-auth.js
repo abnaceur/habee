@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
     try {
-	    if (req.headers.authorizatio == "") {
+	    if (req.headers.authorization == "") {
             res.status(401).json({
                 message: "Auth failed !"
             })
