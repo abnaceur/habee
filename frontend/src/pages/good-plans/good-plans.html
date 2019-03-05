@@ -23,11 +23,11 @@ background-color: #F6AE45;">
 
 <ion-content>
   <ion-list>
-    <button ion-item>
+    <div ion-item>
       <ion-icon name="notifications" item-start color="primary"></ion-icon>
       <ion-label style="position: relative; left:-14%">Notification</ion-label>
-      <ion-toggle style="display: inline; z-index: 111;" (click)="updateNotificationStatus();" [(ngModel)]="notifStatus" color="secondary"></ion-toggle>
-    </button>
+      <ion-toggle [(ngModel)]="notifStatus" style="display: inline; z-index: 111;" (ionChange)="updateNotificationStatus();" color="secondary"></ion-toggle>
+    </div>
 
     <button ion-item (click)="modifyProfileModal()">
       <ion-icon name="person" item-start color="primary"></ion-icon>

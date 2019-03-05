@@ -84,7 +84,6 @@ export class GoodPlansPage {
   }
 
   updateNotificationStatus () {
-    console.log("this.notifStatus : ", this.notifStatus)
     this.accountProvider.updateNotifiacationStatus(this.tabParams, this.notifStatus)
     .subscribe(data => {
       if (data != 200) {
