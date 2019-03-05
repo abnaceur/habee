@@ -155,6 +155,7 @@ export class MyApp {
         console.log("[INFO] App paused");
         this.socket.connect();
         setTimeout(() => {
+          //TODO GET NOTIFICATION STATUS
           if (this.userData && this.userData.notificationStatus == true) {
             this.backgroundMode.on("activate").subscribe(data => {
               this.socket.emit("join", this.userData.activeCommunity);

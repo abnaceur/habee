@@ -220,4 +220,10 @@ router.post('/account/delete/:userId' ,userController.deleteUserAccount);
 
 router.put('/notification/update/:userId' ,userController.updateNotificationStatus);
 
+/*
+ ** API [GET] for route /users/notification/status/:userId [USED]
+ */
+
+router.get('/notification/status/:userId' ,userController.getNotificationStatus);
+
 module.exports = router;

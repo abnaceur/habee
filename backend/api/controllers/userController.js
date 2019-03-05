@@ -16,6 +16,8 @@ const userProfileService = require('../services/userServices/getUserProfile')
 const pswReset = require('../services/userServices/resetPassword')
 const deleteUserAccount = require("../services/userServices/deleteAccount")
 const updateNotificationAccount = require("../services/userServices/updateNotification")
+const getNotificationStatus = require("../services/userServices/getNotificationStatus")
+
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -444,4 +446,11 @@ exports.updateNotificationStatus = (req, res, next) => {
     let notifStatus = req.body.notifStatus;
     
     updateNotificationAccount.updateThisUserNotification(res, userId, notifStatus)
+}
+
+
+exports.getNotificationStatus = (req, res, next) => {
+    let userId = req.params.userId;
+
+    getNotificationStatus.getNotificationStatusThisUser(res, userId)
 }

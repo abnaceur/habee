@@ -59,4 +59,14 @@ export class AccountProvider {
       )
       .map(response => response.json().code);
   }
+
+  getUserNotificationStatus (userInfo) {
+    let header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http
+      .get(ENV.BASE_URL + "/users/notification/status/" + userInfo.userId, {
+        headers: header
+      })
+      .map(response => response.json().status);
+  } 
 }

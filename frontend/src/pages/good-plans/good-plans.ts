@@ -48,9 +48,14 @@ export class GoodPlansPage {
         activeCommunity: this.navParams.get('activeCommunity'),
         notificationStatus: this.navParams.get("notificationStatus")
       };
-      this.notifStatus = this.tabParams.notificationStatus;
-    }
+  }
 
+  ionViewWillEnter() {
+    this.accountProvider.getUserNotificationStatus(this.tabParams)
+    .subscribe(notifStatus => {
+      this.notifStatus = notifStatus
+    })
+  }
 
   executeModal(page) {
     const modal = this.modalCtrl.create(page, this.tabParams, { cssClass: 'inset-modal' });
@@ -79,6 +84,7 @@ export class GoodPlansPage {
   }
 
   updateNotificationStatus () {
+    console.log("this.notifStatus : ", this.notifStatus)
     this.accountProvider.updateNotifiacationStatus(this.tabParams, this.notifStatus)
     .subscribe(data => {
       if (data != 200) {
