@@ -12,7 +12,6 @@ getCommmunityPosition = (community, comments, countComm) => {
             if (Object.keys(comments[i]) != null && Object.keys(comments[i]) != undefined) {
                 a = Object.keys(comments[i]);
                 if (community == a[0]) {
-                    console.log("community == a[0] : ", community, a[0], i, comments[i])
                     resolve(i)
                     break;
                 }
@@ -77,6 +76,7 @@ feedbackEvent = (io) => {
         }
 
         client.on('new-event', function (event) {
+            console.log("Broadcast event")
             client.to(event.eventCommunity).emit('broad-event', event);
         });
 

@@ -48,11 +48,9 @@ export class GoodPlansPage {
         activeCommunity: this.navParams.get('activeCommunity'),
         notificationStatus: this.navParams.get("notificationStatus")
       };
-  }
+      this.notifStatus = this.tabParams.notificationStatus;
+    }
 
-  ionViewWillEnter() {
-    this.notifStatus = this.tabParams.notificationStatus;
-  }
 
   executeModal(page) {
     const modal = this.modalCtrl.create(page, this.tabParams, { cssClass: 'inset-modal' });

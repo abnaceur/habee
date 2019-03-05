@@ -5,6 +5,9 @@ const utils = require('../utils')
 const bcrypt = require('bcrypt');
 
 
+//TODO DELETED PROFILES, DELETE EVENTS
+//TODO DELETE ALL COMMENTS RELATED TO EVEVTS CREATED BY THIS USER
+
 updatingThisUser = (usr) => {
     return new Promise((resolve, reject) => {
         User.findByIdAndUpdate(usr[0]._id,

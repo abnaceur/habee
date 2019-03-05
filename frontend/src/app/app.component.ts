@@ -153,40 +153,42 @@ export class MyApp {
 
       this.platform.pause.subscribe(() => {
         console.log("[INFO] App paused");
-        if (this.userData) {
-          this.backgroundMode.on("activate").subscribe(data => {
-            this.socket.connect();
-            this.socket.emit("join", this.userData.activeCommunity);
-            this.socket.on("broad-event", data => {
-              if (data != "") {
-                if (events.indexOf(data.eventId) == -1) {
-                  events.push(data.eventId);
-                  this.eventProvider
-                    .getFilterOptions(this.userData)
-                    .subscribe(allFilters => {
-                      let activeAllFilters = this.eventFilterProvider.objectFilterCount(
-                        allFilters.filterEvent
-                      );
-                      if (activeAllFilters != 0) {
-                        this.eventProvider
-                          .checkIfNotifIsActive(
-                            allFilters.filterEvent,
-                            data.eventCategory
-                          )
-                          .then(count => {
-                            if (count > 0) {
-                              this.pushLocalNotification();
-                            }
-                          });
-                      } else {
-                        this.pushLocalNotification();
-                      }
-                    });
+        this.socket.connect();
+        setTimeout(() => {
+          if (this.userData && this.userData.notificationStatus == true) {
+            this.backgroundMode.on("activate").subscribe(data => {
+              this.socket.emit("join", this.userData.activeCommunity);
+              this.socket.on("broad-event", data => {
+                if (data != "") {
+                  if (events.indexOf(data.eventId) == -1) {
+                    events.push(data.eventId);
+                    this.eventProvider
+                      .getFilterOptions(this.userData)
+                      .subscribe(allFilters => {
+                        let activeAllFilters = this.eventFilterProvider.objectFilterCount(
+                          allFilters.filterEvent
+                        );
+                        if (activeAllFilters != 0) {
+                          this.eventProvider
+                            .checkIfNotifIsActive(
+                              allFilters.filterEvent,
+                              data.eventCategory
+                            )
+                            .then(count => {
+                              if (count > 0) {
+                                this.pushLocalNotification();
+                              }
+                            });
+                        } else {
+                          this.pushLocalNotification();
+                        }
+                      });
+                  }
                 }
-              }
+              });
             });
-          });
-        }
+          }
+        }, 200);
       });
 
       this.platform.resume.subscribe(() => {
