@@ -59,14 +59,14 @@ const upload = multer({
  */
 
 
-router.post('/',  upload.single('profilePhoto'), userController.post_user);
+router.post('/',  upload.single('profilePhoto'), authCkeck, userController.post_user);
 
 
 /* 
  ** API [GET] [POST] for route /users/user/community/add
  */
 
-router.post('/user/community/create',  upload.any(), userController.post_userMobile);
+router.post('/user/community/create',  upload.any(), authCkeck, userController.post_userMobile);
 
 
 
@@ -75,14 +75,14 @@ router.post('/user/community/create',  upload.any(), userController.post_userMob
  */
 
 
-router.get('/', userController.get_all_users);
+router.get('/', authCkeck, userController.get_all_users);
 
 
 /*
  ** API [GET] for route /users/active
  */
 
-router.get('/community/:communityId', userController.getAllusersByCommunityId);
+router.get('/community/:communityId', authCkeck, userController.getAllusersByCommunityId);
 
 
 /*
@@ -90,27 +90,27 @@ router.get('/community/:communityId', userController.getAllusersByCommunityId);
  */
 
 
-router.get('/app/community/:communityId', userController.getAllusersByCommunityIdMobile);
+router.get('/app/community/:communityId', authCkeck, userController.getAllusersByCommunityIdMobile);
 
 /*
  ** API [PUT] for route /users/firstConnection/:userid [USED]
  */
 
-router.put('/firstConnection/:userId', userController.updateUserByfirstConnection)
+router.put('/firstConnection/:userId', authCkeck, userController.updateUserByfirstConnection)
 
 
 /*
  **  API [GET] for route /user/:id
  */
 
-router.get('/:id', userController.get_user_by_id);
+router.get('/:id', authCkeck, userController.get_user_by_id);
 
 
 /*
  ** API [GET] for route /users/id/communityId   [USED]
  */
 
-router.get('/:id/:communityId', userController.get_userId_communityId);
+router.get('/:id/:communityId', authCkeck, userController.get_userId_communityId);
 
 
 /*
@@ -118,7 +118,7 @@ router.get('/:id/:communityId', userController.get_userId_communityId);
  */
 
 
-router.post('/invite/contacts/:userId/:activeCommunity', userController.postInvitedContacts)
+router.post('/invite/contacts/:userId/:activeCommunity', authCkeck, userController.postInvitedContacts)
 
 /*
  ** API [PATCH] for route /users/id/communityId   [USED]
@@ -138,92 +138,92 @@ router.put('/delete/:id/:communityId',  authCkeck, userController.put_userId_com
  ** API [POST] for route /users/create/newaccount   [USED]
  */
 
-router.post('/create/newaccount',userController.creatAnewAccount);
+router.post('/create/newaccount', authCkeck, userController.creatAnewAccount);
 
 /*
  ** API [PUT] for route /users/profile/user/:userId/community/:communityId   [USED]
  */
 
-router.put('/profile/user/:userId/community/:communityId',userController.editProfile);
+router.put('/profile/user/:userId/community/:communityId', authCkeck, userController.editProfile);
 
 /*
  ** API [POST] for route /users/account/psw/user/:userId [USED]
  */
 
-router.post('/account/psw/user/:userId',userController.checkPsw);
+router.post('/account/psw/user/:userId', authCkeck, userController.checkPsw);
 
 /*
  ** API [PUT] for route /users/account/psw/user/:userId [USED]
  */
 
-router.put('/account/psw/user/:userId' ,userController.updatePsw);
+router.put('/account/psw/user/:userId' , authCkeck, userController.updatePsw);
 
 /*
  ** API [GET] for route /users/account/info/:userId [USED]
  */
 
-router.get('/account/info/:userId' ,userController.getAccountInfo);
+router.get('/account/info/:userId' , authCkeck, userController.getAccountInfo);
 
 /*
  ** API [PUT] for route /users/account/info/:userId [USED]
  */
 
-router.put('/account/info/:userId' ,userController.updateAccountInfo);
+router.put('/account/info/:userId' , authCkeck, userController.updateAccountInfo);
 
 /*
  ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
  */
 
-router.get('/list/invitation/:userId/community/:communityId' ,userController.getListInvitationn);
+router.get('/list/invitation/:userId/community/:communityId', authCkeck, userController.getListInvitationn);
 
 /*
  ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
  */
 
-router.put('/update/invitation/:userId/community/:communityId' ,userController.updateInvitationNotification);
+router.put('/update/invitation/:userId/community/:communityId', authCkeck, userController.updateInvitationNotification);
 
 
 /*
  ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
  */
 
-router.get('/count/invitation/:userId/community/:communityId' ,userController.countNotificationbyUserId);
+router.get('/count/invitation/:userId/community/:communityId', authCkeck, userController.countNotificationbyUserId);
 
 
 /*
  ** API [POST] for route /users/invitation/accepted/:userId/community/:communityId [USED]
  */
 
-router.post('/invitation/accepted/:userId/community/:communityId' ,userController.statusAccepetedInvitation);
+router.post('/invitation/accepted/:userId/community/:communityId', authCkeck, userController.statusAccepetedInvitation);
 
 /*
  ** API [POST] for route /users/invitation/rejected/:userId/community/:communityId [USED]
  */
 
-router.post('/invitation/rejected/:userId/community/:communityId' ,userController.statusRejectedInvitation);
+router.post('/invitation/rejected/:userId/community/:communityId', authCkeck, userController.statusRejectedInvitation);
 
 /*
  ** API [PUT] for route /users/reset/email [USED]
  */
 
-router.post('/reset/email/:email' ,userController.resetPassword);
+router.post('/reset/email/:email', authCkeck, userController.resetPassword);
 
 /*
  ** API [POST] for route /users/account/delete/:userId [USED]
  */
 
-router.post('/account/delete/:userId' ,userController.deleteUserAccount);
+router.post('/account/delete/:userId', authCkeck, userController.deleteUserAccount);
 
 /*
  ** API [PUT] for route /users/notification/update/:userId [USED]
  */
 
-router.put('/notification/update/:userId' ,userController.updateNotificationStatus);
+router.put('/notification/update/:userId', authCkeck, userController.updateNotificationStatus);
 
 /*
  ** API [GET] for route /users/notification/status/:userId [USED]
  */
 
-router.get('/notification/status/:userId' ,userController.getNotificationStatus);
+router.get('/notification/status/:userId', authCkeck, userController.getNotificationStatus);
 
 module.exports = router;

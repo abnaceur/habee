@@ -37,48 +37,48 @@ const upload = multer({
  * API [GET] for route /events
  */
 
-router.get('/', eventController.get_all_events);
+router.get('/', authCkeck, eventController.get_all_events);
 
 
 /*
  * API [GET] for route /events/:eventId/community/:communitId [USED]
  */
 
-router.get('/:eventId/community/:communityId', eventController.eventByCommunityId)
+router.get('/:eventId/community/:communityId', authCkeck, eventController.eventByCommunityId)
 
 /*
  * API [GET] for route /events/community/:communitId [USED]
  */
 
-router.get('/community/:communityId', eventController.get_all_events_byCommunityId);
+router.get('/community/:communityId', authCkeck,  eventController.get_all_events_byCommunityId);
 
 
 /*
  * API [GET] for route /events/filter/:userId/community/:communityId [USED]
  */
 
-router.get('/filtered/user/:userId/community/:communityId', eventController.getFilteredEvent);
+router.get('/filtered/user/:userId/community/:communityId', authCkeck, eventController.getFilteredEvent);
 
 
 /*
  * API [GET] for route /events/filter/:userId/community/:communityId [USED]
  */
 
-router.get('/filter/:userId/community/:communityId', eventController.getEventFilter);
+router.get('/filter/:userId/community/:communityId', authCkeck, eventController.getEventFilter);
 
 
 /*
  * API [POST] for route /events/filter/:userId/community/:communityId [USED]
  */
 
-router.post('/filter/:userId/community/:communityId', eventController.postEventFilter);
+router.post('/filter/:userId/community/:communityId', authCkeck, eventController.postEventFilter);
 
 
 /*
  * API [GET] for route /events/user/:userId/community/ [TOBE USED]
  */
 
-router.get('/user/:userId/community', eventController.getNoevent)
+router.get('/user/:userId/community', authCkeck, eventController.getNoevent)
 
 
 
@@ -86,13 +86,13 @@ router.get('/user/:userId/community', eventController.getNoevent)
  * API [GET] for route /events/user/:userId/community/:communityId [TOBE USED]
  */
 
-router.get('/user/:userId/community/:communityId', eventController.getEvntByUserIdAndCommunityId)
+router.get('/user/:userId/community/:communityId', authCkeck, eventController.getEvntByUserIdAndCommunityId)
 
 /**
  * API [POST] for route /events/mobile/photo/upload [USED]
  */
 
-router.post('/mobile/photo/upload', upload.any(), eventController.upload_mobile_photo);
+router.post('/mobile/photo/upload', upload.any(), authCkeck, eventController.upload_mobile_photo);
 
 
 /**
@@ -100,47 +100,47 @@ router.post('/mobile/photo/upload', upload.any(), eventController.upload_mobile_
  */
 
 
-router.post('/', upload.any(), eventController.post_event);
+router.post('/', upload.any(), authCkeck, eventController.post_event);
 
 /**
  * API [POST] for route /events/:eventId/user/:userId [USED]
  */
 
-router.get('/:eventId/issubscribed/:userId/community/:communityId', eventController.get_userEventSubscribed)
+router.get('/:eventId/issubscribed/:userId/community/:communityId', authCkeck, eventController.get_userEventSubscribed)
 
 
 /**
  * API [GET] foor route /events/eventId
  */
 
-router.get('/:eventId', eventController.get_event_by_id);
+router.get('/:eventId', authCkeck, eventController.get_event_by_id);
 
 /**
  * API [PUT] foor route /events/delete/:eventId/community/:communityId [USED]
  */
 
-router.put('/edit/:eventId/community/:communityId', eventController.deleteEventByCommunityId)
+router.put('/edit/:eventId/community/:communityId', authCkeck, eventController.deleteEventByCommunityId)
 
 
 /**
  * API [PUT] foor route /events/:eventId/user/:userId/community/:communityId [USED]
  */
 
-router.put('/:eventId/user/:userId/community/:communityId', eventController.put_eventByUserId);
+router.put('/:eventId/user/:userId/community/:communityId', authCkeck, eventController.put_eventByUserId);
 
 
 /*
  ** API route [PUT] for /events/all/isOver [USED]
  */
 
-router.put('/all/isover/:userId/:communityId', eventController.put_all_events_isOver);
+router.put('/all/isover/:userId/:communityId', authCkeck, eventController.put_all_events_isOver);
 
 
 /*
  ** API route [GET] for /events/comments [USED]
  */
 
-router.get('/comments/:eventId/community/:communityId', eventController.getCommentByEventId);
+router.get('/comments/:eventId/community/:communityId', authCkeck, eventController.getCommentByEventId);
 
 
 module.exports = router;

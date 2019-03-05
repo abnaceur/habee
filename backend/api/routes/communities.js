@@ -36,52 +36,52 @@ const upload = multer({
  ** API [GET] [POST] for route /communites   
  */
 
-router.get('/', communityController.get_all_communities);
+router.get('/', authCkeck, communityController.get_all_communities);
 
 /*
  ** API [GET] for route /communites/creator/:userId []USED  
  */
 
-router.get('/creator/:userId', communityController.getCommunityByCreator);
+router.get('/creator/:userId', authCkeck, communityController.getCommunityByCreator);
 
 /*
  ** API [POST] for route /communites/creator/:userId []USED  
  */
 
-router.post('/creator/:userId', communityController.addCommunityByCreator);
+router.post('/creator/:userId', authCkeck, communityController.addCommunityByCreator);
 
 /*
  ** API [POST] for route /communites/selected/:communityId/:userId []USED  
  */
 
-router.post('/selected/:communityId/:userId', communityController.updateSelectedCommunity);
+router.post('/selected/:communityId/:userId', authCkeck, communityController.updateSelectedCommunity);
 
 
 /*
  ** API routes [GET] [PATCH] for /communities/id
  */
 
-router.get('/:id', communityController.get_community_by_id);
+router.get('/:id', authCkeck, communityController.get_community_by_id);
 
 /*
  ** API routes [PUT] [PATCH] for /communities/id [USED]
  */
 
-router.put('/:communityId', communityController.put_community_by_id);
+router.put('/:communityId', authCkeck, communityController.put_community_by_id);
 
 
 /*
  ** API routes [PUT] [PATCH] for /communities/delete/:communityId [USED]
  */
 
-router.put('/delete/:communityId', communityController.putDeleteCommunity)
+router.put('/delete/:communityId', authCkeck, communityController.putDeleteCommunity)
 
 
 /*
  ** API routes [GET] /communities/byparticipation/:userId [USED]
  */
 
-router.get('/byparticipation/:userId', communityController.getCommunitiesByParticipation);
+router.get('/byparticipation/:userId', authCkeck, communityController.getCommunitiesByParticipation);
 
 
 module.exports = router;

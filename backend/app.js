@@ -37,8 +37,6 @@ app.use((req, res, next) => {
 var indexRouter = require('./api/routes/index');
 var usersRouter = require('./api/routes/users');
 var communitiesRouter = require('./api/routes/communities');
-var passionsRouter = require('./api/routes/passions');
-var skillsRouter = require('./api/routes/skills');
 var eventsRouter = require('./api/routes/events');
 
 // Open connection to the database
@@ -66,8 +64,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/communities', communitiesRouter);
-app.use('/passions', passionsRouter);
-app.use('/skills', skillsRouter);
 app.use('/events', eventsRouter);
 
 // catch 404 and forward to error handler
