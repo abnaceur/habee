@@ -124,7 +124,7 @@ export class CommunityProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/communities/selected/' + comId + "/" + userInfo.userId,
-      { headers: header })
+    {}, { headers: header })
       .map(response => response.json().count);
   }
 
