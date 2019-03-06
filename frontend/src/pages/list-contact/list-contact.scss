@@ -10,6 +10,7 @@ page-list-contact {
     background: brown;
     color: white;
   }
+
   ion-icon {
     line-height: 1;
   }
@@ -116,11 +117,11 @@ page-list-contact {
   .active .modal-backdrop-bg {
     opacity: 0.5;
   }
-}
 
-ion-modal.inset-modal {
-  // transparent black background overlay
-  background-color: rgba(0, 0, 0, .5) !important;
-  transition: opacity .25s ease-in-out;
-  padding: 20vh 10vw;
+  ion-modal.inset-modal {
+    // transparent black background overlay
+    background-color: rgba(0, 0, 0, .5) !important;
+    transition: opacity .25s ease-in-out;
+    padding: 20vh 10vw;
+  }
 }

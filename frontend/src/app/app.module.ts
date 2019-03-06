@@ -34,6 +34,9 @@ import { DeleteMyAccountPageModule } from '../pages/delete-my-account/delete-my-
 import { EditAccountPageModule } from '../pages/edit-account/edit-account.module';
 import { InvitationListPageModule } from '../pages/invitation-list/invitation-list.module';
 import { ForgotPasswordPageModule } from "../pages/forgot-password/forgot-password.module"
+import { TermsOfServicePageModule } from "../pages/terms-of-service/terms-of-service.module"
+import { TermsOfServiceScriptPageModule } from "../pages/terms-of-service-script/terms-of-service-script.module"
+
 
 import { CameraProvider } from '../providers/camera/camera';
 import { SharedModule   } from './shared.module';
@@ -70,6 +73,7 @@ import { ProposeEventProvider } from '../providers/propose-event/propose-event';
     MyEventsPageModule,
     EventsPageModule,
     LoginPageModule,
+    TermsOfServiceScriptPageModule,
     ProposeEventPageModule,
     GoodPlansPageModule,
     EventDetailsPageModule,
@@ -82,6 +86,7 @@ import { ProposeEventProvider } from '../providers/propose-event/propose-event';
     EditProfilePageModule,
     EditPasswordPageModule,
     DeleteMyAccountPageModule,
+    TermsOfServicePageModule,
     EditAccountPageModule,
     InvitationListPageModule,
     ForgotPasswordPageModule,

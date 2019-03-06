@@ -49,6 +49,7 @@ export class TabsPage {
       if (this.navParams.data[0] == "Deconnexion") {
         this.backgroundMode.disable();
         this.tabParams = [];
+        this.navCtrl.push("LoginPage")
       };
     }
   }

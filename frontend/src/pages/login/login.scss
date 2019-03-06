@@ -1,21 +1,10 @@
 page-login {
 
-  .toast-success {
-    > div{
-         background-color: red !important;
-     }
-  }
-  
-}
-
-
-
-
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-height: 750px) {
   .myview {
-    background-image: url('../assets/imgs/loginPage.png');
+    background-image: url('../assets/imgs/loginPage2.png');
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
@@ -42,7 +31,7 @@ page-login {
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (min-height: 751px) {
     .myview {
-      background-image: url('../assets/imgs/loginPage.png');
+      background-image: url('../assets/imgs/loginPage2.png');
       background-repeat: no-repeat;
       background-size: cover;
       position: relative;
@@ -69,7 +58,7 @@ page-login {
   /* Extra small devices (phones, 600px and down) */
 @media only screen and (min-height: 800px) {
     .myview {
-      background-image: url('../assets/imgs/loginPage.png');
+      background-image: url('../assets/imgs/loginPage2.png');
       background-repeat: no-repeat;
       background-size: cover;
       position: relative;
@@ -109,3 +98,50 @@ page-login {
  
 
 }
+
+
+  .toast-success {
+    > div{
+         background-color: red !important;
+     }
+  }
+  
+}
+
+
+  ion-modal,
+  page-terms-of-service {
+    // transparent black background overlay
+    background-color: rgba(0, 0, 0, .5) !important;
+    padding: 50px !important;
+  }
+  .toolbar-background {
+    color: red !important;
+  }
+
+  .md .modal-wrapper {
+    height: 42%;
+  }
+
+  ion-modal.modal-wrapper {
+    transform: translateY(30%) !important;
+  }
+  ion-page.modal {
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .modal-backdrop-bg {
+    background-color: #000;
+    opacity: 0;
+  }
+  .active .modal-backdrop-bg {
+    opacity: 0.5;
+  }
+
+  ion-modal.inset-modal {
+    // transparent black background overlay
+    background-color: rgba(0, 0, 0, .5) !important;
+    transition: opacity .25s ease-in-out;
+    padding: 20vh 10vw;
+  }
+

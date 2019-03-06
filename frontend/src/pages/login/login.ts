@@ -6,6 +6,7 @@ import {
   NavParams,
   ToastController,
   MenuController,
+  ModalController,
   Events
 } from "ionic-angular";
 
@@ -43,6 +44,7 @@ export class LoginPage {
     public navCtrl: NavController,
     public menu: MenuController,
     public navParams: NavParams,
+    public modalCtrl: ModalController,
     public formBuilder: FormBuilder
   ) {
     this.nav = nav;
@@ -61,9 +63,15 @@ export class LoginPage {
       ],
       password: [
         "",
-        Validators.compose([Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'), Validators.minLength(8)])
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(
+            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+          ),
+          Validators.minLength(8)
+        ])
       ],
-      confPass: [""],
+      confPass: [""]
     });
   }
 
@@ -91,21 +99,27 @@ export class LoginPage {
     if (value.confPass != value.password)
       this.utils.notification("Password/confirmation n'est pas correct", "top");
     else {
-      this.loginProvider.createANewAccount(value).subscribe(data => {
-        if (data.code === 201) this.utils.notification("Email exist !", "top");
-        else if (data.code == 200)
-          this.utils.notification("Compte cree avec succes", "top");
-        else this.utils.notification("Une erreur est survenu", "top");
+      const modal = this.modalCtrl.create("TermsOfServicePage");
+      modal.onDidDismiss(data => {
+        console.log("onDismiss : ", data);
+        if (data == true) {
+          this.loginProvider.createANewAccount(value).subscribe(data => {
+            if (data.code === 201)
+              this.utils.notification("Email exist !", "top");
+            else if (data.code == 200)
+              this.utils.notification("Compte cree avec succes", "top");
+            else this.utils.notification("Une erreur est survenu", "top");
+          });
+        }
       });
+      modal.present();
     }
   }
 
   onSubmit(value: any): void {
-    console.log("here ", value)
     if (this.createAccount === false) this.loginUserToSession(value);
     else if (this.createAccount === true) this.createUserAccount(value);
   }
-
 
   loginUser() {
     document.getElementById("submitLogin").click();
@@ -116,6 +130,6 @@ export class LoginPage {
   }
 
   resetPassword() {
-    this.navCtrl.push("ForgotPasswordPage")
+    this.navCtrl.push("ForgotPasswordPage");
   }
 }
