@@ -61,9 +61,9 @@ export class LoginPage {
       ],
       password: [
         "",
-        Validators.compose([Validators.required, Validators.minLength(8)])
+        Validators.compose([Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'), Validators.minLength(8)])
       ],
-      confPass: [""]
+      confPass: [""],
     });
   }
 

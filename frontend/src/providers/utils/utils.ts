@@ -114,8 +114,11 @@ export class UtilsProvider {
     let subscribedToast = this.toastController.create({
       message: msg,
       duration: 2000,
+      showCloseButton: true,
+      dismissOnPageChange: true,
+      closeButtonText: "Fermer",
       position: side,
-      cssClass: "subscribedClass"
+      cssClass: "toast-success"
     });
     subscribedToast.present()
   }

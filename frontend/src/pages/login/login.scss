@@ -1,5 +1,14 @@
-page-login {}
+page-login {
 
+}
+
+
+
+.toast-success {
+  > div{
+       background-color: red !important;
+   }
+}
 
 
 /* Extra small devices (phones, 600px and down) */

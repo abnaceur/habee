@@ -54,8 +54,8 @@ const upload = multer({
 /*
  * API [POST] for roure /users/login 
  */
-
- router.post('/login', bruteforce.prevent, userController.login_user);
+//TODO bruteforce.prevent
+ router.post('/login', userController.login_user);
 
 /* 
  ** API [GET] [POST] for route /users
