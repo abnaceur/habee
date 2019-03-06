@@ -155,17 +155,6 @@ export class EventsPage {
     }, 2000);
   }
 
-  subscribeToEvent(eventId) {
-    alert("ss");
-    console.log(
-      "Info 128 : ",
-      this.tabParams.token,
-      this.tabParams.userId,
-      eventId
-    );
-    //this.eventProvider.getEventSubscription(eventId, this.tabParams.token, this.tabParams.userId, this.tabParams.activeCommunity);
-  }
-
   formatTime(month, day) {
     let time = { subtitle: this.months[month], title: day };
     return time;

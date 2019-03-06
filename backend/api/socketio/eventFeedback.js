@@ -76,8 +76,12 @@ feedbackEvent = (io) => {
         }
 
         client.on('new-event', function (event) {
-            console.log("Broadcast event")
             client.to(event.eventCommunity).emit('broad-event', event);
+        });
+
+
+        client.on('getSubDisubParticipants', function (data) {
+            client.to(data.userId).emit('broad-participants', data.participants);
         });
 
 

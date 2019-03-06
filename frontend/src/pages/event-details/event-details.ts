@@ -168,6 +168,11 @@ export class EventDetailsPage {
         });
       });
 
+      this.socket.on("broad-participants", data => {
+        this.eventDetails.nbrSubscribedParticipants = data.length;
+        this.eventDetails.participants = data;
+      })
+
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
       .subscribe(profile => {
@@ -290,17 +295,18 @@ export class EventDetailsPage {
   }
 
   updateParticipantsList(value, eventId) {
-    value == true
-      ? ((this.eventDetails.nbrSubscribedParticipants =
-          this.eventDetails.nbrSubscribedParticipants + 1),
-        (this.isSubscribed = "Desinscrir"))
-      : ((this.isSubscribed = "S'inscrir"),
-        (this.eventDetails.nbrSubscribedParticipants =
-          this.eventDetails.nbrSubscribedParticipants - 1));
+    if (value == true) (this.isSubscribed = "Desinscrir")
+    else this.isSubscribed = "S'inscrir";
+
     this.eventProvider
       .getEventById(eventId, this.tabParams.token)
       .subscribe(response => {
+        this.eventDetails.nbrSubscribedParticipants = response.Event[0].participants.length;
         this.eventDetails.participants = response.Event[0].participants;
+        this.socket.emit("getSubDisubParticipants", {
+          participants: response.Event[0].participants,
+          userId : this.tabParams.activeCommunity + this.eventDetails.eventId
+        });
       });
   }
 
