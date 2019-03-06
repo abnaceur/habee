@@ -55,7 +55,7 @@ const upload = multer({
  * API [POST] for roure /users/login 
  */
 //TODO bruteforce.prevent
- router.post('/login', userController.login_user);
+ router.post('/login', bruteforce.prevent, userController.login_user);
 
 /* 
  ** API [GET] [POST] for route /users
@@ -209,7 +209,7 @@ router.post('/invitation/rejected/:userId/community/:communityId', authCkeck, us
  ** API [PUT] for route /users/reset/email [USED]
  */
 
-router.post('/reset/email/:email', userController.resetPassword);
+router.post('/reset/email/:email', bruteforce.prevent, userController.resetPassword);
 
 /*
  ** API [POST] for route /users/account/delete/:userId [USED]

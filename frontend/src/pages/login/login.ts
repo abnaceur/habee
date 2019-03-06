@@ -101,6 +101,7 @@ export class LoginPage {
   }
 
   onSubmit(value: any): void {
+    console.log("here ", value)
     if (this.createAccount === false) this.loginUserToSession(value);
     else if (this.createAccount === true) this.createUserAccount(value);
   }

@@ -45,7 +45,7 @@ export class InvitationProvider {
           "/users/update/invitation/" +
           userInfo.userId +
           "/community/" +
-          userInfo.activeCommunity,
+          userInfo.activeCommunity, {},
         { headers: header }
       )
       .map(response => response.json().data);

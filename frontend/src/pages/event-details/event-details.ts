@@ -157,7 +157,7 @@ export class EventDetailsPage {
         this.socket.on("live-message", data => {
           data.map(d => {
             this.liveComments.unshift(d);
-            this.scrolltobottomnfun();
+            //this.scrolltobottomnfun();
           });
 
           if (this.liveComments.length != 0) {
@@ -350,7 +350,8 @@ export class EventDetailsPage {
       comment: this.commentText
     };
     this.commentText = "";
-    this.scrolltobottomnfun();
+    if (this.showComments == true)
+      this.scrolltobottomnfun();
     this.eventProvider.emitSendMsg(comment);
   }
 

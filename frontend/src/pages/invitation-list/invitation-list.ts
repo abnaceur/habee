@@ -80,6 +80,7 @@ export class InvitationListPage {
             .getAllUserInvitations(this.tabParams)
             .subscribe(data => {
               this.invitationList = data;
+              this.utils.notification("Votre nouvel communauté est bien ajouté!", "top");
             });
         } else {
           this.utils.notification("Sorry, something went wrong!", "top");
