@@ -105,43 +105,43 @@ page-login {
          background-color: red !important;
      }
   }
-  
+ 
 }
 
-
-  ion-modal,
-  page-terms-of-service {
-    // transparent black background overlay
-    background-color: rgba(0, 0, 0, .5) !important;
-    padding: 50px !important;
-  }
+.terms-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  padding: 50px !important;
+}
   .toolbar-background {
-    color: red !important;
-  }
+  color: red !important;
+}
 
-  .md .modal-wrapper {
-    height: 42%;
-  }
+.terms-modal .modal-wrapper {
+  z-index: 10;
+  height: 39%;
+  contain: strict;
+}
+.terms-modal ion-modal.modal-wrapper {
+  transform: translateY(30%) !important;
+}
+.terms-modal ion-page.modal {
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.terms-modal .modal-backdrop-bg {
+  background-color: #000;
+  opacity: 0;
+}
+.terms-modal .active .modal-backdrop-bg {
+  opacity: 0.5;
+}
 
-  ion-modal.modal-wrapper {
-    transform: translateY(30%) !important;
-  }
-  ion-page.modal {
-    padding: 30px;
-    background: rgba(0, 0, 0, 0.5);
-  }
-  .modal-backdrop-bg {
-    background-color: #000;
-    opacity: 0;
-  }
-  .active .modal-backdrop-bg {
-    opacity: 0.5;
-  }
+.terms-modal ion-modal.inset-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  transition: opacity .25s ease-in-out;
+  padding: 20vh 10vw;
+}
 
-  ion-modal.inset-modal {
-    // transparent black background overlay
-    background-color: rgba(0, 0, 0, .5) !important;
-    transition: opacity .25s ease-in-out;
-    padding: 20vh 10vw;
-  }
-
+ 
