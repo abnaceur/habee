@@ -256,7 +256,7 @@ exports.getFilterPosition = (events, communityId) => {
 }
 
 exports.randomValueGenerator = () => {
-    return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7);
+    return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7).toUpperCase() + "$" ;
 }
 
 exports.getImagePath = (req, imageBody) => {

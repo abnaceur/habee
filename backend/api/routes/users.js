@@ -209,7 +209,7 @@ router.post('/invitation/rejected/:userId/community/:communityId', authCkeck, us
  ** API [PUT] for route /users/reset/email [USED]
  */
 
-router.post('/reset/email/:email', authCkeck, userController.resetPassword);
+router.post('/reset/email/:email', userController.resetPassword);
 
 /*
  ** API [POST] for route /users/account/delete/:userId [USED]
