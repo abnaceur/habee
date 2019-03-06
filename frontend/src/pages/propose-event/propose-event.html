@@ -33,12 +33,22 @@
         <ion-input placeholder="Nom de l'evenement" formControlName="eventTitle" type="text"></ion-input>
       </ion-item>
 
+      <ion-item *ngIf="proposeEventForm.controls.eventTitle.hasError('required') && proposeEventForm.controls.eventTitle.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+
       <ion-item>
         <ion-label>
           <ion-icon name="calendar" item-left></ion-icon>
         </ion-label>
         <ion-datetime style="position: relative;left: -43px;" name="eventStartDate" type="date" placeholder="Date de debut"
           displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventStartDate"></ion-datetime>
+      </ion-item>
+
+
+      <ion-item *ngIf="proposeEventForm.controls.eventStartDate.hasError('required') && proposeEventForm.controls.eventStartDate.touched">
+        <p>Ce champs est obligatoire!</p>
       </ion-item>
 
       <ion-item>
@@ -50,6 +60,11 @@
       </ion-item>
 
 
+      <ion-item *ngIf="proposeEventForm.controls.eventStartHour.hasError('required') && proposeEventForm.controls.eventStartHour.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+
       <ion-item>
         <ion-label>
           <ion-icon name="calendar" item-left></ion-icon>
@@ -58,6 +73,11 @@
           displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventEndDate"></ion-datetime>
       </ion-item>
 
+      <ion-item *ngIf="proposeEventForm.controls.eventEndDate.hasError('required') && proposeEventForm.controls.eventEndDate.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+
       <ion-item>
         <ion-label>
           <ion-icon name="time" item-left></ion-icon>
@@ -65,6 +85,11 @@
         <ion-datetime style="position: relative;left: -43px;" name="eventEndHour" type="time" placeholder="Heur de fin"
           displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
       </ion-item>
+
+      <ion-item *ngIf="proposeEventForm.controls.eventEndHour.hasError('required') && proposeEventForm.controls.eventEndHour.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
 
       <ion-item>
         <ion-label>Categorie</ion-label>
@@ -87,14 +112,28 @@
         </ion-select>
       </ion-item>
 
+      <ion-item *ngIf="proposeEventForm.controls.eventCategory.hasError('required') && proposeEventForm.controls.eventCategory.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+
       <ion-item>
         <!--   <ion-label floating>E-mail</ion-label> -->
         <ion-input placeholder="Location" formControlName="eventLocation" type="text"></ion-input>
       </ion-item>
 
+
+      <ion-item *ngIf="proposeEventForm.controls.eventLocation.hasError('required') && proposeEventForm.controls.eventLocation.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
       <ion-item>
         <!--   <ion-label floating>E-mail</ion-label> -->
         <ion-input placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="proposeEventForm.controls.eventNbrParticipants.hasError('required') && proposeEventForm.controls.eventNbrParticipants.touched">
+        <p>Ce champs est obligatoire!</p>
       </ion-item>
 
       <ion-item>
@@ -124,7 +163,7 @@
       <ion-row>
         <ion-col col-12 text-center>
           <div class="center">
-            <button ion-button type="submit" style="background-color: #E96FA1;">
+            <button ion-button [disabled]="!proposeEventForm.valid" type="submit" style="background-color: #E96FA1;">
               Cree
             </button>
           </div>
