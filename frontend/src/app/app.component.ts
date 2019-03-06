@@ -80,8 +80,8 @@ export class MyApp {
     this.initializeApp();
 
     this.backgroundMode.enable();
-    this.backgroundMode.excludeFromTaskList();
-    this.backgroundMode.overrideBackButton();
+    // this.backgroundMode.excludeFromTaskList();
+    // this.backgroundMode.overrideBackButton();
 
     events.subscribe("user:info", userData => {
       this.userData = userData;
@@ -127,7 +127,7 @@ export class MyApp {
       },
       {
         title: "Deconnexion",
-        component: "LoginPage",
+        component: "TabsPage",
         active: false,
         icon: "log-out"
       }

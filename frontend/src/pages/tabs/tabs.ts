@@ -2,6 +2,8 @@ import { Component, ViewChild } from "@angular/core";
 
 import { IonicPage, NavController, NavParams, Nav, Tabs } from "ionic-angular";
 
+import { BackgroundMode } from "@ionic-native/background-mode";
+
 @IonicPage()
 @Component({
   templateUrl: "tabs.html"
@@ -16,7 +18,11 @@ export class TabsPage {
   tab4Root = "ListContactPage";
   tab5Root = "GoodPlansPage";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private backgroundMode: BackgroundMode,
+    ) {
     if (this.navParams.data.length == 2) {
       this.tabParams = {
         userId: this.navParams.data[1]["userId"],
@@ -35,12 +41,15 @@ export class TabsPage {
   }
 
   ionViewWillEnter() {
-    console.log("this.navParams.data", this.navParams.data);
     if (this.navParams.data.length == 2) {
       if (this.navParams.data[0] == "Acceuil") this.tabRef.select(0);
       if (this.navParams.data[0] == "Parametre") this.tabRef.select(4);
       if (this.navParams.data[0] == "Profile") this.tabRef.select(3);
       if (this.navParams.data[0] == "listContact") this.tabRef.select(2);
+      if (this.navParams.data[0] == "Deconnexion") {
+        this.backgroundMode.disable();
+        this.tabParams = [];
+      };
     }
   }
 }
