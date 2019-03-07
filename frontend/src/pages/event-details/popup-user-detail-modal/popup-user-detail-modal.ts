@@ -51,16 +51,11 @@ export class PopupUserDetailModalPage {
     public viewCtrl: ViewController,
     public navParams: NavParams
   ) {
-    console.log("this.navParams : ", this.navParams.data);
     this.tabParams = this.navParams.data
   }
 
   ionViewWillEnter() {
-    this.profileProvider
-    .getUserProfileByCommunityId(this.tabParams)
-    .subscribe(response => {
-      this.user = response.User[0];
-    });
+    this.user = this.tabParams.userDetails
   }
 
   dismiss() {
