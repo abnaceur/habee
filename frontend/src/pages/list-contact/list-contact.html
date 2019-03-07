@@ -41,9 +41,9 @@
           <img [src]='url + "/" + user.profilePhoto'>
         </ion-avatar>
         <h2>{{user.profileUsername}}</h2>
-        <button ion-button clear item-end>
-          <ion-icon name="arrow-forward"></ion-icon>
-        </button>
+        <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
+            <ion-badge class="pull-right" color="danger">moi</ion-badge>
+        </button> 
       </ion-item>
     </ion-list>
   </ion-grid>
