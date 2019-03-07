@@ -196,7 +196,7 @@ export class EventDetailsPage {
 
   compilemsg(): string {
     var msg =
-      "Hello; \n Vous avez recu une invitation pour joindre l'evenement : \n \
+      "Hello; \n Vous avez recu une invitation pour joindre l'événement : \n \
     Titre : " +
       this.eventDetails.eventName +
       "\n \
@@ -218,7 +218,7 @@ export class EventDetailsPage {
       " " +
       this.eventDetails.eventEndHour +
       "\n \
-      \n Telecharge l'application Habee depui le app store pour rejoindre ta communaute \n \n";
+      \n Telecharge l'application Habee depui le app store pour rejoindre ta Communauté \n \n";
     return msg.concat(" \n Envoyer depuis l'application Habee.");
   }
 

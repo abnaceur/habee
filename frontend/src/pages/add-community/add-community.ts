@@ -162,7 +162,7 @@ export class AddCommunityPage {
         if (data === 0)
           this.utils.notification("Ce nom exist !", "top");
         if (data === 1  )
-          this.utils.notification("Votre communaute est ajouter avec success !", "top");
+          this.utils.notification("Votre Communauté est ajouter avec success !", "top");
       })
   }
   

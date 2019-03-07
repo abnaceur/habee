@@ -183,7 +183,7 @@ export class EditCommunityModalPage {
       this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, this.chosenPicture)
         .subscribe(data => {
           if (data === 200)
-            this.utils.notification("Cette communaute est a jour", "top")
+            this.utils.notification("Cette Communauté est a jour", "top")
           else if (data === 202)
             this.utils.notification("Ce nom exist !", "top")
         })

@@ -11,7 +11,7 @@ exports.inviteNewContact = (email, password, senderInfo) => {
 
 exports.inviteExistingContact = (senderInfo) => {
     let msg = "Hello ! \n \
-    vous avez recus une invitation a joindre la communaute de " + senderInfo.firstName + senderInfo.lastName 
+    vous avez recus une invitation a joindre la Communauté de " + senderInfo.firstName + senderInfo.lastName 
     
     return msg
 }

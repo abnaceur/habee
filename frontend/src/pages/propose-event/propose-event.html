@@ -18,7 +18,7 @@
     left: 52px;
     margin-bottom: 13px;
     font-size: 18px;">Proposer
-      un evenement</ion-label>
+      un événement</ion-label>
 
   </ion-navbar>
 </ion-header>
@@ -30,7 +30,7 @@
 
       <ion-item>
         <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-input placeholder="Nom de l'evenement" formControlName="eventTitle" type="text"></ion-input>
+        <ion-input placeholder="Nom de l'événement" formControlName="eventTitle" type="text"></ion-input>
       </ion-item>
 
       <ion-item *ngIf="proposeEventForm.controls.eventTitle.hasError('required') && proposeEventForm.controls.eventTitle.touched">

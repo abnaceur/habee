@@ -118,9 +118,9 @@ export class MyApp {
         active: false,
         icon: "contact"
       },
-      { title: "Communaute", component: "", active: false, icon: "people" },
+      { title: "Communauté", component: "", active: false, icon: "people" },
       {
-        title: "Parametre",
+        title: "Paramètre",
         component: "TabsPage",
         active: false,
         icon: "settings"
@@ -137,7 +137,7 @@ export class MyApp {
   pushLocalNotification() {
     this.localNotifications.schedule({
       id: Math.floor(Math.random() * 10000),
-      text: "Vous avez un nouveau evenement dans votre comunaute",
+      text: "Vous avez un nouveau événement dans votre comunaute",
       badge: 1
     });
   }
@@ -222,7 +222,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
 
-    if (page.title == "Communaute") {
+    if (page.title == "Communauté") {
       this.menu.getMenus();
       this.updatCommunityList();
       this.menu.enable(true, "menu-community");
@@ -304,7 +304,7 @@ export class MyApp {
       .subscribe(code => {
         if (code === 200) {
           this.utils.notification(
-            "Cette communaute est suprimer avec succes",
+            "Cette Communauté est Supprimer avec succes",
             "top"
           );
           this.updatCommunityList();

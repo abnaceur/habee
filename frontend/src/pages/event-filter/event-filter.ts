@@ -53,7 +53,7 @@ export class EventFilterPage {
     };
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     let activeFilters = 0;
   
     this.eventProvider.getFilterOptions(this.tabParams)

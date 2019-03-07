@@ -31,10 +31,10 @@
     <ion-list no-lines>
       <button menuClose ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon [name]="p.icon" item-left></ion-icon>
-        <span *ngIf="p.title != 'Communaute'">
+        <span *ngIf="p.title != 'Communauté'">
           {{p.title}}
         </span>
-        <span (click)="toggleCommunitymenu()" *ngIf="p.title == 'Communaute'">
+        <span (click)="toggleCommunitymenu()" *ngIf="p.title == 'Communauté'">
           {{p.title}}
         </span>
       </button>
@@ -49,7 +49,7 @@
     <div #header>
       <ion-item ion-item no-line>
         <ion-icon (click)="backToMainMenu()" name="arrow-back" item-left></ion-icon>
-        <span style="font-size:4vw; color:silver"><b>Changer la communaute</b></span>
+        <span style="font-size:4vw; color:silver"><b>Changer la Communauté</b></span>
         <ion-icon (click)="goToAddCommunityModal()" name="add" item-right></ion-icon>
       </ion-item>
     </div><br>

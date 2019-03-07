@@ -52,13 +52,13 @@ export class MyEventsPage {
   ];
   eventParticipated = [
     {
-      name: "Evenement participer"
+      name: "Événement participé"
     }
   ];
 
   eventPropose = [
     {
-      name: "Evenement proposer"
+      name: "Événement proposé"
     }
   ];
 
@@ -159,7 +159,7 @@ export class MyEventsPage {
             this.proposedEvents = [];
           } else this.proposedEvents = response.Events;
         });
-      this.utils.notification("Event suprimer avec succes", "top");
+      this.utils.notification("Event Supprimer avec succes", "top");
     } else {
       this.utils.notification("Une erreur est survenu !", "top");
     }

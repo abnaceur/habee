@@ -57,7 +57,7 @@ export class DeleteMyAccountPage {
     this.accountService.deleteUserAccount(this.tabParams)
     .subscribe(data => {
       if (data == 200) {
-        this.utils.notification("Votre compte est bien suprimer", "bottomn")
+        this.utils.notification("Votre compte est bien Supprimer", "bottomn")
         setTimeout(() => {
           this.tabParams = "";
           this.navCtrl.push("LoginPage")
