@@ -3,7 +3,7 @@ const Community = require('../../models/community')
 const Event = require('../../models/event')
 const utils = require('../utils')
 const bcrypt = require('bcrypt');
-const userEmails = require('../../emailsTemplate/userEmails')
+const resetPswEmails = require('../../services/emailServices/resetPasswordEmeailService')
 
 
 resetPsw = (email, res) => {
@@ -26,8 +26,7 @@ resetPsw = (email, res) => {
                         },
                         function (err, results) {
                             if (err) return res.status(500).json(err);
-                            let msg = userEmails.resetPassword(email, psw);
-                            utils.sendEmail("Habee TEAM", email, "Re-initialization de votre mot de passe", msg);
+                            resetPswEmails.sendEmailResetPassword(email, "Ré-initialisation de votre mot de passe", email, psw);
                             res.status(200).json({
                                 code: 200,
                                 msg: "Password reset successefully"

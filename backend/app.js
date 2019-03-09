@@ -7,7 +7,8 @@ var logger = require('morgan');
 var db = require('./config/dbConnection');
 var bodyParser = require('body-parser');
 const rateLimiter = require('express-rate-limit-middleware').rateLimit
-const helmet = require('helmet')
+const helmet = require('helmet');
+let mongoose = require('mongoose');
 
 // Main app
 var app = express();
@@ -21,6 +22,11 @@ app.use(logger('dev'));
 // important if behind a proxy to ensure client IP is passed to req.ip
 //app.enable('trust proxy'); 
  
+
+//Map global promise
+mongoose.Promise = global.Promise;
+
+
 // Body parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

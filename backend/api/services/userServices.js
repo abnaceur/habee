@@ -8,7 +8,7 @@ const communityService = require("../services/communityServices/communityService
 const Invitation = require('../models/invitation');
 const invitationClass = require('../classes/invitationClass')
 const invitationService = require('./userServices/userInvitationService')
-
+const emailCreation = require('./emailServices/accountCreationEmailservice')
 
 getUserInformation = (userId, activeCommunity) => {
     return new Promise((resolve, reject) => {
@@ -224,7 +224,7 @@ checkIfEmailExist = (email) => {
     })
 }
 
-
+//TODO REMOVE EXTRA EMAIL
 createNewAccount = (value, res) => {
     userClass.creatNewAccountUser(value)
         .then(usr => {
@@ -233,8 +233,10 @@ createNewAccount = (value, res) => {
                 .then(user => {
                     console.log("User created :", user)
                     communityService.newUserCommunity(user);
-                    let msg = userEmails.accountFirstCreation(value.email, value.password);
-                    utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
+                    let name = user.credentials.lastname;
+                   //let msg = userEmails.accountFirstCrevaluevalueation(value.email, value.password);
+                   // utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
+                    emailCreation.sendEmailAccountCreation(value.email, "Confirmation de création du compte", value.email, value.password, name)
                     invitationService
                     .invitationService(user.credentials.email, user.userId, user.credentials.lastname, user.credentials.firstname)
                     res.status(200).json({
