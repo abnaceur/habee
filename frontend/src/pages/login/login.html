@@ -57,35 +57,44 @@
 
       <ion-item style="background-color: white;  opacity: 0.7" [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
         <!--  <ion-label floating>Mot de passe</ion-label> -->
-        <ion-input style="color: darkblue" placeholder="Mot de passe" formControlName="password" type="password" value="1658oqhi8fkW8MC87$"></ion-input>
+        <ion-input style="color: darkblue" placeholder="Mot de passe" formControlName="password" type={{passwordType}}
+          value="1658oqhi8fkW8MC87$">
+        </ion-input>
+        <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="showPasswordText" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+        <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="!showPasswordText" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>       
       </ion-item>
 
 
       <ion-item *ngIf="authForm.controls.password.hasError('required') && authForm.controls.password.touched">
         <p>Ce champ est obligatoire!</p>
-     </ion-item>
+      </ion-item>
 
 
-     <ion-item *ngIf="authForm.controls.password.hasError('pattern') && authForm.controls.password.touched" text-wrap>
-      <p style="position: relative;">Le mot de passe doit contenir 8 caractères au minimum une lettres majuscules, minuscules, chiffre, et un charactere specieau!</p>
-    </ion-item>
+      <ion-item *ngIf="authForm.controls.password.hasError('pattern') && authForm.controls.password.touched" text-wrap>
+        <p style="position: relative;">Le mot de passe doit contenir 8 caractères au minimum une lettres majuscules,
+          minuscules, chiffre, et un charactere specieau!</p>
+      </ion-item>
 
 
       <ion-item style="background-color: white;  opacity: 0.7" *ngIf="createAccount == true" [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}">
         <!--  <ion-label floating>Mot de passe</ion-label> -->
-        <ion-input style="color: darkblue" formControlName="confPass" placeholder="Confirme mot de passe" type="password" value="1658oqhi8fkW8MC87$"></ion-input>
+        <ion-input style="color: darkblue" formControlName="confPass" placeholder="Confirme mot de passe" type={{passwordType}}
+          value="1658oqhi8fkW8MC87$"></ion-input>
+          <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="showPasswordText" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+          <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="!showPasswordText" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>  
       </ion-item>
 
 
 
       <ion-item *ngIf="authForm.controls.confPass.hasError('required') && authForm.controls.confPass.touched">
         <p>Ce champ est obligatoire!</p>
-     </ion-item>
+      </ion-item>
 
 
-     <ion-item *ngIf="authForm.controls.confPass.hasError('pattern') && authForm.controls.confPass.touched" text-wrap>
-      <p style="position: relative;">Le mot de passe doit contenir 8 caractères au minimum une lettres majuscules, minuscules, chiffre, et un charactere specieau!</p>
-    </ion-item>
+      <ion-item *ngIf="authForm.controls.confPass.hasError('pattern') && authForm.controls.confPass.touched" text-wrap>
+        <p style="position: relative;">Le mot de passe doit contenir 8 caractères au minimum une lettres majuscules,
+          minuscules, chiffre, et un charactere specieau!</p>
+      </ion-item>
 
       <!-- <ion-item *ngIf="createAccount == true" style="background-color: transparent" [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}"> -->
       <!--  <ion-label floating>Mot de passe</ion-label> -->
@@ -95,7 +104,7 @@
                   </span>  
                   </ion-item> -->
 
-      
+
       <div (click)="resetPassword()" style="float: right;color: lightgray;">
         <ion-label>
           Mot de passe oublier ?

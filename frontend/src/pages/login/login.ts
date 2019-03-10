@@ -33,6 +33,8 @@ import { LoginProvider } from "../../providers/login/login";
 export class LoginPage {
   authForm: FormGroup;
   public createAccount = false;
+  public showPasswordText = false;
+  public passwordType = "password"
 
   constructor(
     private utils: UtilsProvider,
@@ -132,4 +134,15 @@ export class LoginPage {
   resetPassword() {
     this.navCtrl.push("ForgotPasswordPage");
   }
+
+  showPassword() {
+    this.showPasswordText = !this.showPasswordText;
+ 
+    if(this.showPasswordText){
+      this.passwordType = 'text';
+    } else {
+      this.passwordType = 'password';
+    }
+  }
+
 }
