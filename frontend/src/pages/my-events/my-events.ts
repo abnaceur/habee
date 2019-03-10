@@ -157,7 +157,11 @@ export class MyEventsPage {
         .subscribe(response => {
           if (response.message == "There are no events!") {
             this.proposedEvents = [];
-          } else this.proposedEvents = response.Events;
+            this.updatePrticipatedEventList();
+          } else {
+            this.proposedEvents = response.Events;
+            this.updatePrticipatedEventList();
+          }
         });
       this.utils.notification("Event Supprimer avec succes", "top");
     } else {

@@ -1,21 +1,25 @@
 const Event = require('../../models/event');
 const utils = require('../utils');
 const User = require('../../models/user');
-const deleteEventEmail = require('../../emailsTemplate/eventEmails')
+const deleteEventEmail = require('../../services/emailServices/deleteEventEmailService')
 
+//TODO EVENT DELTE EMAIL
 notifyParticipants = (event) => {
     let participants = event.participants;
 
     return new Promise((resolve, reject) => {
         participants.map(participant => {
-            let msg = deleteEventEmail.deleteEvent(participant, event)
+          //  let msg = deleteEventEmail.deleteEvent(participant, event)
             let userId = participant.participantId;
             User.find({
                     userId: userId
                 }).select("credentials.email")
                 .exec()
                 .then(userEmail => {
-                    utils.sendEmail("Habee TEAM", userEmail[0].credentials.email, "Evenement annuler", msg);
+                    let data = event.eventStartDate.substring(8,10) + "." + event.eventStartDate.substring(5,7) + "." + event.eventStartDate.substring(0, 4) + " à " + event.eventStartHour;
+                    deleteEventEmail.delEventEmail(userEmail[0].credentials.email, "Événement annulé",
+                    participant.participantname, data, event.eventName)
+                   // utils.sendEmail("Habee TEAM", userEmail[0].credentials.email, "événement annule", msg);
                     resolve(200)
                 })
         })

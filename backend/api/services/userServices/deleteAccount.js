@@ -2,7 +2,7 @@ const User = require('../../models/user')
 const Community = require('../../models/community')
 const Event = require('../../models/event')
 const utils = require('../utils')
-const bcrypt = require('bcrypt');
+const delAccountEmail = require('../emailServices/accountDeletionEmail')
 
 
 //TODO DELETED PROFILES, DELETE EVENTS
@@ -180,6 +180,11 @@ deleteThisUserAccount = (res, userId) => {
                             deleteThisUser(usr)
                                 .then(delUser => {
                                     if (delUser == 200) {
+                                        //todo EMAIL
+                                        console.log("Use tt : ", usr)
+                                        let name = usr[0].credentials.firstname;
+                                        let email = usr[0].credentials.email;
+                                        delAccountEmail.accountDeleteEmail(email, "Confirmation de suppression de votre compte", name);
                                         res.status(200).json({
                                             code: 200,
                                             msg: "Account deleted with success!"
