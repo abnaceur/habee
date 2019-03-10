@@ -7,7 +7,7 @@ const utils = require('../services/utils');
 const eventService = require('../services/eventService');
 const eventCommentService = require('../services/eventServices/eventCommentsService');
 const deletEvent = require('../services/eventServices/deleteEvent')
-
+const addEventService = require('../services/eventServices/addEventService')
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -181,37 +181,7 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
 exports.post_event = (req, res, next) => {
     let imagePath = utils.getImagePath(req, req.body.eventPhoto);
 
-    const event = new Event({
-        _id: new mongoose.Types.ObjectId,
-        eventId: req.body.eventId,
-        eventCommunity: req.body.eventCommunity,
-        eventName: req.body.eventName,
-        eventPhoto: imagePath,
-        eventCreator: req.body.eventCreator,
-        eventDescription: req.body.eventDescription,
-        eventStartDate: req.body.eventStartDate,
-        eventEndDate: req.body.eventEndDate,
-        eventStartHour: req.body.eventStartHour,
-        eventEndHour: req.body.eventEndHour,
-        eventDuration: req.body.eventDuration,
-        eventLocation: req.body.eventLocation,
-        nbrParticipants: req.body.nbrParticipants,
-        eventCategory: req.body.eventCategory,
-        eventIsPublic: req.body.eventIsPublic,
-        eventIsDeleted: false,
-    });
-    event
-        .save()
-        .then(result => {
-            eventCommentService.createCommentsForEvent(req.body.eventId, req.body.eventCommunity)
-            res.status(200).json({
-                results: true,
-                Event: result
-            })
-        })
-        .catch(err => {
-            utils.defaultError(res, err)
-        });
+    addEventService.addNewEvent(res, req, imagePath)
 };
 
 exports.put_eventByUserId = (req, res, next) => {
