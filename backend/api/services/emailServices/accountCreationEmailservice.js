@@ -24,17 +24,11 @@ exports.sendEmailAccountCreation = (to, subject, email, psw, name) => {
             password: psw,
             name: name   
         }
-
-    testMailTemplate.render(locals, function (err, temp) { 
-        console.log("temp : ", temp)
-    })
-
+        
     testMailTemplate.render(locals, function (err, temp) {
         if (err) {
             console.log("error", err);
-
         } else {
-            console.log("temp : ", temp)
             transporter.sendMail({
                 from: process.env.USER,
                 to: to,
@@ -43,7 +37,6 @@ exports.sendEmailAccountCreation = (to, subject, email, psw, name) => {
                 html: temp.html
             }, function (error, info) {
                 if (error) {
-
                     console.log(error);
                 }
                 console.log('Message sent: ' + info.response);

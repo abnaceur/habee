@@ -83,10 +83,6 @@ export class AddCommunityPage {
     };
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddCommunityPage');
-  }
-
   dismiss() {
     this.viewCtrl.dismiss();  
   }

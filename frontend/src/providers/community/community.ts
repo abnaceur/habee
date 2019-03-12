@@ -25,7 +25,6 @@ export class CommunityProvider {
     public http: Http,
     public utils: UtilsProvider,
   ) {
-    console.log('Hello CommunityProvider Provider');
   }
 
   getCommunityById(userInfo) {

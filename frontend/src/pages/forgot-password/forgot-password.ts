@@ -51,11 +51,6 @@ export class ForgotPasswordPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad ForgotPasswordPage");
-  }
-
-
   clickReset() {
     document.getElementById("submitReset").click();
   }

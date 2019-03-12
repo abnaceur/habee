@@ -17,11 +17,9 @@ import { UtilsProvider } from "../../providers/utils/utils";
 @Injectable()
 export class InvitationProvider {
   constructor(public http: Http, public utils: UtilsProvider) {
-    console.log("Hello InvitationProvider Provider");
   }
 
   getAllUserInvitations(userInfo) {
-    console.log("UserId :", userInfo);
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http

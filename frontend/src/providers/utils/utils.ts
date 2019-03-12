@@ -47,7 +47,6 @@ export class UtilsProvider {
     private loadingCTRL: LoadingController,
     private toastController: ToastController,
   ) {
-    console.log('Hello UtilsProvider Provider');
   }
 
   filter_array(arrayIn) {

@@ -221,7 +221,6 @@ exports.addUsertoCommunity = (userId, communityId) => {
     }).exec()
     .then(community => {
         community[0].communityMembers.push(userId)
-        console.log("Community : ", community)
         Community.findByIdAndUpdate(community[0]._id,
             community[0], {
                 new: false,
@@ -251,7 +250,6 @@ exports.userAddNewCommnity = (invitation, user) => {
                                 this.addUsertoCommunity(user[0].userId, invitation.invitationCommunityId)
                                 // utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
                                 const userToSave  = new User(user[0])
-                                console.log("Hello there : ", userToSave)
                                 userToSave.save()
                                     .then(usr => {
                                         resolve(200)

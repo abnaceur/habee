@@ -18,8 +18,4 @@ export class TermsOfServiceScriptPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TermsOfServiceScriptPage');
-  }
-
 }

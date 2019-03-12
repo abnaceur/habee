@@ -83,7 +83,6 @@ export class PopupEditModalPage {
       eventEndHour: ['', Validators.compose([Validators.required])],
     });
 
-    console.log("Nav info : ", this.navParams.data);
     this.tabParams = this.navParams.data.event
 
   }
@@ -103,7 +102,6 @@ export class PopupEditModalPage {
         "eventEndHour": [this.tabParams.eventEndHour],
       })
     
-      console.log('ionViewDidLoad PopupEditModalPage', this.tabParams.eventName);
     this.eventDetails = this.tabParams
   }
 

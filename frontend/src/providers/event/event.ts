@@ -54,7 +54,6 @@ export class EventProvider {
     private transfer: FileTransfer,
     private loadingCTRL: LoadingController
   ) {
-    console.log('Hello EventProvider Provider');
   }
 
   getEventsByCommunityId(userInfo) {
@@ -193,8 +192,6 @@ export class EventProvider {
   }
 
   deleteTheiEvent(event, userInfo) {
-    console.log("Event to be edited ", event, userInfo);
-
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.put(ENV.BASE_URL + "/events/edit/" + event.eventId + '/community/' + userInfo.activeCommunity,
@@ -343,7 +340,6 @@ export class EventProvider {
 
 
   getComments(userInfo, event) {
-    console.log("UserInfo : ", userInfo )
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + '/events/comments/' + event.eventId + '/community/' + event.eventCommunity,
@@ -352,7 +348,6 @@ export class EventProvider {
   }
 
   emitSendMsg (msg) {
-    console.log("inside emit msg");
     this.socket.emit('send-message', msg);
   }
 

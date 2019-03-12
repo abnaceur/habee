@@ -50,8 +50,6 @@ export class EventFilterProvider {
     private file: File,
     private transfer: FileTransfer,
     private loadingCTRL: LoadingController) {
-
-    console.log('Hello EventFilterProvider Provider');
   }
 
   filterlist = {
@@ -94,7 +92,6 @@ export class EventFilterProvider {
     filter.WorkshopValue == true ?  i++ : i = i;
     filter.PublicValue == true ?  i++ : i = i;
 
-    console.log("Active filters : ", i);
     return i;
   }
 
@@ -124,35 +121,41 @@ export class EventFilterProvider {
 
 
   initFilter(value) {
+    return new Promise((resolve, reject) => {
+      let filterlist = {
+        SportValue: value,
+        ArtsValue: value,
+        cultureValue: value, 
+        MediaValue: value,
+        musicValue: value, 
+        socialValue: value, 
+        internValue: value, 
+        businessValue: value,
+        communityValue: value, 
+        santeValue: value,
+        itValue: value, 
+        lifestyleValue: value, 
+        partyValue: value,
+        meetingValue: value,
+        PublicValue: value,
+        WorkshopValue: value
+      }
 
-    let filterlist = {
-      SportValue: value,
-      ArtsValue: value,
-      cultureValue: value, 
-      MediaValue: value,
-      musicValue: value, 
-      socialValue: value, 
-      internValue: value, 
-      businessValue: value,
-      communityValue: value, 
-      santeValue: value,
-      itValue: value, 
-      lifestyleValue: value, 
-      partyValue: value,
-      meetingValue: value,
-      PublicValue: value,
-      WorkshopValue: value
-    }
+      resolve(filterlist);
+    })
 
-    return filterlist;
   }
 
   changeFilterList(selectAllFilters) {
-    if (selectAllFilters == true) {
-      return this.initFilter(true)
-    } else  if (selectAllFilters == false) {
-      return this.initFilter(false)
-    }
+    return new Promise((resolve, reject) => {
+      if (selectAllFilters == true) {
+        this.initFilter(true)
+        .then(data => resolve(data))
+      } else  if (selectAllFilters == false) {
+        this.initFilter(false)
+        .then(data => resolve(data))
+      }
+    })
   }
 
 }

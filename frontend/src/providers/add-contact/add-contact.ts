@@ -29,7 +29,6 @@ export class AddContactProvider {
     public http: Http
 
   ) {
-    console.log('Hello AddContactProvider Provider');
   }
 
   sendContactInvitation(contactArray, userInfo) {

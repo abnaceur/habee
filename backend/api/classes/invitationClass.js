@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 exports.classInvitationNewAccount = (invitor, invitorId, invitedEmail, communityId) => {
-
-    console.log("Invitor : ", invitor)
-
     let classInvitation = {
         _id: new mongoose.Types.ObjectId,
         invitationCommunityId: communityId,

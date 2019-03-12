@@ -80,13 +80,7 @@ export class EventsPage {
       activeCommunity: this.navParams.get("activeCommunity"),
       notificationStatus: this.navParams.get("notificationStatus")
     };
-  }
 
-  ionViewWillLoad() {
-    this.getCommunityImage();
-  }
-  
-  ionViewWillEnter() {
     this.getAllEvents();
     this.countActiveFilters();
     this.getCommunityImage();
@@ -104,6 +98,13 @@ export class EventsPage {
       "Novembre",
       "Decembre"
     ];
+  }
+
+  
+  ionViewWillEnter() {
+    this.getAllEvents();
+    this.countActiveFilters();
+    this.getCommunityImage();
   }
 
   getCommunityImage() {

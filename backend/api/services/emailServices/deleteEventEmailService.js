@@ -25,16 +25,11 @@ exports.delEventEmail = (to, subject, name, eventDate, eventTitle) => {
             eventStartDate: eventDate 
         }
 
-    testMailTemplate.render(locals, function (err, temp) { 
-        console.log("temp : ", temp)
-    })
-
     testMailTemplate.render(locals, function (err, temp) {
         if (err) {
             console.log("error", err);
 
         } else {
-            console.log("temp : ", temp)
             transporter.sendMail({
                 from: process.env.USER,
                 to: to,

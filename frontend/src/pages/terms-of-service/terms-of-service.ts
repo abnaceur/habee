@@ -26,10 +26,6 @@ export class TermsOfServicePage {
     ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TermsOfServicePage');
-  }
-
   dismiss() {
     this.viewCtrl.dismiss(false);
   }

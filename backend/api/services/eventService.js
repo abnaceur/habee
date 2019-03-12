@@ -151,7 +151,6 @@ exports.initBodyReq = (check, req, user, event, communityId) => {
     let pos = getProfilePosition(user[0].profile, communityId)
     
     if (check != 1) {
-        console.log("Pos : ", pos)
         req.body.participants = event[0].participants;
         req.body.nbrSubscribedParticipants = event[0].participants.length;
         req.body.participants.push({
@@ -227,7 +226,6 @@ putEventByUserId = (req, res) => {
                         res,
                         user
                     }
-                    console.log("Event : ", event);
                     this.updatWithinPutEventByUserId(userData_org);
                 })
                 .catch(err => {

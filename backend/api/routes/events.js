@@ -90,7 +90,7 @@ router.get('/user/:userId/community/:communityId', authCkeck, eventController.ge
  * API [POST] for route /events/mobile/photo/upload [USED]
  */
 
-router.post('/mobile/photo/upload', upload.any(), authCkeck, eventController.upload_mobile_photo);
+router.post('/mobile/photo/upload', upload.any(), eventController.upload_mobile_photo);
 
 
 /**

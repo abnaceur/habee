@@ -66,6 +66,20 @@ export class ListContactPage {
       activeCommunity: this.navParams.get("activeCommunity"),
       notificationStatus: this.navParams.get("notificationStatus")
     };
+
+    this.getAllUserContacts();
+  }
+
+  getAllUserContacts() {
+    this.userProvider
+      .getAllUserByCommunityId(this.tabParams)
+      .subscribe(response => {
+        this.contact = response.users;
+      });
+  }
+
+  ionViewWillEnter() {
+    this.getAllUserContacts();
   }
 
   ionViewDidEnter() {
@@ -76,13 +90,6 @@ export class ListContactPage {
         this.notificationCount = count
       }, 500)
     })
-
-    this.userProvider
-      .getAllUserByCommunityId(this.tabParams)
-      .subscribe(response => {
-        console.log("Contact : ", response.users)
-        this.contact = response.users;
-      });
   }
 
   expand() {
@@ -120,7 +127,6 @@ export class ListContactPage {
       email.push({ 'value': barcodeData.text, 'check': '', 'status': ""})
       this.addContactProvider.isFieldEmpty(email, this.tabParams)
       .then(data => {
-        console.log("invitation sent :", data);
         if (data[0].status == 200)
           this.utils.notification("Votre invitation est bien envoyer", "top")
         else if (data[0].status == 500)

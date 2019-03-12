@@ -63,10 +63,6 @@ export class EditPasswordPage {
     };
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad EditPasswordPage");
-  }
-
   dismiss() {
     this.viewCtrl.dismiss();
   }

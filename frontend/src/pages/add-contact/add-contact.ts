@@ -69,7 +69,6 @@ export class AddContactPage {
 
     emailsList = await this.addContactProvider.isFieldEmpty(this.contactArray, this.tabParams)
     this.contactArray = emailsList;
-    console.log("Here : ", this.contactArray)
   }
 
 }

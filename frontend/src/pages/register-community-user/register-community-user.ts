@@ -33,8 +33,6 @@ export class RegisterCommunityUserPage {
 
   
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterCommunityUserPage');
-    console.log("this.menu.get ",this.menu.get);
     this.menu.enable(false, "left");
   }
 

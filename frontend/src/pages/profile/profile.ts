@@ -38,10 +38,17 @@ export class ProfilePage {
       activeCommunity: this.navParams.get("activeCommunity"),
       notificationStatus: this.navParams.get("notificationStatus")
     };
+
+    this.profileProvider
+      .getUserProfileByCommunityId(this.tabParams)
+      .subscribe(response => {
+        this.user = response.User[0];
+      });
+
+    this.getProfileInfo();
   }
 
-  ionViewWillEnter() {
-    console.log("ionViewDidLoad ProfilePage");
+  getProfileInfo() {
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
       .subscribe(response => {

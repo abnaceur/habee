@@ -21,7 +21,6 @@ export class ProfileProvider {
   private getUserSubPassions = [];
 
   constructor(public http: Http, public utils: UtilsProvider) {
-    console.log("Hello ProfileProvider Provider");
   }
 
   getUserProfileByCommunityId(userInfo) {

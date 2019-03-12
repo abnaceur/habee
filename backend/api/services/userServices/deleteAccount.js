@@ -181,7 +181,6 @@ deleteThisUserAccount = (res, userId) => {
                                 .then(delUser => {
                                     if (delUser == 200) {
                                         //todo EMAIL
-                                        console.log("Use tt : ", usr)
                                         let name = usr[0].credentials.firstname;
                                         let email = usr[0].credentials.email;
                                         delAccountEmail.accountDeleteEmail(email, "Confirmation de suppression de votre compte", name);

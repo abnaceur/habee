@@ -12,7 +12,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 export class CameraProvider {
 
   constructor(private camera: Camera) {
-    console.log('Hello CameraProvider Provider');
   }
 
 

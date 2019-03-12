@@ -71,14 +71,9 @@ export class EditAccountPage {
       };
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditAccountPage');
-  }
-
   ionViewWillEnter() {
     this.accountService.getAccountInfo(this.tabParams)
     .subscribe(accountInfo => {
-      console.log("Account info : ", accountInfo.User);
       this.accInfo = accountInfo.User
     })
   }

@@ -84,9 +84,6 @@ export class EditProfilePage {
     };
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad EditProfilePage");
-  }
 
   dismiss() {
     this.viewCtrl.dismiss();  
@@ -158,7 +155,6 @@ export class EditProfilePage {
   }
   
   onSubmit(editProfile) {
-    console.log("profileedit :", editProfile, this.chosenPicture)
     this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
       .then(data => {
         if (data === 200)

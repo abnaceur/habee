@@ -51,22 +51,26 @@ export class EventFilterPage {
       activeCommunity: this.navParams.get('activeCommunity'),
       notificationStatus: this.navParams.get("notificationStatus")
     };
-  }
-
-  ionViewWillEnter() {
-    let activeFilters = 0;
   
+  
+
     this.eventProvider.getFilterOptions(this.tabParams)
       .subscribe(filters => {
         let filter = filters.filterEvent;
         this.eventFilterProvider.initFilterList(this.filterList, filter)
         .then(filterList => {
-            this.filterList = filterList,
-            activeFilters = this.eventFilterProvider.objectFilterCount(filterList),
-            activeFilters != Array.from(Object.keys(filterList)).length - 1
-            ? this.selectAllFilters = false : this.selectAllFilters = true
+            this.filterList = filterList
           })
       })
+  }
+
+  ionViewWillEnter() {
+    let activeFilters = 0;
+  
+    activeFilters = this.eventFilterProvider.objectFilterCount(this.filterList);
+
+    activeFilters != Array.from(Object.keys(this.filterList)).length
+    ? this.selectAllFilters = false : this.selectAllFilters = true
   }
 
   closeFilterModal() {
@@ -82,6 +86,8 @@ export class EventFilterPage {
   }
 
   selectAllFiltersFunc() {
-    this.filterList = this.eventFilterProvider.changeFilterList(this.selectAllFilters);
+    this.eventFilterProvider.changeFilterList(this.selectAllFilters)
+    .then(filterUpdated => this.filterList = filterUpdated)
   }
+
 }

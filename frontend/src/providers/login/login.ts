@@ -24,7 +24,6 @@ export class LoginProvider {
     public http: Http,
     public utils: UtilsProvider,
   ) {
-    console.log('Hello LoginProvider Provider');
   }
 
   loginUser(email, password) {

@@ -85,6 +85,7 @@ export class MyApp {
 
     events.subscribe("user:info", userData => {
       this.userData = userData;
+      this.updatCommunityList();
       // user and time are the same arguments passed in `events.publish(user, time)`
       this.profileProvider
         .getUserProfileByCommunityId(this.userData)
@@ -212,7 +213,7 @@ export class MyApp {
     //this.nav.setRoot("AddCommunityPage");
     const modal = this.modalCtrl.create("AddCommunityPage", this.userData);
     modal.onDidDismiss(data => {
-      this.updatCommunityList();
+      // this.updatCommunityList();
       this.optionsMore = false;
     });
     modal.present();

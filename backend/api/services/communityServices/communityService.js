@@ -15,7 +15,6 @@ exports.getAllcommunitiesIds = () => {
         data.map(d => {
             arr.push(d.communityId)
         })
-        console.log("Da :", arr)
         resolve(arr)
     })
  })

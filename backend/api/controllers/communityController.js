@@ -14,7 +14,6 @@ exports.updateSelectedCommunity = (req, res, next) => {
 
 exports.addCommunityByCreator = (req, res, next) => {
     const userId = req.params.userId;
-    console.log("Body :", req.body);
     let imagePath = utils.getImagePath(req, req.body.communityLogo);
     communitySrvice.addCommunity(req, res, imagePath, userId)
 }

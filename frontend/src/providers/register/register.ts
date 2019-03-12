@@ -30,7 +30,6 @@ export class RegisterProvider {
     public http: Http,
     public utils: UtilsProvider,
   ) {
-    console.log('Hello RegisterProvider Provider');
   }
 
   postUserCommuntiy(userId_, userData, usrPhotoRes, imgResCom) {
@@ -64,8 +63,6 @@ export class RegisterProvider {
 
 
   registerNewUserCommunity(userData, userPhoto, communityPhoto) {
-    console.log("inside registerNewUser", userData, userPhoto, communityPhoto);
-
     let userId_ = userData.email.substring(0, userData.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + userData.email.substring(userData.email.search('@'), userData.email.lenght);
 
     //TODO UN DRY THIS FUNCTIONNALITY

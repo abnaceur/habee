@@ -15,7 +15,6 @@ import { environment as ENV } from "../../environments/environment";
 @Injectable()
 export class AccountProvider {
   constructor(public utils: UtilsProvider, public http: Http) {
-    console.log("Hello AccountProvider Provider");
   }
 
   getAccountInfo(userInfo) {

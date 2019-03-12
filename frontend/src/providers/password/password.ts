@@ -15,13 +15,11 @@ import { environment as ENV } from "../../environments/environment";
 @Injectable()
 export class PasswordProvider {
   constructor(private utils: UtilsProvider, private http: Http) {
-    console.log("Hello PasswordProvider Provider");
   }
 
   checkPasswords(psw, userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    console.log("here");
     return this.http
       .post(
         ENV.BASE_URL + "/users/account/psw/user/" + userInfo.userId,

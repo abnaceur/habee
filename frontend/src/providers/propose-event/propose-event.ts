@@ -33,12 +33,10 @@ export class ProposeEventProvider {
     private socket: Socket,
     public utils: UtilsProvider,
   ) {
-    console.log('Hello ProposeEventProvider Provider');
   }
 
   emitnewCreatedEvent(event) {
     this.socket.connect();
-    console.log("Event :", event)
     this.socket.emit("join", event.eventCommunity);
     this.socket.emit("new-event", event);
   }

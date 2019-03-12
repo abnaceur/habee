@@ -86,10 +86,6 @@ export class EditCommunityModalPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditCommunityModalPage');
-  }
-
   ionViewDidEnter() {
 
     this.communityProvider.getCommunityById(this.tabParams)

@@ -353,7 +353,6 @@ exports.put_userId_communityId_DeleteUser = (req, res, next) => {
 };
 
 exports.creatAnewAccount = (req, res, next) => {
-    console.log("Req body : ", req.body)
     userService.checkIfEmailExist(req.body.email)
         .then(data => {
             if (data === false) {

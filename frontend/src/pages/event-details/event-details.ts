@@ -331,16 +331,11 @@ export class EventDetailsPage {
       token: this.tabParams.token,
       activeCommunity: this.tabParams.activeCommunity
     };
-    console.log("this participants : ", userDetails)
     this.modalCtrl
       .create("PopupUserDetailModalPage", navInfo, { cssClass: "inset-modal" })
       .present();
   }
-
-  sendMsg() {
-    console.log("Here inside");
-  }
-
+  
   onSubmit() {
     let comment = {
       eventId: this.eventDetails.eventId,

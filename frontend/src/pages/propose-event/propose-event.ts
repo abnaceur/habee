@@ -86,10 +86,6 @@ export class ProposeEventPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad ProposeEventPage");
-  }
-
   ionViewWillLeave() {
     this.socket.disconnect(true);
     console.log("Diconnected")

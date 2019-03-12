@@ -27,7 +27,6 @@ notifyParticipants = (event) => {
 }
 
 deleteThisEvent = (eventId, communityId, req, res) => {
-    console.log("Req event : ", req.body, req.body.participants.length)
     Event.find({
             eventId: eventId,
             eventCommunity: communityId

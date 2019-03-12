@@ -33,7 +33,7 @@ import { LoginProvider } from "../../providers/login/login";
 export class LoginPage {
   authForm: FormGroup;
   public createAccount = false;
-  public showPasswordText = false;
+  public showPasswordText = true;
   public passwordType = "password"
 
   constructor(
@@ -103,7 +103,6 @@ export class LoginPage {
     else {
       const modal = this.modalCtrl.create("TermsOfServicePage", "", { cssClass: "terms-modal" } );
       modal.onDidDismiss(data => {
-        console.log("onDismiss : ", data);
         if (data == true) {
           this.loginProvider.createANewAccount(value).subscribe(data => {
             if (data.code === 201)
@@ -139,10 +138,9 @@ export class LoginPage {
     this.showPasswordText = !this.showPasswordText;
  
     if(this.showPasswordText){
-      this.passwordType = 'text';
-    } else {
       this.passwordType = 'password';
+    } else {
+      this.passwordType = 'text';
     }
   }
-
 }

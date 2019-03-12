@@ -55,7 +55,6 @@ export class InvitationListPage {
     this.invitationProvider
       .getAllUserInvitations(this.tabParams)
       .subscribe(data => {
-        console.log("ddd : ", data);
         this.invitationList = data;
       });
   }
@@ -74,7 +73,6 @@ export class InvitationListPage {
     this.invitationProvider
       .acceptedInvitatioo(invit, this.tabParams)
       .subscribe(data => {
-        console.log("Here data :", data);
         if (data == 200) {
           this.invitationProvider
             .getAllUserInvitations(this.tabParams)
@@ -92,7 +90,6 @@ export class InvitationListPage {
     this.invitationProvider
       .rejectedInvitation(invit, this.tabParams)
       .subscribe(data => {
-        console.log("Here data test :", data);
         if (data == 200) {
           this.invitationProvider
             .getAllUserInvitations(this.tabParams)
