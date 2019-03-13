@@ -35,6 +35,7 @@ export class LoginPage {
   public createAccount = false;
   public showPasswordText = true;
   public passwordType = "password"
+  private tabParams;
 
   constructor(
     private utils: UtilsProvider,
@@ -75,6 +76,7 @@ export class LoginPage {
       ],
       confPass: [""]
     });
+
   }
 
   loginUserToSession(value) {

@@ -215,6 +215,7 @@ export class MyApp {
     modal.onDidDismiss(data => {
       // this.updatCommunityList();
       this.optionsMore = false;
+      this.updatCommunityList();
     });
     modal.present();
   }

@@ -48,6 +48,10 @@ export class ProfilePage {
     this.getProfileInfo();
   }
 
+  ionViewWillEnter(){
+    this.getProfileInfo();
+  }
+
   getProfileInfo() {
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)

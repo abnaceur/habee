@@ -90,8 +90,8 @@ getInvitedUserInformation = (user, activeCommunity) => {
 saveInvitationExistingUser = (invitedId, profileInvitor, profileInvited, userId, email, activeCommunity) => {
     const invitation = new Invitation(invitationClass.classInvitationExistingAccount(invitedId, profileInvitor, profileInvited, userId, email, activeCommunity))
 
-     return new Promise((resolve, reject) => {
-         invitation.save()
+    return new Promise((resolve, reject) => {
+        invitation.save()
             .then(inv => {
                 resolve(email)
             }).catch(err => console.log("Err : ", err))
@@ -107,16 +107,16 @@ inviteExistingContactToCommunity = (email, existingUser, userId, activeCommunity
                     getUserInformation(userId, activeCommunity)
                         .then(profileInvitor => {
                             getInvitedUserInformation(existingUser, activeCommunity)
-                            .then(profileInvited => {
-                                saveInvitationExistingUser(existingUser[0].userId, profileInvitor, profileInvited, userId, email, activeCommunity)
-                                .then(invitedEmail => {
-                                    emailRes = {
-                                        value: invitedEmail,
-                                        status: 200
-                                    }
-                                    resolve(emailRes)
-                                }).catch(err => console.log("Err : ", err));
-                            })
+                                .then(profileInvited => {
+                                    saveInvitationExistingUser(existingUser[0].userId, profileInvitor, profileInvited, userId, email, activeCommunity)
+                                        .then(invitedEmail => {
+                                            emailRes = {
+                                                value: invitedEmail,
+                                                status: 200
+                                            }
+                                            resolve(emailRes)
+                                        }).catch(err => console.log("Err : ", err));
+                                })
                         })
                 } else {
                     emailRes = {
@@ -231,11 +231,11 @@ createNewAccount = (value, res) => {
                 .then(user => {
                     communityService.newUserCommunity(user);
                     let name = user.credentials.lastname;
-                   //let msg = userEmails.accountFirstCrevaluevalueation(value.email, value.password);
-                   // utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
+                    //let msg = userEmails.accountFirstCrevaluevalueation(value.email, value.password);
+                    // utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
                     emailCreation.sendEmailAccountCreation(value.email, "Confirmation de création du compte", value.email, value.password, name)
                     invitationService
-                    .invitationService(user.credentials.email, user.userId, user.credentials.lastname, user.credentials.firstname)
+                        .invitationService(user.credentials.email, user.userId, user.credentials.lastname, user.credentials.firstname)
                     res.status(200).json({
                         code: 200,
                         msg: "Accountcreated with success"
@@ -324,11 +324,32 @@ getProfileCommunityProsion = (user, communityId) => {
     return pos;
 }
 
-editProfileByCommunityId = (pos, user, profileName, image) => {
+editProfileByCommunityId = (user, profileName, image) => {
     return new Promise((resolve, reject) => {
-        user[0].profile[pos].profileDateOfLastUpdate = Date.now;
-        user[0].profile[pos].profileUsername = profileName;
-        user[0].profile[pos].profilePhoto = image;
+        let fullname = profileName.split(' ');
+        let firstname = "";
+        let lastname = "";
+
+        console.log("splice profile name  :", fullname.length)
+        if (fullname.length > 1) {
+            firstname = profileName.split(' ', 1)[0];
+            lastname = "";
+            let i = 2;
+            while (i <= fullname.length) {
+                lastname += profileName.split(' ', i)[i - 1] + " ";
+                i++;
+            }
+        } else if (fullname.length == 1)
+            firstname = profileName.split(' ', 1)[0];
+
+        console.log("h11223 : ", firstname, lastname)
+        user[0].credentials.firstname = firstname;
+        user[0].credentials.lastname = lastname;
+        user[0].profile.map(pr => {
+            pr.profileDateOfLastUpdate = Date.now;
+            pr.profileUsername = profileName;
+            pr.profilePhoto = image;
+        })
         resolve(user);
     })
 }
@@ -359,8 +380,9 @@ updateProfile = (res, image, profileName, userId, communityId) => {
         })
         .exec()
         .then(usr => {
+            console.log("User profile : ", usr)
             let pos = getProfileCommunityProsion(usr, communityId);
-            editProfileByCommunityId(pos, usr, profileName, image)
+            editProfileByCommunityId(usr, profileName, image)
                 .then(user => updateUser(res, user));
         })
         .catch(err => utils.defaultError(res, err))
