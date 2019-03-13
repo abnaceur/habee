@@ -16,14 +16,11 @@
     </ion-fab>
 
   <ion-grid>
-    <ion-item>
-      <ion-label color="primary">E-mail </ion-label>
-    </ion-item>
 
     <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
       <ion-item>
-        <ion-label color="primary">Contact 1</ion-label>
-        <ion-input (click)="contactArray[0].check = ''" type="email" text-right [(ngModel)]="contactArray[0].value"></ion-input>
+        <ion-label color="primary">Contact 1 à ajouter</ion-label>
+        <ion-input placeholder="Email" (click)="contactArray[0].check = ''" type="email" text-right [(ngModel)]="contactArray[0].value"></ion-input>
       </ion-item>
 
       <ion-item *ngIf="contactArray[0].check != '' && contactArray[0].status == ''">
@@ -64,8 +61,8 @@
       <ion-item-sliding #item *ngIf="contactArrayLenght != 0">
 
         <ion-item>
-          <ion-label color="primary">Contact {{idx+1}}</ion-label>
-          <ion-input (click)="contactArray[idx].check = ''" type="email" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
+          <ion-label color="primary">Contact {{idx+1}} à ajouter</ion-label>
+          <ion-input placeholder="Email" (click)="contactArray[idx].check = ''" type="email" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
         </ion-item>
 
 
