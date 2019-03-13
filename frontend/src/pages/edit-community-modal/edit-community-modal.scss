@@ -1,3 +1,37 @@
 page-edit-community-modal {
+    .myview_events {
+        background-image: url('../assets/imgs/MainBackground_1.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+            
+      .menuStyle {
+        position: relative;
+        float: left;
+        top: 6px;
+        left: 4%;
+        font-size: 40px;
+        color: floralwhite
+      }
+      .commName {
+        position: absolute;
+        display: inline-flex;
+        left: 27%;
+        top: 37%;
+        color: aliceblue;
+        font-weight: bolder;
+        font-size: 19px;
+        font-family: sans-serif;
+      }
+      
+      .optionsStyle {
+        position: relative;
+        float: right;
+        top: 12px;
+        right: 4%;
+        font-size: 30px;
+        color: floralwhite
+      }
+      
 
 }
