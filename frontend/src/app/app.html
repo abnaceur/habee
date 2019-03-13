@@ -25,7 +25,7 @@
   <ion-content>
     <div #header>
       <ion-item>
-          <ion-label>Menu</ion-label>
+        <ion-label>Menu</ion-label>
       </ion-item>
     </div>
     <ion-list no-lines>
@@ -54,27 +54,35 @@
       </ion-item>
     </div><br>
 
+
     <ion-list no-lines *ngFor="let community of allCommunitiesbyUserId">
 
       <ion-item style="border-left: 5px solid silver" *ngIf="community.selected == 'true'">
-        {{community.communityName}}
+          <ion-avatar item-start>
+              <img ion-img style="border-radius: 12%;" [src]='url + "/" + community.communityLogo'/>
+          </ion-avatar>
+          <ion-label>
+              {{community.communityName}}
+          </ion-label>
       </ion-item>
 
-      <ion-item *ngIf="community.selected == 'false'">
-        <span (click)="selectCommunity(community.communityId)" >
-          {{community.communityName}}
-        </span>
-     <!-- Added an image 
-       <img [src]='url + "/" + community.communityLogo' />
-     -->
-     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver" 
-     (click)="editCommunity()" item-right name="create"></ion-icon> 
+      <ion-item (click)="selectCommunity(community.communityId)" *ngIf="community.selected == 'false'">
+          <ion-avatar item-start>
+              <img ion-img style="border-radius: 12%;" [src]='url + "/" + community.communityLogo'/>
+          </ion-avatar>
+          <ion-label>
+              {{community.communityName}}
+          </ion-label>
+          
+        <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver"
+          (click)="editCommunity()" item-right name="create"></ion-icon>
 
-     <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver;
-     border-left: 1px solid silver;padding-left: 10px;" (click)="deletCommunity()" item-right name="trash"></ion-icon> 
-    
-     <ion-icon  *ngIf="optionsMore == false && userData.userId == community.communityCreator && community.communityId != editableCommunity" style="color: silver" item-right name="more" 
-        (click)="presentPopover(community.communityId)" ></ion-icon>
+        <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver;
+     border-left: 1px solid silver;padding-left: 10px;"
+          (click)="deletCommunity()" item-right name="trash"></ion-icon>
+
+        <ion-icon *ngIf="optionsMore == false && userData.userId == community.communityCreator && community.communityId != editableCommunity"
+          style="color: silver" item-right name="more" (click)="presentPopover(community.communityId)"></ion-icon>
       </ion-item>
 
     </ion-list>

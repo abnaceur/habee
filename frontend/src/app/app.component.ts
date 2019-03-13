@@ -273,10 +273,10 @@ export class MyApp {
           .getCommunitiesByParticipation(this.userData)
           .subscribe(dataParticipation => {
             let arr = dataCreator.communities.concat(dataParticipation);
-
             this.communityProvider
               .getCommunitySelected(arr, this.userData.activeCommunity)
               .then(data => {
+                console.log("Commnity list :", data)
                 this.allCommunitiesbyUserId = data;
               });
           });
