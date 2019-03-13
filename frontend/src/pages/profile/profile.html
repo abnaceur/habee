@@ -18,8 +18,10 @@ background-color: #77B650;">
 <ion-content no-padding >
 
   <ion-item id="profile-bg" [ngStyle]="{'background-image': 'url(' + coverImage +')'}">
-
-      <ion-thumbnail item-start>
+    <ion-icon item-right style="position: absolute;top: 20;right: 4px;font-size: 22px;" class="optionsStyle pop-in" 
+    (click)="editProfileModal()" name="create"></ion-icon>
+    
+    <ion-thumbnail item-start>
           <img id="profile-image" [src]='url + "/" + user.profile.profilePhoto'/>
     </ion-thumbnail>
     <p class="profileTitle  ">{{user.profile.profileUsername}}</p>

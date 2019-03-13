@@ -1,8 +1,22 @@
-import { Component, ViewChild } from "@angular/core";
-import { IonicPage, NavController, NavParams, Item } from "ionic-angular";
-import { Http, Headers, ResponseOptions } from "@angular/http";
+import { Component, 
+  ViewChild } from "@angular/core";
+
+import { 
+  IonicPage, 
+  NavController, 
+  NavParams, 
+  ModalController 
+} from "ionic-angular";
+
+import { 
+  Http, 
+  ResponseOptions 
+} from "@angular/http";
+
 import { environment as ENV } from "../../environments/environment";
+
 import "rxjs/add/operator/map";
+
 import { ProfileProvider } from "../../providers/profile/profile";
 
 @IonicPage()
@@ -30,6 +44,7 @@ export class ProfilePage {
     public profileProvider: ProfileProvider,
     public http: Http,
     public navCtrl: NavController,
+    public modalCtrl: ModalController,
     public navParams: NavParams
   ) {
     this.tabParams = {
@@ -58,5 +73,11 @@ export class ProfilePage {
       .subscribe(response => {
         this.user = response.User[0];
       });
+  }
+
+  editProfileModal() {
+    const modal = this.modalCtrl.create("EditProfilePage", this.tabParams);
+		modal.onDidDismiss(data => this.getProfileInfo());
+		modal.present();
   }
 }
