@@ -34,6 +34,7 @@ background-color: #906DA7;">
               <p>{{event.eventLocation}} • 
                 {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5, 7)}}.{{event.eventEndDate.substring(0, 4)}} {{event.eventEndHour}}
               </p>
+              <ion-badge style="font-size: 12px" class="pull-right" color="info" >{{event.eventCommunity}}</ion-badge>
             </ion-item>
             <ion-item-options side="right">
                 <!-- <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewEventDetails(item)">

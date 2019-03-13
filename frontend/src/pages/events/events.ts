@@ -81,9 +81,6 @@ export class EventsPage {
       notificationStatus: this.navParams.get("notificationStatus")
     };
 
-    this.getAllEvents();
-    this.countActiveFilters();
-    this.getCommunityImage();
     this.months = [
       "Janvier",
       "Fevrier",

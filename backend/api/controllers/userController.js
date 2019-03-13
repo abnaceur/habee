@@ -17,7 +17,7 @@ const pswReset = require('../services/userServices/resetPassword')
 const deleteUserAccount = require("../services/userServices/deleteAccount")
 const updateNotificationAccount = require("../services/userServices/updateNotification")
 const getNotificationStatus = require("../services/userServices/getNotificationStatus")
-
+const getUsrService = require('../services/userServices/getUserById')
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -220,59 +220,8 @@ exports.get_all_users = (req, res, next) => {
 
 exports.get_user_by_id = (req, res, next) => {
     const id = req.params.id;
-    User.find({
-            userId: id
-        })
-        .exec()
-        .then(usr => {
-            if (usr.length === 0) {
-                return res.status(200).json({
-                    message: "User not found or id not valid!"
-                })
-            } else {
-                if (usr[0].eventsParticipated.length != 0) {
-                    Event.find({
-                            eventCommunity: usr[0].activeCommunity,
-                            eventIsOver: false,
-                            eventIsDeleted: false,
-                        }).exec()
-                        .then(event => {
-                            eventService.getAllpublicEvents()
-                                .then(ev => {
-                                    event = utils.concatArraysUser(event, ev)
-
-                                    let allUserEvents = [];
-                                    let i = 0;
-                                    let z = 0;
-
-                                    while (i < usr[0].eventsParticipated.length) {
-                                        while (z < event.length) {
-                                            if (usr[0].eventsParticipated[i].eventId == event[z].eventId) {
-                                                allUserEvents.push(event[z]);
-                                            }
-                                            z++;
-                                        }
-                                        z = 0;
-                                        i++;
-                                    }
-                                    usr[0].eventsParticipated = allUserEvents;
-
-                                    res.status(200).json({
-                                        User: usr,
-                                        event: event
-                                    });
-                                })
-                        })
-                } else {
-                    res.status(200).json({
-                        User: usr
-                    });
-                }
-            }
-        })
-        .catch(err => {
-            this.utils.defaultError(err)
-        });
+    
+    getUsrService.getUserById(id, res)   
 };
 
 
