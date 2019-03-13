@@ -330,7 +330,6 @@ editProfileByCommunityId = (user, profileName, image) => {
         let firstname = "";
         let lastname = "";
 
-        console.log("splice profile name  :", fullname.length)
         if (fullname.length > 1) {
             firstname = profileName.split(' ', 1)[0];
             lastname = "";
@@ -342,7 +341,6 @@ editProfileByCommunityId = (user, profileName, image) => {
         } else if (fullname.length == 1)
             firstname = profileName.split(' ', 1)[0];
 
-        console.log("h11223 : ", firstname, lastname)
         user[0].credentials.firstname = firstname;
         user[0].credentials.lastname = lastname;
         user[0].profile.map(pr => {
