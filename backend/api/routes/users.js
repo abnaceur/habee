@@ -229,4 +229,12 @@ router.put('/notification/update/:userId', authCkeck, userController.updateNotif
 
 router.get('/notification/status/:userId', authCkeck, userController.getNotificationStatus);
 
+
+/*
+ ** API [GET] for route /users/app/allcontacts/:userId [USED]
+ */
+
+router.get('/app/allcontacts/:userId', authCkeck, userController.getAllusersCommunityConcat);
+
+
 module.exports = router;

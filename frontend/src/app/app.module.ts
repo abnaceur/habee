@@ -36,7 +36,7 @@ import { InvitationListPageModule } from '../pages/invitation-list/invitation-li
 import { ForgotPasswordPageModule } from "../pages/forgot-password/forgot-password.module"
 import { TermsOfServicePageModule } from "../pages/terms-of-service/terms-of-service.module"
 import { TermsOfServiceScriptPageModule } from "../pages/terms-of-service-script/terms-of-service-script.module"
-
+import {  ConatctListFilterPageModule } from "../pages/conatct-list-filter/conatct-list-filter.module"
 
 import { CameraProvider } from '../providers/camera/camera';
 import { SharedModule   } from './shared.module';
@@ -69,6 +69,7 @@ import { ProposeEventProvider } from '../providers/propose-event/propose-event';
   imports: [
     HttpModule,
     BrowserModule,
+    ConatctListFilterPageModule,
     TabsPageModule,
     ProfilePageModule,
     HabeeWalkthroughPageModule,

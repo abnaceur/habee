@@ -5,16 +5,13 @@ import {
   NavController,
   ModalController,
   ToastController,
-  NavParams
+  NavParams,
+  PopoverController
 } from "ionic-angular";
 
-import {
- AddContactProvider
-} from "../../providers/add-contact/add-contact"
+import { AddContactProvider } from "../../providers/add-contact/add-contact";
 
-import {
-UtilsProvider
-} from "../../providers/utils/utils"
+import { UtilsProvider } from "../../providers/utils/utils";
 
 import { InvitationProvider } from "../../providers/invitation/invitation";
 
@@ -22,7 +19,10 @@ import { environment as ENV } from "../../environments/environment";
 
 import { UserProvider } from "../../providers/user/user";
 
-import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
+import {
+  BarcodeScanner,
+  BarcodeScannerOptions
+} from "@ionic-native/barcode-scanner";
 
 /**
  * Generated class for the ListContactPage page.
@@ -50,6 +50,7 @@ export class ListContactPage {
   preload = true;
 
   constructor(
+    public popoverCtrl: PopoverController,
     private utils: UtilsProvider,
     private addContactProvider: AddContactProvider,
     private barcodeScanner: BarcodeScanner,
@@ -84,12 +85,12 @@ export class ListContactPage {
 
   ionViewDidEnter() {
     this.invitationProvider
-    .getCountNotification(this.tabParams)
-    .subscribe(count => {
-      setTimeout(() => {
-        this.notificationCount = count
-      }, 500)
-    })
+      .getCountNotification(this.tabParams)
+      .subscribe(count => {
+        setTimeout(() => {
+          this.notificationCount = count;
+        }, 500);
+      });
   }
 
   expand() {
@@ -97,17 +98,17 @@ export class ListContactPage {
     this.contracted = !this.expanded;
     this.showIcon = false;
 
-      const modal = this.modalCtrl.create("AddContactPage", this.tabParams);
-      modal.onDidDismiss(data => {
-        this.expanded = false;
-        this.contracted = !this.expanded;
-        setTimeout(() => (this.showIcon = true), 330);
-      });
-      modal.present();
+    const modal = this.modalCtrl.create("AddContactPage", this.tabParams);
+    modal.onDidDismiss(data => {
+      this.expanded = false;
+      this.contracted = !this.expanded;
+      setTimeout(() => (this.showIcon = true), 330);
+    });
+    modal.present();
   }
 
   openInvitationsList() {
-    this.tabParams.countNotification = this.notificationCount
+    this.tabParams.countNotification = this.notificationCount;
     const modal = this.modalCtrl.create("InvitationListPage", this.tabParams);
     modal.onDidDismiss(data => {
       this.notificationCount = 0;
@@ -119,47 +120,83 @@ export class ListContactPage {
     this.options = {
       prompt: "Scanner le codebare",
       showFlipCameraButton: true,
-      showTorchButton: true,
-    }
+      showTorchButton: true
+    };
 
-    this.barcodeScanner.scan(this.options).then(barcodeData => {
-      let email = [];
-      email.push({ 'value': barcodeData.text, 'check': '', 'status': ""})
-      this.addContactProvider.isFieldEmpty(email, this.tabParams)
-      .then(data => {
-        if (data[0].status == 200)
-          this.utils.notification("Votre invitation est bien envoyer", "top")
-        else if (data[0].status == 500)
-        this.utils.notification("Ce compte exist!", "top")
-        //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
-        if (data[0].check != '') {
-          let menuData = ["listContact", this.tabParams];
-          this.navCtrl.push("TabsPage", menuData)
-        }
-      })
-    }, (err) => {
-      console.log("eee ; ", err)
-    });
+    this.barcodeScanner.scan(this.options).then(
+      barcodeData => {
+        let email = [];
+        email.push({ value: barcodeData.text, check: "", status: "" });
+        this.addContactProvider
+          .isFieldEmpty(email, this.tabParams)
+          .then(data => {
+            if (data[0].status == 200)
+              this.utils.notification(
+                "Votre invitation est bien envoyer",
+                "top"
+              );
+            else if (data[0].status == 500)
+              this.utils.notification("Ce compte exist!", "top");
+            //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
+            if (data[0].check != "") {
+              let menuData = ["listContact", this.tabParams];
+              this.navCtrl.push("TabsPage", menuData);
+            }
+          });
+      },
+      err => {
+        console.log("eee ; ", err);
+      }
+    );
   }
 
   getUserEmail() {
     let email = "";
     this.contact.map(cn => {
-      if (cn.userId == this.tabParams.userId)
-        email = cn.userEmail
-    })
-    return email
+      if (cn.userId == this.tabParams.userId) email = cn.userEmail;
+    });
+    return email;
   }
 
   encodeData() {
     let encodText = this.getUserEmail();
 
-    this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, encodText)
-    .then(data => {
-      console.log("Encoded with success!")
-    }, err => {
-      console.log("Error : ", err)
-    })
+    this.barcodeScanner
+      .encode(this.barcodeScanner.Encode.TEXT_TYPE, encodText)
+      .then(
+        data => {
+          console.log("Encoded with success!");
+        },
+        err => {
+          console.log("Error : ", err);
+        }
+      );
   }
 
+  async presentContactFilter(ev: any) {
+    const popover = await this.popoverCtrl.create(
+      "ConatctListFilterPage",
+      this.tabParams
+    );
+    await popover.present({
+      ev: ev
+    });
+
+    await popover.onDidDismiss(data => {
+      let tmp = this.tabParams;
+
+      if (data != "all") {
+        tmp.activeCommunity = data;
+        this.userProvider.getAllUserByCommunityId(tmp).subscribe(response => {
+          this.contact = response.users;
+        });
+      } else if (data === "all") {
+        this.userProvider
+          .getAllusersCommunityConcat(this.tabParams)
+          .subscribe(response => {
+            if (response.users.length != 0) this.contact = response.users;
+          });
+      }
+    });
+  }
 }

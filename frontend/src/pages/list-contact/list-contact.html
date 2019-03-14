@@ -11,9 +11,12 @@
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
 
-<!-- 
+  <!-- 
   <ion-icon class="optionsStyle pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand()"
     name="person-add"></ion-icon> -->
+
+    <ion-icon (click)="presentContactFilter($event)" class="optionsStyle" style="margin-left: 10px; z-index: 1111" name="options">
+      </ion-icon>
 
   <div (click)="openInvitationsList()">
     <ion-icon style="z-index:1111" class="optionsStyle pop-in" name="notifications">
@@ -29,8 +32,24 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-grid>
+
+    <!-- <ion-scroll scrollX="true" style="
+      border-bottom: 5px solid darkgray;
+      white-space: nowrap;
+      position: relative;
+      height: 18vw;
+      width: 100%;
+      color: tomato;">
+        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Tout</ion-badge>
+        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Friend</ion-badge>
+        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Familly</ion-badge>
+        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Collegues</ion-badge>
+        <ion-badge class="pull-left" style="margin-right: 5px" color="info">SportCommunity</ion-badge>
+       
+      
+      </ion-scroll> -->
 
 
 
@@ -42,28 +61,28 @@
         </ion-avatar>
         <h2>{{user.profileUsername}}</h2>
         <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
-            <ion-badge class="pull-right" color="danger">moi</ion-badge>
-        </button> 
+          <ion-badge class="pull-right" color="danger">moi</ion-badge>
+        </button>
       </ion-item>
     </ion-list>
   </ion-grid>
 </ion-content>
 
 <ion-footer>
-    <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
-        <button ion-fab style="background-color: darkgray;" mini>
-          <ion-icon name="add"></ion-icon>
-        </button>
-        <ion-fab-list side="top">
-          <button ion-fab mini (click)="scanBrCode()">
-              <ion-icon  name="qr-scanner"></ion-icon>
-          </button>
-          <button ion-fab mini (click)="encodeData()">
-              <ion-icon name="barcode"></ion-icon>
-          </button>
-          <button ion-fab mini (click)="expand()">
-              <ion-icon name="person-add"></ion-icon>
-          </button>
-        </ion-fab-list>
-      </ion-fab>
+  <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
+    <button ion-fab style="background-color: darkgray;" mini>
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab mini (click)="scanBrCode()">
+        <ion-icon name="qr-scanner"></ion-icon>
+      </button>
+      <button ion-fab mini (click)="encodeData()">
+        <ion-icon name="barcode"></ion-icon>
+      </button>
+      <button ion-fab mini (click)="expand()">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-footer>

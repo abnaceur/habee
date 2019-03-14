@@ -34,4 +34,13 @@ export class UserProvider {
       { headers: header })
       .map(response => response.json());
   }
+
+  getAllusersCommunityConcat(info) {
+    const header = this.utils.inihttpHeaderWIthToken(info.token);
+
+    return this.http.get(ENV.BASE_URL + '/users/app/allcontacts/' + info.userId,
+      { headers: header })
+      .map(response => response.json());
+  }
+
 }
