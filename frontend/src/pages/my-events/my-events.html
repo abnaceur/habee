@@ -26,7 +26,7 @@ background-color: #906DA7;">
     hasMargin="false" headerColor="#F53D3D" [expanded]="index === 0">
     <ion-list>
         <ion-item-sliding *ngFor="let event of userInfo">
-            <ion-item (click)='viewEventDetails(event)' style="margin-top: 10px" no-lines>
+            <ion-item *ngIf="event != null" (click)='viewEventDetails(event)' style="margin-top: 10px" no-lines>
               <ion-thumbnail item-start>
                 <img [src]='url + "/" + event.eventPhoto'>
               </ion-thumbnail>
@@ -34,7 +34,7 @@ background-color: #906DA7;">
               <p>{{event.eventLocation}} • 
                 {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5, 7)}}.{{event.eventEndDate.substring(0, 4)}} {{event.eventEndHour}}
               </p>
-              <ion-badge style="font-size: 12px" class="pull-right" color="info" >{{event.eventCommunity}}</ion-badge>
+              <ion-badge style="font-size: 12px" class="pull-right" color="info" >{{event.eventCommunityName}}</ion-badge>
             </ion-item>
             <ion-item-options side="right">
                 <!-- <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewEventDetails(item)">

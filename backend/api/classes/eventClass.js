@@ -20,10 +20,42 @@ initEvent = (req, imagePath) => {
         eventIsPublic: req.body.eventIsPublic,
         eventIsDeleted: false,
     }
-    
+
     return event
+}
+
+eventAddComName = (event, communityName) => {
+    let ev = {
+        eventCommunityName: communityName,
+        eventIsOver: false,
+        eventIsDeleted: false,
+        _id: event._id,
+        eventId: event.eventId,
+        eventCommunity: event.eventCommunity,
+        eventName: event.eventName,
+        eventPhoto: event.eventPhoto,
+        eventCreator: event.eventCreator,
+        eventDescription: event.eventDescription,
+        eventStartDate: event.eventStartDate,
+        eventEndDate: event.eventEndDate,
+        eventStartHour: event.eventStartHour,
+        eventEndHour: event.eventEndHour,
+        eventLocation: event.eventLocation,
+        nbrParticipants: event.nbrParticipants,
+        eventCategory: event.eventCategory,
+        eventIsPublic: false.eventIsPublic,
+        dateOfCreation: event.dateOfCreation,
+        dateOfLastUpdate: event.dateOfLastUpdate,
+        participants: event.participants,
+        nbrSubscribedParticipants: event.nbrSubscribedParticipants
+    }
+
+    console.log("ev -------- :", ev)
+
+    return ev
 }
 
 module.exports = {
     initEvent,
+    eventAddComName
 }

@@ -115,7 +115,7 @@ export class MyEventsPage {
     this.eventProvider
       .getUserInformation(this.tabParams)
       .subscribe(response => {
-        this.userInfo = response.User[0].eventsParticipated;
+        this.userInfo = response.User;
       });
   }
 
