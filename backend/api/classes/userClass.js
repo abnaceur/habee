@@ -9,7 +9,7 @@ const Community = require('../models/community');
 exports.creatNewAccountUser = (value) => {
     let userIdGen = value.email.substring(0, value.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + value.email.substring(value.email.search('@'), value.email.lenght);
     let communityId = value.email.substring(0, value.email.search('@')) + Math.floor(Math.random() * 10000);
-    let profileAvatar = Math.floor(Math.random() * 38) + 1;
+    let profileAvatar = Math.floor(Math.random() * 35) + 1;
 
     return new Promise((resolve, reject) => {
 
@@ -197,15 +197,13 @@ exports.filterEventClass = (activeCommunity) => {
     })
 }
 
-exports.profileClass = (invitation) => {
-    let profileAvatar = Math.floor(Math.random() * 38) + 1;
-
-
+exports.profileClass = (invitation, user) => {
+//    let profileAvatar = Math.floor(Math.random() * 38) + 1;
     return new Promise((resolve, reject) => {
         resolve({
             profileCummunityId: invitation.invitationCommunityId,
-            profilePhoto: "uploads/" + profileAvatar + ".png",
-            profileUsername: invitation.invitedFullname,
+            profilePhoto: user[0].profile[0].profilePhoto,
+            profileUsername: user[0].profile[0].profileUsername,
             profileIsAdmin: 0,
             profileUserIsActive: true,
             profileUserIsDeleted: false,
@@ -241,7 +239,7 @@ exports.userAddNewCommnity = (invitation, user) => {
             .then(filter => {
                 user[0].filterEvent.push(filter);
                 user[0].communities.push(invitation.invitationCommunityId);
-                this.profileClass(invitation)
+                this.profileClass(invitation, user)
                     .then(profile => {
                         user[0].profile.push(profile)
                         this.getUserFirstAndLastname(invitation.invitatorId)
