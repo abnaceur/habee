@@ -35,7 +35,9 @@ feedbackEvent = (io) => {
         connections.push(client);
         client.on('join', function (communityId) {
             client.join(communityId)
-            comConnectedClient.push(client);
+            comConnectedClient.push({
+                [client.id]: communityId
+            });
             console.log("Client joined!")
 
             getCommmunityPosition(communityId, comments, comments.length)
