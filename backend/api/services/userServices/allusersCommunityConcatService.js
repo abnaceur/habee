@@ -36,7 +36,12 @@ async function getMembersInformation (uniqMembers) {
     while (i < uniqMembers.length) {
         UsersInfo = UsersInfo.concat(await getUserInfo(uniqMembers[i])
             .then(data => {
-                return data[0].profile[0];
+                return ({
+                    userId: data[0].userId,
+                    profileCummunityId: data[0].profile[0].profileCummunityId,
+                    profilePhoto: data[0].profile[0].profilePhoto,
+                    profileUsername: data[0].profile[0].profileUsername,
+                });
             }))
         i++;
     }
