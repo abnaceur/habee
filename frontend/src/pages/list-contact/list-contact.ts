@@ -185,7 +185,7 @@ export class ListContactPage {
     await popover.onDidDismiss(data => {
       let tmp = this.tabParams;
 
-      if (data != "all") {
+      if (data != "all" && data != null) {
         tmp.activeCommunity = data;
         this.userProvider.getAllUserByCommunityId(tmp).subscribe(response => {
           this.contact = response.users;

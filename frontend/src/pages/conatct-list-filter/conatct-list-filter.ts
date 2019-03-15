@@ -39,7 +39,6 @@ export class ConatctListFilterPage {
       notificationStatus: this.navParams.get("notificationStatus")
     };
 
-    console.log("this.tabParams : 111 s", this.tabParams);
   }
 
   ionViewWillEnter() {
@@ -48,13 +47,15 @@ export class ConatctListFilterPage {
 
   getAllCommunities() {
     if (this.tabParams.activeCommunity != "") {
+      console.log("here")
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
           this.communityProvider
             .getCommunitiesByParticipation(this.tabParams)
             .subscribe(dataParticipation => {
-              dataCreator.communities.concat(dataParticipation);
+              console.log("dataCreator : ", dataCreator.communities, dataParticipation)
+              dataCreator.communities = dataCreator.communities.concat(dataParticipation);
               if (dataCreator.communities.length > 1) {
                 this.allCommunities = dataCreator.communities
               }
