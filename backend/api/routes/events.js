@@ -138,7 +138,7 @@ router.put('/all/isover/:userId/:communityId', authCkeck, eventController.put_al
  ** API route [GET] for /events/comments [USED]
  */
 
-router.get('/comments/:eventId/community/:communityId', eventController.getCommentByEventId);
+router.get('/comments/:eventId/community/:communityId', authCkeck, eventController.getCommentByEventId);
 
 
 module.exports = router;

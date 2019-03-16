@@ -211,7 +211,7 @@ export class MyApp {
 
   goToAddCommunityModal() {
     //this.nav.setRoot("AddCommunityPage");
-    const modal = this.modalCtrl.create("AddCommunityPage", this.userData);
+    const modal = this.modalCtrl.create("AddCommunityPage", this.userData, { cssClass: "comAdd-modal" });
     modal.onDidDismiss(data => {
       // this.updatCommunityList();
       this.optionsMore = false;

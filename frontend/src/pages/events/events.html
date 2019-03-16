@@ -7,8 +7,14 @@ background-color: #5cbcc1;">
     <img class="comLogo" [src]='url + "/" + communityInfo.communityLogo'>
   </ion-thumbnail>
   <ion-thumbnail *ngIf="communityInfo.communityName">
-    <span class="commName">{{communityInfo.communityName}}</span>
+    <span class="commName">{{communityInfo.communityName}}
+        <ion-icon (click)="showAllCommunities()" class="optionsStyle1" name="arrow-dropdown"></ion-icon>
+    </span>
+
   </ion-thumbnail>
+  
+
+
 
   <ion-icon class="optionsStyle" (click)='presentFilter()' name="options">
 

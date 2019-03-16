@@ -7,6 +7,7 @@ import {
   MenuController,
   NavParams,
   Platform,
+  Events,
   Item
 } from "ionic-angular";
 
@@ -60,6 +61,7 @@ export class EventsPage {
   };
 
   constructor(
+    public events: Events,
     public platform: Platform,
     public localNotifications: LocalNotifications,
     private communityProvider: CommunityProvider,
@@ -97,7 +99,6 @@ export class EventsPage {
     ];
   }
 
-  
   ionViewWillEnter() {
     this.getAllEvents();
     this.countActiveFilters();
@@ -221,5 +222,34 @@ export class EventsPage {
           : "";
       });
     }
+  }
+
+
+  showAllCommunities() {
+    const modal = this.modalCtrl.create(
+      "CommunityEventListPage",
+      this.tabParams,
+      { cssClass: "comEvent-modal" }
+    );
+    modal.onDidDismiss(comId => {
+      console.log("This data : ", comId);
+      
+      if (comId != "all" && comId != null) {
+        this.communityProvider
+      .updateSelectedCommunity(comId, this.tabParams)
+      .subscribe(data => {
+        if (data === 1) {
+          this.tabParams.activeCommunity = comId;
+          console.log("comId : ", comId)
+          this.events.publish("user:info", this.tabParams);
+          let menuData = ["Acceuil", this.tabParams];
+          this.navCtrl.push("TabsPage", menuData); 
+        }
+      });
+        } else if (comId === "all") {
+        
+      }
+    });
+    modal.present();
   }
 }

@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar style="color: black">
+    <ion-title>List des communaute</ion-title>
+    <ion-buttons end (click)="dismiss()">
+      <button ion-button icon-only>
+        <ion-icon color="primary" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding fullscreen>
+
+
+<ion-list class="no-margin">
+<!-- 
+  <ion-item *ngIf="allCommunities.length > 1">
+    <ion-avatar item-start (click)="getFilterContact('all')">
+      <img ion-img style="border-radius: 12%;" [src]='url + "/uploads/defaultEventImage.jpeg"' />
+    </ion-avatar>
+    <span ion-text (click)="getFilterContact('all')">
+      Afficher tout
+    </span>
+  </ion-item> -->
+
+  
+  <ion-item (click)="creatNewCommunity()" text-wrap>
+    <ion-icon class="pull-left" style="margin-right: 10px; z-index: 111; color:blueviolet; font-size: 22px" name="add"></ion-icon>
+    Ajouter communauté
+  </ion-item>
+
+  <ion-item *ngIf="allCommunities.length == 0" text-wrap>
+    <ion-avatar item-start>
+      <img ion-img style="border-radius: 12%;" [src]='url + "/uploads/defaultEventImage.jpeg"' />
+    </ion-avatar>
+    <ion-label>
+      Vous avec une seul communauté
+    </ion-label>
+  </ion-item>
+
+  <ion-list class="no-margin" no-padding *ngFor="let community of allCommunities">
+    <ion-item>
+      <ion-avatar item-start (click)="getFilterContact(community.communityId)">
+        <img ion-img style="border-radius: 12%;" [src]='url + "/" + community.communityLogo' />
+      </ion-avatar>
+      <ion-label (click)="getFilterContact(community.communityId)">
+        {{community.communityName}}
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+  </ion-list>
+  </ion-content>

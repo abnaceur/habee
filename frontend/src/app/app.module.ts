@@ -59,7 +59,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { ProposeEventProvider } from '../providers/propose-event/propose-event';
-
+import { CommunityEventListPageModule } from "../pages/community-event-list/community-event-list.module"
 
 
 @NgModule({
@@ -93,6 +93,7 @@ import { ProposeEventProvider } from '../providers/propose-event/propose-event';
     EditAccountPageModule,
     InvitationListPageModule,
     ForgotPasswordPageModule,
+    CommunityEventListPageModule,
     SocketIoModule.forRoot(config),
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     SharedModule,
