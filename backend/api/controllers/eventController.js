@@ -8,6 +8,9 @@ const eventService = require('../services/eventService');
 const eventCommentService = require('../services/eventServices/eventCommentsService');
 const deletEvent = require('../services/eventServices/deleteEvent')
 const addEventService = require('../services/eventServices/addEventService')
+const eventFilterService = require("../services/eventServices/getFiltersService")
+const updateFilterService = require("../services/eventServices/updateFiltersService")
+
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -69,51 +72,22 @@ exports.getNoevent = (req, res, next) => {
 
 exports.postEventFilter = (req, res, next) => {
     let userId = req.params.userId;
-    let communityId = req.params.communityId;
 
-    User.find({
-            userId: userId
-        })
-        .exec()
-        .then(usr => {
-            let z = utils.getFilterPosition(usr[0].filterEvent, communityId);
-            req.body.filterCommunity = communityId;
-            req.body.filterCommunity = communityId;
-            usr[0].filterEvent[z] = req.body;
-            User.findByIdAndUpdate(usr[0]._id,
-                usr[0], {
-                    new: false,
-                },
-                function (err, results) {
-                    if (err) return res.status(500).json(err);
-                    console.log("FILTER UPDATED")
-                });
-        })
+    updateFilterService.updateFilterOptions(req, res, userId)
 }
 
 exports.getEventFilter = (req, res, next) => {
     let userId = req.params.userId;
-    let communityId = req.params.communityId;
-
-    User.find({
-            userId: userId,
-            "filterEvent.filterCommunity": communityId
-        })
-        .select("filterEvent")
-        .exec()
-        .then(usr => {
-            let z = utils.getFilterPosition(usr[0].filterEvent, communityId);
-            res.status(200).json({
-                filterEvent: usr[0].filterEvent[z]
-            })
-        })
+ 
+    eventFilterService.getFilterOptions(res, userId)
 }
 
 exports.getFilteredEvent = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
-
-    eventService.filterEvent(req, res, userId, communityId);
+    let page = req.params.page;
+    
+    eventService.filterEvent(req, res, userId, communityId, page);
 }
 
 exports.get_all_events_byCommunityId = (req, res, next) => {

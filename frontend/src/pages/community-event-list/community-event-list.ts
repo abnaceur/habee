@@ -25,6 +25,8 @@ export class CommunityEventListPage {
   public contact;
   public tabParams;
   public allCommunities = [];
+  public selectAll = false;
+  private comSelected = [];
 
 
   constructor(
@@ -49,7 +51,6 @@ export class CommunityEventListPage {
 
   getAllCommunities() {
     if (this.tabParams.activeCommunity != "") {
-      console.log("here")
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
@@ -79,8 +80,31 @@ export class CommunityEventListPage {
     modal.present();
   }
 
-  getFilterContact(communityId) {
-    this.viewCtrl.dismiss(communityId);
+  getActiveCom() {
+    this.viewCtrl.dismiss(this.comSelected);
+  }
+
+  popComId(comId) {
+    let i = 0;
+    let tmp = [];
+
+    while(i < this.comSelected.length) {
+      if (this.comSelected[i] != comId)
+        tmp.push(this.comSelected[i].communityId)
+      i++;
+    }
+
+    return tmp
+  }
+
+  checkCommunity(com, ev) {
+    console.log("here ---> :", com, ev.checked)
+    if (ev.checked == true) 
+      this.comSelected.push(com.communityId)
+     else  if (ev.checked == true) {
+      this.comSelected = this.popComId(com)
+     }
+ 
   }
 
 }

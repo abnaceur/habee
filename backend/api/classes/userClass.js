@@ -33,16 +33,16 @@ exports.creatNewAccountUser = (value) => {
                 communities: [
                     communityId
                 ],
-                profile: [{
+                profile: {
                     profileCummunityId: communityId,
                     profilePhoto: "uploads/" + profileAvatar + ".png",
-                    profileUsername: value.lastname + ' ' + value.firstname,
+                    profileFirstname: value.firstname,
+                    profileLastname: value.lastname,
                     profileIsAdmin: 0,
                     profileUserIsActive: true,
                     profileUserIsDeleted: false,
-                }],
-                filterEvent: [{
-                    filterCommunity: communityId,
+                },
+                filterEvent: {
                     SportValue: false,
                     ArtsValue: false,
                     cultureValue: false,
@@ -58,7 +58,7 @@ exports.creatNewAccountUser = (value) => {
                     partyValue: false,
                     meetingValue: false,
                     WorkshopValue: false,
-                }],
+                },
                 passions: [],
                 skills: [],
                 currentEvents: [],

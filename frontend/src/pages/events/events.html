@@ -3,15 +3,9 @@ background-color: #5cbcc1;">
 
   <ion-icon class="menuStyle" menuToggle name="menu">
   </ion-icon>
-  <ion-thumbnail *ngIf="communityInfo.communityLogo">
-    <img class="comLogo" [src]='url + "/" + communityInfo.communityLogo'>
-  </ion-thumbnail>
-  <ion-thumbnail *ngIf="communityInfo.communityName">
-    <span class="commName">{{communityInfo.communityName}}
-      <ion-icon (click)="showAllCommunities()" class="optionsStyle1" name="arrow-dropdown"></ion-icon>
-    </span>
 
-  </ion-thumbnail>
+    <span class="commName">Habee'Recherche
+    </span>
 
 
 
@@ -52,31 +46,31 @@ background-color: #5cbcc1;">
   <!-- END OF THE TEMPLATE-->
 
 
-    <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
-      <ion-col (click)="selectWeeklyEvent()" [ngStyle]="{'border-bottom': weeklyEvBorder}" col-6>
-          Cette semaine
-      </ion-col>
-      <ion-col (click)="selectAllEvent()" [ngStyle]="{'border-bottom': allEvBorder}" col-6>
-          Tout
-        </ion-col>
-    </div>
+  <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
+    <ion-col (click)="selectWeeklyEvent()" [ngStyle]="{'border-bottom': weeklyEvBorder}" col-6>
+      Cette semaine
+    </ion-col>
+    <ion-col (click)="selectAllEvent()" [ngStyle]="{'border-bottom': allEvBorder}" col-6>
+      Tout
+    </ion-col>
+  </div>
 
   <ion-slides #slider pager="false" autoplay="false">
 
     <ion-slide>
-        <ion-item-sliding *ngFor="let event of allEvents">
-          <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
-            <ion-thumbnail item-start>
-              <img [src]='url + "/" + event.eventPhoto'>
-            </ion-thumbnail>
-            <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
-            <p>{{event.eventLocation}} •
-              {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5,
-              7)}}.{{event.eventEndDate.substring(0, 4)}} {{event.eventEndHour}}
-            </p>
-            <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-          </ion-item>
-        </ion-item-sliding>
+      <ion-item-sliding *ngFor="let event of allEvents">
+        <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
+          <ion-thumbnail item-start>
+            <img [src]='url + "/" + event.eventPhoto'>
+          </ion-thumbnail>
+          <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+          <p>{{event.eventLocation}} •
+            {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5,
+            7)}}.{{event.eventEndDate.substring(0, 4)}} {{event.eventEndHour}}
+          </p>
+          <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+        </ion-item>
+      </ion-item-sliding>
 
     </ion-slide>
 
@@ -102,4 +96,7 @@ background-color: #5cbcc1;">
   </ion-slides>
 
 
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

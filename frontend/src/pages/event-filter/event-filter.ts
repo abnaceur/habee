@@ -13,6 +13,8 @@ import {
   EventProvider
 } from '../../providers/event/event';
 
+import { CommunityProvider } from "../../providers/community/community";
+
 import {
   EventFilterProvider
 } from '../../providers/event-filter/event-filter';
@@ -33,11 +35,12 @@ import { listener } from '@angular/core/src/render3/instructions';
 })
 export class EventFilterPage {
   public filterList = {}
-
+  allCommunities = [];
   public tabParams;
   public selectAllFilters;
 
   constructor(
+    private communityProvider: CommunityProvider,
     public viewCtrl: ViewController,
     public navCtrl: NavController,
     public eventProvider: EventProvider,
@@ -66,7 +69,8 @@ export class EventFilterPage {
 
   ionViewWillEnter() {
     let activeFilters = 0;
-  
+    this.getAllCommunities()  
+    
     activeFilters = this.eventFilterProvider.objectFilterCount(this.filterList);
 
     activeFilters != Array.from(Object.keys(this.filterList)).length
@@ -88,6 +92,25 @@ export class EventFilterPage {
   selectAllFiltersFunc() {
     this.eventFilterProvider.changeFilterList(this.selectAllFilters)
     .then(filterUpdated => this.filterList = filterUpdated)
+  }
+
+  getAllCommunities() {
+    if (this.tabParams.activeCommunity != "") {
+      this.communityProvider
+        .getCommunitiesbyCreator(this.tabParams)
+        .subscribe(dataCreator => {
+          this.communityProvider
+            .getCommunitiesByParticipation(this.tabParams)
+            .subscribe(dataParticipation => {
+              console.log("dataCreator : ", dataCreator.communities, dataParticipation)
+              dataCreator.communities = dataCreator.communities.concat(dataParticipation);
+              if (dataCreator.communities.length > 1) {
+                this.allCommunities = dataCreator.communities
+                console.log("this.allCommunities : ", this.allCommunities)
+              }
+            });
+        });
+    }
   }
 
 }

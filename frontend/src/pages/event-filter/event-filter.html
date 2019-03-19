@@ -14,18 +14,27 @@ background-color: #5cbcc1;">
 <ion-content class="outer-content" fullscreen>
 
 
+  
   <ion-list style="position: relative; top: 20px">
-    <ion-list-header>
-      <ion-label>Tri par communauté</ion-label>
-    </ion-list-header>
+      <ion-list-header>
+          <ion-label>Tri par communauté</ion-label>
+        </ion-list-header>
+        <ion-item *ngIf="allCommunities.length > 1">
+            <ion-label>Tout</ion-label>
+            <ion-checkbox slot="end"></ion-checkbox>
+        </ion-item>
 
-    <ion-item >
-      <ion-label>Tout</ion-label>
-      <ion-checkbox slot="end" [(ngModel)]="filterList.PublicValue"></ion-checkbox>
-    </ion-item>
+        <ion-item *ngIf="allCommunities.length == 1">
+            <ion-label>Vous avez une seul communauté</ion-label>
+        </ion-item>
 
-    <ion-item>
-    </ion-item>
+        <span *ngFor="let community of allCommunities">
+            <ion-item >
+                <ion-label>{{community.communityName}}</ion-label>
+                <ion-checkbox slot="end"></ion-checkbox>
+            </ion-item>
+        </span>
+ 
   </ion-list>
 
   <ion-list style="position: relative; top: 20px">

@@ -42,10 +42,15 @@ import { UtilsProvider } from "../../providers/utils/utils";
   templateUrl: "events.html"
 })
 export class EventsPage {
-  @ViewChild('slider') slider: Slides;
+  @ViewChild("slider") slider: Slides;
   items = {
     icon: "pin"
   };
+
+  page = 0;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
 
   private tabParams;
   public allEvents = [];
@@ -63,7 +68,7 @@ export class EventsPage {
   };
 
   public allEvBorder = "";
-  public weeklyEvBorder = "4px solid silver"
+  public weeklyEvBorder = "4px solid silver";
 
   constructor(
     public events: Events,
@@ -102,10 +107,10 @@ export class EventsPage {
       "Novembre",
       "Decembre"
     ];
+    this.getAllEvents();
   }
 
   ionViewWillEnter() {
-    this.getAllEvents();
     this.countActiveFilters();
     this.getCommunityImage();
   }
@@ -142,17 +147,21 @@ export class EventsPage {
 
   getAllEvents() {
     this.eventProvider
-      .getFilteredAllEventsByCommunityId(this.tabParams)
+      .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
       .subscribe(response => {
         if (!response) this.allEvents = [];
         else {
           this.allEvents = response.Events;
           this.allEvents_tmp = response.Events;
+          this.perPage = response.per_page;
+          this.totalData = response.total;
+          this.totalPage = response.total_pages;
         }
       });
   }
 
   doRefresh(refresher) {
+    this.page = 0;
     this.getAllEvents();
     setTimeout(() => {
       refresher.complete();
@@ -162,6 +171,29 @@ export class EventsPage {
   formatTime(month, day) {
     let time = { subtitle: this.months[month], title: day };
     return time;
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page = this.page + 1;
+
+    setTimeout(() => {
+      this.eventProvider
+        .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
+        .subscribe(response => {
+          if (!response) this.allEvents = [];
+          else {
+            console.log("response.Events : ", response.Events.length, )
+            this.allEvents = this.allEvents.concat(response.Events);
+            console.log("this.allEvents : ", this.allEvents.length);
+            this.allEvents_tmp = this.allEvents_tmp.concat(response.Events);
+            this.perPage = response.per_page;
+            this.totalData = response.total;
+            this.totalPage = response.total_pages;
+          }
+        });
+      console.log("Async operation has ended");
+      infiniteScroll.complete();
+    }, 1000);
   }
 
   countElements(elem) {
@@ -229,7 +261,6 @@ export class EventsPage {
     }
   }
 
-
   showAllCommunities() {
     const modal = this.modalCtrl.create(
       "CommunityEventListPage",
@@ -238,21 +269,20 @@ export class EventsPage {
     );
     modal.onDidDismiss(comId => {
       console.log("This data : ", comId);
-      
+
       if (comId != "all" && comId != null) {
         this.communityProvider
-      .updateSelectedCommunity(comId, this.tabParams)
-      .subscribe(data => {
-        if (data === 1) {
-          this.tabParams.activeCommunity = comId;
-          console.log("comId : ", comId)
-          this.events.publish("user:info", this.tabParams);
-          let menuData = ["Acceuil", this.tabParams];
-          this.navCtrl.push("TabsPage", menuData); 
-        }
-      });
-        } else if (comId === "all") {
-        
+          .updateSelectedCommunity(comId, this.tabParams)
+          .subscribe(data => {
+            if (data === 1) {
+              this.tabParams.activeCommunity = comId;
+              console.log("comId : ", comId);
+              this.events.publish("user:info", this.tabParams);
+              let menuData = ["Acceuil", this.tabParams];
+              this.navCtrl.push("TabsPage", menuData);
+            }
+          });
+      } else if (comId === "all") {
       }
     });
     modal.present();
@@ -269,5 +299,4 @@ export class EventsPage {
     this.allEvBorder = "4px solid silver";
     this.weeklyEvBorder = "";
   }
-
 }

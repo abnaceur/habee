@@ -46,11 +46,12 @@ let userSchema = mongoose.Schema({
 		},
 	},
 	communities: [],
-	profile: [{
+	profile: {
 		profileCummunityId: String,
 		profilePhoto: String,
 		profileCoverPhoto: String,
-		profileUsername: String,
+		profileLastname: String,
+		profileFirstname: String,
 		profileIsAdmin: Number,
 		profileDateOfCreation: {
 			type: Date,
@@ -68,9 +69,8 @@ let userSchema = mongoose.Schema({
 			type: Boolean,
 			default: false,
 		}
-	}, ],
-	filterEvent: [{
-		filterCommunity: String,
+	},
+	filterEvent: {
 		PublicValue: {
 			type: Boolean,
 			default: false,
@@ -135,7 +135,7 @@ let userSchema = mongoose.Schema({
 			type: Boolean,
 			default: false,
 		},
-	}],
+	},
 	passions: [],
 	skills: [],
 	eventsParticipated: [],

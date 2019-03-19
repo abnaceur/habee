@@ -122,6 +122,7 @@ invitationService = (email, userId, lastename, firstname) => {
             invitedEmail: email
         }).exec()
         .then(invitations => {
+            console.log("invitations account creation : ", invitations)
             invitations.map(invit => {
                 invit.invitedId = userId;
                 invit.invitedFullname = lastename + " " + firstname;

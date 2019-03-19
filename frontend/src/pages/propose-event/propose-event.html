@@ -155,10 +155,20 @@
         <ion-textarea placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
       </ion-item>
 
+      <ion-item (click)="openCommunityList()">
+        <ion-label>
+          Paratger avec vos communauté &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon name=""></ion-icon>
+          </ion-fab>
+        </ion-label>
+      </ion-item>
+
       <ion-item>
         <ion-label  style="position: relative; left:-14%">Publique</ion-label>
         <ion-toggle formControlName="eventIsPublic" color="success"></ion-toggle>
       </ion-item>
+
 
       <ion-row>
         <ion-col col-12 text-center>

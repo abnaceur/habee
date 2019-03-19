@@ -238,7 +238,7 @@ createNewAccount = (value, res) => {
                         .invitationService(user.credentials.email, user.userId, user.credentials.lastname, user.credentials.firstname)
                     res.status(200).json({
                         code: 200,
-                        msg: "Accountcreated with success"
+                        msg: "Account created with success"
                     })
                 })
                 .catch(err => {

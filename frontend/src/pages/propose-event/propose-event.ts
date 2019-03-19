@@ -7,6 +7,7 @@ import {
   IonicPage,
   NavController,
   NavParams,
+  ModalController,
   ViewController
 } from "ionic-angular";
 
@@ -45,6 +46,7 @@ export class ProposeEventPage {
   proposeEventForm: FormGroup;
   public currentDate = "2018";
   myDate: String = new Date().toISOString();
+  private listCommunity = [];
 
   placeholder = "../../assets/img/avatar/girl-avatar.png";
   chosenPicture: any;
@@ -53,6 +55,7 @@ export class ProposeEventPage {
 
   constructor(
     private socket: Socket,
+    public modalCtrl: ModalController,
     private proposeEventProvider: ProposeEventProvider,
     private utils: UtilsProvider,
     public eventProvider: EventProvider,
@@ -157,30 +160,43 @@ export class ProposeEventPage {
   }
 
   onSubmit(value) {
-    if (this.chosenPicture) {
-      this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
+    if (this.listCommunity.length > 0 && this.listCommunity != null) {
+      if (this.chosenPicture) {
+        this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
+          this.eventProvider
+            .addEventByCommunity(value, this.tabParams, data)
+            .subscribe(response => {
+              if (response.results == true) {
+                this.utils.notification("Event cree avec succes !", "top");
+                this.proposeEventProvider.emitnewCreatedEvent(response.Event);
+              } else this.utils.notification("Une erreur est apparus !", "top");
+            });
+        });
+      } else {
         this.eventProvider
-          .addEventByCommunity(value, this.tabParams, data)
+          .addEventByCommunity(value, this.tabParams, this.chosenPicture)
           .subscribe(response => {
             if (response.results == true) {
               this.utils.notification("Event cree avec succes !", "top");
               this.proposeEventProvider.emitnewCreatedEvent(response.Event);
             } else this.utils.notification("Une erreur est apparus !", "top");
           });
-      });
-    } else {
-      this.eventProvider
-        .addEventByCommunity(value, this.tabParams, this.chosenPicture)
-        .subscribe(response => {
-          if (response.results == true) {
-            this.utils.notification("Event cree avec succes !", "top");
-            this.proposeEventProvider.emitnewCreatedEvent(response.Event);
-          } else this.utils.notification("Une erreur est apparus !", "top");
-        });
-    }
+      }
+    } else
+      this.utils.notification("Vous devez selectionne une communaute", "top");
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
   }
+
+  openCommunityList() {
+    const modal = this.modalCtrl.create("CommunityEventListPage", this.tabParams, { cssClass: "comEvent-modal" });
+		modal.onDidDismiss(data => {
+      console.log("Daa ===> :", data)
+      this.listCommunity = data;
+    });
+		modal.present();
+  }
+
 }

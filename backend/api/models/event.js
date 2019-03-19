@@ -14,7 +14,7 @@ let eventSchema = mongoose.Schema({
 	},
 	eventCategory: String,
 	eventPhoto: String,
-	eventCommunity: String,
+	eventCommunity: [],
 	eventName: String,
 	eventCreator: String,
 	eventDescription: String,
