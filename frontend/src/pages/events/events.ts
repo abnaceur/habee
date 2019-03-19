@@ -1,6 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 
 import {
+  Slides,
   IonicPage,
   NavController,
   ModalController,
@@ -41,6 +42,7 @@ import { UtilsProvider } from "../../providers/utils/utils";
   templateUrl: "events.html"
 })
 export class EventsPage {
+  @ViewChild('slider') slider: Slides;
   items = {
     icon: "pin"
   };
@@ -53,12 +55,15 @@ export class EventsPage {
   public queryText;
   public allEvents_tmp;
   public searchBar = "none";
-  public topList = "0vw";
+  public topList = "5vw";
   public activeAllFilters;
   communityInfo = {
     communityLogo: String,
     communityName: String
   };
+
+  public allEvBorder = "";
+  public weeklyEvBorder = "4px solid silver"
 
   constructor(
     public events: Events,
@@ -195,11 +200,11 @@ export class EventsPage {
 
   showsearchbar() {
     if (this.searchBar === "none") {
-      this.topList = "12vw";
+      this.topList = "15vw";
       this.searchBar = "initial";
     } else if (this.searchBar === "initial") {
       this.searchBar = "none";
-      this.topList = "0vw";
+      this.topList = "5vw";
     }
   }
 
@@ -252,4 +257,17 @@ export class EventsPage {
     });
     modal.present();
   }
+
+  selectWeeklyEvent() {
+    this.slider.slideTo(0);
+    this.allEvBorder = "";
+    this.weeklyEvBorder = "4px solid silver";
+  }
+
+  selectAllEvent() {
+    this.slider.slideTo(1);
+    this.allEvBorder = "4px solid silver";
+    this.weeklyEvBorder = "";
+  }
+
 }
