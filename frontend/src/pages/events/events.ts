@@ -12,6 +12,8 @@ import {
   Item
 } from "ionic-angular";
 
+import moment from "moment";
+
 import { EventFilterProvider } from "../../providers/event-filter/event-filter";
 
 import { Http } from "@angular/http";
@@ -51,6 +53,9 @@ export class EventsPage {
   perPage = 0;
   totalData = 0;
   totalPage = 0;
+
+  public dateFormat;
+  public listMonths: any[];
 
   private tabParams;
   public allEvents = [];
@@ -93,6 +98,10 @@ export class EventsPage {
       notificationStatus: this.navParams.get("notificationStatus")
     };
 
+    moment.locale("fr");
+    this.dateFormat = moment;
+
+    console.log("test dat : ", this.dateFormat);
     this.months = [
       "Janvier",
       "Fevrier",
@@ -145,12 +154,36 @@ export class EventsPage {
       });
   }
 
+  getMonthsDelimkiter(events) {
+    let tmp = [];
+    let i = 1;
+
+    while (i < events.length) {
+      if (
+        events[i - 1].eventStartDate.toString().substring(5, 7) ==
+        events[i].eventStartDate.toString().substring(5, 7)
+      ) {
+        tmp[i - 1] = false;
+      } else if (
+        events[i - 1].eventStartDate.toString().substring(5, 7) !=
+        events[i].eventStartDate.toString().substring(5, 7)
+      ) {
+        i++;
+        tmp[i - 1] = events[i].eventStartDate;
+      }
+      i++;
+    }
+
+    this.listMonths = tmp;
+  }
+
   getAllEvents() {
     this.eventProvider
       .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
       .subscribe(response => {
         if (!response) this.allEvents = [];
         else {
+          this.getMonthsDelimkiter(response.Events);
           this.allEvents = response.Events;
           this.allEvents_tmp = response.Events;
           this.perPage = response.per_page;
@@ -182,7 +215,7 @@ export class EventsPage {
         .subscribe(response => {
           if (!response) this.allEvents = [];
           else {
-            console.log("response.Events : ", response.Events.length, )
+            console.log("response.Events : ", response.Events.length);
             this.allEvents = this.allEvents.concat(response.Events);
             console.log("this.allEvents : ", this.allEvents.length);
             this.allEvents_tmp = this.allEvents_tmp.concat(response.Events);

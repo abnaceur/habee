@@ -19,7 +19,7 @@ import {
 
 import { Socket } from "ng-socket-io";
 
-import moment from "moment";
+  import moment from "moment";
 
 import { environment as ENV } from "../../environments/environment";
 

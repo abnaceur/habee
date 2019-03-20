@@ -4,8 +4,8 @@ background-color: #5cbcc1;">
   <ion-icon class="menuStyle" menuToggle name="menu">
   </ion-icon>
 
-    <span class="commName">Habee'Recherche
-    </span>
+  <span class="commName">Habee'Recherche
+  </span>
 
 
 
@@ -46,32 +46,47 @@ background-color: #5cbcc1;">
   <!-- END OF THE TEMPLATE-->
 
 
-  <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
+  <!-- <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
     <ion-col (click)="selectWeeklyEvent()" [ngStyle]="{'border-bottom': weeklyEvBorder}" col-6>
       Cette semaine
     </ion-col>
     <ion-col (click)="selectAllEvent()" [ngStyle]="{'border-bottom': allEvBorder}" col-6>
       Tout
     </ion-col>
-  </div>
+  </div> -->
 
-  <ion-slides #slider pager="false" autoplay="false">
+  <!-- <ion-slides #slider pager="false" autoplay="false">
 
-    <ion-slide>
-      <ion-item-sliding *ngFor="let event of allEvents">
+    <ion-slide> -->
+      <ion-list *ngFor="let event of allEvents, let idx = index">
+
+        <ion-item *ngIf="idx == 0">
+          <ion-label>{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
+              + dateFormat(event.eventStartDate).format('MMM').toString().substring(1,
+              dateFormat(event.eventStartDate).format('MMM').toString().length)
+              }} </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="idx >= 1 && listMonths[idx]">
+          <ion-label>{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()
+                    + dateFormat(listMonths[idx]).format('MMM').toString().substring(1,
+                    dateFormat(listMonths[idx]).format('MMM').toString().length)
+                    }} </ion-label>
+        </ion-item>
+
         <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
           <ion-thumbnail item-start>
             <img [src]='url + "/" + event.eventPhoto'>
           </ion-thumbnail>
           <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
           <p>{{event.eventLocation}} •
-            {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5,
-            7)}}.{{event.eventEndDate.substring(0, 4)}} {{event.eventEndHour}}
+            {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+            7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
           </p>
           <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
         </ion-item>
-      </ion-item-sliding>
-
+      </ion-list>
+<!-- 
     </ion-slide>
 
     <ion-slide>
@@ -93,10 +108,11 @@ background-color: #5cbcc1;">
     </ion-slide>
 
 
-  </ion-slides>
+  </ion-slides> -->
 
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
