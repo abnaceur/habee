@@ -148,15 +148,13 @@ getProfilePosition = (profiles, communtyId) => {
 
 exports.initBodyReq = (check, req, user, event, communityId) => {
 
-    let pos = getProfilePosition(user[0].profile, communityId)
-
     if (check != 1) {
         req.body.participants = event[0].participants;
         req.body.nbrSubscribedParticipants = event[0].participants.length;
         req.body.participants.push({
             "participantId": user[0].userId,
-            "participantname": user[0].profile[pos].profileUsername,
-            "participantPhoto": user[0].profile[pos].profilePhoto,
+            "participantname": user[0].profile.profileUsername,
+            "participantPhoto": user[0].profile.profilePhoto,
         })
     } else {
         req.body.nbrSubscribedParticipants = event[0].participants.length;

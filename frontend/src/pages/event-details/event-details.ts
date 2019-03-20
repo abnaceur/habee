@@ -117,6 +117,8 @@ export class EventDetailsPage {
       notificationStatus: this.navParams.get("notificationStatus")
     };
 
+
+    console.log("tabParams 11111 =:" , this.tabParams)
     this.socket.emit("join", this.tabParams.activeCommunity + this.eventDetails.eventId);
     setTimeout(() => {
       this.socket.emit("getmessage", this.tabParams.activeCommunity + this.eventDetails.eventId);

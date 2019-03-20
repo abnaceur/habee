@@ -56,10 +56,10 @@ userResponse = (res, usrs, event, i) => {
                     nbrCommunities: usr.communities.length,
                     eventCreated: event.length,
                     userId: usr.userId,
-                    profile: usr.profile[i],
+                    profile: usr.profile,
                     nbrEventsParticipated: usr.eventsParticipated.length,
-                    profileIsActive: usr.profile[i].profileUserIsActive,
-                    profileRole: usr.profile[i].profileIsAdmin,
+                    profileIsActive: usr.profile.profileUserIsActive,
+                    profileRole: usr.profile.profileIsAdmin,
                 }
             }
         })

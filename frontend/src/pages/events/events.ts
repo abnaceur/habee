@@ -136,6 +136,7 @@ export class EventsPage {
   }
 
   goToEventDetail(eventDetails) {
+    console.log("UserId : ", this.tabParams)
     this.nav.push("EventDetailsPage", {
       data: eventDetails,
       userId: this.tabParams.userId,

@@ -113,7 +113,7 @@ router.get('/:id', authCkeck, userController.get_user_by_id);
  ** API [GET] for route /users/id/communityId   [USED]
  */
 
-router.get('/:id/:communityId', authCkeck, userController.get_userId_communityId);
+router.get('/:id/:communityId', userController.get_userId_communityId);
 
 
 /*
