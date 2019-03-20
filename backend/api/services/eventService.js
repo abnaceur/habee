@@ -353,7 +353,7 @@ filterEvent = (req, res, userId, communityId, page) => {
                     Event.find({
                             eventCreator: userId,
                             eventCommunity: {
-                                "$in": [test]
+                                "$in": test
                             },
                             eventIsOver: false,
                             eventIsDeleted: false,

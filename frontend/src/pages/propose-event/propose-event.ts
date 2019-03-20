@@ -28,7 +28,7 @@ import { UtilsProvider } from "../../providers/utils/utils";
 
 import { ProposeEventProvider } from "../../providers/propose-event/propose-event";
 
-import { Socket } from 'ng-socket-io';
+import { Socket } from "ng-socket-io";
 
 /**
  * Generated class for the ProposeEventPage page.
@@ -91,7 +91,7 @@ export class ProposeEventPage {
 
   ionViewWillLeave() {
     this.socket.disconnect(true);
-    console.log("Diconnected")
+    console.log("Diconnected");
   }
 
   changePicture() {
@@ -164,7 +164,12 @@ export class ProposeEventPage {
       if (this.chosenPicture) {
         this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
           this.eventProvider
-            .addEventByCommunity(value, this.tabParams, data)
+            .addEventByCommunity(
+              value,
+              this.tabParams,
+              data,
+              this.listCommunity
+            )
             .subscribe(response => {
               if (response.results == true) {
                 this.utils.notification("Event cree avec succes !", "top");
@@ -174,7 +179,7 @@ export class ProposeEventPage {
         });
       } else {
         this.eventProvider
-          .addEventByCommunity(value, this.tabParams, this.chosenPicture)
+          .addEventByCommunity(value, this.tabParams, this.chosenPicture, this.listCommunity)
           .subscribe(response => {
             if (response.results == true) {
               this.utils.notification("Event cree avec succes !", "top");
@@ -191,12 +196,16 @@ export class ProposeEventPage {
   }
 
   openCommunityList() {
-    const modal = this.modalCtrl.create("CommunityEventListPage", this.tabParams, { cssClass: "comEvent-modal" });
-		modal.onDidDismiss(data => {
-      console.log("Daa ===> :", data)
-      this.listCommunity = data;
+    const modal = this.modalCtrl.create(
+      "CommunityEventListPage",
+      this.tabParams,
+      { cssClass: "comEvent-modal" }
+    );
+    modal.onDidDismiss(data => {
+      console.log("Daa ===> :", data);
+      if (data.length == 0) this.listCommunity.push(this.tabParams.activeCommunity);
+      else if (data.length > 0) this.listCommunity = data;
     });
-		modal.present();
+    modal.present();
   }
-
 }

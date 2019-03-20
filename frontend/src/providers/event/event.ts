@@ -134,13 +134,13 @@ export class EventProvider {
     })
   }
 
-  addEventByCommunity(event, userInfo, uploadedImage) {
+  addEventByCommunity(event, userInfo, uploadedImage, listCommunity) {
   const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/events',
       {
         "eventId": event.eventTitle + "_" + Math.floor(Math.random() * 100000) + "_" + userInfo.userId,
-        "eventCommunity": userInfo.activeCommunity,
+        "eventCommunity": listCommunity,
         "eventCreator": userInfo.userId,
         "eventName": event.eventTitle,
         "eventStartDate": event.eventStartDate,
