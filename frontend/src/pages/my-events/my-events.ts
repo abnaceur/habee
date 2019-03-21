@@ -1,6 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 
 import {
+  Slides,
   IonicPage,
   NavController,
   NavParams,
@@ -27,29 +28,13 @@ import { environment as ENV } from "../../environments/environment";
   templateUrl: "my-events.html"
 })
 export class MyEventsPage {
+  @ViewChild("slider") slider: Slides;
   public tabParams;
-
-  // Not used var TODO CHECK AND DELETE
-  items1 = [
-    {
-      imageUrl: "assets/img/lists/stadium.jpg",
-      title: "First Cup",
-      place: "Madison Square",
-      date: "05/06/2016"
-    },
-    {
-      imageUrl: "assets/img/lists/stadium-3.png",
-      title: "Season",
-      place: "Hooli",
-      date: "15/03/2016"
-    },
-    {
-      imageUrl: "assets/img/lists/stadium-2.jpg",
-      title: "2nd Season",
-      place: "Castelão",
-      date: "05/12/2015"
-    }
-  ];
+  public participEvBorder = "4px solid silver";
+  public participEvBorderDisplay = "initial"
+  public orgnizeEvBorder = "";
+  public orgnizeEvBorderDisplay = "none"
+ 
   eventParticipated = [
     {
       name: "Événement participé"
@@ -203,5 +188,20 @@ export class MyEventsPage {
 
     if (event === "this") this.expandPopModal("ProposeEventPage", navInfo);
     else this.expandPopModal("PopupEditModalPage", navInfo);
+  }
+
+
+  selectParticipEvent() {
+    this.participEvBorderDisplay = "initial"
+    this.orgnizeEvBorderDisplay = "none"
+    this.orgnizeEvBorder = "";
+    this.participEvBorder = "4px solid silver";
+  }
+
+  selectOrgnizeEvent() {
+    this.participEvBorderDisplay = "none"
+    this.orgnizeEvBorderDisplay = "initial"
+    this.participEvBorder = "";
+    this.orgnizeEvBorder = "4px solid silver";
   }
 }
