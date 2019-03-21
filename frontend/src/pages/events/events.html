@@ -86,12 +86,6 @@ background-color: #5cbcc1;">
       </ion-item>
     </span>
 
-    <ion-item *ngIf="idx >= 1 && listMonths[idx]">
-      <ion-label>{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()
-                    + dateFormat(listMonths[idx]).format('MMM').toString().substring(1,
-                    dateFormat(listMonths[idx]).format('MMM').toString().length)
-                    }} </ion-label>
-    </ion-item>
 
     <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
       <ion-thumbnail item-start>

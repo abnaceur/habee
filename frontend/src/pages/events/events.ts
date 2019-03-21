@@ -238,35 +238,12 @@ export class EventsPage {
     }, 1000);
   }
 
-  countElements(elem) {
-    let i = 0;
-    while (elem[i]) i++;
-    return i;
-  }
-
   presentFilter() {
     const modal = this.modalCtrl.create("EventFilterPage", this.tabParams);
     modal.onDidDismiss(filterData => {
       this.countActiveFilters();
       this.eventProvider.checkFilterOptions(filterData).then(activeFilters => {
-        let countElem = this.countElements(activeFilters);
-        if (countElem == 0) {
-          this.getAllEvents();
-        } else {
-          this.eventProvider
-            .getEventsByCommunityId(this.tabParams)
-            .subscribe(response => {
-              if (!response) this.allEvents = [];
-              else {
-                this.allEvents = response.Events;
-                this.eventProvider
-                  .eventApplyFilter(activeFilters, this.allEvents, countElem)
-                  .then(filteredEevents => {
-                    this.allEvents = Object.create(filteredEevents);
-                  });
-              }
-            });
-        }
+        this.getAllEvents();
       });
     });
     modal.present();
