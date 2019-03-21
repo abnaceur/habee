@@ -72,8 +72,13 @@ export class EventsPage {
     communityName: String
   };
 
-  public allEvBorder = "";
-  public weeklyEvBorder = "4px solid silver";
+  public allEvBorderDisplay = "initial";
+  public weeklyEvBorderDisplay = "none";
+
+  public allEvBorder = "4px solid silver";
+  public weeklyEvBorder = "";
+
+  public weeklyEvents = [];
 
   constructor(
     public events: Events,
@@ -136,7 +141,7 @@ export class EventsPage {
   }
 
   goToEventDetail(eventDetails) {
-    console.log("UserId : ", this.tabParams)
+    console.log("UserId : ", this.tabParams);
     this.nav.push("EventDetailsPage", {
       data: eventDetails,
       userId: this.tabParams.userId,
@@ -323,13 +328,34 @@ export class EventsPage {
   }
 
   selectWeeklyEvent() {
-    this.slider.slideTo(0);
+    this.getThisWeekEvent();
+    this.allEvBorderDisplay = "none";
+    this.weeklyEvBorderDisplay = "initial";
     this.allEvBorder = "";
     this.weeklyEvBorder = "4px solid silver";
   }
 
+  getThisWeekEvent() {
+  //TODO GET WEEKLY EVENT FROM SERVER
+
+    let i = 0;
+    this.weeklyEvents = [];
+    let datNow = moment().format("YYYY-MM-DD");
+    let weekdays = moment().add(1, 'week').format("YYYY-MM-DD")
+
+    while (i < this.allEvents.length) {
+      console.log("Fomaat : ", this.allEvents[i].eventStartDate.substring(0, 10))
+      if (datNow <= this.allEvents[i].eventStartDate.substring(0, 10) && 
+      this.allEvents[i].eventStartDate.substring(0, 10) <= weekdays) {
+        this.weeklyEvents.push(this.allEvents[i]);
+      }
+      i++;
+    }
+  }
+
   selectAllEvent() {
-    this.slider.slideTo(1);
+    this.allEvBorderDisplay = "initial";
+    this.weeklyEvBorderDisplay = "none";
     this.allEvBorder = "4px solid silver";
     this.weeklyEvBorder = "";
   }
