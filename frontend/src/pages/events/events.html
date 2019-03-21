@@ -58,14 +58,33 @@ background-color: #5cbcc1;">
   <!-- <ion-slides #slider pager="false" autoplay="false">
 
     <ion-slide>  -->
+
+
+  <ion-list [ngStyle]="{'margin-top': topList, 'display': allEvBorderDisplay}">
+    <ion-item *ngIf="allEvents.length == 0" text-wrap>
+      Vous avez aucun evenement dans vos communaute.
+    </ion-item>
+  </ion-list>
+
   <ion-list *ngFor="let event of allEvents, let idx = index" [ngStyle]="{'display': allEvBorderDisplay}">
 
-    <ion-item *ngIf="idx == 0">
-      <ion-label>{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
-              + dateFormat(event.eventStartDate).format('MMM').toString().substring(1,
-              dateFormat(event.eventStartDate).format('MMM').toString().length)
-              }} </ion-label>
-    </ion-item>
+    <span *ngIf="listMonths.length > 0">
+      <ion-item *ngIf="idx == 0">
+        <ion-label>{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
+                      + dateFormat(event.eventStartDate).format('MMM').toString().substring(1,
+                      dateFormat(event.eventStartDate).format('MMM').toString().length)
+                      }} </ion-label>
+      </ion-item>
+    </span>
+
+    <span *ngIf="listMonths.length > 0">
+      <ion-item *ngIf="idx >= 1 && listMonths[idx]">
+        <ion-label>{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()
+                          + dateFormat(listMonths[idx]).format('MMM').toString().substring(1,
+                          dateFormat(listMonths[idx]).format('MMM').toString().length)
+                          }} </ion-label>
+      </ion-item>
+    </span>
 
     <ion-item *ngIf="idx >= 1 && listMonths[idx]">
       <ion-label>{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()

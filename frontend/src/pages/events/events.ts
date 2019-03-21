@@ -187,7 +187,10 @@ export class EventsPage {
     this.eventProvider
       .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
       .subscribe(response => {
-        if (!response) this.allEvents = [];
+        if (response.Events.length == 0)  {
+          this.allEvents = [];
+          console.log("CCCCCCCCCCCCCCC")
+        }
         else {
           this.getMonthsDelimkiter(response.Events);
           this.allEvents = response.Events;

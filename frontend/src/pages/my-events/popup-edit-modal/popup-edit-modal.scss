@@ -291,3 +291,44 @@ page-popup-edit-modal {
 
 
 
+ .comEvent-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  padding: 50px !important;
+}
+
+// .md .modal-wrapper {
+//   height: 74%;
+// }
+
+  .toolbar-background {
+  color: red !important;
+}
+
+.comEvent-modal .modal-wrapper {
+  z-index: 10;
+  height: 89%;
+  contain: strict;
+}
+.comEvent-modal ion-modal.modal-wrapper {
+  transform: translateY(30%) !important;
+}
+.comEvent-modal ion-page.modal {
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.comEvent-modal .modal-backdrop-bg {
+  background-color: #000;
+  opacity: 0;
+}
+.comEvent-modal .active .modal-backdrop-bg {
+  opacity: 0.5;
+}
+
+.comEvent-modal ion-modal.inset-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  transition: opacity .25s ease-in-out;
+  padding: 20vh 10vw;
+}
+

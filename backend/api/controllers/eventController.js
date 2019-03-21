@@ -251,6 +251,7 @@ exports.deleteEventByCommunityId = (req, res, next) => {
     let eventId = req.params.eventId;
     let communityId = req.params.communityId;
 
+    console.log("Req body edit here :", req.body)
     deletEvent.deleteThisEvent(eventId, communityId, req, res)
 }
 

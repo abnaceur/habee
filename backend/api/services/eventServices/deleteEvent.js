@@ -9,17 +9,17 @@ notifyParticipants = (event) => {
 
     return new Promise((resolve, reject) => {
         participants.map(participant => {
-          //  let msg = deleteEventEmail.deleteEvent(participant, event)
+            //  let msg = deleteEventEmail.deleteEvent(participant, event)
             let userId = participant.participantId;
             User.find({
                     userId: userId
                 }).select("credentials.email")
                 .exec()
                 .then(userEmail => {
-                    let data = event.eventStartDate.substring(8,10) + "." + event.eventStartDate.substring(5,7) + "." + event.eventStartDate.substring(0, 4) + " à " + event.eventStartHour;
+                    let data = event.eventStartDate.substring(8, 10) + "." + event.eventStartDate.substring(5, 7) + "." + event.eventStartDate.substring(0, 4) + " à " + event.eventStartHour;
                     deleteEventEmail.delEventEmail(userEmail[0].credentials.email, "Événement annulé",
-                    participant.participantname, data, event.eventName)
-                   // utils.sendEmail("Habee TEAM", userEmail[0].credentials.email, "événement annule", msg);
+                        participant.participantname, data, event.eventName)
+                    // utils.sendEmail("Habee TEAM", userEmail[0].credentials.email, "événement annule", msg);
                     resolve(200)
                 })
         })
@@ -29,25 +29,48 @@ notifyParticipants = (event) => {
 deleteThisEvent = (eventId, communityId, req, res) => {
     Event.find({
             eventId: eventId,
-            eventCommunity: communityId
+            eventCreator: req.body.eventCreator,
+            eventIsDeleted: false
         }).exec()
         .then(event => {
-            Event.findByIdAndUpdate(event[0]['_id'],
-                req.body, {
-                    new: false,
-                },
-                function (err, results) {
-                    if (err) return res.status(500).json(err);
-                    if (req.body.check == 1) {
-                        if (req.body.participants.length     > 0)
+            if (req.body.check == 1) {
+                event[0].eventIsDeleted = true;
+                Event.findByIdAndUpdate(event[0]['_id'],
+                    event[0], {
+                        new: false,
+                    },
+                    function (err, results) {
+                        if (err) return res.status(500).json(err);
+                        console.log("DELETED")
+                        if (req.body.participants.length > 0)
                             notifyParticipants(req.body)
                             .then(data => {
                                 res.status(200).json({
                                     message: "success"
                                 })
                             })
-                    }
-                });
+                        else {
+                            res.status(200).json({
+                                message: "success"
+                            })
+                        }
+
+                    });
+            } else if (req.body.check == 0) {
+                console.log("req.body edit : ", req.body)
+                Event.findByIdAndUpdate(req.body._id,
+                    req.body, {
+                        new: false,
+                    },
+                    function (err, results) {
+                        if (err) return res.status(500).json(err);
+                        console.log("EDITED", results)
+                        res.status(200).json({
+                            message: "success"
+                        })
+
+                    });
+            }
         })
         .catch(err => {
             utils.defaultError(res, err)

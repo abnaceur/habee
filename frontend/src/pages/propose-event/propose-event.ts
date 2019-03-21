@@ -188,7 +188,7 @@ export class ProposeEventPage {
           });
       }
     } else
-      this.utils.notification("Vous devez selectionne une communaute", "top");
+        this.utils.notification("Vous devez selectionne une communaute", "top");
   }
 
   dismiss() {
@@ -207,5 +207,6 @@ export class ProposeEventPage {
       else if (data.length > 0) this.listCommunity = data;
     });
     modal.present();
+  
   }
 }

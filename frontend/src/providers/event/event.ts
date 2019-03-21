@@ -35,6 +35,7 @@ import {
   NavParams,
   LoadingController
 } from "ionic-angular";
+import { v } from '@angular/core/src/render3';
 
 /*
   Generated class for the EventProvider provider.
@@ -166,26 +167,35 @@ export class EventProvider {
       .map(response => response.json());
   }
 
-  editEvent(event, uploadedImage, userInfo) {
+  editEvent(event, uploadedImage, userInfo, tabparas) {
 
-    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+    console.log("Event :", event)
+    console.log("userInfo :", userInfo)
+    const header = this.utils.inihttpHeaderWIthToken(tabparas.token);
 
-    return this.http.put(ENV.BASE_URL + "/events/edit/" + event.eventId + '/community/' + userInfo.activeCommunity,
+    return this.http.put(ENV.BASE_URL + "/events/edit/" + event.eventId + '/community/' + tabparas.activeCommunity,
       {
         "check": 0,
-        "eventId": event.eventId,
-        "eventCommunity": userInfo.activeCommunity,
-        "eventCreator": userInfo.userId,
-        "eventName": event.eventName,
-        "eventStartDate": event.eventStartDate,
+        "dateOfCreation": userInfo.dateOfCreation,
+        "dateOfLastUpdate": new Date,
+        "eventCategory": event.eventCategory,
+        "eventCommunity": event.eventCommunity,
+        "eventCreator": userInfo.eventCreator,
+        "eventDescription": event.eventDescription, 
         "eventEndDate": event.eventEndDate,
-        "eventStartHour": event.eventStartHour,
         "eventEndHour": event.eventEndHour,
-        "eventDescription": event.eventDescription,
+        "eventId": userInfo.eventId,
+        "eventIsDeleted": false,
+        "eventIsOver": false,
+        "eventIsPublic": false,
         "eventLocation": event.eventLocation,
-        "participants": event.participants,
-        "nbrParticipants": event.eventNbrParticipants,
+        "eventName": event.eventTitle,
         "eventPhoto": uploadedImage,
+        "eventStartDate": event.eventStartDate,
+        "eventStartHour": event.eventStartHour,
+        "nbrParticipants": event.nbrParticipants,
+        "participants": userInfo.participants,
+        "_id": userInfo._id
       },
       { headers: header })
       .map(response => response.json());

@@ -262,12 +262,12 @@ filterWithPublicTrue = (res, activeEvent, filter, userId, pageTmp) => {
 
 returnNoevent = (res) => {
     return res.status(200).json({
-        message: "There are no events!"
+        message: "There are no events!",
+        Events: []
     })
 }
 
 updateCommunityEvents = (communityId, res, filter, activeEvent, userId, pageTmp) => {
-    console.log("jjj ========================= ", activeEvent)
     if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
     else if (activeEvent.length === 0) returnNoevent(res);
     else {
@@ -323,7 +323,6 @@ AlluserCommunity = (userId) => {
                         memebers = memebers.concat(cc.communityId)
                     })
                     let uniqMembers = [...new Set(memebers)];
-                    console.log("Members : ", uniqMembers)
                     resolve(uniqMembers)
 
                 }).catch(err => console.log("Err", err))
@@ -340,7 +339,6 @@ filterEvent = (req, res, userId, communityId, page) => {
 
     AlluserCommunity(userId)
         .then(test => {
-            console.log("aaa ====", test)
             User.find({
                     userId: userId,
                 })

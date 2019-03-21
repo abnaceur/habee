@@ -14,84 +14,158 @@
   <ion-list>
     <form [formGroup]="editEventForm" (ngSubmit)="onSubmit(editEventForm.value)">
 
-      <ion-item>
-        <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-input style="color:silver" placeholder="Nom de l'événement" formControlName="eventTitle" type="text"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          <ion-icon name="calendar" item-left></ion-icon>
-        </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventStartDate" type="date"
-          placeholder="Date de debut" displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventStartDate"></ion-datetime>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          <ion-icon name="time" item-left></ion-icon>
-        </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventStartHour" type="time" placeholder="Heur de debut"
-          displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
-      </ion-item>
-
-
-      <ion-item>
-        <ion-label>
-          <ion-icon name="calendar" item-left></ion-icon>
-        </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventEndDate" type="date" placeholder="Date de fin"
-          displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventEndDate"></ion-datetime>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          <ion-icon name="time" item-left></ion-icon>
-        </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventEndHour" type="time" placeholder="Heur de fin"
-          displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
-      </ion-item>
-
-
-      <ion-item>
-        <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-input style="color:silver" placeholder="Location" formControlName="eventLocation" type="text"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-input style="color:silver" placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label style="color: gray">
-          Uploader une photo &nbsp; &nbsp;
-          <ion-fab>
-            <ion-icon style="color: gray" (click)="changePicture()" name="camera"></ion-icon>
-          </ion-fab>
-        </ion-label>
-
-      </ion-item>
-
-      <ion-item>
-        <img class="avatarPicture" [src]="url + '/' + chosenPicture || placeholder" onerror="this.src='assets/img/avatar/girl-avatar.png'" />
-      </ion-item>
-
-      <ion-item>
-        <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-textarea style="color:silver" placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
-      </ion-item>
-
-      <ion-row>
-        <ion-col col-12 text-center>
-          <div class="center">
-            <button ion-button type="submit" style="background-color: #E96FA1;">
-              Modifier
-            </button>
-          </div>
-        </ion-col>
-  
-      </ion-row>
+        <ion-item>
+            <!--   <ion-label floating>E-mail</ion-label> -->
+            <ion-input placeholder="Nom de l'événement" formControlName="eventTitle" type="text"></ion-input>
+          </ion-item>
+    
+          <ion-item *ngIf="editEventForm.controls.eventTitle.hasError('required') && editEventForm.controls.eventTitle.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+    
+          <ion-item>
+            <ion-label>
+              <ion-icon name="calendar" item-left></ion-icon>
+            </ion-label>
+            <ion-datetime style="position: relative;left: -43px;" name="eventStartDate" type="date" placeholder="Date de debut"
+              displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventStartDate"></ion-datetime>
+          </ion-item>
+    
+    
+          <ion-item *ngIf="editEventForm.controls.eventStartDate.hasError('required') && editEventForm.controls.eventStartDate.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+          <ion-item>
+            <ion-label>
+              <ion-icon name="time" item-left></ion-icon>
+            </ion-label>
+            <ion-datetime style="position: relative;left: -43px;" name="eventStartHour" type="time" placeholder="Heur de debut"
+              displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
+          </ion-item>
+    
+    
+          <ion-item *ngIf="editEventForm.controls.eventStartHour.hasError('required') && editEventForm.controls.eventStartHour.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+    
+          <ion-item>
+            <ion-label>
+              <ion-icon name="calendar" item-left></ion-icon>
+            </ion-label>
+            <ion-datetime style="position: relative;left: -43px;" name="eventEndDate" type="date" placeholder="Date de fin"
+              displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventEndDate"></ion-datetime>
+          </ion-item>
+    
+          <ion-item *ngIf="editEventForm.controls.eventEndDate.hasError('required') && editEventForm.controls.eventEndDate.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+    
+          <ion-item>
+            <ion-label>
+              <ion-icon name="time" item-left></ion-icon>
+            </ion-label>
+            <ion-datetime style="position: relative;left: -43px;" name="eventEndHour" type="time" placeholder="Heur de fin"
+              displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
+          </ion-item>
+    
+          <ion-item *ngIf="editEventForm.controls.eventEndHour.hasError('required') && editEventForm.controls.eventEndHour.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+    
+          <ion-item>
+            <ion-label>Categorie</ion-label>
+            <ion-select formControlName="eventCategory" multiple="false">
+              <ion-option>Sports</ion-option>
+              <ion-option>Arts</ion-option>
+              <ion-option>Culture</ion-option>
+              <ion-option>Media</ion-option>
+              <ion-option>Music</ion-option>
+              <ion-option>Social</ion-option>
+              <ion-option>International</ion-option>
+              <ion-option>Business</ion-option>
+              <ion-option>Communite</ion-option>
+              <ion-option>Sante</ion-option>
+              <ion-option>Science et technologie</ion-option>
+              <ion-option>Style de vie</ion-option>
+              <ion-option>Fete</ion-option>
+              <ion-option>Meeting</ion-option>
+              <ion-option>Workshop</ion-option>
+            </ion-select>
+          </ion-item>
+    
+          <ion-item *ngIf="editEventForm.controls.eventCategory.hasError('required') && editEventForm.controls.eventCategory.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+    
+          <ion-item>
+            <!--   <ion-label floating>E-mail</ion-label> -->
+            <ion-input placeholder="Location" formControlName="eventLocation" type="text"></ion-input>
+          </ion-item>
+    
+    
+          <ion-item *ngIf="editEventForm.controls.eventLocation.hasError('required') && editEventForm.controls.eventLocation.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+          <ion-item>
+            <!--   <ion-label floating>E-mail</ion-label> -->
+            <ion-input placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
+          </ion-item>
+    
+          <ion-item *ngIf="editEventForm.controls.eventNbrParticipants.hasError('required') && editEventForm.controls.eventNbrParticipants.touched">
+            <p>Ce champs est obligatoire!</p>
+          </ion-item>
+    
+          <ion-item>
+            <ion-label>
+              Uploader une photo &nbsp; &nbsp;
+              <ion-fab>
+                <ion-icon (click)="changePicture()" name="camera"></ion-icon>
+              </ion-fab>
+            </ion-label>
+    
+          </ion-item>
+    
+          <ion-item>
+            <img class="avatarPicture" [src]="chosenPicture || placeholder" onerror="this.src='assets/img/defaultsEvent.png'" />
+          </ion-item>
+    
+          <ion-item>
+            <!--   <ion-label floating>E-mail</ion-label> -->
+            <ion-textarea placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
+          </ion-item>
+    
+          <ion-item (click)="openCommunityList()">
+            <ion-label>
+              Paratger avec vos communauté &nbsp; &nbsp;
+              <ion-fab>
+                <ion-icon name=""></ion-icon>
+              </ion-fab>
+            </ion-label>
+          </ion-item>
+    
+          <ion-item>
+            <ion-label  style="position: relative; left:-14%">Publique</ion-label>
+            <ion-toggle formControlName="eventIsPublic" color="success"></ion-toggle>
+          </ion-item>
+    
+    
+          <ion-row>
+            <ion-col col-12 text-center>
+              <div class="center">
+                <button ion-button [disabled]="!editEventForm.valid" type="submit" style="background-color: #E96FA1;">
+                  Modifier
+                </button>
+              </div>
+            </ion-col>
+          </ion-row>
+    
     </form>
   </ion-list>
 </ion-grid>

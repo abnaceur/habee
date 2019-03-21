@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from "@angular/core";
 
 import {
   Platform,
@@ -8,35 +6,26 @@ import {
   LoadingController,
   ToastController,
   IonicPage,
+  ModalController,
   NavController,
   NavParams,
   ViewController
-} from 'ionic-angular';
+} from "ionic-angular";
 
+import { CameraProvider } from "../../../providers/camera/camera";
 
-import { 
-  CameraProvider 
-} from '../../../providers/camera/camera';
+import { EventProvider } from "../../../providers/event/event";
 
-import { 
-  EventProvider 
-} from '../../../providers/event/event';
-
-
-import {
-  environment as ENV
-} from '../../../environments/environment';
+import { environment as ENV } from "../../../environments/environment";
 
 import {
   FormBuilder,
   FormGroup,
   Validators,
   AbstractControl
-} from '@angular/forms';
+} from "@angular/forms";
 
-import {
-  UtilsProvider
-} from '../../../providers/utils/utils';
+import { UtilsProvider } from "../../../providers/utils/utils";
 
 /**
  * Generated class for the PopupEditModalPage page.
@@ -47,62 +36,65 @@ import {
 
 @IonicPage()
 @Component({
-  selector: 'page-popup-edit-modal',
-  templateUrl: 'popup-edit-modal.html',
+  selector: "page-popup-edit-modal",
+  templateUrl: "popup-edit-modal.html"
 })
 export class PopupEditModalPage {
   editEventForm: FormGroup;
   public eventDetails;
   public tabParams;
   public chosenPicture;
+  private listCommunity = [];
   public url = ENV.BASE_URL;
 
   constructor(
     public utils: UtilsProvider,
+    public modalCtrl: ModalController,
     public eventProvider: EventProvider,
     public actionsheetCtrl: ActionSheetController,
     public cameraProvider: CameraProvider,
     public platform: Platform,
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
-    private toastController: ToastController, 
+    private toastController: ToastController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     private _FB: FormBuilder,
     public viewCtrl: ViewController
-
   ) {
     this.editEventForm = formBuilder.group({
-      eventTitle: ['', Validators.compose([Validators.required])],
-      eventLocation: ['', Validators.compose([Validators.required])],
-      eventNbrParticipants: ['', Validators.compose([Validators.required])],
-      eventDescription: ['', Validators.compose([Validators.required])],
-      eventStartDate: ['', Validators.compose([Validators.required])],
-      eventEndDate: ['', Validators.compose([Validators.required])],
-      eventStartHour: ['', Validators.compose([Validators.required])],
-      eventEndHour: ['', Validators.compose([Validators.required])],
+      eventTitle: ["", Validators.compose([Validators.required])],
+      eventLocation: ["", Validators.compose([Validators.required])],
+      eventNbrParticipants: ["", Validators.compose([Validators.required])],
+      eventDescription: ["", Validators.compose([Validators.required])],
+      eventStartDate: ["", Validators.compose([Validators.required])],
+      eventEndDate: ["", Validators.compose([Validators.required])],
+      eventStartHour: ["", Validators.compose([Validators.required])],
+      eventEndHour: ["", Validators.compose([Validators.required])],
+      eventIsPublic: [false, Validators.compose([Validators.required])],
+      eventCategory: ["", Validators.compose([Validators.required])]
     });
 
-    this.tabParams = this.navParams.data.event
+    this.eventDetails = this.navParams.data.event;
+    this.tabParams = this.navParams.data.userInfo;
 
-  }
+    console.log("eventDetails : ", this.eventDetails);
+  
+    this.chosenPicture = this.eventDetails.eventPhoto;
 
-  ionViewWillEnter() {
-    this.chosenPicture = this.tabParams.eventPhoto;
-
-      this.editEventForm = this._FB.group({
-        "eventId": [this.tabParams.eventId],
-        "eventTitle": [this.tabParams.eventName],
-        "eventLocation": [this.tabParams.eventLocation],
-        "eventNbrParticipants": [this.tabParams.nbrParticipants],
-        "eventDescription": [this.tabParams.eventDescription],
-        "eventStartDate": [this.tabParams.eventStartDate],
-        "eventEndDate": [this.tabParams.eventStartDate],
-        "eventStartHour": [this.tabParams.eventStartHour],
-        "eventEndHour": [this.tabParams.eventEndHour],
-      })
-    
-    this.eventDetails = this.tabParams
+    this.editEventForm = this._FB.group({
+      eventId: [this.eventDetails.eventId],
+      eventTitle: [this.eventDetails.eventName],
+      eventLocation: [this.eventDetails.eventLocation],
+      eventNbrParticipants: [this.eventDetails.nbrParticipants],
+      eventDescription: [this.eventDetails.eventDescription],
+      eventStartDate: [this.eventDetails.eventStartDate],
+      eventEndDate: [this.eventDetails.eventStartDate],
+      eventStartHour: [this.eventDetails.eventStartHour],
+      eventCategory: [this.eventDetails.eventCategory],
+      eventEndHour: [this.eventDetails.eventEndHour],
+      eventIsPublic: [this.eventDetails.eventIsPublic]
+    });
   }
 
   dismiss() {
@@ -110,30 +102,29 @@ export class PopupEditModalPage {
   }
 
   changePicture() {
-
     const actionsheet = this.actionsheetCtrl.create({
-      title: 'upload picture',
+      title: "upload picture",
       buttons: [
         {
-          text: 'camera',
-          icon: !this.platform.is('ios') ? 'camera' : null,
+          text: "camera",
+          icon: !this.platform.is("ios") ? "camera" : null,
           handler: () => {
             this.takePicture();
           }
         },
         {
-          text: !this.platform.is('ios') ? 'gallery' : 'camera roll',
-          icon: !this.platform.is('ios') ? 'image' : null,
+          text: !this.platform.is("ios") ? "gallery" : "camera roll",
+          icon: !this.platform.is("ios") ? "image" : null,
           handler: () => {
             this.getPicture();
           }
         },
         {
-          text: 'cancel',
-          icon: !this.platform.is('ios') ? 'close' : null,
-          role: 'destructive',
+          text: "cancel",
+          icon: !this.platform.is("ios") ? "close" : null,
+          role: "destructive",
           handler: () => {
-            console.log('the user has cancelled the interaction.');
+            console.log("the user has cancelled the interaction.");
           }
         }
       ]
@@ -145,41 +136,81 @@ export class PopupEditModalPage {
     const loading = this.loadingCtrl.create();
 
     loading.present();
-    return this.cameraProvider.getPictureFromCamera().then(picture => {
-      if (picture) {
-        this.chosenPicture = picture;
+    return this.cameraProvider.getPictureFromCamera().then(
+      picture => {
+        if (picture) {
+          this.chosenPicture = picture;
+        }
+        loading.dismiss();
+      },
+      error => {
+        alert(error);
       }
-      loading.dismiss();
-    }, error => {
-      alert(error);
-    });
+    );
   }
 
   getPicture() {
     const loading = this.loadingCtrl.create();
 
     loading.present();
-    return this.cameraProvider.getPictureFromPhotoLibrary().then(picture => {
-      if (picture) {
-        this.chosenPicture = picture;
+    return this.cameraProvider.getPictureFromPhotoLibrary().then(
+      picture => {
+        if (picture) {
+          this.chosenPicture = picture;
+        }
+        loading.dismiss();
+      },
+      error => {
+        alert(error);
       }
-      loading.dismiss();
-    }, error => {
-      alert(error);
-    });
+    );
   }
 
   onSubmit(event) {
-
-    this.eventProvider.editEvent(event, this.chosenPicture,  this.navParams.data.userInfo)
-    .subscribe(response => {
-      if (response.message == "success") {
-        this.utils.notification("Event modifier avec succes", "top");
+    if (this.listCommunity.length > 0 && this.listCommunity != null) {
+      event.eventCommunity = this.listCommunity;
+      if (this.chosenPicture != this.eventDetails.eventPhoto) {
+        this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
+          this.eventProvider
+            .editEvent(event, data, this.eventDetails, this.tabParams)
+            .subscribe(response => {
+              console.log("Resoponse edit : ", response)
+              if (response.message == "success") {
+                this.utils.notification("Event modifier avec succes", "top");
+              } else {
+                this.utils.notification("Une erreur est survenu !", "top");
+              }
+            });
+        });
       } else {
-        this.utils.notification("Une erreur est survenu !", "top");     
+        this.eventProvider
+          .editEvent(event, this.chosenPicture, this.eventDetails, this.tabParams)
+          .subscribe(response => {
+            console.log("Resoponse edit 1: ", response)
+            if (response.message == "success") {
+              this.utils.notification("Event modifier avec succes", "top");
+            } else {
+              this.utils.notification("Une erreur est survenu !", "top");
+            }
+          });
       }
-      });
+    } else {
+      this.utils.notification("Vous devez selectionne une communaute", "top");
+    }
   }
 
-
+  openCommunityList() {
+    const modal = this.modalCtrl.create(
+      "CommunityEventListPage",
+      this.tabParams,
+      { cssClass: "comEvent-modal" }
+    );
+    modal.onDidDismiss(data => {
+      console.log("Daa ===> :", data);
+      if (data != null && data.length == 0)
+        this.listCommunity.push(this.tabParams.activeCommunity);
+      else if (data != null && data.length > 0) this.listCommunity = data;
+    });
+    modal.present();
+  }
 }
