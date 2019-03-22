@@ -46,6 +46,16 @@ export class ListContactPage {
   public notificationCount = 0;
   options: BarcodeScannerOptions;
 
+  page = 0;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
+
+  public myContactBorder = "5px solid darkgrey";
+  public myContactBorderDisplay = "initial";
+  public listInvitBorder = "";
+  public listInvitBorderDisplay = "none";
+
   // Moadal declaration
   expanded: any;
   contracted: any;
@@ -91,13 +101,14 @@ export class ListContactPage {
               dataCreator.communities = dataCreator.communities.concat(
                 dataParticipation
               );
-                this.allCommunities = dataCreator.communities;
-                this.userProvider
-                  .getAllUserByCommunityId(this.tabParams, this.allCommunities)
-                  .subscribe(response => {
-                    console.log("Here")
-                    this.contact = response.users;
-                  });
+              this.tabParams.page = this.page
+              this.allCommunities = dataCreator.communities;
+              this.userProvider
+                .getAllUserByCommunityId(this.tabParams, this.allCommunities)
+                .subscribe(response => {
+                  console.log("Here");
+                  this.contact = response.users;
+                });
             });
         });
     }
@@ -195,6 +206,58 @@ export class ListContactPage {
           console.log("Error : ", err);
         }
       );
+  }
+
+  selectContactList() {
+    this.myContactBorder = "5px solid darkgrey";
+    this.myContactBorderDisplay = "initial";
+    this.listInvitBorder = "";
+    this.listInvitBorderDisplay = "none";
+  }
+
+  selectInvitationList() {
+    this.myContactBorder = "";
+    this.myContactBorderDisplay = "none";
+    this.listInvitBorder = "5px solid darkgrey";
+    this.listInvitBorderDisplay = "initial";
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page = this.page + 1;
+
+    setTimeout(() => {
+      if (this.tabParams.activeCommunity != "") {
+        this.communityProvider
+          .getCommunitiesbyCreator(this.tabParams)
+          .subscribe(dataCreator => {
+            this.communityProvider
+              .getCommunitiesByParticipation(this.tabParams)
+              .subscribe(dataParticipation => {
+                console.log(
+                  "dataCreator : ",
+                  dataCreator.communities,
+                  dataParticipation
+                );
+                dataCreator.communities = dataCreator.communities.concat(
+                  dataParticipation
+                );
+                this.allCommunities = dataCreator.communities;
+                this.tabParams.page = this.page;
+                this.userProvider
+                  .getAllUserByCommunityId(this.tabParams, this.allCommunities)
+                  .subscribe(response => {
+                    console.log("Here");
+                    this.contact = response.users;
+                    this.perPage = response.per_page;
+                    this.totalData = response.total;
+                    this.totalPage = response.total_pages;
+                  });
+              });
+          });
+      }
+      console.log("Async operation has ended");
+      infiniteScroll.complete();
+    }, 1000);
   }
 
   // async presentContactFilter(ev: any) {

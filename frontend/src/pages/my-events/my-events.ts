@@ -30,7 +30,7 @@ import { environment as ENV } from "../../environments/environment";
 export class MyEventsPage {
   @ViewChild("slider") slider: Slides;
   public tabParams;
-  public participEvBorder = "4px solid silver";
+  public participEvBorder = "5px solid darkgrey";
   public participEvBorderDisplay = "initial"
   public orgnizeEvBorder = "";
   public orgnizeEvBorderDisplay = "none"
@@ -195,13 +195,13 @@ export class MyEventsPage {
     this.participEvBorderDisplay = "initial"
     this.orgnizeEvBorderDisplay = "none"
     this.orgnizeEvBorder = "";
-    this.participEvBorder = "4px solid silver";
+    this.participEvBorder = "5px solid darkgrey";
   }
 
   selectOrgnizeEvent() {
     this.participEvBorderDisplay = "none"
     this.orgnizeEvBorderDisplay = "initial"
     this.participEvBorder = "";
-    this.orgnizeEvBorder = "4px solid silver";
+    this.orgnizeEvBorder = "5px solid darkgrey";
   }
 }

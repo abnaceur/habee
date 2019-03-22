@@ -15,7 +15,7 @@
   <ion-icon class="optionsStyle pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand()"
     name="person-add"></ion-icon> -->
 
-    <!-- <ion-icon (click)="presentContactFilter($event)" class="optionsStyle" style="margin-left: 10px; z-index: 1111" name="options">
+  <!-- <ion-icon (click)="presentContactFilter($event)" class="optionsStyle" style="margin-left: 10px; z-index: 1111" name="options">
       </ion-icon> -->
 
   <div (click)="openInvitationsList()">
@@ -32,40 +32,43 @@
   </ion-title>
 </ion-header>
 
-<ion-content>
-  <ion-grid>
+<ion-content padding>
+  <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
+    <ion-col (click)="selectContactList()" [ngStyle]="{'border-bottom': myContactBorder}" col-6>
+      Mes Habee'Nautes
+    </ion-col>
+    <ion-col (click)="selectInvitationList()" [ngStyle]="{'border-bottom': listInvitBorder}" col-6>
+      En attente
+      <span *ngIf="notificationCount != 0">
+        <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
+      </span>
+    </ion-col>
+  </div>
 
-    <!-- <ion-scroll scrollX="true" style="
-      border-bottom: 5px solid darkgray;
-      white-space: nowrap;
-      position: relative;
-      height: 18vw;
-      width: 100%;
-      color: tomato;">
-        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Tout</ion-badge>
-        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Friend</ion-badge>
-        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Familly</ion-badge>
-        <ion-badge class="pull-left" style="margin-right: 5px" color="info">Collegues</ion-badge>
-        <ion-badge class="pull-left" style="margin-right: 5px" color="info">SportCommunity</ion-badge>
-       
-      
-      </ion-scroll> -->
+  <ion-list *ngFor='let user of contact' [ngStyle]="{'display': myContactBorderDisplay}">
+    <ion-item>
+      <ion-avatar item-left>
+        <img [src]='url + "/" + user.profilePhoto'>
+      </ion-avatar>
+      <h2>{{user.profileUsername}}</h2>
+      <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
+        <ion-badge class="pull-right" color="danger">moi</ion-badge>
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list [ngStyle]="{'display': listInvitBorderDisplay}">
+    <ion-item>
+      Invitatioss
+    </ion-item>
+  </ion-list>
 
 
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
-
-    <ion-list *ngFor='let user of contact'>
-      <ion-item>
-        <ion-avatar item-left>
-          <img [src]='url + "/" + user.profilePhoto'>
-        </ion-avatar>
-        <h2>{{user.profileUsername}}</h2>
-        <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
-          <ion-badge class="pull-right" color="danger">moi</ion-badge>
-        </button>
-      </ion-item>
-    </ion-list>
-  </ion-grid>
 </ion-content>
 
 <ion-footer>

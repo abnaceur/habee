@@ -56,15 +56,30 @@ sendProfileInfo = (res, user, communities) => {
         i = 0;
     })
 
-    res.status(200).json({
-        users: allusersProfile
+    User.find({
+        communities: {
+            "$in": communities
+        }
+    })
+    .exec()
+    .then(users => {
+        res.status(200).json({
+            users: allusersProfile,
+            per_page: 10,
+            total: users.length,
+            total_pages: Math.floor(users.length / 10),
+        })
     })
 }
 
 
 
-getUserProfileInfo = (req, res, communityId) => {
+getUserProfileInfo = (req, res, page) => {
     let communities = [];
+    let pageTmp = 0
+
+    if (page != undefined)
+        pageTmp = page;
 
     req.body.map(com => {
         communities.push(com.communityId)
@@ -75,6 +90,8 @@ getUserProfileInfo = (req, res, communityId) => {
                 "$in": communities
             }
         })
+        .skip(Number(pageTmp * 10))
+        .limit(Number(10))
         .exec()
         .then(users => {
             if (users.length === 0) {
