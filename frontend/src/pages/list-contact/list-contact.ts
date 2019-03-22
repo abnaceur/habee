@@ -106,7 +106,7 @@ export class ListContactPage {
               this.userProvider
                 .getAllUserByCommunityId(this.tabParams, this.allCommunities)
                 .subscribe(response => {
-                  console.log("Here");
+                  console.log("Here ---: ---> :", response.users);
                   this.contact = response.users;
                 });
             });
@@ -246,7 +246,6 @@ export class ListContactPage {
                 this.userProvider
                   .getAllUserByCommunityId(this.tabParams, this.allCommunities)
                   .subscribe(response => {
-                    console.log("Here");
                     this.contact = response.users;
                     this.perPage = response.per_page;
                     this.totalData = response.total;

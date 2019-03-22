@@ -45,17 +45,44 @@
     </ion-col>
   </div>
 
-  <ion-list *ngFor='let user of contact' [ngStyle]="{'display': myContactBorderDisplay}">
-    <ion-item>
-      <ion-avatar item-left>
-        <img [src]='url + "/" + user.profilePhoto'>
-      </ion-avatar>
-      <h2>{{user.profileUsername}}</h2>
-      <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
-        <ion-badge class="pull-right" color="danger">moi</ion-badge>
-      </button>
-    </ion-item>
+
+
+  <ion-list [ngStyle]="{'display': myContactBorderDisplay}">
+    <ion-item-sliding *ngFor='let user of contact'>
+
+      <ion-item no-lines>
+        <ion-avatar item-left>
+          <img [src]='url + "/" + user.profilePhoto'>
+        </ion-avatar>
+        
+        <h2>{{user.profileUsername}}</h2>
+        <span *ngFor='let community of user.communities'>
+                <img style="width: 12%;
+                height: 12%; border-radius: 100%" [src]='url + "/" + community.communityLogo'>
+        </span>
+
+        <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
+          <ion-badge class="pull-right" color="danger">moi</ion-badge>
+        </button>
+      </ion-item>
+
+      <ion-item-options side="right">
+        <!-- <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewEventDetails(item)">
+                    <ion-icon name="eye"></ion-icon>
+                    Voir
+                  </button> -->
+        <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+          style="position: relative; width: 50px; background-color: #e11d6f;" ion-button>
+          <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="remove"></ion-icon>
+        </button>
+        <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+          style="position: relative; width: 50px; background-color: #77ad35;" ion-button>
+          <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="add"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
+
 
   <ion-list [ngStyle]="{'display': listInvitBorderDisplay}">
     <ion-item>

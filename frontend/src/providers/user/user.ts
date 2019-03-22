@@ -28,7 +28,6 @@ export class UserProvider {
   }
 
   getAllUserByCommunityId(info, communities) {
-    console.log("test");
     
     const header = this.utils.inihttpHeaderWIthToken(info.token);
 

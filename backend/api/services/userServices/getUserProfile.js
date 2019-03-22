@@ -1,5 +1,6 @@
 const User = require('../../models/user')
 const utils = require('../utils')
+const Community = require("../../models/community")
 
 // sendProfileInfo = (res, user, communityId) => {
 //     let i = 0;
@@ -31,45 +32,64 @@ const utils = require('../utils')
 // }
 
 
-sendProfileInfo = (res, user, communities) => {
-    let allusersProfile = [];
-    let coms = [];
-    let i = 0
+async function getCommunity(comId) {
+    console.log(comId)
+    return new Promise((resolve, reject) => {
+        Community.find({
+            communityId: comId
+        }).then(community => {
+            resolve(community[0])
+        });
+    }).catch(err => console.log("Error : ", err))
+}
 
-    user.map(usr => {
+
+async function getComInfo(usr, communities) {
+    let i = 0;
+    let coms = [];
+
+    return new Promise((resolve, reject) => {
         while (i < usr.communities.length) {
-            communities.map(cm => {
-                if (cm == usr.communities[i])
-                    coms.push(cm)
+            communities.map(async cm => {
+                if (cm == usr.communities[i]) {
+                    coms.push(await getCommunity(cm))
+                }
             })
             i++;
         }
+        resolve(coms)
+    })
+}
 
+async function sendProfileInfo(res, user, communities) {
+    let allusersProfile = [];
+
+
+    user.map(async (usr) => {
 
         allusersProfile.push({
-            communities: coms,
+            communities: await getComInfo(usr, communities),
             userId: usr.userId,
             userEmail: usr.credentials.email,
             profileUsername: usr.profile.profileFirstname + " " + usr.profile.profileLastname,
             profilePhoto: usr.profile.profilePhoto
         })
-        i = 0;
     })
 
     User.find({
-        communities: {
-            "$in": communities
-        }
-    })
-    .exec()
-    .then(users => {
-        res.status(200).json({
-            users: allusersProfile,
-            per_page: 10,
-            total: users.length,
-            total_pages: Math.floor(users.length / 10),
+            communities: {
+                "$in": communities
+            }
         })
-    })
+        .exec()
+        .then(users => {
+            res.status(200).json({
+                users: allusersProfile,
+                per_page: 10,
+                total: users.length,
+                total_pages: Math.floor(users.length / 10),
+            })
+        })
 }
 
 
@@ -106,6 +126,8 @@ getUserProfileInfo = (req, res, page) => {
 }
 
 module.exports = {
+    getComInfo,
     getUserProfileInfo,
+    getCommunity,
     sendProfileInfo
 }
