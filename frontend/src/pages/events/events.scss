@@ -71,7 +71,7 @@ ion-slides { height: initial; }
     top: 6px;
     left: 4%;
     font-size: 40px;
-    color: floralwhite
+    color: #3b3b3b
   }
 
   .comLogo {
@@ -84,23 +84,26 @@ ion-slides { height: initial; }
     top: 19%;
   }
 
-  .item ion-thumbnail {
-    min-width: 5rem;
-    min-height: 5rem;
+  // .item ion-thumbnail {
+  //   min-width: 5rem;
+  //   min-height: 5rem;
 
-    img {
-      max-width: 6rem;
-      min-width: 5rem;
-    }
-  }
+  //   img {
+  //     max-width: 6rem;
+  //     min-width: 5rem;
+  //   }
+  // }
 
 
   .styleParticipants {
     margin-top: 11px;
-    color: deeppink;
+    background-color: #5abcc2;
+    color: white;
+    padding: 0vw 10px;
+    border-radius: 20%;
     font-weight: bolder;
-    font-size: small;
-    font-family: sans-serif;
+    font-size: 15px;
+    font-family: monospace;
   }
 
   .commName {
@@ -108,7 +111,7 @@ ion-slides { height: initial; }
     display: inline-flex;
     left: 27%;
     top: 37%;
-    color: aliceblue;
+    color: #3b3b3b;
     font-weight: bolder;
     font-size: 19px;
     font-family: sans-serif;
@@ -120,7 +123,7 @@ ion-slides { height: initial; }
     top: 12px;
     right: 4%;
     font-size: 30px;
-    color: floralwhite
+    color: #3b3b3b
   }
 
   .optionsStyle1 {

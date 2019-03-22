@@ -93,7 +93,7 @@ router.get('/community/:communityId', authCkeck, userController.getAllusersByCom
  */
 
 
-router.get('/app/community/:communityId', authCkeck, userController.getAllusersByCommunityIdMobile);
+router.post('/app/community/:communityId', authCkeck, userController.getAllusersByCommunityIdMobile);
 
 /*
  ** API [PUT] for route /users/firstConnection/:userid [USED]

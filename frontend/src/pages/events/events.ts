@@ -75,7 +75,7 @@ export class EventsPage {
   public allEvBorderDisplay = "initial";
   public weeklyEvBorderDisplay = "none";
 
-  public allEvBorder = "4px solid silver";
+  public allEvBorder = "5px solid darkgrey";
   public weeklyEvBorder = "";
 
   public weeklyEvents = [];
@@ -312,7 +312,7 @@ export class EventsPage {
     this.allEvBorderDisplay = "none";
     this.weeklyEvBorderDisplay = "initial";
     this.allEvBorder = "";
-    this.weeklyEvBorder = "4px solid silver";
+    this.weeklyEvBorder = "5px solid darkgrey";
   }
 
   getThisWeekEvent() {
@@ -336,7 +336,7 @@ export class EventsPage {
   selectAllEvent() {
     this.allEvBorderDisplay = "initial";
     this.weeklyEvBorderDisplay = "none";
-    this.allEvBorder = "4px solid silver";
+    this.allEvBorder = "5px solid darkgrey";
     this.weeklyEvBorder = "";
   }
 }

@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header style="height: 50px;
-background-color: #906DA7;">
+background-color: #fcfcfc;">
 
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
@@ -14,7 +14,7 @@ background-color: #906DA7;">
     (click)="expand('this')" name="add"></ion-icon> -->
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
-    <span style="font-size: 17px;color: white; font-weight: bold">Mes événements</span>
+    <span style="font-size: 17px; color: #3b3b3b; font-weight: bold">Mes événements</span>
   </ion-title>
 </ion-header>
 
@@ -111,9 +111,9 @@ background-color: #906DA7;">
 
 <ion-footer>
   <ion-fab (click)="expand('this')" style="margin-bottom: 16vw" bottom right mini #fab>
-    <button ion-fab style="background-color: darkgray;" mini>
+    <button ion-fab style="background-color: #d1c9c3;" mini>
       <ion-icon  [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
-       name="add"></ion-icon>
+       style="color:black; font-size: 32px" name="add"></ion-icon>
     </button>
   </ion-fab>
 </ion-footer>

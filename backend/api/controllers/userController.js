@@ -67,7 +67,7 @@ exports.getAllusersByCommunityId = (req, res, next) => {
 exports.getAllusersByCommunityIdMobile = (req, res, next) => {
     let communityId = req.params.communityId;
 
-    userProfileService.getUserProfileInfo(res, communityId)
+    userProfileService.getUserProfileInfo(req, res, communityId)
 }
 
 

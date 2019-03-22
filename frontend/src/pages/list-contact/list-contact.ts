@@ -13,6 +13,8 @@ import { AddContactProvider } from "../../providers/add-contact/add-contact";
 
 import { UtilsProvider } from "../../providers/utils/utils";
 
+import { CommunityProvider } from "../../providers/community/community";
+
 import { InvitationProvider } from "../../providers/invitation/invitation";
 
 import { environment as ENV } from "../../environments/environment";
@@ -37,6 +39,7 @@ import {
   templateUrl: "list-contact.html"
 })
 export class ListContactPage {
+  allCommunities = [];
   public url = ENV.BASE_URL;
   public contact;
   public tabParams;
@@ -50,6 +53,7 @@ export class ListContactPage {
   preload = true;
 
   constructor(
+    private communityProvider: CommunityProvider,
     public popoverCtrl: PopoverController,
     private utils: UtilsProvider,
     private addContactProvider: AddContactProvider,
@@ -72,11 +76,31 @@ export class ListContactPage {
   }
 
   getAllUserContacts() {
-    this.userProvider
-      .getAllUserByCommunityId(this.tabParams)
-      .subscribe(response => {
-        this.contact = response.users;
-      });
+    if (this.tabParams.activeCommunity != "") {
+      this.communityProvider
+        .getCommunitiesbyCreator(this.tabParams)
+        .subscribe(dataCreator => {
+          this.communityProvider
+            .getCommunitiesByParticipation(this.tabParams)
+            .subscribe(dataParticipation => {
+              console.log(
+                "dataCreator : ",
+                dataCreator.communities,
+                dataParticipation
+              );
+              dataCreator.communities = dataCreator.communities.concat(
+                dataParticipation
+              );
+                this.allCommunities = dataCreator.communities;
+                this.userProvider
+                  .getAllUserByCommunityId(this.tabParams, this.allCommunities)
+                  .subscribe(response => {
+                    console.log("Here")
+                    this.contact = response.users;
+                  });
+            });
+        });
+    }
   }
 
   ionViewWillEnter() {
@@ -173,30 +197,30 @@ export class ListContactPage {
       );
   }
 
-  async presentContactFilter(ev: any) {
-    const popover = await this.popoverCtrl.create(
-      "ConatctListFilterPage",
-      this.tabParams
-    );
-    await popover.present({
-      ev: ev
-    });
+  // async presentContactFilter(ev: any) {
+  //   const popover = await this.popoverCtrl.create(
+  //     "ConatctListFilterPage",
+  //     this.tabParams
+  //   );
+  //   await popover.present({
+  //     ev: ev
+  //   });
 
-    await popover.onDidDismiss(data => {
-      let tmp = this.tabParams;
+  //   await popover.onDidDismiss(data => {
+  //     let tmp = this.tabParams;
 
-      if (data != "all" && data != null) {
-        tmp.activeCommunity = data;
-        this.userProvider.getAllUserByCommunityId(tmp).subscribe(response => {
-          this.contact = response.users;
-        });
-      } else if (data === "all") {
-        this.userProvider
-          .getAllusersCommunityConcat(this.tabParams)
-          .subscribe(response => {
-            if (response.users.length != 0) this.contact = response.users;
-          });
-      }
-    });
-  }
+  //     if (data != "all" && data != null) {
+  //       tmp.activeCommunity = data;
+  //       this.userProvider.getAllUserByCommunityId(tmp).subscribe(response => {
+  //         this.contact = response.users;
+  //       });
+  //     } else if (data === "all") {
+  //       this.userProvider
+  //         .getAllusersCommunityConcat(this.tabParams)
+  //         .subscribe(response => {
+  //           if (response.users.length != 0) this.contact = response.users;
+  //         });
+  //     }
+  //   });
+  // }
 }

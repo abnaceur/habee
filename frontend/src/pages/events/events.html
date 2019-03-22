@@ -1,5 +1,5 @@
 <ion-header style="height: 50px;
-background-color: #5cbcc1;">
+background-color: #fcfcfc;">
 
   <ion-icon class="menuStyle" menuToggle name="menu">
   </ion-icon>
@@ -10,7 +10,7 @@ background-color: #5cbcc1;">
 
 
 
-  <ion-icon class="optionsStyle" (click)='presentFilter()' name="options">
+  <ion-icon style="color: #3b3b3b;" class="optionsStyle" (click)='presentFilter()' name="options">
 
     <span *ngIf="activeAllFilters != 0">
       <ion-badge class="pull-right" id="badg-notif">{{activeAllFilters}}</ion-badge>
@@ -18,7 +18,7 @@ background-color: #5cbcc1;">
   </ion-icon>
 
 
-  <ion-icon style="margin-right: 8px" class="optionsStyle" (click)='showsearchbar()' name="search"></ion-icon>
+  <ion-icon style="margin-right: 8px; color: #3b3b3b;" class="optionsStyle" (click)='showsearchbar()' name="search"></ion-icon>
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: white; font-weight: bold"></span>
@@ -70,19 +70,23 @@ background-color: #5cbcc1;">
 
     <span *ngIf="listMonths.length > 0">
       <ion-item *ngIf="idx == 0">
-        <ion-label>{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
                       + dateFormat(event.eventStartDate).format('MMM').toString().substring(1,
                       dateFormat(event.eventStartDate).format('MMM').toString().length)
-                      }} </ion-label>
+                      }} </p>
       </ion-item>
     </span>
 
     <span *ngIf="listMonths.length > 0">
       <ion-item *ngIf="idx >= 1 && listMonths[idx]">
-        <ion-label>{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()
                           + dateFormat(listMonths[idx]).format('MMM').toString().substring(1,
                           dateFormat(listMonths[idx]).format('MMM').toString().length)
-                          }} </ion-label>
+                          }} </p>
       </ion-item>
     </span>
 
@@ -115,19 +119,20 @@ background-color: #5cbcc1;">
 
     <ion-item-sliding *ngFor="let event of weeklyEvents">
 
-      <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
-        <ion-thumbnail item-start>
-          <img [src]='url + "/" + event.eventPhoto'>
-        </ion-thumbnail>
-        <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
-        <p>{{event.eventLocation}} •
-          {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
-              7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
-        </p>
-        <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-      </ion-item>
+          <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
+              <ion-thumbnail item-start>
+                <img [src]='url + "/" + event.eventPhoto'>
+              </ion-thumbnail>
+              <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+              <p>{{event.eventLocation}} •
+                {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+                    7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
+              </p>
+              <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+            </ion-item>
     </ion-item-sliding>
   </ion-list>
+
   <!-- </ion-slide>
 
 
