@@ -11,42 +11,103 @@
 
 
 <ion-content padding>
-    <ion-fab bottom right mini #fab>
-      <ion-icon ion-fab (click)="AddContact()" style="font-size: 22px" name="add"></ion-icon>
-    </ion-fab>
+  <ion-fab bottom right mini #fab>
+    <ion-icon ion-fab (click)="AddContact()" style="font-size: 22px" name="add"></ion-icon>
+  </ion-fab>
 
-  <ion-grid>
 
-    <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
+  <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
+    <ion-item>
+      <ion-label color="primary">Ajouter 1 </ion-label>
+      <ion-input placeholder="Email" (click)="contactArray[0].check = ''" type="email" text-right
+        [(ngModel)]="contactArray[0].value"></ion-input>
+
+    </ion-item>
+
+
+    <ion-item *ngIf="allCommunities.length == 1">
+      <ion-label>{{allCommunities[0].communityName}}</ion-label>
+      <ion-checkbox slot="end" checked disabled></ion-checkbox>
+    </ion-item>
+
+      <ion-item *ngFor="let community of allCommunities">
+        <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
+        <ion-checkbox (ionChange)="getCommunity($event, community, 0)" *ngIf="allCommunities.length != 1" slot="end"></ion-checkbox>
+      </ion-item>
+    
+    <ion-item *ngIf="contactArray[0].check != '' && contactArray[0].status == ''">
+      <p>{{contactArray[0].check}}</p>
+    </ion-item>
+
+    <ion-item *ngIf="contactArray[0].status == 500">
+      <p text-right>Ce contact exist !</p>
+    </ion-item>
+
+    <ion-item *ngIf="contactArray[0].status == 204">
+      <p text-right>Ce contact est deja invite</p>
+    </ion-item>
+
+
+
+
+    <ion-item *ngIf="contactArray[0].status == 202">
+      <p text-right>Contact ajouter avec succes</p>
+    </ion-item>
+
+
+    <ion-item *ngIf="contactArray[0].status == 200">
+      <p text-right>Invitation envoyer avec succes</p>
+    </ion-item>
+
+
+
+
+    <ion-item-options side="right">
+      <button ion-button color="danger" (click)="DelItem(idx)">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-item-options>
+
+  </ion-item-sliding>
+
+
+  <ion-list *ngFor="let att of contactArray; let idx = index">
+    <ion-item-sliding #item *ngIf="contactArrayLenght != 0">
+
       <ion-item>
-        <ion-label color="primary">Ajouter 1 </ion-label>
-        <ion-input placeholder="Email" (click)="contactArray[0].check = ''" type="email" text-right [(ngModel)]="contactArray[0].value"></ion-input>
+        <ion-label color="primary">Ajouter {{idx+1}}</ion-label>
+        <ion-input placeholder="Email" (click)="contactArray[idx].check = ''" type="email" text-right
+          [(ngModel)]="contactArray[idx].value"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="contactArray[0].check != '' && contactArray[0].status == ''">
-        <p>{{contactArray[0].check}}</p>
+
+      <ion-item *ngFor="let community of allCommunities">
+          <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
+          <ion-checkbox (ionChange)="getCommunity($event, community, idx)" *ngIf="allCommunities.length != 1" slot="end"></ion-checkbox>
+        </ion-item>
+
+      <ion-item *ngIf="contactArray[idx].check != '' && contactArray[idx].status == ''">
+        <p>{{contactArray[idx].check}}</p>
       </ion-item>
-       
-      <ion-item *ngIf="contactArray[0].status == 500">
+
+
+      <ion-item *ngIf="contactArray[idx].status == 500">
         <p text-right>Ce contact exist !</p>
       </ion-item>
 
-      <ion-item *ngIf="contactArray[0].status == 204">
-          <p text-right>Ce contact est deja invite</p>
-        </ion-item>
 
+      <ion-item *ngIf="contactArray[idx].status == 204">
+        <p text-right>Ce contact est deja invite</p>
+      </ion-item>
 
-
-      <ion-item *ngIf="contactArray[0].status == 202">
+      <ion-item *ngIf="contactArray[idx].status == 202">
         <p text-right>Contact ajouter avec succes</p>
       </ion-item>
 
 
-      <ion-item *ngIf="contactArray[0].status == 200">
-        <p text-right>Invitation envoyer avec succes</p>
+      <ion-item *ngIf="contactArray[idx].status == 200">
+        <p text-right style="color:green">Invitation envoyer avec succes</p>
       </ion-item>
-
-
 
 
       <ion-item-options side="right">
@@ -56,61 +117,19 @@
       </ion-item-options>
 
     </ion-item-sliding>
-
-    <ion-list *ngFor="let att of contactArray; let idx = index">
-      <ion-item-sliding #item *ngIf="contactArrayLenght != 0">
-
-        <ion-item>
-          <ion-label color="primary">Ajouter {{idx+1}}</ion-label>
-          <ion-input placeholder="Email" (click)="contactArray[idx].check = ''" type="email" text-right [(ngModel)]="contactArray[idx].value"></ion-input>
-        </ion-item>
+  </ion-list>
 
 
-      <ion-item *ngIf="contactArray[idx].check != '' && contactArray[idx].status == ''">
-          <p>{{contactArray[idx].check}}</p>
-        </ion-item>
-         
-         
-        <ion-item *ngIf="contactArray[idx].status == 500">
-          <p text-right>Ce contact exist !</p>
-        </ion-item>
+  <ion-row>
+    <ion-col col-12 text-center>
+      <div class="center">
+        <button ion-button (click)="invitContacts()" style="background-color: #E96FA1;">
+          Envoyer
+        </button>
+      </div>
+    </ion-col>
 
+  </ion-row>
 
-        <ion-item *ngIf="contactArray[idx].status == 204">
-            <p text-right>Ce contact est deja invite</p>
-          </ion-item>
-
-        <ion-item *ngIf="contactArray[idx].status == 202">
-          <p text-right>Contact ajouter avec succes</p>
-        </ion-item>
-
-
-        <ion-item *ngIf="contactArray[idx].status == 200">
-          <p text-right style="color:green" >Invitation envoyer avec succes</p>
-        </ion-item>
-
-
-        <ion-item-options side="right">
-          <button ion-button color="danger" (click)="DelItem(idx)">
-            <ion-icon name="trash"></ion-icon>
-          </button>
-        </ion-item-options>
-
-      </ion-item-sliding>
-    </ion-list>
-
-
-    <ion-row>
-      <ion-col col-12 text-center>
-        <div class="center">
-          <button ion-button (click)="invitContacts()" style="background-color: #E96FA1;">
-            Envoyer
-          </button>
-        </div>
-      </ion-col>
-
-    </ion-row>
-
-  </ion-grid>
 
 </ion-content>

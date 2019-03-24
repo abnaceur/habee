@@ -229,9 +229,9 @@ exports.get_user_by_id = (req, res, next) => {
 
 exports.postInvitedContacts = (req, res, next) => {
     let userId = req.params.userId;
-    let activeCommunity = req.params.activeCommunity;
 
-    userService.addContacts(req.body, userId, activeCommunity)
+    console.log("Here =========================")
+    userService.addContacts(req.body, userId)
         .then(email => {
             res.status(200).json({
                 code: 200,

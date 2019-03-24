@@ -4,6 +4,7 @@ let mongoose = require('mongoose');
 let invitationSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     invitationCommunityId: String,
+    InvitationCommunitName: String,
     invitatorId: String,
     invitorFullname: String,
     invitedEmail: String,

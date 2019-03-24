@@ -52,6 +52,9 @@ export class AddContactProvider {
         } else if (re.test(cc.value) === false) {
           check++;
           cc.check = cc.value + " : email non valid";
+        } else if (cc.communities.length == 0) {
+          check++;
+          cc.check = "Vous devez choisir une communaute";   
         }
       })
       if (check === 0) {
