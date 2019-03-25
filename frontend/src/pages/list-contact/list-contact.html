@@ -18,13 +18,13 @@
   <!-- <ion-icon (click)="presentContactFilter($event)" class="optionsStyle" style="margin-left: 10px; z-index: 1111" name="options">
       </ion-icon> -->
 
-  <div (click)="openInvitationsList()">
+  <!-- <div (click)="openInvitationsList()">
     <ion-icon style="z-index:1111" class="optionsStyle pop-in" name="notifications">
       <span *ngIf="notificationCount != 0">
         <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
       </span>
     </ion-icon>
-  </div>
+  </div> -->
 
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
@@ -40,7 +40,7 @@
     <ion-col (click)="selectInvitationList()" [ngStyle]="{'border-bottom': listInvitBorder}" col-6>
       En attente
       <span *ngIf="notificationCount != 0">
-        <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
+        <ion-badge class="icon-badge">{{notificationCount}}</ion-badge>
       </span>
     </ion-col>
   </div>
@@ -71,23 +71,90 @@
                     <ion-icon name="eye"></ion-icon>
                     Voir
                   </button> -->
-        <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+     
+                  <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
           style="position: relative; width: 50px; background-color: #e11d6f;" ion-button>
           <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="remove"></ion-icon>
         </button>
-        <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+
+        <button (click)="addComToContact($event)"  class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
           style="position: relative; width: 50px; background-color: #77ad35;" ion-button>
           <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="add"></ion-icon>
         </button>
+     
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 
 
-  <ion-list [ngStyle]="{'display': listInvitBorderDisplay}">
-    <ion-item>
-      Invitatioss
-    </ion-item>
+  <ion-list [ngStyle]="{'display': listInvitBorderDisplay}" *ngFor="let invit of invitationList">
+
+          <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false
+          && invit.status == 'pending'">
+            <ion-item no-lines>
+              <p><b>Vous avez invité</b> {{invit.invitedEmail}} <b>pour rejoindre la communaute {{invit.InvitationCommunitName}}</b></p>
+            </ion-item>
+            <ion-item style="margin-top: -17px">
+              <p>{{transform(invit.dateOfCreation)}}
+                <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+              </p>
+            </ion-item>
+          </ion-item>
+  
+          <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
+          && invit.status == 'pending'">
+            <ion-item no-lines>
+              <p><b>Vous avez invité</b> {{invit.invitedFullname}} <b>pour rejoindre la communaute {{invit.InvitationCommunitName}}</b></p>
+            </ion-item>
+            <ion-item style="margin-top: -17px">
+              <p>{{transform(invit.dateOfCreation)}}
+                <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...</ion-badge>
+              </p>
+            </ion-item>
+          </ion-item>
+  
+          <ion-item *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId
+          && invit.contactExist == true && invit.status == 'pending'">
+            <ion-item>
+              <p><b>Vous avez été invité par </b> {{invit.invitorFullname}} <b>pour rejoindre la communaute {{invit.InvitationCommunitName}}</b></p>
+            </ion-item>
+            <ion-item style="margin-top: -17px">
+              <p>{{transform(invit.dateOfCreation)}}
+              </p>
+              <button ion-button (click)="rejectInvitation(invit)" class="pull-right" style="float:right;" color="danger" slot="end">rejeter</button>
+              <button ion-button (click)="acceptInvitation(invit)" class="pull-right" style="float:right;" color="primary"
+                slot="end">accepter</button>
+              
+            </ion-item>
+          </ion-item>
+  
+          <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
+          && invit.status == 'accepted' ">
+            <ion-item>
+              <p>{{invit.invitedFullname}} <b>a accepté votre invitation pour rejoindre la communaute {{invit.InvitationCommunitName}}.</b></p>
+            </ion-item>
+  
+            <ion-item style="margin-top: -17px">
+              <p>{{transform(invit.dateOfCreation)}}
+                <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">accpte</ion-badge>
+              </p>
+            </ion-item>
+  
+          </ion-item>
+  
+  
+          <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
+          && invit.status == 'rejected' ">
+            <ion-item text-wrap>
+              <p>{{invit.invitedFullname}} <b>a rejeté votre invitation pour rejoindre la communaute {{invit.InvitationCommunitName}}.</b></p>
+            </ion-item>
+            <ion-item style="margin-top: -17px">
+              <p>{{transform(invit.dateOfCreation)}}
+                  <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">rejete</ion-badge>
+              </p>
+            </ion-item>
+  
+          </ion-item>
   </ion-list>
 
 

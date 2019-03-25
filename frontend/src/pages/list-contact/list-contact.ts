@@ -9,6 +9,8 @@ import {
   PopoverController
 } from "ionic-angular";
 
+import moment from "moment";
+
 import { AddContactProvider } from "../../providers/add-contact/add-contact";
 
 import { UtilsProvider } from "../../providers/utils/utils";
@@ -20,6 +22,7 @@ import { InvitationProvider } from "../../providers/invitation/invitation";
 import { environment as ENV } from "../../environments/environment";
 
 import { UserProvider } from "../../providers/user/user";
+
 
 import {
   BarcodeScanner,
@@ -62,6 +65,9 @@ export class ListContactPage {
   showIcon = true;
   preload = true;
 
+  public invitationList: any;
+
+
   constructor(
     private communityProvider: CommunityProvider,
     public popoverCtrl: PopoverController,
@@ -85,37 +91,61 @@ export class ListContactPage {
     this.getAllUserContacts();
   }
 
+  // getAllUserContacts() {
+  //   if (this.tabParams.activeCommunity != "") {
+  //     this.communityProvider
+  //       .getCommunitiesbyCreator(this.tabParams)
+  //       .subscribe(dataCreator => {
+  //         this.communityProvider
+  //           .getCommunitiesByParticipation(this.tabParams)
+  //           .subscribe(dataParticipation => {
+  //             console.log(
+  //               "dataCreator : ",
+  //               dataCreator.communities,
+  //               dataParticipation
+  //             );
+  //             dataCreator.communities = dataCreator.communities.concat(
+  //               dataParticipation
+  //             );
+  //             this.tabParams.page = this.page
+  //             this.allCommunities = dataCreator.communities;
+  //             this.userProvider
+  //               .getAllUserByCommunityId(this.tabParams, this.allCommunities)
+  //               .subscribe(response => {
+  //                 console.log("Here ---: ---> :", response.users);
+  //                 this.contact = response.users;
+  //               });
+  //           });
+  //       });
+  //   }
+  // }
+
   getAllUserContacts() {
     if (this.tabParams.activeCommunity != "") {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-          this.communityProvider
-            .getCommunitiesByParticipation(this.tabParams)
-            .subscribe(dataParticipation => {
-              console.log(
-                "dataCreator : ",
-                dataCreator.communities,
-                dataParticipation
-              );
-              dataCreator.communities = dataCreator.communities.concat(
-                dataParticipation
-              );
+          console.log("Comm === > :", dataCreator)
               this.tabParams.page = this.page
               this.allCommunities = dataCreator.communities;
               this.userProvider
-                .getAllUserByCommunityId(this.tabParams, this.allCommunities)
+                .getAllUserByCommunityId(this.tabParams, dataCreator.communities)
                 .subscribe(response => {
                   console.log("Here ---: ---> :", response.users);
                   this.contact = response.users;
                 });
-            });
         });
     }
   }
 
   ionViewWillEnter() {
     this.getAllUserContacts();
+    this.invitationProvider
+      .getAllUserInvitations(this.tabParams)
+      .subscribe(data => {
+        this.invitationList = data;
+        console.log("Data invitation : ", data)
+      });
   }
 
   ionViewDidEnter() {
@@ -216,6 +246,14 @@ export class ListContactPage {
   }
 
   selectInvitationList() {
+    if (this.tabParams.countNotification != 0) {
+      this.invitationProvider
+        .updateNotification(this.tabParams)
+        .subscribe(data => {
+          console.log("Notifcations updated!", data)
+          this.notificationCount = 0;
+        });
+    } 
     this.myContactBorder = "";
     this.myContactBorderDisplay = "none";
     this.listInvitBorder = "5px solid darkgrey";
@@ -258,6 +296,71 @@ export class ListContactPage {
       infiniteScroll.complete();
     }, 1000);
   }
+
+  // dismiss() {
+  //   if (this.tabParams.countNotification != 0) {
+  //     this.invitationProvider
+  //       .updateNotification(this.tabParams)
+  //       .subscribe(data => {
+  //         this.viewCtrl.dismiss();
+  //       });
+  //   } else this.viewCtrl.dismiss();
+  // }
+
+  acceptInvitation(invit) {
+    this.invitationProvider
+      .acceptedInvitatioo(invit, this.tabParams)
+      .subscribe(data => {
+        if (data == 200) {
+          this.invitationProvider
+            .getAllUserInvitations(this.tabParams)
+            .subscribe(data => {
+              this.invitationList = data;
+              this.utils.notification("Votre nouvel communauté est bien ajouté!", "top");
+            });
+        } else {
+          this.utils.notification("Sorry, something went wrong!", "top");
+        }
+      });
+  }
+
+  rejectInvitation(invit) {
+    this.invitationProvider
+      .rejectedInvitation(invit, this.tabParams)
+      .subscribe(data => {
+        if (data == 200) {
+          this.invitationProvider
+            .getAllUserInvitations(this.tabParams)
+            .subscribe(data => {
+              this.invitationList = data;
+              this.utils.notification("Cet invitation est rejeter!", "top");
+            });
+        } else {
+          this.utils.notification("Sorry, something went wrong!", "top");
+        }
+      });
+  }
+
+  transform(value) {
+    moment.locale("fr");
+    let a = moment(value).fromNow();
+    return a;
+  }
+
+  async addComToContact(ev: any) {
+    const popover = await this.popoverCtrl.create(
+      "AddCommunityToContactPopupPage",
+      this.tabParams
+    );
+    await popover.present({
+      ev: ev
+    });
+
+    await popover.onDidDismiss(data => {
+      console.log("Add community dissmissed!", data)
+    });
+  }
+
 
   // async presentContactFilter(ev: any) {
   //   const popover = await this.popoverCtrl.create(

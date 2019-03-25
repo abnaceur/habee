@@ -37,6 +37,8 @@ import { ForgotPasswordPageModule } from "../pages/forgot-password/forgot-passwo
 import { TermsOfServicePageModule } from "../pages/terms-of-service/terms-of-service.module"
 import { TermsOfServiceScriptPageModule } from "../pages/terms-of-service-script/terms-of-service-script.module"
 import {  ConatctListFilterPageModule } from "../pages/conatct-list-filter/conatct-list-filter.module"
+import { AddCommunityToContactPopupPageModule } from "../pages/add-community-to-contact-popup/add-community-to-contact-popup.module" 
+import { RemoveCommunityFromContactPopupPageModule } from "../pages/remove-community-from-contact-popup/remove-community-from-contact-popup.module"
 
 import { CameraProvider } from '../providers/camera/camera';
 import { SharedModule   } from './shared.module';
@@ -62,6 +64,8 @@ import { ProposeEventProvider } from '../providers/propose-event/propose-event';
 import { CommunityEventListPageModule } from "../pages/community-event-list/community-event-list.module"
 
 
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -82,6 +86,8 @@ import { CommunityEventListPageModule } from "../pages/community-event-list/comm
     EventDetailsPageModule,
     ListContactPageModule,
     RegisterCommunityUserPageModule,
+    AddCommunityToContactPopupPageModule,
+    RemoveCommunityFromContactPopupPageModule,
     RegisterPageModule,
     AddContactPageModule,
     EditCommunityModalPageModule,
