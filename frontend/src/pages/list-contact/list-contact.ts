@@ -125,13 +125,11 @@ export class ListContactPage {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-          console.log("Comm === > :", dataCreator)
               this.tabParams.page = this.page
               this.allCommunities = dataCreator.communities;
               this.userProvider
-                .getAllUserByCommunityId(this.tabParams, dataCreator.communities)
+                .getAllUserByCommunityId(this.tabParams, this.allCommunities)
                 .subscribe(response => {
-                  console.log("Here ---: ---> :", response.users);
                   this.contact = response.users;
                 });
         });
@@ -144,7 +142,6 @@ export class ListContactPage {
       .getAllUserInvitations(this.tabParams)
       .subscribe(data => {
         this.invitationList = data;
-        console.log("Data invitation : ", data)
       });
   }
 
@@ -347,10 +344,13 @@ export class ListContactPage {
     return a;
   }
 
-  async addComToContact(ev: any) {
+  async addComToContact(ev: any, userCommunities) {
     const popover = await this.popoverCtrl.create(
       "AddCommunityToContactPopupPage",
-      this.tabParams
+      {
+        tabParams: this.tabParams,
+        communities: userCommunities
+      }
     );
     await popover.present({
       ev: ev

@@ -202,8 +202,8 @@ exports.profileClass = (invitation, user) => {
     return new Promise((resolve, reject) => {
         resolve({
             profileCummunityId: invitation.invitationCommunityId,
-            profilePhoto: user[0].profile[0].profilePhoto,
-            profileUsername: user[0].profile[0].profileUsername,
+            profilePhoto: user[0].profile.profilePhoto,
+            profileUsername: user[0].profile.profileFirstname + " " + user[0].profile.profileLastname,
             profileIsAdmin: 0,
             profileUserIsActive: true,
             profileUserIsDeleted: false,
@@ -237,14 +237,17 @@ exports.userAddNewCommnity = (invitation, user) => {
     return new Promise((resolve, reject) => {
         this.filterEventClass(invitation.invitationCommunityId)
             .then(filter => {
-                user[0].filterEvent.push(filter);
+                // TODO REMOVE FILTER ADD OPTIONS
+                // user[0].filterEvent.push(filter);
                 user[0].communities.push(invitation.invitationCommunityId);
                 this.profileClass(invitation, user)
                     .then(profile => {
-                        user[0].profile.push(profile)
+                        // TODO REMOVE PROFILE ADD OPTION
+                        //   user[0].profile.push(profile)
                         this.getUserFirstAndLastname(invitation.invitatorId)
                             .then(sendInfo => {
-                                let msg = userEmails.inviteExistingContact(sendInfo);
+                                // TODO SEND AN EMAIL OPTION OPTIONAL
+                                // let msg = userEmails.inviteExistingContact(sendInfo);
                                 this.addUsertoCommunity(user[0].userId, invitation.invitationCommunityId)
                                 // utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
                                 const userToSave  = new User(user[0])

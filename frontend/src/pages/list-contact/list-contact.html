@@ -66,7 +66,7 @@
         </button>
       </ion-item>
 
-      <ion-item-options side="right">
+      <ion-item-options *ngIf="user.userId != tabParams.userId" side="right">
         <!-- <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewEventDetails(item)">
                     <ion-icon name="eye"></ion-icon>
                     Voir
@@ -77,7 +77,7 @@
           <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="remove"></ion-icon>
         </button>
 
-        <button (click)="addComToContact($event)"  class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+        <button (click)="addComToContact($event, user.communities)"  class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
           style="position: relative; width: 50px; background-color: #77ad35;" ion-button>
           <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="add"></ion-icon>
         </button>

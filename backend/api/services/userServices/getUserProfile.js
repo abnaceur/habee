@@ -49,7 +49,7 @@ async function getComInfo(usr, communities) {
     let coms = [];
 
     return new Promise((resolve, reject) => {
-        while (i < usr.communities.length) {
+        while (i <= usr.communities.length) {
             communities.map(async cm => {
                 if (cm == usr.communities[i]) {
                     coms.push(await getCommunity(cm))
@@ -65,8 +65,9 @@ async function sendProfileInfo(res, user, communities) {
     let allusersProfile = [];
 
 
-    user.map(async (usr) => {
 
+    user.map(async (usr) => {
+    console.log("communities : ", communities, usr)
         allusersProfile.push({
             communities: await getComInfo(usr, communities),
             userId: usr.userId,

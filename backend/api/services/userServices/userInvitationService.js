@@ -150,7 +150,7 @@ updateInvitationOnStatus = (invit, res) => {
             if (err) res.send(err);
             res.status(200).json({
                 code: 200,
-                msg: "Invitation accepted."
+                msg: "Invitation rejected."
             })
         })
 }

@@ -19,6 +19,7 @@ import { CommunityProvider } from "../../providers/community/community";
 export class AddCommunityToContactPopupPage {
   allCommunities = [];
   public tabParams;
+  private userCommunities;
 
   constructor(
     public navCtrl: NavController,
@@ -26,17 +27,39 @@ export class AddCommunityToContactPopupPage {
     private communityProvider: CommunityProvider
   ) {
 
-    this.tabParams = {
-      userId: this.navParams.get("userId"),
-      token: this.navParams.get("token"),
-      activeCommunity: this.navParams.get("activeCommunity"),
-      notificationStatus: this.navParams.get("notificationStatus")
-    };
+    this.tabParams = this.navParams.get("tabParams");
+    this.userCommunities = this.navParams.get("communities");
+    console.log("this.navParams : ", this.navParams)
 
   }
 
   ionViewWillEnter() {
     this.getAllCommunities()
+  }
+
+  filterCoomunitiesToAdd(communities) {
+    let i = 0;
+    let com = [];
+    let z = 0;
+    let check = 0;
+
+    console.log("communities : ", communities, this.userCommunities)
+    while (i < communities.length) {
+      while(z < this.userCommunities.length) {
+        if (this.userCommunities[z].communityId == communities[i].communityId)
+          check++;
+        z++;
+      }
+      if (check == 0)
+        com.push(communities[i])
+      
+      check = 0;
+      z = 0;
+      i++;
+    }
+
+    console.log("Comm : ", com)
+    this.allCommunities = com;
   }
 
   getAllCommunities() {
@@ -45,8 +68,9 @@ export class AddCommunityToContactPopupPage {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-            this.allCommunities = dataCreator.communities;
-            console.log("this.allCommunities : ", this.allCommunities);
+            //this.allCommunities = dataCreator.communities;
+            console.log("this.userCommunities : ", this.userCommunities, this.allCommunities)
+            this.filterCoomunitiesToAdd(dataCreator.communities)
         });
     }
   }
