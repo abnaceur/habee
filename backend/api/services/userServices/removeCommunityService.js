@@ -1,7 +1,9 @@
 const User = require('../../models/user')
 const Community = require('../../models/community')
-const Event = require('../../models/event')
-const utils = require('../utils')
+const Event = require('../../models/event');
+const utils = require('../utils');
+const Invitation = require('../../models/invitation')
+
 
 async function updatCommunityMembersList(communityId, contactId) {
     return new Promise((resolve, reject) => {
@@ -11,7 +13,6 @@ async function updatCommunityMembersList(communityId, contactId) {
             }).exec()
             .then(com => {
                 com[0].communityMembers.splice(com[0].communityMembers.indexOf(contactId), 1)
-                console.log("Comm :", com)
                 Community.findByIdAndUpdate(com[0]._id,
                     com[0], {
                         new: false,
@@ -36,7 +37,6 @@ async function updatContactCommunitiesList(communityId, contactId) {
             }).exec()
             .then(usr => {
                 usr[0].communities.splice(usr[0].communities.indexOf(communityId), 1)
-                console.log("This contact imgo : ", usr)
                 User.findByIdAndUpdate(usr[0]._id,
                     usr[0], {
                         new: false,
@@ -52,16 +52,42 @@ async function updatContactCommunitiesList(communityId, contactId) {
     })
 }
 
+async function updateinvitationList(invitedId, communityId) {
+    return new Promise((resolve, reject) => {
+        Invitation.find({
+                invitedId: invitedId,
+                invitationCommunityId: communityId,
+                status: "accepted"
+            }).exec()
+            .then(invit => {
+                Invitation.deleteOne({
+                    _id: invit[0]._id
+                }, function (err) {
+                    if (err) resolve(false)
+                    resolve(true)
+                })
+            })
+            .catch(err => {
+                console.log("updateinvitationList : ", err);
+                resolve(false)
+            })
+    })
+}
+
 async function removeCommunity(res, contactId, communityId) {
-    console.log("we are ere : ", contactId, communityId)
-    // Remove community from the user communities list
-    console.log("jj -> : ", await updatContactCommunitiesList(communityId, contactId))
     if (await updatContactCommunitiesList(communityId, contactId) == true) {
         if (await updatCommunityMembersList(communityId, contactId) == true) {
-            res.status(200).json({
-                msg: "Succes",
-                code: 200
-            })
+            if (await updateinvitationList(contactId, communityId) == true) {
+                res.status(200).json({
+                    msg: "Succes",
+                    code: 200
+                })
+            } else {
+                res.status(200).json({
+                    msg: "Failed",
+                    code: 500
+                })
+            }
         } else {
             res.status(200).json({
                 msg: "Failed",
@@ -79,6 +105,7 @@ async function removeCommunity(res, contactId, communityId) {
 
 module.exports = {
     removeCommunity,
+    updateinvitationList,
     updatContactCommunitiesList,
     updatCommunityMembersList
 }

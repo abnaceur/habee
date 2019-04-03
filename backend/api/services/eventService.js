@@ -267,8 +267,7 @@ returnNoevent = (res) => {
     })
 }
 
-updateCommunityEvents = (communityId, res, filter, activeEvent, userId, pageTmp) => {
-    console.log("activeEvent : ", activeEvent)
+updateCommunityEvents = (alluserCom, communityId, res, filter, activeEvent, userId, pageTmp) => {
     if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
     else if (activeEvent.length === 0) returnNoevent(res);
     else {
@@ -277,6 +276,9 @@ updateCommunityEvents = (communityId, res, filter, activeEvent, userId, pageTmp)
         })
         Event.find({
                 eventCreator: userId,
+                eventCommunity: {
+                    "$ne": alluserCom
+                },
                 eventIsOver: false,
                 eventIsDeleted: false,
             })
@@ -311,25 +313,25 @@ getCommunityMemberByParticipation = (userId) => {
 AlluserCommunity = (userId) => {
     return new Promise((resolve, reject) => {
         Community.find({
-            communityCreator: userId,
-            communityIsDeleted: false
-        }).exec()
-        .then(comCreated => {
-            getCommunityMemberByParticipation(userId)
-                .then(comByPart => {
-                    let memebers = [];
-                    comCreated.map(cc => {
-                        memebers = memebers.concat(cc.communityId)
-                    })
-                    comByPart.map(cc => {
-                        memebers = memebers.concat(cc.communityId)
-                    })
-                    let uniqMembers = [...new Set(memebers)];
-                    resolve(uniqMembers)
+                communityCreator: userId,
+                communityIsDeleted: false
+            }).exec()
+            .then(comCreated => {
+                getCommunityMemberByParticipation(userId)
+                    .then(comByPart => {
+                        let memebers = [];
+                        comCreated.map(cc => {
+                            memebers = memebers.concat(cc.communityId)
+                        })
+                        comByPart.map(cc => {
+                            memebers = memebers.concat(cc.communityId)
+                        })
+                        let uniqMembers = [...new Set(memebers)];
+                        resolve(uniqMembers)
 
-                }).catch(err => console.log("Err", err))
-        })
-        .catch(err => utils.defaultError(res, err))
+                    }).catch(err => console.log("Err", err))
+            })
+            .catch(err => utils.defaultError(res, err))
     })
 }
 
@@ -340,7 +342,7 @@ filterEvent = (req, res, userId, communityId, page) => {
         pageTmp = page;
 
     AlluserCommunity(userId)
-        .then(test => {
+        .then(alluserCom => {
             User.find({
                     userId: userId,
                 })
@@ -350,15 +352,16 @@ filterEvent = (req, res, userId, communityId, page) => {
                     let filter = usr[0].filterEvent;
                     Event.find({
                             eventCommunity: {
-                                "$in": test
+                                "$in": alluserCom
                             },
                             eventIsOver: false,
                             eventIsDeleted: false,
                         })
+                        .sort('eventStartDate')
                         .skip(Number(pageTmp * 10))
                         .limit(Number(10))
                         .exec()
-                        .then(activeEvent => updateCommunityEvents(communityId, res, filter, activeEvent, userId, pageTmp))
+                        .then(activeEvent => updateCommunityEvents(alluserCom, communityId, res, filter, activeEvent, userId, pageTmp))
                         .catch(err => utils.defaultError(res, err))
                 }).catch(err => utils.defaultError(res, err))
         })

@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from "ionic-angular";
 
 import { CommunityProvider } from "../../providers/community/community";
 
 import { UtilsProvider } from "../../providers/utils/utils";
 
-import { RemoveCommunityFromContactProvider } from "../../providers/remove-community-from-contact/remove-community-from-contact"
+import { RemoveCommunityFromContactProvider } from "../../providers/remove-community-from-contact/remove-community-from-contact";
 
 /**
  * Generated class for the RemoveCommunityFromContactPopupPage page.
@@ -17,12 +17,11 @@ import { RemoveCommunityFromContactProvider } from "../../providers/remove-commu
 
 @IonicPage()
 @Component({
-  selector: 'page-remove-community-from-contact-popup',
-  templateUrl: 'remove-community-from-contact-popup.html',
+  selector: "page-remove-community-from-contact-popup",
+  templateUrl: "remove-community-from-contact-popup.html"
 })
 export class RemoveCommunityFromContactPopupPage {
-
-allCommunities = [];
+  allCommunities = [];
   public tabParams;
   private userCommunities;
   private contactInfo;
@@ -55,11 +54,20 @@ allCommunities = [];
   }
 
   removeCommunityFromContact(community) {
-    console.log("Community : ", community.communityId)
-    console.log("this.contactInfo : ", this.contactInfo.userId)
+    console.log("Community : ", community.communityId);
+    console.log("this.contactInfo : ", this.contactInfo.userId);
 
-    this.removeCommunityFromContactProvider.removeCommunity(this.tabParams, this.contactInfo.userId, community.communityId )
-    .subscribe(data => console.log("data :", data))
+    this.removeCommunityFromContactProvider
+      .removeCommunity(
+        this.tabParams,
+        this.contactInfo.userId,
+        community.communityId
+      )
+      .subscribe(data => {
+        if (data == 200)
+          this.utils.notification("Communautes supprimer avec succes !", "top");
+        else if (data == 500)
+          this.utils.notification("Desole une erreur est survenu !", "top");
+      });
   }
-
 }

@@ -24,6 +24,6 @@ export class RemoveCommunityFromContactProvider {
     return this.http.put(ENV.BASE_URL + '/users/contact/' +  contactId +'/community/'+ communityId ,
     {},
       { headers: header })
-      .map(response => response.json());
+      .map(response => response.json().code);
   }
 }
