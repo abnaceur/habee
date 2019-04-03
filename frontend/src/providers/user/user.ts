@@ -31,7 +31,7 @@ export class UserProvider {
     
     const header = this.utils.inihttpHeaderWIthToken(info.token);
 
-    return this.http.post(ENV.BASE_URL + '/users/app/community/' + info.page,
+    return this.http.post(ENV.BASE_URL + '/users/app/community/' + info.page +'/user/'+ info.userId ,
     communities,
       { headers: header })
       .map(response => response.json());

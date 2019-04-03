@@ -166,6 +166,7 @@ exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
     let eventCreator = req.params.userId;
 
+    console.log("there", eventCreator, communityId)
     Event.find({
             eventCommunity: communityId,
             eventCreator: eventCreator,
@@ -174,6 +175,7 @@ exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
         })
         .exec()
         .then(events => {
+            console.log("events.length : ", events.length)
             if (events.length === 0) {
                 return res.status(200).json({
                     code: "404",

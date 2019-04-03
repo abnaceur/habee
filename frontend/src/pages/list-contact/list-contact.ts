@@ -344,12 +344,15 @@ export class ListContactPage {
     return a;
   }
 
-  async addComToContact(ev: any, userCommunities) {
+  async addComToContact(ev: any, userCommunities, contactInfo) {
+    console.log("hhh ---- : ", this.tabParams, contactInfo, userCommunities)
+
     const popover = await this.popoverCtrl.create(
       "AddCommunityToContactPopupPage",
       {
         tabParams: this.tabParams,
-        communities: userCommunities
+        communities: userCommunities,
+        contactInfo: contactInfo,
       }
     );
     await popover.present({

@@ -11,7 +11,6 @@ getFilterOptions = (res, userId) => {
     .select("filterEvent")
     .exec()
     .then(usr => {
-        console.log("usr[0].filterEvent: ", usr[0].filterEvent)
         res.status(200).json({
             filterEvent: usr[0].filterEvent
         })

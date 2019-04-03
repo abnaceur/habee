@@ -268,6 +268,7 @@ returnNoevent = (res) => {
 }
 
 updateCommunityEvents = (communityId, res, filter, activeEvent, userId, pageTmp) => {
+    console.log("activeEvent : ", activeEvent)
     if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
     else if (activeEvent.length === 0) returnNoevent(res);
     else {
@@ -281,7 +282,8 @@ updateCommunityEvents = (communityId, res, filter, activeEvent, userId, pageTmp)
             })
             .exec()
             .then(events => {
-                if (events.length === 0) returnNoevent(res);
+                activeEvent = activeEvent.concat(events)
+                if (activeEvent.length === 0) returnNoevent(res);
                 else filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
             })
             .catch(err => {
@@ -345,9 +347,9 @@ filterEvent = (req, res, userId, communityId, page) => {
                 .select("filterEvent")
                 .exec()
                 .then(usr => {
+                    console.log("test :" , test)
                     let filter = usr[0].filterEvent;
                     Event.find({
-                            eventCreator: userId,
                             eventCommunity: {
                                 "$in": test
                             },

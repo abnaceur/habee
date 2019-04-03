@@ -1,6 +1,7 @@
 const User = require('../../models/user')
 const utils = require('../utils')
 const Community = require("../../models/community")
+const Invitation = require("../../models/invitation")
 
 // sendProfileInfo = (res, user, communityId) => {
 //     let i = 0;
@@ -67,7 +68,6 @@ async function sendProfileInfo(res, user, communities) {
 
 
     user.map(async (usr) => {
-    console.log("communities : ", communities, usr)
         allusersProfile.push({
             communities: await getComInfo(usr, communities),
             userId: usr.userId,
@@ -95,7 +95,7 @@ async function sendProfileInfo(res, user, communities) {
 
 
 
-getUserProfileInfo = (req, res, page) => {
+getUserProfileInfo = (req, res, page, userId) => {
     let communities = [];
     let pageTmp = 0
 
@@ -106,24 +106,52 @@ getUserProfileInfo = (req, res, page) => {
         communities.push(com.communityId)
     })
 
-    User.find({
-            communities: {
+    console.log("communities : ", communities, userId)
+
+    Invitation.find({
+            invitationCommunityId: {
                 "$in": communities
-            }
+            },
+            invitatorId: userId,
+            status: "accepted"
         })
         .skip(Number(pageTmp * 10))
         .limit(Number(10))
         .exec()
-        .then(users => {
-            if (users.length === 0) {
-                return res.status(404).json({
-                    message: "There are no users !"
+        .then(invits => {
+            let usrIds = [];
+
+            invits.map(usrId => {
+                usrIds.push(usrId.invitedId)
+            })
+
+            let uniqIds = [...new Set(usrIds)];
+            uniqIds.push(userId)
+
+            console.log("usrIds : ", uniqIds)
+            User.find({
+                    userId: {
+                        "$in": uniqIds,
+                    },
+                    communities: {
+                        "$in": communities
+                    }
                 })
-            } else {
-                sendProfileInfo(res, users, communities)
-            }
-        })
-        .catch(err => utils.defaultError(res, err))
+                .skip(Number(pageTmp * 10))
+                .limit(Number(10))
+                .exec()
+                .then(users => {
+                    if (users.length === 0) {
+                        return res.status(404).json({
+                            message: "There are no users !"
+                        })
+                    } else {
+                        sendProfileInfo(res, users, communities)
+                    }
+                })
+                .catch(err => utils.defaultError(res, err))
+        }).catch(err => utils.defaultError(res, err))
+
 }
 
 module.exports = {

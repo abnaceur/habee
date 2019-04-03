@@ -66,8 +66,9 @@ exports.getAllusersByCommunityId = (req, res, next) => {
 
 exports.getAllusersByCommunityIdMobile = (req, res, next) => {
     let page = req.params.page;
+    let userId = req.params.userId
 
-    userProfileService.getUserProfileInfo(req, res, page)
+    userProfileService.getUserProfileInfo(req, res, page, userId)
 }
 
 
@@ -230,7 +231,6 @@ exports.get_user_by_id = (req, res, next) => {
 exports.postInvitedContacts = (req, res, next) => {
     let userId = req.params.userId;
 
-    console.log("Here =========================")
     userService.addContacts(req.body, userId)
         .then(email => {
             res.status(200).json({

@@ -59,9 +59,7 @@ export class CommunityEventListPage {
             .subscribe(dataParticipation => {
               console.log("dataCreator : ", dataCreator.communities, dataParticipation)
               dataCreator.communities = dataCreator.communities.concat(dataParticipation);
-              if (dataCreator.communities.length > 1) {
                 this.allCommunities = dataCreator.communities
-              }
             });
         });
     }

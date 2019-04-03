@@ -47,7 +47,6 @@ export class ConatctListFilterPage {
 
   getAllCommunities() {
     if (this.tabParams.activeCommunity != "") {
-      console.log("here")
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {

@@ -103,7 +103,6 @@ export class AddContactPage {
   async invitContacts() {
     let emailsList;
 
-    console.log("here 1111: ", this.contactArray, this.allCommunities);
     emailsList = await this.addContactProvider.isFieldEmpty(
       this.contactArray,
       this.tabParams
@@ -112,12 +111,10 @@ export class AddContactPage {
   }
 
   getAllCommunities() {
-    console.log("test");
     if (this.tabParams.activeCommunity != "") {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-          console.log("dataCreator : ", dataCreator);
           this.allCommunities = this.allCommunities.concat(
             dataCreator.communities
           );

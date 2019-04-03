@@ -1,6 +1,6 @@
 <ion-list>
   <span *ngFor="let community of allCommunities">
-    <ion-item>
+    <ion-item (click)="sendAddInvitation(community)">
       <ion-label>{{community.communityName}}</ion-label>
       <ion-icon style="color: #77ad35" item-left name="add-circle">
       </ion-icon>
