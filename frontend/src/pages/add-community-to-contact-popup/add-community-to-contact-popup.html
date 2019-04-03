@@ -6,4 +6,11 @@
       </ion-icon>
     </ion-item>
   </span>
+  <span *ngIf="allCommunities.length == 0">
+    <ion-item (click)="sendAddInvitation(community)">
+      <ion-label>Vide</ion-label>
+      <ion-icon style="color: #5ca008" item-left name="information-circle">
+      </ion-icon>
+    </ion-item>
+  </span>
 </ion-list>

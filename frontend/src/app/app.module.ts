@@ -62,6 +62,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { ProposeEventProvider } from '../providers/propose-event/propose-event';
 import { CommunityEventListPageModule } from "../pages/community-event-list/community-event-list.module"
+import { RemoveCommunityFromContactProvider } from '../providers/remove-community-from-contact/remove-community-from-contact';
 
 
 
@@ -134,7 +135,8 @@ import { CommunityEventListPageModule } from "../pages/community-event-list/comm
     InvitationProvider,
     LocalNotifications,
     BackgroundMode,
-    ProposeEventProvider
+    ProposeEventProvider,
+    RemoveCommunityFromContactProvider
   ]
 })
 export class AppModule { }

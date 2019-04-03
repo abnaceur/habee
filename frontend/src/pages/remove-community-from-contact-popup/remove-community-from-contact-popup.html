@@ -1,18 +1,16 @@
-<!--
-  Generated template for the RemoveCommunityFromContactPopupPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>removeCommunityFromContactPopup</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+<ion-list>
+  <span *ngFor="let community of allCommunities">
+    <ion-item (click)="removeCommunityFromContact(community)">
+      <ion-label>{{community.communityName}}</ion-label>
+      <ion-icon style="color: #e11d6f" item-left name="close-circle">
+      </ion-icon>
+    </ion-item>
+  </span>
+  <span *ngIf="allCommunities.length == 0">
+    <ion-item (click)="sendAddInvitation(community)">
+      <ion-label>Vide</ion-label>
+      <ion-icon style="color: #5ca008" item-left name="information-circle">
+      </ion-icon>
+    </ion-item>
+  </span>
+</ion-list>

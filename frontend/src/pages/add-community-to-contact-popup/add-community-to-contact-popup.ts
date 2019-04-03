@@ -89,7 +89,6 @@ export class AddCommunityToContactPopupPage {
     this.addContactProvider
       .sendContactInvitation(arrayContact, this.tabParams)
       .subscribe(data => {
-        console.log("Data response  :", data);
         if (data.msg[0].status == 200)
           this.utils.notification("Invitation envoyée avec succes", "top");
         else if (data.msg[0].status == 204)

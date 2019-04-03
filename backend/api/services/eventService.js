@@ -347,7 +347,6 @@ filterEvent = (req, res, userId, communityId, page) => {
                 .select("filterEvent")
                 .exec()
                 .then(usr => {
-                    console.log("test :" , test)
                     let filter = usr[0].filterEvent;
                     Event.find({
                             eventCommunity: {

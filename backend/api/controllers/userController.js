@@ -19,6 +19,8 @@ const updateNotificationAccount = require("../services/userServices/updateNotifi
 const getNotificationStatus = require("../services/userServices/getNotificationStatus")
 const getUsrService = require('../services/userServices/getUserById')
 const allusersCommunityConcat = require("../services/userServices/allusersCommunityConcatService")
+const removeCommunityService = require("../services/userServices/removeCommunityService")
+
 
 
 exports.login_user = (req, res, next) => {
@@ -408,4 +410,11 @@ exports.getAllusersCommunityConcat = (req, res, next) => {
     let userId = req.params.userId;
     
     allusersCommunityConcat.AllusersCommunityConcat(res, userId)
+}
+
+exports.removeCommunityFromContact = (req, res, next) => {
+    let contactId = req.params.contactId;
+    let communityId = req.params.communityId;
+
+    removeCommunityService.removeCommunity(res, contactId, communityId)
 }

@@ -23,7 +23,6 @@ import { environment as ENV } from "../../environments/environment";
 
 import { UserProvider } from "../../providers/user/user";
 
-
 import {
   BarcodeScanner,
   BarcodeScannerOptions
@@ -66,7 +65,6 @@ export class ListContactPage {
   preload = true;
 
   public invitationList: any;
-
 
   constructor(
     private communityProvider: CommunityProvider,
@@ -125,13 +123,13 @@ export class ListContactPage {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-              this.tabParams.page = this.page
-              this.allCommunities = dataCreator.communities;
-              this.userProvider
-                .getAllUserByCommunityId(this.tabParams, this.allCommunities)
-                .subscribe(response => {
-                  this.contact = response.users;
-                });
+          this.tabParams.page = this.page;
+          this.allCommunities = dataCreator.communities;
+          this.userProvider
+            .getAllUserByCommunityId(this.tabParams, this.allCommunities)
+            .subscribe(response => {
+              this.contact = response.users;
+            });
         });
     }
   }
@@ -247,10 +245,10 @@ export class ListContactPage {
       this.invitationProvider
         .updateNotification(this.tabParams)
         .subscribe(data => {
-          console.log("Notifcations updated!", data)
+          console.log("Notifcations updated!", data);
           this.notificationCount = 0;
         });
-    } 
+    }
     this.myContactBorder = "";
     this.myContactBorderDisplay = "none";
     this.listInvitBorder = "5px solid darkgrey";
@@ -268,11 +266,6 @@ export class ListContactPage {
             this.communityProvider
               .getCommunitiesByParticipation(this.tabParams)
               .subscribe(dataParticipation => {
-                console.log(
-                  "dataCreator : ",
-                  dataCreator.communities,
-                  dataParticipation
-                );
                 dataCreator.communities = dataCreator.communities.concat(
                   dataParticipation
                 );
@@ -313,7 +306,10 @@ export class ListContactPage {
             .getAllUserInvitations(this.tabParams)
             .subscribe(data => {
               this.invitationList = data;
-              this.utils.notification("Votre nouvel communauté est bien ajouté!", "top");
+              this.utils.notification(
+                "Votre nouvel communauté est bien ajouté!",
+                "top"
+              );
             });
         } else {
           this.utils.notification("Sorry, something went wrong!", "top");
@@ -345,14 +341,14 @@ export class ListContactPage {
   }
 
   async addComToContact(ev: any, userCommunities, contactInfo) {
-    console.log("hhh ---- : ", this.tabParams, contactInfo, userCommunities)
+    console.log("hhh ---- : ", this.tabParams, contactInfo, userCommunities);
 
     const popover = await this.popoverCtrl.create(
       "AddCommunityToContactPopupPage",
       {
         tabParams: this.tabParams,
         communities: userCommunities,
-        contactInfo: contactInfo,
+        contactInfo: contactInfo
       }
     );
     await popover.present({
@@ -360,10 +356,27 @@ export class ListContactPage {
     });
 
     await popover.onDidDismiss(data => {
-      console.log("Add community dissmissed!", data)
+      console.log("Add community dissmissed!", data);
     });
   }
 
+  async removeComFromContact(ev: any, userCommunities, contactInfo) {
+    const popover = await this.popoverCtrl.create(
+      "RemoveCommunityFromContactPopupPage",
+      {
+        tabParams: this.tabParams,
+        communities: userCommunities,
+        contactInfo: contactInfo
+      }
+    );
+    await popover.present({
+      ev: ev
+    });
+
+    await popover.onDidDismiss(data => {
+      console.log("Remove community dissmissed!", data);
+    });
+  }
 
   // async presentContactFilter(ev: any) {
   //   const popover = await this.popoverCtrl.create(

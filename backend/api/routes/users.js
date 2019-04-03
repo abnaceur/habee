@@ -236,5 +236,11 @@ router.get('/notification/status/:userId', authCkeck, userController.getNotifica
 
 router.get('/app/allcontacts/:userId', authCkeck, userController.getAllusersCommunityConcat);
 
+/*
+ ** API [GET] for route /users/contact/:contactId/community/:communityId [USED]
+ */
+
+router.put('/contact/:contactId/community/:communityId', authCkeck, userController.removeCommunityFromContact);
+
 
 module.exports = router;
