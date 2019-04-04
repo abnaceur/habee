@@ -5,36 +5,68 @@
   Ionic pages and navigation.
 -->
 <ion-header style="height: 50px;
-background-color: #77B650;">
+background-color: #fcfcfc;">
 
-<ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
+  <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
 
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
-    <span style="font-size: 17px;color: white; font-weight: bold">Mon profile</span>
+    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Mon profile</span>
   </ion-title>
 </ion-header>
 
-<ion-content no-padding >
+<ion-content no-padding>
+  <ion-icon item-right style="z-index: 111; color: white; position: absolute;top: 25;right: 4px;font-size: 22px;"
+    class="optionsStyle pop-in" (click)="editProfileModal()" name="create"></ion-icon>
+  <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + imageUrl +')'}"></div>
+  <div id="content">
+    <div id="profile-info">
+      <img id="profile-image" [src]='url + "/" + user.profile.profilePhoto'>
+      <h3 id="profile-name">{{user.profile.profileLastname}} {{user.profile.profileFirstname}}</h3>
+    </div>
+
+    <ion-row class="profile-numbers">
+      <ion-col col-6>
+        <p>Habee'Team</p>
+        <span>{{user.nbrCommunityByCreation}}</span>
+      </ion-col>
+      <ion-col col-6>
+        <p>Habee'Nautes</p>
+        <span>{{user.nbrCommunityByPrticipation}}</span>
+      </ion-col>
+      <ion-col col-6>
+          <p>Habee'Organisé</p>
+          <span>{{user.eventCreated}}</span>
+        </ion-col>
+      <ion-col col-6>
+        <p>Habee'Participé</p>
+        <span>{{user.nbrEventsParticipated}}</span>
+      </ion-col>
+    </ion-row>
+
+  </div>
+
+  <!-- 
+
 
   <ion-item id="profile-bg" [ngStyle]="{'background-image': 'url(' + coverImage +')'}">
-    <ion-icon item-right style="position: absolute;top: 20;right: 4px;font-size: 22px;" class="optionsStyle pop-in" 
-    (click)="editProfileModal()" name="create"></ion-icon>
-    
+    <ion-icon item-right style="position: absolute;top: 20;right: 4px;font-size: 22px;" class="optionsStyle pop-in"
+      (click)="editProfileModal()" name="create"></ion-icon>
+
     <ion-thumbnail item-start>
-          <img id="profile-image" [src]='url + "/" + user.profile.profilePhoto'/>
+      <img id="profile-image" [src]='url + "/" + user.profile.profilePhoto' />
     </ion-thumbnail>
     <p class="profileTitle  ">{{user.profile.profileUsername}}</p>
   </ion-item>
 
   <div id="content">
-    <ion-row class="profileStat" [ngStyle]="{'background-image': 'url(' + coverImage +')'}" >
-    
+    <ion-row class="profileStat" [ngStyle]="{'background-image': 'url(' + coverImage +')'}">
+
       <ion-col col-4>
         <p style="color:honeydew">Communautés</p>
         <span style="color:honeydew">{{user.nbrCommunities}}</span>
       </ion-col>
-    
+
       <ion-col col-4>
         <p style="color:honeydew">Proposé</p>
         <span style="color:honeydew">{{user.eventCreated}}</span>
@@ -45,6 +77,8 @@ background-color: #77B650;">
         <span style="color:honeydew">{{user.nbrEventsParticipated}}</span>
       </ion-col>
     </ion-row>
-  
-  </div>
+
+  </div> -->
+
+
 </ion-content>

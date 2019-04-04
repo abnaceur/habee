@@ -1,22 +1,22 @@
 page-profile {
 
-  .profileStat {
-    padding-bottom: 3vw;
-    position: fixed;
-    width: 100%;
-    /* padding-top: 12rem; */
-    top: 14rem;
-    background-color: black;
-    opacity: 0.7;
-  }
+  // .profileStat {
+  //   padding-bottom: 3vw;
+  //   position: fixed;
+  //   width: 100%;
+  //   /* padding-top: 12rem; */
+  //   top: 14rem;
+  //   background-color: black;
+  //   opacity: 0.7;
+  // }
 
-  .profileTitle {
-    color: white;
-    position: absolute;
-    top: 6rem;
-    font-size: 18px;
-    font-weight: 900;
-  }
+  // .profileTitle {
+  //   color: white;
+  //   position: absolute;
+  //   top: 6rem;
+  //   font-size: 18px;
+  //   font-weight: 900;
+  // }
 
   .myview_events {
     background-image: url('../assets/imgs/MainBackground_1.png');
@@ -24,46 +24,62 @@ page-profile {
     background-size: cover;
   }
 
-  .card-background-page {
+  //   .card-background-page {
 
-    ion-card {
-      position: relative;
+  //     ion-card {
+  //       position: relative;
+  //       text-align: center;
+  //     }
+
+  //     .card-title {
+  //       position: absolute;
+  //       top: 47%;
+  //       font-size: 2.0em;
+  //       width: 100%;
+  //       font-weight: bold;
+  //       color: #fff;
+  //       left: -2px;
+  //     }
+
+  //     .card-subtitle {
+  //       font-size: 1.0em;
+  //       position: absolute;
+  //       bottom: 10%;
+  //       left: 25%;
+  //       width: 100%;
+  //       color: #fff;
+  //     }
+
+  //   }
+
+  //   .timeStyle {
+  //     font-size: 1.4em;
+  //     position: absolute;
+  //     display: inline-block;
+  //     color: #3594cb;
+  //     top: 15%;
+  //     left: 67%;
+  //   }
+
+  //   .eventFooter {
+  //     position: relative;
+  //     height: 65px;
+  //   }
+  .profile-numbers {
+    text-align: center;
+    p {
       text-align: center;
+      color: #444;
+      font-size: medium;
+      margin-bottom: 3px;
     }
 
-    .card-title {
-      position: absolute;
-      top: 47%;
-      font-size: 2.0em;
-      width: 100%;
+    span {
+      text-align: center;
       font-weight: bold;
-      color: #fff;
-      left: -2px;
+      font-size: 2.4rem;
+      color: #34354c;
     }
-
-    .card-subtitle {
-      font-size: 1.0em;
-      position: absolute;
-      bottom: 10%;
-      left: 25%;
-      width: 100%;
-      color: #fff;
-    }
-
-  }
-
-  .timeStyle {
-    font-size: 1.4em;
-    position: absolute;
-    display: inline-block;
-    color: #3594cb;
-    top: 15%;
-    left: 67%;
-  }
-
-  .eventFooter {
-    position: relative;
-    height: 65px;
   }
 
   .menuStyle {
@@ -72,126 +88,258 @@ page-profile {
     top: 6px;
     left: 4%;
     font-size: 40px;
-    color: floralwhite
+    color: #3b3b3b
   }
 
-  .comLogo {
-    position: absolute;
-    display: inline;
-    left: 54px;
-    height: 64%;
-    top: 19%;
-  }
+  //   .comLogo {
+  //     position: absolute;
+  //     display: inline;
+  //     left: 54px;
+  //     height: 64%;
+  //     top: 19%;
+  //   }
 
-  .item ion-thumbnail {
-    min-width: 5rem;
-    min-height: 5rem;
+  //   .item ion-thumbnail {
+  //     min-width: 5rem;
+  //     min-height: 5rem;
 
-    img {
-      max-width: 6rem;
-      min-width: 5rem;
-    }
-  }
-
-
-  .styleParticipants {
-    margin-top: 11px;
-    color: deeppink;
-    font-weight: bolder;
-    font-size: small;
-    font-family: sans-serif;
-  }
-
-  .commName {
-    position: absolute;
-    display: inline-flex;
-    left: 27%;
-    top: 37%;
-    color: aliceblue;
-    font-weight: bolder;
-    font-size: 19px;
-    font-family: sans-serif;
-  }
-
-  .optionsStyle {
-    position: relative;
-    float: right;
-    top: 12px;
-    right: 4%;
-    font-size: 30px;
-    color: floralwhite
-  }
-
-  .toolbar-background-md {
-    background-color: #5cbcc1;
-    ;
-  }
+  //     img {
+  //       max-width: 6rem;
+  //       min-width: 5rem;
+  //     }
+  //   }
 
 
-  #notifications-badge {
-    background-color: #7683ab;
-    position: absolute;
-    // display: inline-table;
-    width: 18px;
-    height: 18px;
-    top: 6px;
-    z-index: 11;
-    right: 5px;
-    border-radius: 100%;
-  }
+  //   .styleParticipants {
+  //     margin-top: 11px;
+  //     color: deeppink;
+  //     font-weight: bolder;
+  //     font-size: small;
+  //     font-family: sans-serif;
+  //   }
 
-  #badg-notif {
-    position: absolute;
-    z-index: 11;
-    right: -10px;
-    font-size: 12px;
-    /* height: 16px; */
-    top: -8px;
-    border-radius: 100%;
-  }
+  //   .commName {
+  //     position: absolute;
+  //     display: inline-flex;
+  //     left: 27%;
+  //     top: 37%;
+  //     color: aliceblue;
+  //     font-weight: bolder;
+  //     font-size: 19px;
+  //     font-family: sans-serif;
+  //   }
 
-  ion-content {
-    background: linear-gradient(0deg, #eeeef1 0%, white 80%, white 100%);
-  }
+  //   .optionsStyle {
+  //     position: relative;
+  //     float: right;
+  //     top: 12px;
+  //     right: 4%;
+  //     font-size: 30px;
+  //     color: floralwhite
+  //   }
 
-  button,
-  ion-button,
-  .button-md,
-  .button-ios {
-    text-transform: none !important;
-  }
+  //   .toolbar-background-md {
+  //     background-color: #5cbcc1;
+  //     ;
+  //   }
 
-  p {
-    color: #444;
-  }
 
-  // Cover image
+  //   #notifications-badge {
+  //     background-color: #7683ab;
+  //     position: absolute;
+  //     // display: inline-table;
+  //     width: 18px;
+  //     height: 18px;
+  //     top: 6px;
+  //     z-index: 11;
+  //     right: 5px;
+  //     border-radius: 100%;
+  //   }
+
+  //   #badg-notif {
+  //     position: absolute;
+  //     z-index: 11;
+  //     right: -10px;
+  //     font-size: 12px;
+  //     /* height: 16px; */
+  //     top: -8px;
+  //     border-radius: 100%;
+  //   }
+
+  //   ion-content {
+  //     background: linear-gradient(0deg, #eeeef1 0%, white 80%, white 100%);
+  //   }
+
+  //   button,
+  //   ion-button,
+  //   .button-md,
+  //   .button-ios {
+  //     text-transform: none !important;
+  //   }
+
+  //   p {
+  //     color: #444;
+  //   }
+
+  //   // Cover image
+  //   #profile-bg {
+  //     position: absolute;
+  //     left: 0;
+  //     width: 100%;
+  //     margin-top: -16px;
+  //     height: 160px;
+  //     background-size: cover;
+  //     background-repeat: no-repeat;
+  //     background-position: center;
+  //     text-align: center;
+  //   }
+
+  //   // Profile content
+  //   #content {
+  //     position: relative;
+  //     margin-top: 21vw;
+  //     padding-top: 49vw;
+  //     text-align: center;
+  //   }
+
+  //   #profile-image {
+  //     height: 63px;
+  //     width: 57px;
+  //     position: relative;
+  //     bottom: 10px;
+  //     border-radius: 100%;
+  //   }
+
+  //   #profile-info {
+  //     position: absolute;
+  //     top: -95px;
+  //     width: 100%;
+  //     z-index: 2;
+  //     text-align: center;
+  //   }
+
+  //   #profile-name {
+  //     color: #444;
+  //     font-size: 26px;
+  //   }
+
+  //   .profile-description {
+  //     font-size: 15px;
+  //     color: #888;
+  //   }
+
+  //   .follow-button {
+  //     text-transform: none;
+  //     border-radius: 3px !important;
+
+  //     ion-icon {
+  //       font-weight: bold;
+  //       padding-left: 5px;
+  //       font-size: 2.5rem;
+  //     }
+  //   }
+
+  //   // Following, Followers and all..
+  //   .profile-numbers {
+  //     p {
+  //       color: #444;
+  //       font-size: medium;
+  //       margin-bottom: 3px;
+  //     }
+
+  //     span {
+  //       font-weight: bold;
+  //       font-size: 2.4rem;
+  //       color: #34354c;
+  //     }
+  //   }
+
+  //   hr {
+  //     border: 0;
+  //     height: 1px;
+  //     background: #444;
+  //     background: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, rgb(188, 198, 214) 50%, hsla(0, 0%, 0%, 0) 100%);
+  //   }
+
+  //   // Posts feed
+  //   #posts {
+  //     text-align: justify;
+  //   }
+
+  // }
+
+  // .buttons {
+  //   width: 100px;
+  //   height: 22px;
+  //   font-size: 10px;
+  // }
+
+  // .myview_profile {
+  //   background-image: url('../assets/imgs/MainBackground_1.png');
+  //   background-repeat: no-repeat;
+  //   background-size: cover;
+  // }
+
+  // .edit-icon {
+  //   float: right;
+  //   right: -8px;
+  //   border: 0.3px solid blue;
+  //   z-index: 12;
+  //   top: 20px;
+  //   position: relative;
+  //   cursor: pointer;
+  // }
+
+  // .img-avatar {
+  //   top: 21px;
+  //   width: 148px;
+  //   height: 148px;
+  //   position: relative;
+  //   z-index: -12;
+  // }
+
+  // .img-scroll {
+  //   height: 63px;
+  //   width: 57px;
+  //   position: relative;
+  //   bottom: 10px;
+  // }
+
+  // .img-scroll-add {
+  //   height: 33px;
+  //   width: 27px;
+  //   position: relative;
+  //   bottom: 20px;
+  // }
+
+  // .scroll-zoom-wrapper {
+  //   margin-top: 19px;
+  // }
+
+  // .editName {
+  //   cursor: pointer;
+  // }
+
   #profile-bg {
-    position: absolute;
+    position: fixed;
     left: 0;
+    //top: 44px;
     width: 100%;
-    margin-top: -16px;
-    height: 160px;
+    height: 150px;
+    background-color: #77ad35;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: 50% 20%;
+
     text-align: center;
   }
 
-  // Profile content
   #content {
     position: relative;
-    margin-top: 21vw;
-    padding-top: 49vw;
-    text-align: center;
-  }
-
-  #profile-image {
-    height: 63px;
-    width: 57px;
-    position: relative;
-    bottom: 10px;
-    border-radius: 100%;
+    margin-top: 150px;
+    background-color: white;
+    // box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.4);
+    padding-top: 130px;
   }
 
   #profile-info {
@@ -207,99 +355,58 @@ page-profile {
     font-size: 26px;
   }
 
-  .profile-description {
+  #profile-description {
     font-size: 15px;
     color: #888;
   }
 
-  .follow-button {
-    text-transform: none;
-    border-radius: 3px !important;
-
-    ion-icon {
-      font-weight: bold;
-      padding-left: 5px;
-      font-size: 2.5rem;
-    }
+  #profile-description a {
+    color: #888;
   }
 
-  // Following, Followers and all..
-  .profile-numbers {
-    p {
-      color: #444;
-      font-size: medium;
-      margin-bottom: 3px;
-    }
-
-    span {
-      font-weight: bold;
-      font-size: 2.4rem;
-      color: #34354c;
-    }
+  #profile-image {
+    display: block;
+    border-radius: 100px;
+    border: 1px solid #fff;
+    width: 128px;
+    height: 128px;
+    margin: 30px auto 0;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.7);
   }
 
-  hr {
-    border: 0;
-    height: 1px;
-    background: #444;
-    background: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, rgb(188, 198, 214) 50%, hsla(0, 0%, 0%, 0) 100%);
+  .list-item-content {
+    padding: 5px;
   }
 
-  // Posts feed
-  #posts {
-    text-align: justify;
+  .list-item {
+    color: #666666;
   }
 
-}
+  .post {
+    color: #444;
+  }
 
-.buttons {
-  width: 100px;
-  height: 22px;
-  font-size: 10px;
-}
+  .post-time {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 11px;
+    color: #888;
+  }
 
-.myview_profile {
-  background-image: url('../assets/imgs/MainBackground_1.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+  .post-profile-image {
+    display: inline-block;
+    vertical-align: top;
+    width: 48px;
+    height: 48px;
+    margin-right: 10px;
+  }
 
-.edit-icon {
-  float: right;
-  right: -8px;
-  border: 0.3px solid blue;
-  z-index: 12;
-  top: 20px;
-  position: relative;
-  cursor: pointer;
-}
-
-.img-avatar {
-  top: 21px;
-  width: 148px;
-  height: 148px;
-  position: relative;
-  z-index: -12;
-}
-
-.img-scroll {
-  height: 63px;
-  width: 57px;
-  position: relative;
-  bottom: 10px;
-}
-
-.img-scroll-add {
-  height: 33px;
-  width: 27px;
-  position: relative;
-  bottom: 20px;
-}
-
-.scroll-zoom-wrapper {
-  margin-top: 19px;
-}
-
-.editName {
-  cursor: pointer;
+  .post-options {
+    position: absolute;
+    font-size: 16px;
+    right: 5px;
+    bottom: 5px;
+    color: #888;
+  }
 }
