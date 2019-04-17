@@ -73,7 +73,9 @@ export class ProfilePage {
   }
 
   editProfileModal() {
-    const modal = this.modalCtrl.create("EditProfilePage", this.tabParams);
+    const modal = this.modalCtrl.create("EditProfilePage", this.tabParams, {
+      cssClass: "comEvent-modal"
+    });
     modal.onDidDismiss(data => this.getProfileInfo());
     modal.present();
   }
@@ -86,7 +88,7 @@ export class ProfilePage {
           .getCommunitiesByParticipation(this.tabParams)
           .subscribe(dataParticipation => {
             this.user.nbrCommunityByCreation = dataCreator.communities.length;
-            this.user.nbrCommunityByPrticipation = dataParticipation.length
+            this.user.nbrCommunityByPrticipation = dataParticipation.length;
           });
       });
   }

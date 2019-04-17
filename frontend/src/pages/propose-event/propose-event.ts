@@ -202,7 +202,6 @@ export class ProposeEventPage {
       { cssClass: "comEvent-modal" }
     );
     modal.onDidDismiss(data => {
-      console.log("Daa ===> :", data);
       if (data.length == 0) this.listCommunity.push(this.tabParams.activeCommunity);
       else if (data.length > 0) this.listCommunity = data;
     });

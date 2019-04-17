@@ -73,7 +73,8 @@ export class EditProfilePage {
   ) {
 
     this.modifierProfileForm = formBuilder.group({
-      profileUsername: ['', Validators.compose([Validators.required])],
+      profileLastname: ['', Validators.compose([Validators.required])],
+      profileFirstname: ['', Validators.compose([Validators.required])],
     });
 
     this.tabParams = {

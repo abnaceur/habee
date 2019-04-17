@@ -16,7 +16,7 @@ export class TabsPage {
   tab2Root = "MyEventsPage";
   tab3Root = "ProfilePage";
   tab4Root = "ListContactPage";
-  tab5Root = "GoodPlansPage";
+  tab5Root = "CommunityPage";
 
   constructor(
     public navCtrl: NavController,
@@ -44,7 +44,7 @@ export class TabsPage {
     if (this.navParams.data.length == 2) {
       console.log("this.navParams.data :", this.navParams.data)
       if (this.navParams.data[0] == "Acceuil") this.tabRef.select(0);
-      if (this.navParams.data[0] == "Paramètre") this.tabRef.select(4);
+      // if (this.navParams.data[0] == "Paramètre") this.tabRef.select(4);
       if (this.navParams.data[0] == "Profile") this.tabRef.select(3);
       if (this.navParams.data[0] == "listContact") this.tabRef.select(2);
       if (this.navParams.data[0] == "Deconnexion") {

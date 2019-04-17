@@ -91,7 +91,8 @@ export class ProfileProvider {
           "/community/" +
           userInfo.activeCommunity,
         {
-          profileUsername: profileName.profileUsername,
+          profileFirstname: profileName.profileFirstname,
+          profileLastname: profileName.profileLastname,
           profileImage: photo
         },
         { headers: header }

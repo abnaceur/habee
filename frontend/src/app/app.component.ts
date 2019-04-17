@@ -229,7 +229,10 @@ export class MyApp {
       this.updatCommunityList();
       this.menu.enable(true, "menu-community");
       this.menu.toggle("menu-community");
-    } else {
+    } else if (page.title == "Paramètre") {
+      this.nav.push("GoodPlansPage", this.userData)
+    }
+    else {
       let menuData = [page.title, this.userData];
       this.nav.setRoot(page.component, menuData);
     }
