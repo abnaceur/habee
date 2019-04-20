@@ -328,6 +328,7 @@ export class EventDetailsPage {
 
   openUserDetailsModal(userDetails) {
     let navInfo = {
+      check: 1,
       userDetails: userDetails,
       userId: userDetails.participantId,
       token: this.tabParams.token,

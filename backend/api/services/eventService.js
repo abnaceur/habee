@@ -153,7 +153,7 @@ exports.initBodyReq = (check, req, user, event, communityId) => {
         req.body.nbrSubscribedParticipants = event[0].participants.length;
         req.body.participants.push({
             "participantId": user[0].userId,
-            "participantname": user[0].profile.profileUsername,
+            "participantname": user[0].profile.profileLastname + " " + user[0].profile.profileFirstname,
             "participantPhoto": user[0].profile.profilePhoto,
         })
     } else {

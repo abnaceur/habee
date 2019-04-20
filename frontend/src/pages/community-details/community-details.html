@@ -44,7 +44,7 @@
               min-height: 100px;">
           <a *ngFor="let member of community.communityMembers">
             <img class="img-scroll" [src]='url + "/" + member.profile.profilePhoto'
-              (click)="openUserDetailsModal(member.profile)">
+              (click)="openUserDetailsModal(member.userId, member.profile)">
           </a>
         </ion-scroll>
   </ion-item>

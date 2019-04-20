@@ -73,4 +73,19 @@ export class CommunityDetailsPage {
       });
   }
 
+  openUserDetailsModal(userDetails, user) {
+    console.log("userDetails :", userDetails);
+    let navInfo = {
+      check: 0,
+      userDetails: user,
+      userId: userDetails,
+      token: this.tabParams.token,
+      activeCommunity: this.comId
+    };
+
+    this.modalCtrl
+      .create("PopupUserDetailModalPage", navInfo, { cssClass: "comEdit-modal" })
+      .present();
+  }
+
 }

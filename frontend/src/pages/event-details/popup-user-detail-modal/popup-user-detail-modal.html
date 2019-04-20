@@ -11,7 +11,12 @@
     <ion-row>
       <ion-col col-12 text-center>
         <div class="center">
+          <span *ngIf="tabParams.check == 1">
             <img style="width: 50%; height: 50%;" [src]='url + "/" + user.participantPhoto' />
+          </span>
+          <span *ngIf="tabParams.check == 0">
+            <img style="width: 50%; height: 50%;" [src]='url + "/" + user.profilePhoto' />
+          </span>
         </div>
       </ion-col>
     </ion-row>
@@ -19,7 +24,12 @@
     <ion-row>
       <ion-col col-12 text-center>
         <div style="font-size: 26px; color:white; z-index: 111;" class="center">
-          <p>{{user.participantname}}</p>
+          <span *ngIf="tabParams.check == 1">
+            <p>{{user.participantname}}</p>
+          </span>
+          <span *ngIf="tabParams.check == 0">
+            <p>{{user.profileLastname}} {{user.profileFirstname}}</p>
+          </span>
         </div>
       </ion-col>
     </ion-row>

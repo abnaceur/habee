@@ -10,6 +10,7 @@ async function getMembersinfo (usersIds) {
                 "$in": usersIds
             }
         }).select("profile")
+        .select("userId")
         .exec()
         .then(data => {
             resolve(data)
@@ -37,7 +38,6 @@ async function communityDetails (res, comId) {
     }).then(async data => {
         let members = await getMembersinfo(data[0].communityMembers)
         let events = await getEventsInfo(data[0].communityId);
-        console.log("Data : ", data, members, events)
         res.status(200).json({
             communityMembers: members,
             communityId: data[0].communityId,
