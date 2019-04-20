@@ -237,6 +237,7 @@ putEventByUserId = (req, res) => {
 
 
 filterWithPublicTrue = (res, activeEvent, filter, userId, pageTmp) => {
+    console.log("activeEvent :", activeEvent.length)
     utils.filterEvents(activeEvent, filter, userId)
         .then(filteredEvent => {
             Event.find({
@@ -246,6 +247,7 @@ filterWithPublicTrue = (res, activeEvent, filter, userId, pageTmp) => {
                 })
                 .exec()
                 .then(evs => {
+                    console.log("filteredEvent :", filteredEvent.length)
                     res.status(200).json({
                         Count: filteredEvent.length,
                         per_page: 10,
@@ -268,12 +270,13 @@ returnNoevent = (res) => {
 }
 
 updateCommunityEvents = (alluserCom, communityId, res, filter, activeEvent, userId, pageTmp) => {
+    console.log("activeEvent 111 :", activeEvent.length)
     if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
-    else if (activeEvent.length === 0) returnNoevent(res);
     else {
-        activeEvent.map(event => {
-            updateEventIsOver(event)
-        })
+        if (activeEvent.length === 0)
+            activeEvent.map(event => {
+                updateEventIsOver(event)
+            })
         Event.find({
                 eventCreator: userId,
                 eventCommunity: {
@@ -353,6 +356,9 @@ filterEvent = (req, res, userId, communityId, page) => {
                     Event.find({
                             eventCommunity: {
                                 "$in": alluserCom
+                            },
+                            eventCreator: {
+                                "$ne": userId
                             },
                             eventIsOver: false,
                             eventIsDeleted: false,

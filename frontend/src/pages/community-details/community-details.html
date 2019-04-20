@@ -54,7 +54,7 @@
     <p style="position: relative;margin-bottom: 3px">
       <b>Mes Habee'creation encours : </b>
       <p>
-        <ion-item *ngFor="let event of community.communityEvents" (click)='goToEventDetail(event)'
+        <ion-item *ngFor="let event of community.communityEvents" (click)='viewEventDetails(event)'
         style="margin-top: 10px" no-lines>
             <ion-thumbnail item-start>
               <img [src]='url + "/" + event.eventPhoto'>
@@ -64,7 +64,7 @@
               {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
                             7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
             </p>
-            <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+            <span class="styleParticipants">{{event.participants.length}}/{{event.nbrParticipants}}</span>
         </ion-item>
   </ion-item>
 

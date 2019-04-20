@@ -64,4 +64,13 @@ export class CommunityDetailsPage {
     modal.present();
   }
 
+  viewEventDetails(eventDetails) {
+      this.navCtrl.push("EventDetailsPage", {
+        data: eventDetails,
+        userId: this.tabParams.userId,
+        token: this.tabParams.token,
+        activeCommunity: this.tabParams.activeCommunity
+      });
+  }
+
 }

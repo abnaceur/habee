@@ -42,7 +42,7 @@
       {{eventDetails.eventLocation}}
     </p><br>
     <p style="color: white">
-      <span class="styleParticipants">{{eventDetails.nbrSubscribedParticipants}}/{{eventDetails.nbrParticipants}}</span>
+      <span class="styleParticipants">{{eventDetails.participants.length}}/{{eventDetails.nbrParticipants}}</span>
       Participants
     </p>
     <p style="color: white">
@@ -128,7 +128,7 @@
       
 
 
-  <div *ngIf="eventDetails.nbrSubscribedParticipants < eventDetails.nbrParticipants" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+  <div *ngIf="eventDetails.participants.length < eventDetails.nbrParticipants" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
       <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
         class="col col-50 button button-block">
@@ -138,7 +138,7 @@
   </div>
 
 
-  <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
     style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
       <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
@@ -148,7 +148,7 @@
     </div>
   </div>
 
-  <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
     style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
       <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
@@ -158,7 +158,7 @@
     </div>
   </div>
 
-  <div *ngIf="eventDetails.nbrSubscribedParticipants == eventDetails.nbrParticipants && isSubscribed != 'Desinscrir'"
+  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed != 'Desinscrir'"
   style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
   <div class="row">
     <button ion-button style="color: wite; background-color:deeppink;"
