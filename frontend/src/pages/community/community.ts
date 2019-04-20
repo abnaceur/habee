@@ -1,5 +1,9 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { 
+  IonicPage, 
+  NavController,
+  ModalController, 
+  NavParams } from "ionic-angular";
 
 import { UtilsProvider } from "../../providers/utils/utils";
 
@@ -41,6 +45,7 @@ export class CommunityPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private communityProvider: CommunityProvider,
+    public modalCtrl: ModalController,
     private utils: UtilsProvider
   ) {
     this.tabParams = {
@@ -91,4 +96,14 @@ export class CommunityPage {
     this.communitiesByInvteBorder = "5px solid darkgrey";
     this.communitiesByInvteBorderDisplay = "initial";
   }
+
+  addCommunity() {
+    const modal = this.modalCtrl.create("AddCommunityPage", this.tabParams, { cssClass: "comAdd-modal" });
+    modal.onDidDismiss(data => {
+      console.log("Disissed")
+      this.getComListByCreation();
+    });
+    modal.present();
+  }
+
 }
