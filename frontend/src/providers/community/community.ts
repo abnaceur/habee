@@ -135,4 +135,12 @@ export class CommunityProvider {
       .map(response => response.json().code);
   }
 
+  getCommunityDetails(userInfo, communityId) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.get(ENV.BASE_URL + '/communities/details/' + communityId,
+      { headers: header })
+      .map(response => response.json());
+  }
+
 }

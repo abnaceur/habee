@@ -1,0 +1,66 @@
+<!--
+  Generated template for the CommunityDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>communityDetails</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content no-padding>
+  <ion-icon item-right style="z-index: 111; color: white; position: absolute;top: 25;right: 4px;font-size: 22px;"
+    class="optionsStyle pop-in" (click)="editCommunityModal()" name="create"></ion-icon>
+  <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + community.communityLogo +')'}"></div>
+  <div id="content">
+    <div id="profile-info">
+      <img id="profile-image" [src]='url + "/" + community.communityLogo'>
+      <h3 id="profile-name">{{community.communityName}} </h3>
+      <p id="profile-description">{{community.communityDescripton}}</p>
+    </div>
+  </div>
+
+  <ion-item no-lines>
+    <p style="position: relative;margin-bottom: 3px">
+      <b>Les Habee'Nautes : </b>
+      <p>
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 90px; width: 100%;
+              min-height: 100px;">
+          <a *ngFor="let member of community.communityMembers">
+            <img class="img-scroll" [src]='url + "/" + member.profile.profilePhoto'
+              (click)="openUserDetailsModal(member.profile)">
+          </a>
+        </ion-scroll>
+  </ion-item>
+
+
+  <p style="position: relative;margin-bottom: 3px">
+    <b>Mes Habee'creation encours : </b>
+    <p>
+      <ion-row *ngFor="let event of community.communityEvents">
+        <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
+          <ion-thumbnail item-start>
+            <img [src]='url + "/" + event.eventPhoto'>
+          </ion-thumbnail>
+          <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+          <p>{{event.eventLocation}} •
+            {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+                  7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
+          </p>
+          <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+        </ion-item>
+      </ion-row>
+
+</ion-content>

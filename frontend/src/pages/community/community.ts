@@ -100,10 +100,19 @@ export class CommunityPage {
   addCommunity() {
     const modal = this.modalCtrl.create("AddCommunityPage", this.tabParams, { cssClass: "comAdd-modal" });
     modal.onDidDismiss(data => {
-      console.log("Disissed")
       this.getComListByCreation();
     });
     modal.present();
+  }
+
+  showComDatails(comId) {
+    
+    let data = {
+      userInfo: this.tabParams,
+      comId,
+    }
+    
+    this.navCtrl.push("CommunityDetailsPage", data)
   }
 
 }

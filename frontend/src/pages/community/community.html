@@ -52,7 +52,7 @@
       </span>
       <span *ngIf="comListByCreator.length > 0">
         <ion-item-sliding *ngFor='let community of comListByCreator'>
-          <ion-item no-lines>
+          <ion-item (click)="showComDatails(community.communityId)" no-lines>
             <ion-avatar item-left>
               <img [src]='url + "/" + community.communityLogo'>
             </ion-avatar>
