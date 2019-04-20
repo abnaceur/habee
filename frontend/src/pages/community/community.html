@@ -47,12 +47,38 @@
 
 
   <ion-list [ngStyle]="{'display': myCommunitiesBorderDisplay}">
-    <p>myCommunitiesBorderDisplay</p>
+    <span *ngIf="comListByCreator.length == 0">
+        <p>Vide ...</p>
+      </span>
+      <span *ngIf="comListByCreator.length > 0">
+        <ion-item-sliding *ngFor='let community of comListByCreator'>
+          <ion-item no-lines>
+            <ion-avatar item-left>
+              <img [src]='url + "/" + community.communityLogo'>
+            </ion-avatar>
+            <h2>{{community.communityName}}</h2>
+            <p>{{community.communityMembers.length}} Contacts</p>
+          </ion-item>
+        </ion-item-sliding>
+      </span>
   </ion-list>
 
 
   <ion-list [ngStyle]="{'display': communitiesByInvteBorderDisplay}">
-    <p>communitiesByInvteBorder</p>
+    <span *ngIf="comListByParticipation.length == 0">
+      <p>Vide ...</p>
+    </span>
+    <span *ngIf="comListByParticipation.length > 0">
+      <ion-item-sliding *ngFor='let community of comListByParticipation'>
+        <ion-item no-lines>
+          <ion-avatar item-left>
+            <img [src]='url + "/" + community.communityLogo'>
+          </ion-avatar>
+          <h2>{{community.communityName}}</h2>
+          <p>{{community.communityMembers.length}} Contacts</p>
+        </ion-item>
+      </ion-item-sliding>
+    </span>
   </ion-list>
 
 
@@ -62,3 +88,11 @@
   </ion-infinite-scroll>
 
 </ion-content>
+
+<ion-footer>
+  <ion-fab (click)="addCommunity()" style="margin-bottom: 16vw" bottom right mini #fab>
+    <button ion-fab style="background-color: #d1c9c3;" mini>
+      <ion-icon style="color:black; font-size: 32px" name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-footer>
