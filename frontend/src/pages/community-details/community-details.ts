@@ -53,4 +53,15 @@ export class CommunityDetailsPage {
     })
   }
 
+  editCommunityModal() {
+    const modal = this.modalCtrl.create("EditCommunityModalPage", {
+      userInfo: this.tabParams,
+      selectCommunity: this.comId
+    }, { cssClass: "comEdit-modal" });
+    modal.onDidDismiss(data => {
+      this.getCommunityDetails()
+    });
+    modal.present();
+  }
+
 }

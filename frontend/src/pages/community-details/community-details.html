@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Habee'Team</ion-title>
+    <ion-title>communityDetails</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -28,9 +28,13 @@
     <div id="profile-info">
       <img id="profile-image" [src]='url + "/" + community.communityLogo'>
       <h3 id="profile-name">{{community.communityName}} </h3>
-      <p id="profile-description">{{community.communityDescripton}}</p>
     </div>
+    <ion-item text-wrap *ngIf="community.communityDescripton != ''" no-lines>
+        <p id="profile-description">{{community.communityDescripton}}</p>
+    </ion-item>
   </div>
+
+
 
   <ion-item no-lines>
     <p style="position: relative;margin-bottom: 3px">
@@ -50,19 +54,18 @@
     <p style="position: relative;margin-bottom: 3px">
       <b>Mes Habee'creation encours : </b>
       <p>
-        <span *ngFor="let event of community.communityEvents" (click)='goToEventDetail(event)' style="margin-top: 10px">
-          <ion-item no-padding no-lines>
-              <ion-thumbnail item-start>
-                  <img [src]='url + "/" + event.eventPhoto'>
-                </ion-thumbnail>
-                <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
-                <p>{{event.eventLocation}} •
-                  {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+        <ion-item *ngFor="let event of community.communityEvents" (click)='goToEventDetail(event)'
+        style="margin-top: 10px" no-lines>
+            <ion-thumbnail item-start>
+              <img [src]='url + "/" + event.eventPhoto'>
+            </ion-thumbnail>
+            <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+            <p>{{event.eventLocation}} •
+              {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
                             7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
-                </p>
-                <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-          </ion-item>
-        </span>
+            </p>
+            <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+        </ion-item>
   </ion-item>
 
 </ion-content>

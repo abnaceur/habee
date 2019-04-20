@@ -10,7 +10,6 @@ import { UtilsProvider } from "../../providers/utils/utils";
 import { CommunityProvider } from "../../providers/community/community";
 
 import { environment as ENV } from "../../environments/environment";
-import { l } from "@angular/core/src/render3";
 
 /**
  * Generated class for the CommunityPage page.

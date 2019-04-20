@@ -6,18 +6,18 @@ const communityClass = require('../../classes/communityClass')
 
 //TODO GET COMMUNITYIES ONLY FOR A USER
 exports.getAllcommunitiesIds = () => {
- return new Promise((resolve, reject) => {
-    Community.find({
-        communityIsDeleted: false
+    return new Promise((resolve, reject) => {
+        Community.find({
+                communityIsDeleted: false
+            })
+            .exec().then(data => {
+                let arr = [];
+                data.map(d => {
+                    arr.push(d.communityId)
+                })
+                resolve(arr)
+            })
     })
-    .exec().then(data => {
-        let arr = [];
-        data.map(d => {
-            arr.push(d.communityId)
-        })
-        resolve(arr)
-    })
- })
 }
 
 exports.getUserCommunities = (userId) => {
@@ -127,7 +127,6 @@ exports.checkIfNameExist = (res, community, communityInfo, communityPhoto) => {
 }
 
 exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
-
     Community.find({
             communityId: communityId,
             communityIsDeleted: false
@@ -135,6 +134,11 @@ exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
         .then(community => {
             if (community[0].communityName != communityInfo.communityName) {
                 this.checkIfNameExist(res, community, communityInfo, communityPhoto)
+            } else {
+                res.status(200).json({
+                    code: 202,
+                    msg: "This name exist!"
+                })
             }
         })
 }
@@ -276,7 +280,7 @@ exports.newUserCommunity = (user) => {
 }
 
 exports.filterCommunities = (data, userId) => {
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         let uniq = [];
         data.map(com => {
             if (com.communityCreator != userId)
@@ -288,17 +292,17 @@ exports.filterCommunities = (data, userId) => {
 
 exports.getCommunitiesByParticipation = (res, userId) => {
     Community.find({
-        communityMembers: userId,
-        communityIsDeleted: false
-    }).exec()
-    .then(data => {
-        this.filterCommunities(data, userId)
+            communityMembers: userId,
+            communityIsDeleted: false
+        }).exec()
         .then(data => {
-            res.status(200).json({
-                code: 200,
-                data: data
-            })
-        })
-        .catch(err => console.log("filterCommunities : ", err))
-    }).catch(err => utils.defaultError(res, err))
+            this.filterCommunities(data, userId)
+                .then(data => {
+                    res.status(200).json({
+                        code: 200,
+                        data: data
+                    })
+                })
+                .catch(err => console.log("filterCommunities : ", err))
+        }).catch(err => utils.defaultError(res, err))
 }

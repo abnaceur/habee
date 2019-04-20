@@ -27,10 +27,10 @@ export class CommunityProvider {
   ) {
   }
 
-  getCommunityById(userInfo) {
+  getCommunityById(userInfo, comId) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + "/communities/" + userInfo.activeCommunity,
+    return this.http.get(ENV.BASE_URL + "/communities/" + comId,
     { headers: header })
     .map(response => response.json().community[0]);
   }
@@ -135,7 +135,7 @@ export class CommunityProvider {
       .map(response => response.json().code);
   }
 
-  getCommunityDetails(userInfo, communityId) {
+    getCommunityDetails(userInfo, communityId) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + '/communities/details/' + communityId,

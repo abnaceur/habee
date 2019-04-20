@@ -67,10 +67,6 @@ export class EventsPage {
   public searchBar = "none";
   public topList = "5vw";
   public activeAllFilters;
-  communityInfo = {
-    communityLogo: String,
-    communityName: String
-  };
 
   public allEvBorderDisplay = "initial";
   public weeklyEvBorderDisplay = "none";
@@ -126,18 +122,6 @@ export class EventsPage {
 
   ionViewWillEnter() {
     this.countActiveFilters();
-    this.getCommunityImage();
-  }
-
-  getCommunityImage() {
-    if (this.tabParams.activeCommunity != "") {
-      this.communityProvider
-        .getCommunityById(this.tabParams)
-        .subscribe(comInfo => {
-          (this.communityInfo.communityLogo = comInfo.communityLogo),
-            (this.communityInfo.communityName = comInfo.communityName);
-        });
-    }
   }
 
   goToEventDetail(eventDetails) {

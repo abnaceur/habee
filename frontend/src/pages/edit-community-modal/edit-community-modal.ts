@@ -88,7 +88,7 @@ export class EditCommunityModalPage {
 
   ionViewDidEnter() {
 
-    this.communityProvider.getCommunityById(this.tabParams)
+    this.communityProvider.getCommunityById(this.tabParams, this.communityId)
       .subscribe(data => {
         this.comInfo.title = data.communityName;
         this.comInfo.description = data.communityDescripton
@@ -182,7 +182,7 @@ export class EditCommunityModalPage {
             this.utils.notification("Cette Communauté est a jour", "top")
           else if (data === 202)
             this.utils.notification("Ce nom exist !", "top")
-        })
+          })
     }
   }
 
