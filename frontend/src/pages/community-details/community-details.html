@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>communityDetails</ion-title>
+    <ion-title>Habee'Team</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -46,21 +46,23 @@
   </ion-item>
 
 
-  <p style="position: relative;margin-bottom: 3px">
-    <b>Mes Habee'creation encours : </b>
-    <p>
-      <ion-row *ngFor="let event of community.communityEvents">
-        <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
-          <ion-thumbnail item-start>
-            <img [src]='url + "/" + event.eventPhoto'>
-          </ion-thumbnail>
-          <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
-          <p>{{event.eventLocation}} •
-            {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
-                  7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
-          </p>
-          <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-        </ion-item>
-      </ion-row>
+  <ion-item>
+    <p style="position: relative;margin-bottom: 3px">
+      <b>Mes Habee'creation encours : </b>
+      <p>
+        <span *ngFor="let event of community.communityEvents" (click)='goToEventDetail(event)' style="margin-top: 10px">
+          <ion-item no-padding no-lines>
+              <ion-thumbnail item-start>
+                  <img [src]='url + "/" + event.eventPhoto'>
+                </ion-thumbnail>
+                <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+                <p>{{event.eventLocation}} •
+                  {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+                            7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
+                </p>
+                <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+          </ion-item>
+        </span>
+  </ion-item>
 
 </ion-content>
