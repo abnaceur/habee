@@ -363,30 +363,14 @@ getProfileCommunityProsion = (user, communityId) => {
     return pos;
 }
 
-editProfileByCommunityId = (user, profileName, image) => {
+editProfileByCommunityId = (user, profileInfo, image) => {
     return new Promise((resolve, reject) => {
-        let fullname = profileName.split(' ');
-        let firstname = "";
-        let lastname = "";
-
-        if (fullname.length > 1) {
-            firstname = profileName.split(' ', 1)[0];
-            lastname = "";
-            let i = 2;
-            while (i <= fullname.length) {
-                lastname += profileName.split(' ', i)[i - 1] + " ";
-                i++;
-            }
-        } else if (fullname.length == 1)
-            firstname = profileName.split(' ', 1)[0];
-
-        user[0].credentials.firstname = firstname;
-        user[0].credentials.lastname = lastname;
-        user[0].profile.map(pr => {
-            pr.profileDateOfLastUpdate = Date.now;
-            pr.profileUsername = profileName;
-            pr.profilePhoto = image;
-        })
+        user[0].credentials.firstname = profileInfo.profileFirstname;
+        user[0].credentials.lastname = profileInfo.profileLastname;
+        user[0].profile.profileDateOfLastUpdate = Date.now;
+        user[0].profile.profileLastname = profileInfo.profileLastname;
+        user[0].profile.profileFirstname = profileInfo.profileFirstname;
+        user[0].profile.profilePhoto = image;
         resolve(user);
     })
 }
@@ -409,17 +393,14 @@ updateUser = (res, user) => {
         });
 }
 
-updateProfile = (res, image, profileName, userId, communityId) => {
+updateProfile = (res, image, profileInfo, userId) => {
 
     User.find({
             userId: userId,
-            "profile.profileCummunityId": communityId
         })
         .exec()
         .then(usr => {
-            console.log("User profile : ", usr)
-            let pos = getProfileCommunityProsion(usr, communityId);
-            editProfileByCommunityId(usr, profileName, image)
+            editProfileByCommunityId(usr, profileInfo, image)
                 .then(user => updateUser(res, user));
         })
         .catch(err => utils.defaultError(res, err))

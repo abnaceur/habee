@@ -166,3 +166,47 @@ page-community-details {
   transition: opacity .25s ease-in-out;
   padding: 20vh 10vw;
 }
+
+
+
+
+.userShow-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  padding: 50px !important;
+}
+
+// .md .modal-wrapper {
+//   height: 74%;
+// }
+
+.userShow-modal .modal-wrapper {
+  z-index: 10;
+  height: 60%;
+  contain: strict;
+}
+
+.userShow-modal ion-modal.modal-wrapper {
+  transform: translateY(30%) !important;
+}
+
+.userShow-modal ion-page.modal {
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.userShow-modal .modal-backdrop-bg {
+  background-color: #000;
+  opacity: 0;
+}
+
+.userShow-modal .active .modal-backdrop-bg {
+  opacity: 0.5;
+}
+
+.userShow-modal ion-modal.inset-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  transition: opacity .25s ease-in-out;
+  padding: 20vh 10vw;
+}

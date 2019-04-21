@@ -84,7 +84,7 @@ export class CommunityDetailsPage {
     };
 
     this.modalCtrl
-      .create("PopupUserDetailModalPage", navInfo, { cssClass: "comEdit-modal" })
+      .create("PopupUserDetailModalPage", navInfo, { cssClass: "userShow-modal" })
       .present();
   }
 

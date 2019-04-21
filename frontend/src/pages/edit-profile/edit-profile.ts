@@ -164,5 +164,4 @@ export class EditProfilePage {
           this.utils.notification("Une erreur est survenu !", "top");
       })
   }
-
 }

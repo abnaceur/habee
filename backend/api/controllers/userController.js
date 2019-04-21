@@ -321,9 +321,8 @@ exports.creatAnewAccount = (req, res, next) => {
 
 exports.editProfile = (req, res, next) => {
     let userId = req.params.userId;
-    let communityId = req.params.communityId;
     let imagePath = utils.getImagePath(req, req.body.profileImage);
-    userService.updateProfile(res, imagePath, req.body.profileUsername, userId, communityId)
+    userService.updateProfile(res, imagePath, req.body, userId)
 }
 
 exports.checkPsw = (req, res, next) => {
