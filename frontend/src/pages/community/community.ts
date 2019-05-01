@@ -101,10 +101,11 @@ export class CommunityPage {
     modal.present();
   }
 
-  showComDatails(comId) {
+  showComDatails(comId, value) {
     let data = {
       userInfo: this.tabParams,
-      comId
+      comId,
+      participation: value
     };
 
     this.navCtrl.push("CommunityDetailsPage", data);

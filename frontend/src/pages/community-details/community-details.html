@@ -21,8 +21,10 @@
 -->
 
 <ion-content no-padding>
-  <ion-icon item-right style="z-index: 111; color: white; position: absolute;top: 25;right: 4px;font-size: 22px;"
-    class="optionsStyle pop-in" (click)="editCommunityModal()" name="create"></ion-icon>
+  <span *ngIf="participation == false">
+    <ion-icon item-right style="z-index: 111; color: white; position: absolute;top: 25;right: 4px;font-size: 22px;"
+      class="optionsStyle pop-in" (click)="editCommunityModal()" name="create"></ion-icon>
+  </span>
   <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + community.communityLogo +')'}"></div>
   <div id="content">
     <div id="profile-info">
@@ -43,12 +45,13 @@
         <ion-scroll scrollX="true" style="white-space: nowrap; height: 90px; width: 100%;
               min-height: 100px;">
           <a *ngFor="let member of community.communityMembers">
-            <span *ngIf="tabParams.userId != member.userId">
-              <ion-icon class="removeUser" (click)='removeContact(member.userId, community.communityId)' name="close-circle"></ion-icon>
+            <span *ngIf="tabParams.userId != member.userId && participation == false">
+              <ion-icon class="removeUser" (click)='removeContact(member.userId, community.communityId)'
+                name="close-circle"></ion-icon>
             </span>
             <img class="img-scroll" [src]='url + "/" + member.profile.profilePhoto'
-            (click)="openUserDetailsModal(member.userId, member.profile)">
-       
+              (click)="openUserDetailsModal(member.userId, member.profile)">
+
           </a>
         </ion-scroll>
   </ion-item>
@@ -73,3 +76,14 @@
   </ion-item>
 
 </ion-content>
+
+<ion-footer>
+  <div *ngIf="participation == true" 
+    style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='removeContact(tabParams.userId, community.communityId)' style="color: wite; background-color:deeppink;" class="col col-50 button button-block">
+          Me désinscrire
+      </button>
+    </div>
+  </div>
+</ion-footer>

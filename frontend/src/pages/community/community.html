@@ -49,7 +49,7 @@
   <ion-list [ngStyle]="{'display': myCommunitiesBorderDisplay}">
       <span>
         <ion-item-sliding *ngFor='let community of comListByCreator'>
-          <ion-item (click)="showComDatails(community.communityId)" no-lines>
+          <ion-item (click)="showComDatails(community.communityId, false)" no-lines>
             <ion-avatar item-left>
               <img [src]='url + "/" + community.communityLogo'>
             </ion-avatar>
@@ -65,7 +65,7 @@
    
     <span>
       <ion-item-sliding *ngFor='let community of comListByParticipation'>
-        <ion-item no-lines>
+        <ion-item no-lines (click)="showComDatails(community.communityId, true)">
           <ion-avatar item-left>
             <img [src]='url + "/" + community.communityLogo'>
           </ion-avatar>
