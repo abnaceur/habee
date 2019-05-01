@@ -1,9 +1,10 @@
 import { Component } from "@angular/core";
-import { 
-  IonicPage, 
+import {
+  IonicPage,
   NavController,
-  ModalController, 
-  NavParams } from "ionic-angular";
+  ModalController,
+  NavParams
+} from "ionic-angular";
 
 import { UtilsProvider } from "../../providers/utils/utils";
 
@@ -32,8 +33,8 @@ export class CommunityPage {
   totalData = 0;
   totalPage = 0;
 
-  public comListByCreator = [];
-  public comListByParticipation = [];
+  public comListByCreator: any[];
+  public comListByParticipation: any[];
 
   public myCommunitiesBorder = "5px solid darkgrey";
   public myCommunitiesBorderDisplay = "initial";
@@ -55,10 +56,6 @@ export class CommunityPage {
     };
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad CommunityPage");
-  }
-
   ionViewWillEnter() {
     this.getComListByCreation();
     this.getComListByParticipation();
@@ -68,8 +65,7 @@ export class CommunityPage {
     this.communityProvider
       .getCommunitiesbyCreator(this.tabParams)
       .subscribe(data => {
-        if (data.length == 0) this.comListByCreator = [];
-        else this.comListByCreator = data.communities;
+        this.comListByCreator = data.communities;
       });
   }
 
@@ -77,8 +73,7 @@ export class CommunityPage {
     this.communityProvider
       .getCommunitiesByParticipation(this.tabParams)
       .subscribe(data => {
-        if (data.length == 0) this.comListByParticipation = [];
-        else this.comListByParticipation = data.communities;
+        this.comListByParticipation = data;
       });
   }
 
@@ -97,7 +92,9 @@ export class CommunityPage {
   }
 
   addCommunity() {
-    const modal = this.modalCtrl.create("AddCommunityPage", this.tabParams, { cssClass: "comAdd-modal" });
+    const modal = this.modalCtrl.create("AddCommunityPage", this.tabParams, {
+      cssClass: "comAdd-modal"
+    });
     modal.onDidDismiss(data => {
       this.getComListByCreation();
     });
@@ -105,13 +102,11 @@ export class CommunityPage {
   }
 
   showComDatails(comId) {
-    
     let data = {
       userInfo: this.tabParams,
-      comId,
-    }
-    
-    this.navCtrl.push("CommunityDetailsPage", data)
-  }
+      comId
+    };
 
+    this.navCtrl.push("CommunityDetailsPage", data);
+  }
 }

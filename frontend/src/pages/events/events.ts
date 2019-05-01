@@ -144,7 +144,7 @@ export class EventsPage {
       });
   }
 
-  getMonthsDelimkiter(events) {
+  getMonthsDelimiter(events) {
     let tmp = [];
     let i = 1;
 
@@ -171,12 +171,11 @@ export class EventsPage {
     this.eventProvider
       .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
       .subscribe(response => {
-        if (response.Events.length == 0)  {
+        if (response.Events.length == 0) {
           this.allEvents = [];
-          console.log("CCCCCCCCCCCCCCC")
-        }
-        else {
-          this.getMonthsDelimkiter(response.Events);
+          console.log("CCCCCCCCCCCCCCC");
+        } else {
+          this.getMonthsDelimiter(response.Events);
           this.allEvents = response.Events;
           this.allEvents_tmp = response.Events;
           this.perPage = response.per_page;
@@ -208,9 +207,7 @@ export class EventsPage {
         .subscribe(response => {
           if (!response) this.allEvents = [];
           else {
-            console.log("response.Events : ", response.Events.length);
             this.allEvents = this.allEvents.concat(response.Events);
-            console.log("this.allEvents : ", this.allEvents.length);
             this.allEvents_tmp = this.allEvents_tmp.concat(response.Events);
             this.perPage = response.per_page;
             this.totalData = response.total;
@@ -271,8 +268,6 @@ export class EventsPage {
       { cssClass: "comEvent-modal" }
     );
     modal.onDidDismiss(comId => {
-      console.log("This data : ", comId);
-
       if (comId != "all" && comId != null) {
         this.communityProvider
           .updateSelectedCommunity(comId, this.tabParams)
@@ -300,17 +295,17 @@ export class EventsPage {
   }
 
   getThisWeekEvent() {
-  //TODO GET WEEKLY EVENT FROM SERVER
+    //TODO GET WEEKLY EVENT FROM SERVER
+    // let datNow = moment().format("YYYY-MM-DD");
 
     let i = 0;
     this.weeklyEvents = [];
-    let datNow = moment().format("YYYY-MM-DD");
-    let weekdays = moment().add(1, 'week').format("YYYY-MM-DD")
+    let weekdays = moment()
+      .add(1, "week")
+      .format("YYYY-MM-DD");
 
     while (i < this.allEvents.length) {
-      console.log("Fomaat : ", this.allEvents[i].eventStartDate.substring(0, 10))
-      if (datNow <= this.allEvents[i].eventStartDate.substring(0, 10) && 
-      this.allEvents[i].eventStartDate.substring(0, 10) <= weekdays) {
+      if (this.allEvents[i].eventStartDate.substring(0, 10) <= weekdays) {
         this.weeklyEvents.push(this.allEvents[i]);
       }
       i++;

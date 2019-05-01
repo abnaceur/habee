@@ -56,6 +56,7 @@ export class ProfilePage {
     };
 
     this.getProfileInfo();
+    this.getCommunties();
   }
 
   ionViewWillEnter() {
