@@ -30,7 +30,7 @@
       <h3 id="profile-name">{{community.communityName}} </h3>
     </div>
     <ion-item text-wrap *ngIf="community.communityDescripton != ''" no-lines>
-        <p id="profile-description">{{community.communityDescripton}}</p>
+      <p id="profile-description">{{community.communityDescripton}}</p>
     </ion-item>
   </div>
 
@@ -43,8 +43,12 @@
         <ion-scroll scrollX="true" style="white-space: nowrap; height: 90px; width: 100%;
               min-height: 100px;">
           <a *ngFor="let member of community.communityMembers">
+            <span *ngIf="tabParams.userId != member.userId">
+              <ion-icon class="removeUser" (click)='removeContact(member.userId, community.communityId)' name="close-circle"></ion-icon>
+            </span>
             <img class="img-scroll" [src]='url + "/" + member.profile.profilePhoto'
-              (click)="openUserDetailsModal(member.userId, member.profile)">
+            (click)="openUserDetailsModal(member.userId, member.profile)">
+       
           </a>
         </ion-scroll>
   </ion-item>
@@ -55,16 +59,16 @@
       <b>Mes Habee'creation encours : </b>
       <p>
         <ion-item *ngFor="let event of community.communityEvents" (click)='viewEventDetails(event)'
-        style="margin-top: 10px" no-lines>
-            <ion-thumbnail item-start>
-              <img [src]='url + "/" + event.eventPhoto'>
-            </ion-thumbnail>
-            <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
-            <p>{{event.eventLocation}} •
-              {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+          style="margin-top: 10px" no-lines>
+          <ion-thumbnail item-start>
+            <img [src]='url + "/" + event.eventPhoto'>
+          </ion-thumbnail>
+          <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+          <p>{{event.eventLocation}} •
+            {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
                             7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
-            </p>
-            <span class="styleParticipants">{{event.participants.length}}/{{event.nbrParticipants}}</span>
+          </p>
+          <span class="styleParticipants">{{event.participants.length}}/{{event.nbrParticipants}}</span>
         </ion-item>
   </ion-item>
 

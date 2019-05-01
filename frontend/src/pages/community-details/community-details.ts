@@ -12,6 +12,8 @@ import { CommunityProvider } from "../../providers/community/community";
 
 import { environment as ENV } from "../../environments/environment";
 
+import { RemoveCommunityFromContactProvider } from "../../providers/remove-community-from-contact/remove-community-from-contact";
+
 /**
  * Generated class for the CommunityDetailsPage page.
  *
@@ -35,6 +37,7 @@ export class CommunityDetailsPage {
     public navParams: NavParams,
     private communityProvider: CommunityProvider,
     public modalCtrl: ModalController,
+    private removeCommunityFromContactProvider: RemoveCommunityFromContactProvider,
     private utils: UtilsProvider
   ) {
     this.tabParams = this.navParams.get("userInfo");
@@ -42,6 +45,7 @@ export class CommunityDetailsPage {
   }
 
   ionViewWillEnter() {
+    console.log("this.tabParams: ", this.tabParams)
     this.getCommunityDetails()
   }
 
@@ -86,6 +90,23 @@ export class CommunityDetailsPage {
     this.modalCtrl
       .create("PopupUserDetailModalPage", navInfo, { cssClass: "userShow-modal" })
       .present();
+  }
+
+  removeContact(memberId, communityId) {
+    this.removeCommunityFromContactProvider
+      .removeCommunity(
+        this.tabParams,
+        memberId,
+        communityId
+      )
+      .subscribe(data => {
+        if (data == 200) {
+          this.getCommunityDetails()
+          this.utils.notification("Communautes supprimer avec succes !", "top");
+        }
+        else if (data == 500)
+          this.utils.notification("Desole une erreur est survenu !", "top");
+      });
   }
 
 }
