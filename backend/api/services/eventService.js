@@ -66,10 +66,10 @@ eventModal = (event) => {
 getAllpublicEvents = () => {
     return new Promise((resolve, reject) => {
         Event.find({
-                eventIsPublic: true,
-                eventIsDeleted: false,
-                eventIsOver: false
-            }).exec()
+            eventIsPublic: true,
+            eventIsDeleted: false,
+            eventIsOver: false
+        }).exec()
             .then(event => {
                 resolve(event)
             })
@@ -79,9 +79,9 @@ getAllpublicEvents = () => {
 updateUserOnEventSubvscription = (event, state, userId, communityId) => {
 
     User.find({
-            userId: userId,
-            "profile.profileCummunityId": communityId
-        }).exec()
+        userId: userId,
+        "profile.profileCummunityId": communityId
+    }).exec()
         .then(user => {
             if (state == 0) {
                 user[0].eventsParticipated.push(event[0])
@@ -209,12 +209,12 @@ putEventByUserId = (req, res) => {
     let communityId = req.params.communityId;
 
     User.find({
-            userId: userId,
-        }).exec()
+        userId: userId,
+    }).exec()
         .then(user => {
             Event.find({
-                    eventId: eventId,
-                }).exec()
+                eventId: eventId,
+            }).exec()
                 .then(event => {
                     let userData_org = {
                         event,
@@ -236,18 +236,19 @@ putEventByUserId = (req, res) => {
 }
 
 
-filterWithPublicTrue = (res, activeEvent, filter, userId, pageTmp) => {
-    console.log("activeEvent :", activeEvent.length)
+filterWithPublicTrue = (pageTem, res, activeEvent, filter, userId, pageTmp) => {
     utils.filterEvents(activeEvent, filter, userId)
         .then(filteredEvent => {
             Event.find({
-                    eventCreator: userId,
-                    eventIsOver: false,
-                    eventIsDeleted: false,
-                })
+                eventCreator: userId,
+                eventIsOver: false,
+                eventIsDeleted: false,
+            })
+                .sort('eventStartDate')
+                .skip(Number(pageTmp * 10))
+                .limit(Number(10))
                 .exec()
                 .then(evs => {
-                    console.log("filteredEvent :", filteredEvent.length)
                     res.status(200).json({
                         Count: filteredEvent.length,
                         per_page: 10,
@@ -269,26 +270,29 @@ returnNoevent = (res) => {
     })
 }
 
-updateCommunityEvents = (alluserCom, communityId, res, filter, activeEvent, userId, pageTmp) => {
-    if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
+updateCommunityEvents = (pageTmp, alluserCom, communityId, res, filter, activeEvent, userId) => {
+    if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(pageTmp, res, activeEvent, filter, userId, pageTmp)
     else {
         if (activeEvent.length === 0)
             activeEvent.map(event => {
                 updateEventIsOver(event)
             })
         Event.find({
-                eventCreator: userId,
-                eventCommunity: {
-                    "$in": alluserCom
-                },
-                eventIsOver: false,
-                eventIsDeleted: false,
-            })
+            eventCreator: userId,
+            eventCommunity: {
+                "$in": alluserCom
+            },
+            eventIsOver: false,
+            eventIsDeleted: false,
+        })
+            .sort('eventStartDate')
+            .skip(Number(pageTmp * 10))
+            .limit(Number(10))
             .exec()
             .then(events => {
                 activeEvent = activeEvent.concat(events)
                 if (activeEvent.length === 0) returnNoevent(res);
-                else filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
+                else filterWithPublicTrue(pageTmp, res, activeEvent, filter, userId, pageTmp)
             })
             .catch(err => {
                 utils.defaultError(res, err)
@@ -300,11 +304,11 @@ updateCommunityEvents = (alluserCom, communityId, res, filter, activeEvent, user
 getCommunityMemberByParticipation = (userId) => {
     return new Promise((resolve, reject) => {
         Community.find({
-                communityMembers: {
-                    "$in": [userId]
-                },
-                communityIsDeleted: false
-            }).exec()
+            communityMembers: {
+                "$in": [userId]
+            },
+            communityIsDeleted: false
+        }).exec()
             .then(comPart => {
                 resolve(comPart)
             })
@@ -315,9 +319,9 @@ getCommunityMemberByParticipation = (userId) => {
 AlluserCommunity = (userId) => {
     return new Promise((resolve, reject) => {
         Community.find({
-                communityCreator: userId,
-                communityIsDeleted: false
-            }).exec()
+            communityCreator: userId,
+            communityIsDeleted: false
+        }).exec()
             .then(comCreated => {
                 getCommunityMemberByParticipation(userId)
                     .then(comByPart => {
@@ -346,27 +350,27 @@ filterEvent = (req, res, userId, communityId, page) => {
     AlluserCommunity(userId)
         .then(alluserCom => {
             User.find({
-                    userId: userId,
-                })
+                userId: userId,
+            })
                 .select("filterEvent")
                 .exec()
                 .then(usr => {
                     let filter = usr[0].filterEvent;
                     Event.find({
-                            eventCommunity: {
-                                "$in": alluserCom
-                            },
-                            eventCreator: {
-                                "$ne": userId
-                            },
-                            eventIsOver: false,
-                            eventIsDeleted: false,
-                        })
+                        eventCommunity: {
+                            "$in": alluserCom
+                        },
+                        eventCreator: {
+                            "$ne": userId
+                        },
+                        eventIsOver: false,
+                        eventIsDeleted: false,
+                    })
                         .sort('eventStartDate')
                         .skip(Number(pageTmp * 10))
                         .limit(Number(10))
                         .exec()
-                        .then(activeEvent => updateCommunityEvents(alluserCom, communityId, res, filter, activeEvent, userId, pageTmp))
+                        .then(activeEvent => updateCommunityEvents(pageTmp, alluserCom, communityId, res, filter, activeEvent, userId, pageTmp))
                         .catch(err => utils.defaultError(res, err))
                 }).catch(err => utils.defaultError(res, err))
         })

@@ -125,6 +125,10 @@ export class EventsPage {
     this.getAllEvents();
   }
 
+  ionViewWillLeave(){
+  this.page = 0;
+  }
+
   goToEventDetail(eventDetails) {
     this.nav.push("EventDetailsPage", {
       data: eventDetails,

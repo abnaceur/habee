@@ -50,8 +50,6 @@ eventAddComName = (event, communityName) => {
         nbrSubscribedParticipants: event.nbrSubscribedParticipants
     }
 
-    console.log("ev -------- :", ev)
-
     return ev
 }
 

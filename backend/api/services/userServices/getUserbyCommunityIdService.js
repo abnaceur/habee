@@ -44,7 +44,6 @@ getUserInfo = (req, res, id, communityId) => {
                     message: "User not found or id not valid!"
                 })
             } else {
-                console.log("Gere =============")
                 getUserEventInfo(res, id, usrs)
             }
         })

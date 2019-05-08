@@ -173,6 +173,7 @@ exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
         })
         .exec()
         .then(events => {
+            console.log("Event count :", events.length);
             if (events.length === 0) {
                 return res.status(200).json({
                     code: "404",
