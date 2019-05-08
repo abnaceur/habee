@@ -39,7 +39,6 @@ async function  getAllEventCommunityname (res, events, usr) {
 
 async function getUserEvent(usr, res) {
     Event.find({
-            eventCreator: usr[0].userId,
             eventIsOver: false,
             eventIsDeleted: false,
         }).exec()

@@ -341,7 +341,6 @@ export class ListContactPage {
   }
 
   async addComToContact(ev: any, userCommunities, contactInfo) {
-    console.log("hhh ---- : ", this.tabParams, contactInfo, userCommunities);
 
     const popover = await this.popoverCtrl.create(
       "AddCommunityToContactPopupPage",

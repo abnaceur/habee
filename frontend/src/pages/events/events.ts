@@ -122,10 +122,10 @@ export class EventsPage {
 
   ionViewWillEnter() {
     this.countActiveFilters();
+    this.getAllEvents();
   }
 
   goToEventDetail(eventDetails) {
-    console.log("UserId : ", this.tabParams);
     this.nav.push("EventDetailsPage", {
       data: eventDetails,
       userId: this.tabParams.userId,
@@ -173,7 +173,6 @@ export class EventsPage {
       .subscribe(response => {
         if (response.Events.length == 0) {
           this.allEvents = [];
-          console.log("CCCCCCCCCCCCCCC");
         } else {
           this.getMonthsDelimiter(response.Events);
           this.allEvents = response.Events;
@@ -201,6 +200,7 @@ export class EventsPage {
   doInfinite(infiniteScroll) {
     this.page = this.page + 1;
 
+    console.log("Refresh")
     setTimeout(() => {
       this.eventProvider
         .getFilteredAllEventsByCommunityId(this.tabParams, this.page)

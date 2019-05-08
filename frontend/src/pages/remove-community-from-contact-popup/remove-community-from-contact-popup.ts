@@ -54,9 +54,6 @@ export class RemoveCommunityFromContactPopupPage {
   }
 
   removeCommunityFromContact(community) {
-    console.log("Community : ", community.communityId);
-    console.log("this.contactInfo : ", this.contactInfo.userId);
-
     this.removeCommunityFromContactProvider
       .removeCommunity(
         this.tabParams,

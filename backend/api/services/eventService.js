@@ -270,7 +270,6 @@ returnNoevent = (res) => {
 }
 
 updateCommunityEvents = (alluserCom, communityId, res, filter, activeEvent, userId, pageTmp) => {
-    console.log("activeEvent 111 :", activeEvent.length)
     if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(res, activeEvent, filter, userId, pageTmp)
     else {
         if (activeEvent.length === 0)
@@ -280,7 +279,7 @@ updateCommunityEvents = (alluserCom, communityId, res, filter, activeEvent, user
         Event.find({
                 eventCreator: userId,
                 eventCommunity: {
-                    "$ne": alluserCom
+                    "$in": alluserCom
                 },
                 eventIsOver: false,
                 eventIsDeleted: false,
