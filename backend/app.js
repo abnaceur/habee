@@ -8,7 +8,9 @@ var db = require('./config/dbConnection');
 var bodyParser = require('body-parser');
 const rateLimiter = require('express-rate-limit-middleware').rateLimit
 const helmet = require('helmet');
+const fakeData = require("./api/fakeData/index")
 let mongoose = require('mongoose');
+
 
 // Main app
 var app = express();
@@ -67,6 +69,13 @@ db.once('open', function() {
 db.on('error', function(err){
   console.log('Error while connecting to database: ', err)
 });
+
+// Generate data
+// fakeData.generateUserData();
+// setTimeout(() => {
+//   fakeData.generateEventData();
+// }, 2500)
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

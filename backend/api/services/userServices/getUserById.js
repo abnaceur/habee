@@ -24,7 +24,6 @@ async function  getAllEventCommunityname (res, events, usr) {
     while (i < usr[0].eventsParticipated.length) {
         ev.push(await getCommunityName(usr[0].eventsParticipated[i].eventCommunity)
             .then(data => {
-                console.log("Data : ", ev)
                 ev.push(eventComClass.eventAddComName(usr[0].eventsParticipated[i], data))
             }))
         i++;

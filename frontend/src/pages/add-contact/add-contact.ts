@@ -39,12 +39,10 @@ export class AddContactPage {
   }
 
   ionViewWillEnter() {
-    console.log("this.allCommunities : ", this.allCommunities);
     if (this.tabParams.activeCommunity != "") {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-          console.log("dataCreator : ", dataCreator);
           this.allCommunities = this.allCommunities.concat(
             dataCreator.communities
           );

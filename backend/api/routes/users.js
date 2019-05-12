@@ -78,7 +78,7 @@ router.post('/user/community/create',  upload.any(), authCkeck, userController.p
  */
 
 
-router.get('/', authCkeck, userController.get_all_users);
+router.get('/', userController.get_all_users);
 
 
 /*

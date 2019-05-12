@@ -13,8 +13,8 @@ const emailCreation = require('./emailServices/accountCreationEmailservice')
 getUserInformation = (userId) => {
     return new Promise((resolve, reject) => {
         User.find({
-                userId: userId,
-            }).select("profile")
+            userId: userId,
+        }).select("profile")
             .exec()
             .then(usr => {
                 resolve(usr[0].profile)
@@ -36,17 +36,15 @@ async function saveInvitation(invitor, invitorId, invitedEmail, communityIds) {
 }
 
 invitationIfExist = (email, userId) => {
-    console.log("test communities : ", email)
     return new Promise((resolve, reject) => {
         let i = 0;
         email.communities.map(comId => {
             Invitation.find({
-                    invitationCommunityId: comId,
-                    invitatorId: userId,
-                    invitedEmail: email.value
-                }).exec()
+                invitationCommunityId: comId,
+                invitatorId: userId,
+                invitedEmail: email.value
+            }).exec()
                 .then(res => {
-                    console.log("Res: ---> :", res.length)
                     resolve(res.length)
                 })
         })
@@ -55,7 +53,6 @@ invitationIfExist = (email, userId) => {
 
 inviteNewContact = (email, userId) => {
 
-    console.log("ddd")
     return new Promise((resolve, reject) => {
         invitationIfExist(email, userId)
             .then(count => {
@@ -94,7 +91,7 @@ getInvitedUserInformation = (user) => {
 }
 
 saveInvitationExistingUser = (invitedId, profileInvitor, profileInvited, userId, email, communityIds) => {
-   
+
     communityIds.map(async comId => {
         const invitation = new Invitation(await invitationClass.classInvitationExistingAccount(invitedId, profileInvitor, profileInvited, userId, email, comId))
         invitation.save()
@@ -145,14 +142,16 @@ async function checkUser(email, com) {
 
     return new Promise((resolve, reject) => {
         User.find({
-                "credentials.email": email,
-                communities: {
-                    "$in": [com]
-                }
-            }).exec()
+            "credentials.email": email,
+            communities: {
+                "$in": [com]
+            }
+        }).exec()
             .then(usr => {
                 if (usr.length === 0)
-                    resolve(com)
+                    resolve(com);
+                else
+                    resolve([]);
             })
     })
 }
@@ -165,8 +164,6 @@ async function getComm(allCommunities, email) {
         communities.push(await checkUser(email, allCommunities[i]));
         i++;
     }
-
-    console.log("Hnnk : ", communities)
     return new Promise((resolve, reject) => {
         resolve(communities)
     })
@@ -176,18 +173,16 @@ async function getComm(allCommunities, email) {
 async function checkIfCommunityExist(email, allCommunities) {
     let data = await getComm(allCommunities, email)
 
-    console.log("dddd : ", data)
     return new Promise((resolve, reject) => {
         resolve(data)
     })
 }
 
 emailExist = (email, userId) => {
-
     return new Promise((resolve, reject) => {
         User.find({
-                "credentials.email": email.value
-            }).exec()
+            "credentials.email": email.value
+        }).exec()
             .then(usr => {
                 if (usr.length === 0) {
                     inviteNewContact(email, userId)
@@ -218,7 +213,6 @@ emailExist = (email, userId) => {
 // This is the main function 
 addContacts = (emails, userId) => {
     let emailsList = [];
-
     return new Promise((resolve, reject) => {
         emails.map(email => {
             emailExist(email, userId)
@@ -249,8 +243,8 @@ checkIfEmailExist = (email) => {
 
     return new Promise((resolve, reject) => {
         User.find({
-                "credentials.email": email
-            }).exec()
+            "credentials.email": email
+        }).exec()
             .then(usr => {
                 if (usr.length === 0)
                     resolve(true)
@@ -292,8 +286,8 @@ checkPassword = (req, res, users) => {
             id: req.body.userId,
             email: req.body.credentials.email
         }, process.env.JWT_KEY, {
-            expiresIn: process.env.TOKEN_DURATION
-        })
+                expiresIn: process.env.TOKEN_DURATION
+            })
         res.status(200).json({
             message: "Auth success",
             code: "200",
@@ -313,8 +307,8 @@ checkPassword = (req, res, users) => {
 
 loginUser = (req, res) => {
     User.find({
-            "credentials.email": req.body.credentials.email
-        })
+        "credentials.email": req.body.credentials.email
+    })
         .exec()
         .then(users => {
             if (users.length === 0) {
@@ -331,8 +325,8 @@ loginUser = (req, res) => {
 updateFirstConnection = (req, res) => {
     let userId = req.params.userId;
     User.find({
-            userId: userId
-        })
+        userId: userId
+    })
         .exec()
         .then(usr => {
             req.body.firstConnection = usr[0].firstConnection + 1;
@@ -396,8 +390,8 @@ updateUser = (res, user) => {
 updateProfile = (res, image, profileInfo, userId) => {
 
     User.find({
-            userId: userId,
-        })
+        userId: userId,
+    })
         .exec()
         .then(usr => {
             editProfileByCommunityId(usr, profileInfo, image)

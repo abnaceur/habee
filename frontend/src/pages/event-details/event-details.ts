@@ -19,7 +19,7 @@ import {
 
 import { Socket } from "ng-socket-io";
 
-  import moment from "moment";
+import moment from "moment";
 
 import { environment as ENV } from "../../environments/environment";
 
@@ -117,11 +117,9 @@ export class EventDetailsPage {
       notificationStatus: this.navParams.get("notificationStatus")
     };
 
-
-    console.log("tabParams 11111 =:" , this.tabParams)
-    this.socket.emit("join", this.tabParams.activeCommunity + this.eventDetails.eventId);
+    this.socket.emit("join", this.eventDetails.eventId);
     setTimeout(() => {
-      this.socket.emit("getmessage", this.tabParams.activeCommunity + this.eventDetails.eventId);
+      this.socket.emit("getmessage", this.eventDetails.eventId);
     }, 200)
 
     this.eventDetails.participants.map(pr => {
@@ -133,7 +131,7 @@ export class EventDetailsPage {
   }
 
   scrolltobottomnfun() {
-    if(this.content._scroll) {
+    if (this.content._scroll) {
       setTimeout(() => {
         this.content.scrollToBottom(0);
       }, 200);
@@ -170,10 +168,10 @@ export class EventDetailsPage {
         });
       });
 
-      this.socket.on("broad-participants", data => {
-        this.eventDetails.nbrSubscribedParticipants = data.length;
-        this.eventDetails.participants = data;
-      })
+    this.socket.on("broad-participants", data => {
+      this.eventDetails.nbrSubscribedParticipants = data.length;
+      this.eventDetails.participants = data;
+    })
 
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
@@ -181,7 +179,7 @@ export class EventDetailsPage {
         this.profileInfo = {
           userId: profile.User[0].userId,
           photo: profile.User[0].profile.profilePhoto,
-          username: profile.User[0].profile.profileUsername
+          username: profile.User[0].profile.profileLastname + " " + profile.User[0].profile.profileFirstname
         };
       });
 
@@ -307,7 +305,7 @@ export class EventDetailsPage {
         this.eventDetails.participants = response.Event[0].participants;
         this.socket.emit("getSubDisubParticipants", {
           participants: response.Event[0].participants,
-          userId : this.tabParams.activeCommunity + this.eventDetails.eventId
+          eventId: this.eventDetails.eventId
         });
       });
   }
@@ -338,7 +336,7 @@ export class EventDetailsPage {
       .create("PopupUserDetailModalPage", navInfo, { cssClass: "inset-modal" })
       .present();
   }
-  
+
   onSubmit() {
     let comment = {
       eventId: this.eventDetails.eventId,

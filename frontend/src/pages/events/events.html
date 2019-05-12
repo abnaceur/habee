@@ -38,7 +38,7 @@ background-color: #fcfcfc;">
 
 
   <!-- TODO REFRESH ALL EVENTS-->
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <ion-refresher style="z-index: 1112; position:relative; top: 150px" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="bubbles"
       refreshingText="Refreshing...">
     </ion-refresher-content>

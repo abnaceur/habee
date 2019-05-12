@@ -27,6 +27,7 @@ import {
   BarcodeScanner,
   BarcodeScannerOptions
 } from "@ionic-native/barcode-scanner";
+import { c } from "@angular/core/src/render3";
 
 /**
  * Generated class for the ListContactPage page.
@@ -43,6 +44,7 @@ import {
 export class ListContactPage {
   allCommunities = [];
   public url = ENV.BASE_URL;
+  public listCommunity;
   public contact;
   public tabParams;
   public notificationCount = 0;
@@ -186,9 +188,20 @@ export class ListContactPage {
     this.barcodeScanner.scan(this.options).then(
       barcodeData => {
         let email = [];
-        email.push({ value: barcodeData.text, check: "", status: "" });
+        let data = [];
+        email = barcodeData.text.split(';')
+
+        let i = 1;
+        let coms = [];
+        while (i < email.length) {
+          coms.push(email[i]);
+          i++;
+        }
+
+        coms.pop()
+        data.push({ value: email[0], check: "", status: "", communities: coms});
         this.addContactProvider
-          .isFieldEmpty(email, this.tabParams)
+          .isFieldEmpty(data, this.tabParams)
           .then(data => {
             if (data[0].status == 200)
               this.utils.notification(
@@ -200,12 +213,12 @@ export class ListContactPage {
             //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
             if (data[0].check != "") {
               let menuData = ["listContact", this.tabParams];
-              this.navCtrl.push("TabsPage", menuData);
+            //  this.navCtrl.push("TabsPage", menuData);
             }
           });
       },
       err => {
-        console.log("eee ; ", err);
+        console.log("Error ; ", err);
       }
     );
   }
@@ -219,18 +232,36 @@ export class ListContactPage {
   }
 
   encodeData() {
-    let encodText = this.getUserEmail();
+    let email = this.getUserEmail();
 
-    this.barcodeScanner
-      .encode(this.barcodeScanner.Encode.TEXT_TYPE, encodText)
-      .then(
-        data => {
-          console.log("Encoded with success!");
-        },
-        err => {
-          console.log("Error : ", err);
-        }
-      );
+    const modal = this.modalCtrl.create(
+      "CommunityEventListPage",
+      this.tabParams,
+      { cssClass: "comEvent-modal" }
+    );
+    modal.onDidDismiss(data => {
+      if (data.length == 0) this.listCommunity.push(this.tabParams.activeCommunity);
+      else if (data.length > 0) this.listCommunity = data;
+
+      let coms = '';
+      this.listCommunity.map(cc => {
+          coms += cc + ";"
+      })
+
+      let encodText = email + ";" + coms
+
+      this.barcodeScanner
+        .encode(this.barcodeScanner.Encode.TEXT_TYPE, encodText)
+        .then(
+          data => {
+            console.log("Encoded with success!");
+          },
+          err => {
+            console.log("Error : ", err);
+          }
+        );
+    });
+    modal.present();
   }
 
   selectContactList() {
@@ -245,7 +276,6 @@ export class ListContactPage {
       this.invitationProvider
         .updateNotification(this.tabParams)
         .subscribe(data => {
-          console.log("Notifcations updated!", data);
           this.notificationCount = 0;
         });
     }
