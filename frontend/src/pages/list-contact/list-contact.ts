@@ -91,35 +91,6 @@ export class ListContactPage {
     this.getAllUserContacts();
   }
 
-  // getAllUserContacts() {
-  //   if (this.tabParams.activeCommunity != "") {
-  //     this.communityProvider
-  //       .getCommunitiesbyCreator(this.tabParams)
-  //       .subscribe(dataCreator => {
-  //         this.communityProvider
-  //           .getCommunitiesByParticipation(this.tabParams)
-  //           .subscribe(dataParticipation => {
-  //             console.log(
-  //               "dataCreator : ",
-  //               dataCreator.communities,
-  //               dataParticipation
-  //             );
-  //             dataCreator.communities = dataCreator.communities.concat(
-  //               dataParticipation
-  //             );
-  //             this.tabParams.page = this.page
-  //             this.allCommunities = dataCreator.communities;
-  //             this.userProvider
-  //               .getAllUserByCommunityId(this.tabParams, this.allCommunities)
-  //               .subscribe(response => {
-  //                 console.log("Here ---: ---> :", response.users);
-  //                 this.contact = response.users;
-  //               });
-  //           });
-  //       });
-  //   }
-  // }
-
   getAllUserContacts() {
     if (this.tabParams.activeCommunity != "") {
       this.communityProvider
@@ -136,16 +107,20 @@ export class ListContactPage {
     }
   }
 
-  ionViewWillEnter() {
-    this.getAllUserContacts();
+  getListContact() {
     this.invitationProvider
       .getAllUserInvitations(this.tabParams)
       .subscribe(data => {
         this.invitationList = data;
       });
   }
+  
+  ionViewWillEnter() {
+    this.getAllUserContacts();
+    this.getListContact();
+  }
 
-  ionViewDidEnter() {
+  getCountinvitation() {
     this.invitationProvider
       .getCountNotification(this.tabParams)
       .subscribe(count => {
@@ -153,6 +128,10 @@ export class ListContactPage {
           this.notificationCount = count;
         }, 500);
       });
+  }
+
+  ionViewDidEnter() {
+    this.getCountinvitation();
   }
 
   expand() {
@@ -164,6 +143,7 @@ export class ListContactPage {
     modal.onDidDismiss(data => {
       this.expanded = false;
       this.contracted = !this.expanded;
+      this.getListContact();
       setTimeout(() => (this.showIcon = true), 330);
     });
     modal.present();
