@@ -3,38 +3,7 @@ const utils = require('../utils')
 const Community = require("../../models/community")
 const Invitation = require("../../models/invitation")
 
-// sendProfileInfo = (res, user, communityId) => {
-//     let i = 0;
-//     let pos = 0;
-//     let allusersProfile = [];
-
-//     user.map(usr => {
-//         usr.profile.map(pr => {
-//             if (pr.profileCummunityId == communityId) {
-//                 pos = i;
-//                 if (usr.profile[pos] != null) {
-//                     allusersProfile.push({
-//                         userId: usr.userId,
-//                         userEmail: usr.credentials.email,
-//                         profileUsername: usr.profile[pos].profileUsername,
-//                         profilePhoto: usr.profile[pos].profilePhoto
-//                     })
-//                 }
-//             }
-//             i++;
-//         })
-//         pos = 0;
-//         i = 0;      
-//     })
-
-//     res.status(200).json({
-//         users: allusersProfile
-//     })
-// }
-
-
 async function getCommunity(comId) {
-    console.log(comId)
     return new Promise((resolve, reject) => {
         Community.find({
             communityId: comId
@@ -106,8 +75,6 @@ getUserProfileInfo = (req, res, page, userId) => {
         communities.push(com.communityId)
     })
 
-    console.log("communities : ", communities, userId)
-
     Invitation.find({
             invitationCommunityId: {
                 "$in": communities
@@ -128,7 +95,6 @@ getUserProfileInfo = (req, res, page, userId) => {
             let uniqIds = [...new Set(usrIds)];
             uniqIds.push(userId)
 
-            console.log("usrIds : ", uniqIds)
             User.find({
                     userId: {
                         "$in": uniqIds,

@@ -297,16 +297,6 @@ export class ListContactPage {
     }, 1000);
   }
 
-  // dismiss() {
-  //   if (this.tabParams.countNotification != 0) {
-  //     this.invitationProvider
-  //       .updateNotification(this.tabParams)
-  //       .subscribe(data => {
-  //         this.viewCtrl.dismiss();
-  //       });
-  //   } else this.viewCtrl.dismiss();
-  // }
-
   acceptInvitation(invit) {
     this.invitationProvider
       .acceptedInvitatioo(invit, this.tabParams)
@@ -386,31 +376,4 @@ export class ListContactPage {
       console.log("Remove community dissmissed!", data);
     });
   }
-
-  // async presentContactFilter(ev: any) {
-  //   const popover = await this.popoverCtrl.create(
-  //     "ConatctListFilterPage",
-  //     this.tabParams
-  //   );
-  //   await popover.present({
-  //     ev: ev
-  //   });
-
-  //   await popover.onDidDismiss(data => {
-  //     let tmp = this.tabParams;
-
-  //     if (data != "all" && data != null) {
-  //       tmp.activeCommunity = data;
-  //       this.userProvider.getAllUserByCommunityId(tmp).subscribe(response => {
-  //         this.contact = response.users;
-  //       });
-  //     } else if (data === "all") {
-  //       this.userProvider
-  //         .getAllusersCommunityConcat(this.tabParams)
-  //         .subscribe(response => {
-  //           if (response.users.length != 0) this.contact = response.users;
-  //         });
-  //     }
-  //   });
-  // }
 }

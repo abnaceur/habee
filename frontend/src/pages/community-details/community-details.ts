@@ -47,7 +47,6 @@ export class CommunityDetailsPage {
   }
 
   ionViewWillEnter() {
-    console.log("this.tabParams: ", this.tabParams);
     this.getCommunityDetails();
   }
 
@@ -55,7 +54,6 @@ export class CommunityDetailsPage {
     this.communityProvider
       .getCommunityDetails(this.tabParams, this.comId)
       .subscribe(data => {
-        console.log("CommunityDetailsPageModule : ", data);
         this.community = data;
       });
   }
@@ -85,7 +83,6 @@ export class CommunityDetailsPage {
   }
 
   openUserDetailsModal(userDetails, user) {
-    console.log("userDetails :", userDetails);
     let navInfo = {
       check: 0,
       userDetails: user,

@@ -53,7 +53,6 @@ export class ConatctListFilterPage {
           this.communityProvider
             .getCommunitiesByParticipation(this.tabParams)
             .subscribe(dataParticipation => {
-              console.log("dataCreator : ", dataCreator.communities, dataParticipation)
               dataCreator.communities = dataCreator.communities.concat(dataParticipation);
               if (dataCreator.communities.length > 1) {
                 this.allCommunities = dataCreator.communities
@@ -64,7 +63,6 @@ export class ConatctListFilterPage {
   }
 
   getFilterContact(communityId) {
-    console.log("communityId : ", communityId)
     this.viewCtrl.dismiss(communityId);
   }
 

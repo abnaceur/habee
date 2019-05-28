@@ -68,7 +68,6 @@ export class ProfilePage {
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
       .subscribe(response => {
-        console.log("response.User[0] : ", response.User[0]);
         this.user = response.User[0];
       });
   }

@@ -169,8 +169,6 @@ export class EventProvider {
 
   editEvent(event, uploadedImage, userInfo, tabparas) {
 
-    console.log("Event :", event)
-    console.log("userInfo :", userInfo)
     const header = this.utils.inihttpHeaderWIthToken(tabparas.token);
 
     return this.http.put(ENV.BASE_URL + "/events/edit/" + event.eventId + '/community/' + tabparas.activeCommunity,

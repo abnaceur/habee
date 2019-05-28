@@ -59,7 +59,8 @@ export class EditCommunityModalPage {
   private communityId;
   public comInfo = {
     title: "",
-    description: ""
+    description: "",
+    logo: ""
   }
 
   constructor(
@@ -90,6 +91,7 @@ export class EditCommunityModalPage {
 
     this.communityProvider.getCommunityById(this.tabParams, this.communityId)
       .subscribe(data => {
+        this.comInfo.logo = data.communityLogo;
         this.comInfo.title = data.communityName;
         this.comInfo.description = data.communityDescripton
       })
@@ -170,20 +172,27 @@ export class EditCommunityModalPage {
       modifiedCommunity.communityTitle = this.comInfo.title
       : modifiedCommunity.communityTitle
 
-    if (this.chosenPicture) {
+    if (this.chosenPicture != undefined) {
       this.utils.uploadPhoto(this.chosenPicture)
         .then(comPhoto => {
-          this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, comPhoto)
+          modifiedCommunity.logo = comPhoto;
+          this.updateCommunity(modifiedCommunity)     
         })
     } else {
-      this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity, this.chosenPicture)
+      if (this.chosenPicture == undefined && this.comInfo.logo != "")
+      modifiedCommunity.logo = this.comInfo.logo;
+      this.updateCommunity(modifiedCommunity)
+    }
+  }
+
+  updateCommunity (modifiedCommunity) {
+    this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity)
         .subscribe(data => {
-          if (data === 200)
+          if (data === 200) 
             this.utils.notification("Cette Communauté est a jour", "top")
           else if (data === 202)
             this.utils.notification("Ce nom exist !", "top")
-          })
-    }
+        })
   }
 
   dismiss() {

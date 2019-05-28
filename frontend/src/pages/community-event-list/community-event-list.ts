@@ -57,7 +57,6 @@ export class CommunityEventListPage {
           this.communityProvider
             .getCommunitiesByParticipation(this.tabParams)
             .subscribe(dataParticipation => {
-              console.log("dataCreator : ", dataCreator.communities, dataParticipation)
               dataCreator.communities = dataCreator.communities.concat(dataParticipation);
                 this.allCommunities = dataCreator.communities
             });
@@ -96,7 +95,6 @@ export class CommunityEventListPage {
   }
 
   checkCommunity(com, ev) {
-    console.log("here ---> :", com, ev.checked)
     if (ev.checked == true) 
       this.comSelected.push(com.communityId)
      else  if (ev.checked == true) {

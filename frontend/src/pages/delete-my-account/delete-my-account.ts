@@ -44,16 +44,11 @@ export class DeleteMyAccountPage {
     };
   }
 
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad DeleteMyAccountPage");
-  }
-
   dismiss() {
     this.viewCtrl.dismiss();
   }
 
   deleteAccount() {
-    console.log("this tabparams  :", this.tabParams);
     this.accountService.deleteUserAccount(this.tabParams)
     .subscribe(data => {
       if (data == 200) {

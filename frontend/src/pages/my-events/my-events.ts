@@ -92,7 +92,6 @@ export class MyEventsPage {
     this.eventProvider
       .getAllProposedEvevnstByUser(this.tabParams)
       .subscribe(response => {
-        console.log("response.Events : ", response, this.tabParams)
         this.proposedEvents = response.Events;
       });
   }

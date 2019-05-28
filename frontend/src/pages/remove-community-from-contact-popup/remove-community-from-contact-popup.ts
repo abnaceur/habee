@@ -36,7 +36,6 @@ export class RemoveCommunityFromContactPopupPage {
     this.tabParams = this.navParams.get("tabParams");
     this.userCommunities = this.navParams.get("communities");
     this.contactInfo = this.navParams.get("contactInfo");
-    console.log("this.navParams : ", this.navParams);
   }
 
   ionViewWillEnter() {

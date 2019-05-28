@@ -11,7 +11,6 @@ getCommunityName = (comId) => {
             communityId: comId
         }).exec()
         .then(com => {
-            console.log("Community : ", com[0].communityName)
             resolve(com[0].communityName) 
         }).catch(err => console.log("getCommunityName : Err ", err))
     })
@@ -80,7 +79,6 @@ getUserById = (id, res) => {
                 if (usr[0].eventsParticipated.length != 0) {
                     getUserEvent(usr, res)
                 } else {
-                    console.log("here ")
                     res.status(200).json({
                         User: usr[0].eventsParticipated
                     });

@@ -51,7 +51,6 @@ export class PopupUserDetailModalPage {
     public viewCtrl: ViewController,
     public navParams: NavParams
   ) {
-    console.log("this.navParams : ", this.navParams)
     this.tabParams = this.navParams.data
   }
 

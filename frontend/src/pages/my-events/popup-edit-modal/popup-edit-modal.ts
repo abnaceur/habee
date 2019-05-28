@@ -78,8 +78,6 @@ export class PopupEditModalPage {
     this.eventDetails = this.navParams.data.event;
     this.tabParams = this.navParams.data.userInfo;
 
-    console.log("eventDetails : ", this.eventDetails);
-  
     this.chosenPicture = this.eventDetails.eventPhoto;
 
     this.editEventForm = this._FB.group({
@@ -174,7 +172,6 @@ export class PopupEditModalPage {
           this.eventProvider
             .editEvent(event, data, this.eventDetails, this.tabParams)
             .subscribe(response => {
-              console.log("Resoponse edit : ", response)
               if (response.message == "success") {
                 this.utils.notification("Event modifier avec succes", "top");
               } else {
@@ -186,7 +183,6 @@ export class PopupEditModalPage {
         this.eventProvider
           .editEvent(event, this.chosenPicture, this.eventDetails, this.tabParams)
           .subscribe(response => {
-            console.log("Resoponse edit 1: ", response)
             if (response.message == "success") {
               this.utils.notification("Event modifier avec succes", "top");
             } else {
@@ -206,7 +202,6 @@ export class PopupEditModalPage {
       { cssClass: "comEvent-modal" }
     );
     modal.onDidDismiss(data => {
-      console.log("Daa ===> :", data);
       if (data != null && data.length == 0)
         this.listCommunity.push(this.tabParams.activeCommunity);
       else if (data != null && data.length > 0) this.listCommunity = data;

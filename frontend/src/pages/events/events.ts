@@ -102,7 +102,6 @@ export class EventsPage {
     moment.locale("fr");
     this.dateFormat = moment;
 
-    console.log("test dat : ", this.dateFormat);
     this.months = [
       "Janvier",
       "Fevrier",
@@ -278,7 +277,6 @@ export class EventsPage {
           .subscribe(data => {
             if (data === 1) {
               this.tabParams.activeCommunity = comId;
-              console.log("comId : ", comId);
               this.events.publish("user:info", this.tabParams);
               let menuData = ["Acceuil", this.tabParams];
               this.navCtrl.push("TabsPage", menuData);

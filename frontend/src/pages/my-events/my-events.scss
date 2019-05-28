@@ -15,6 +15,17 @@ page-my-events {
     background-size: cover;
   }
 
+  .styleParticipants {
+    margin-top: 11px;
+    background-color: #5abcc2;
+    color: white;
+    padding: 0vw 10px;
+    border-radius: 20%;
+    font-weight: bolder;
+    font-size: 15px;
+    font-family: monospace;
+  }
+
   .card-background-page {
 
     ion-card {
@@ -84,14 +95,6 @@ page-my-events {
     }
   }
 
-
-  .styleParticipants {
-    margin-top: 11px;
-    color: deeppink;
-    font-weight: bolder;
-    font-size: small;
-    font-family: sans-serif;
-  }
 
   .commName {
     position: absolute;

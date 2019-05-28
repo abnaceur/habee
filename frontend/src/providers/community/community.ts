@@ -82,13 +82,13 @@ export class CommunityProvider {
       .map(response => response.json().count);
   }
 
-  putCommunity (communityId, userInfo, communityDetails, photo){    
+  putCommunity (communityId, userInfo, communityDetails){    
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.put(ENV.BASE_URL + '/communities/' + communityId,
     {
       "communityName": communityDetails.communityTitle,
-      "communityLogo": photo,
+      "communityLogo": communityDetails.logo,
       "communityDescripton": communityDetails.communityDescription,
     }
     , { headers: header })

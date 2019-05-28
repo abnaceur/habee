@@ -102,11 +102,9 @@ export class EventFilterPage {
           this.communityProvider
             .getCommunitiesByParticipation(this.tabParams)
             .subscribe(dataParticipation => {
-              console.log("dataCreator : ", dataCreator.communities, dataParticipation)
               dataCreator.communities = dataCreator.communities.concat(dataParticipation);
               if (dataCreator.communities.length > 1) {
                 this.allCommunities = dataCreator.communities
-                console.log("this.allCommunities : ", this.allCommunities)
               }
             });
         });

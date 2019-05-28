@@ -279,7 +279,6 @@ export class MyApp {
             this.communityProvider
               .getCommunitySelected(arr, this.userData.activeCommunity)
               .then(data => {
-                console.log("Commnity list :", data)
                 this.allCommunitiesbyUserId = data;
               });
           });

@@ -173,7 +173,6 @@ exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
         })
         .exec()
         .then(events => {
-            console.log("Event count :", events.length);
             if (events.length === 0) {
                 return res.status(200).json({
                     code: "404",
@@ -251,7 +250,6 @@ exports.deleteEventByCommunityId = (req, res, next) => {
     let eventId = req.params.eventId;
     let communityId = req.params.communityId;
 
-    console.log("Req body edit here :", req.body)
     deletEvent.deleteThisEvent(eventId, communityId, req, res)
 }
 

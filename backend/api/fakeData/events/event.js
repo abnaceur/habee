@@ -35,7 +35,6 @@ async function getAlluserIds() {
             .select("activeCommunity")
             .exec()
             .then(usrIds => {
-                console.log("UserIds :", usrIds);
                 resolve(usrIds)
             }).catch(err => console.log("Err :", err));
     })
