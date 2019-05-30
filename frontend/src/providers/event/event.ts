@@ -57,6 +57,88 @@ export class EventProvider {
   ) {
   }
 
+  allFilters = [{
+    name: "Sortie entre amis",
+    filter: "sortieEntreAmis",
+    value: false,
+  }, {
+    name: "Afterwork",
+    filter: "afterwork",
+    value: false,
+  }, {
+    name: "Cinéma",
+    filter: "cinema",
+    value: false,
+  }, {
+    name: "Sport",
+    filter: "sport",
+    value: false,
+  }, {
+    name: "Repas de famille",
+    filter: "repasDeFamille",
+    value: false,
+  }, {
+    name: "Farniente",
+    filter: "farniente",
+    value: false,
+  }, {
+    name: "Shopping",
+    filter: "shopping",
+    value: false,
+  }, {
+    name: "Ballade",
+    filter: "ballade",
+    value: false,
+  }, {
+    name: "Virée en vélo",
+    filter: "virreEnVelo",
+    value: false,
+  }, {
+    name: "Virée en voiture",
+    filter: "vireEnVoiture",
+    value: false,
+  }, {
+    name: "Picnic",
+    filter: "picnic",
+    value: false,
+  }, {
+    name: "Anniversaire",
+    filter: "anniversaire",
+    value: false,
+  }, {
+    name: "Danse",
+    filter: "danse",
+    value: false,
+  }, {
+    name: "Cutlure",
+    filter: "cutlure",
+    value: false,
+  }, {
+    name: "Nature",
+    filter: "nature",
+    value: false,
+  }, {
+    name: "Evènement en ville",
+    filter: "evenementEnVille",
+    value: false,
+  }, {
+    name: "Spectacle",
+    filter: "spectacle",
+    value: false,
+  }, {
+    name: "Retrouvailles",
+    filter: "retrouvailles",
+    value: false,
+  }, {
+    name: "Cousinade",
+    filter: "cousinade",
+    value: false,
+  }, {
+    name: "Match",
+    filter: "match",
+    value: false,
+  }];
+
   getEventsByCommunityId(userInfo) {
 
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
@@ -70,7 +152,7 @@ export class EventProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
 
-    return this.http.get(ENV.BASE_URL + '/events/filtered/user/' + userInfo.userId +'/community/' + userInfo.activeCommunity + '/page/' + page,
+    return this.http.get(ENV.BASE_URL + '/events/filtered/user/' + userInfo.userId + '/community/' + userInfo.activeCommunity + '/page/' + page,
       { headers: header })
       .map(response => response.json());
   }
@@ -136,7 +218,7 @@ export class EventProvider {
   }
 
   addEventByCommunity(event, userInfo, uploadedImage, listCommunity) {
-  const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/events',
       {
@@ -179,7 +261,7 @@ export class EventProvider {
         "eventCategory": event.eventCategory,
         "eventCommunity": event.eventCommunity,
         "eventCreator": userInfo.eventCreator,
-        "eventDescription": event.eventDescription, 
+        "eventDescription": event.eventDescription,
         "eventEndDate": event.eventEndDate,
         "eventEndHour": event.eventEndHour,
         "eventId": userInfo.eventId,
@@ -341,7 +423,7 @@ export class EventProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/events/filter/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
-    filter,
+      filter,
       { headers: header })
       .map(response => response.json());
   }
@@ -355,18 +437,18 @@ export class EventProvider {
       .map(response => response.json());
   }
 
-  emitSendMsg (msg) {
+  emitSendMsg(msg) {
     this.socket.emit('send-message', msg);
   }
 
-  checkIfNotifIsActive (filter, activeCategory) {
+  checkIfNotifIsActive(filter, activeCategory) {
 
     return new Promise((resolve, reject) => {
       let i = 0;
       if (filter.SportValue == true && "Sports" == activeCategory) i++;
       if (filter.ArtsValue == true && "Arts" == activeCategory) i++;
-      if (filter.cultureValue == true && "Culture" == activeCategory) i++; 
-      if (filter.MediaValue == true && "Media" == activeCategory)  i++;
+      if (filter.cultureValue == true && "Culture" == activeCategory) i++;
+      if (filter.MediaValue == true && "Media" == activeCategory) i++;
       if (filter.musicValue == true && "Music" == activeCategory) i++;
       if (filter.socialValue == true && "Social" == activeCategory) i++;
       if (filter.internValue == true && "International" == activeCategory) i++;
@@ -378,9 +460,9 @@ export class EventProvider {
       if (filter.partyValue == true && "Fete" == activeCategory) i++;
       if (filter.meetingValue == true && "Rencontre" == activeCategory) i++;
       if (filter.WorkshopValue == true && "Workshop" == activeCategory) i++;
-  
+
       resolve(i)
-    }) 
+    })
   }
 
 }

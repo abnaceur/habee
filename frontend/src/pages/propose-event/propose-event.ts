@@ -52,6 +52,7 @@ export class ProposeEventPage {
   chosenPicture: any;
   public tabParams;
   public url = ENV.BASE_URL;
+  allfilters: any;
 
   constructor(
     private socket: Socket,
@@ -74,6 +75,8 @@ export class ProposeEventPage {
       activeCommunity: this.navParams.data.userInfo.activeCommunity,
       notificationStatus: this.navParams.data.userInfo.notificationStatus
     };
+
+    this.allfilters = this.eventProvider.allFilters;
 
     this.proposeEventForm = formBuilder.group({
       eventTitle: ["", Validators.compose([Validators.required])],
