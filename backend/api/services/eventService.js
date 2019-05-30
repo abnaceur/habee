@@ -271,7 +271,8 @@ returnNoevent = (res) => {
 }
 
 updateCommunityEvents = (pageTmp, alluserCom, communityId, res, filter, activeEvent, userId) => {
-    if (activeEvent.length === 0 && filter.PublicValue === true) filterWithPublicTrue(pageTmp, res, activeEvent, filter, userId, pageTmp)
+    
+    if (activeEvent.length === 0 && filter[0].value === true) filterWithPublicTrue(pageTmp, res, activeEvent, filter, userId, pageTmp)
     else {
         if (activeEvent.length === 0)
             activeEvent.map(event => {
@@ -291,6 +292,7 @@ updateCommunityEvents = (pageTmp, alluserCom, communityId, res, filter, activeEv
             .exec()
             .then(events => {
                 activeEvent = activeEvent.concat(events)
+                
                 if (activeEvent.length === 0) returnNoevent(res);
                 else filterWithPublicTrue(pageTmp, res, activeEvent, filter, userId, pageTmp)
             })

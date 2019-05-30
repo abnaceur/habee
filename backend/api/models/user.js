@@ -73,6 +73,19 @@ let userSchema = mongoose.Schema({
 	filterEvent: [{
 		name: {
 			type: String,
+			default: "Publique"
+		},
+		filter: {
+			type: String,
+			default: "publicEvents"
+		},
+		value: {
+			type: Boolean,
+			default: false,
+		},
+	},{
+		name: {
+			type: String,
 			default: "Sortie entre amis"
 		},
 		filter: {

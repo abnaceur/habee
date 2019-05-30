@@ -6,6 +6,10 @@ const userEmails = require('../emailsTemplate/userEmails');
 const Community = require('../models/community');
 
 let filterClassInit = [{
+    name: "Publique",
+    filter: "publicEvents",
+    value:  false,
+},{
     name: "Sortie entre amis",
     filter: "sortieEntreAmis",
     value: false,

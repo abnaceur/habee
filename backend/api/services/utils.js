@@ -108,21 +108,12 @@ exports.countActiveFilters = (filter) => {
     let i = 0;
     let activeFilters = []
 
-    filter.SportValue == true ? (activeFilters[i] = "Sports", i++) : i = i;
-    filter.ArtsValue == true ? (activeFilters[i] = "Arts", i++) : i = i;
-    filter.cultureValue == true ? (activeFilters[i] = "Culture", i++) : i = i;
-    filter.MediaValue == true ? (activeFilters[i] = "Media", i++) : i = i;
-    filter.musicValue == true ? (activeFilters[i] = "Music", i++) : i = i;
-    filter.socialValue == true ? (activeFilters[i] = "Social", i++) : i = i;
-    filter.internValue == true ? (activeFilters[i] = "International", i++) : i = i;
-    filter.businessValue == true ? (activeFilters[i] = "Business", i++) : i = i;
-    filter.communityValue == true ? (activeFilters[i] = "Communite", i++) : i = i;
-    filter.santeValue == true ? (activeFilters[i] = "Sante", i++) : i = i;
-    filter.itValue == true ? (activeFilters[i] = "Science et technologie", i++) : i = i;
-    filter.lifestyleValue == true ? (activeFilters[i] = "Style de vie", i++) : i = i;
-    filter.partyValue == true ? (activeFilters[i] = "Fete", i++) : i = i;
-    filter.meetingValue == true ? (activeFilters[i] = "Rencontre", i++) : i = i;
-    filter.WorkshopValue == true ? (activeFilters[i] = "Workshop", i++) : i = i;
+    filter.map(fls => {
+        if (fls.value === true && fls.filter != "publicEvents") {
+            activeFilters[i] = fls.name;
+            i++;
+        }
+    })
 
     results = {
         i: i,
@@ -157,7 +148,7 @@ exports.filterEvents = (argEvents, filter, userId) => {
     let filterPublicEvent = []
     z = 0;
 
-    if (filter.PublicValue === true) {
+    if (filter[0].value === true) {
         return new Promise((resolve, reject) => {
             eventService.getAllpublicEvents()
                 .then(events => {
@@ -236,7 +227,7 @@ exports.uniqueArray = (z, arr, count) => {
             }
             i--;
         }
-        if (check != 0) {arr.splice(i, 1)}
+        if (check != 0) { arr.splice(i, 1) }
         i = count - 1;
         z++;
     }
@@ -256,12 +247,12 @@ exports.getFilterPosition = (events, communityId) => {
 }
 
 exports.randomValueGenerator = () => {
-    return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7).toUpperCase() + "$" ;
+    return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7).toUpperCase() + "$";
 }
 
 exports.getImagePath = (req, imageBody) => {
     let imagePath;
-    
+
     if (imageBody != undefined && imageBody != "")
         imagePath = imageBody;
     else if (req.files == undefined)

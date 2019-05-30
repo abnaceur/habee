@@ -53,6 +53,10 @@ export class EventFilterProvider {
   }
 
   allfilters = [{
+    name: "Publique",
+    filter: "publicEvents",
+    value: "",
+  }, {
     name: "Sortie entre amis",
     filter: "sortieEntreAmis",
     value: "",
@@ -108,27 +112,27 @@ export class EventFilterProvider {
     name: "Cutlure",
     filter: "cutlure",
     value: "",
-  },{
+  }, {
     name: "Nature",
     filter: "nature",
     value: "",
-  },{
+  }, {
     name: "Evènement en ville",
     filter: "evenementEnVille",
     value: "",
-  },{
+  }, {
     name: "Spectacle",
     filter: "spectacle",
     value: "",
-  },{
+  }, {
     name: "Retrouvailles",
     filter: "retrouvailles",
     value: "",
-  },{
+  }, {
     name: "Cousinade",
     filter: "cousinade",
     value: "",
-  },{
+  }, {
     name: "Match",
     filter: "match",
     value: "",
@@ -162,35 +166,6 @@ export class EventFilterProvider {
     })
     return i;
   }
-
-  initFilterList(filterList, filter): Promise<{}> {
-
-
-    filterList.map(filter => {
-
-    })
-    filterList[0].SportValue = filter.SportValue;
-    filterList[0].ArtsValue = filter.ArtsValue;
-    filterList[0].cultureValue = filter.cultureValue;
-    filterList.MediaValue = filter.MediaValue;
-    filterList.musicValue = filter.musicValue;
-    filterList.socialValue = filter.socialValue;
-    filterList.internValue = filter.internValue;
-    filterList.businessValue = filter.businessValue;
-    filterList.communityValue = filter.communityValue;
-    filterList.santeValue = filter.santeValue;
-    filterList.itValue = filter.itValue;
-    filterList.lifestyleValue = filter.lifestyleValue;
-    filterList.partyValue = filter.partyValue;
-    filterList.meetingValue = filter.meetingValue;
-    filterList.WorkshopValue = filter.WorkshopValue;
-    filterList.PublicValue = filter.PublicValue;
-
-    return new Promise((resolve, reject) => {
-      resolve(filterList)
-    })
-  }
-
 
   initFilter(value) {
     return new Promise((resolve, reject) => {
