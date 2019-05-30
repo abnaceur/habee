@@ -42,12 +42,33 @@ export class RemoveCommunityFromContactPopupPage {
     this.getAllCommunities();
   }
 
+  filterCommunities(communities) {
+    let i = 0;
+    let check = 0;
+    let coms = [];
+
+    while (i < communities.length) {
+      this.userCommunities.map(com => {
+        if (com.communityId === communities[i].communityId)
+          check = 1;
+      })
+
+      if (check === 1) {
+        coms.push(communities[i])
+        check = 0;
+      }
+      i++;
+    }
+    this.allCommunities = coms;
+  }
+
   getAllCommunities() {
+    console.log("this.userCommunities  :", this.userCommunities);
     if (this.tabParams.activeCommunity != "") {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-          this.allCommunities = dataCreator.communities;
+          this.filterCommunities(dataCreator.communities);
         });
     }
   }
