@@ -3,17 +3,6 @@ const utils = require('../utils')
 const Community = require("../../models/community")
 const Invitation = require("../../models/invitation")
 
-async function getCommunity(comId) {
-    return new Promise((resolve, reject) => {
-        Community.find({
-            communityId: comId
-        }).then(community => {
-            resolve(community[0])
-        });
-    }).catch(err => console.log("Error : ", err))
-}
-
-
 async function getComInfo(usr, communities) {
     let i = 0;
     let coms = [];
@@ -21,8 +10,8 @@ async function getComInfo(usr, communities) {
     return new Promise((resolve, reject) => {
         while (i <= usr.communities.length) {
             communities.map(async cm => {
-                if (cm == usr.communities[i]) {
-                    coms.push(await getCommunity(cm))
+                if (cm.communityId == usr.communities[i]) {
+                    coms.push(cm)
                 }
             })
             i++;
@@ -65,19 +54,21 @@ async function sendProfileInfo(res, user, communities) {
 
 
 getUserProfileInfo = (req, res, page, userId) => {
+    let communitiesId = [];
+    let pageTmp = 0;
     let communities = [];
-    let pageTmp = 0
 
     if (page != undefined)
         pageTmp = page;
 
     req.body.map(com => {
-        communities.push(com.communityId)
+        communitiesId.push(com.communityId);
+        communities.push(com);
     })
 
     Invitation.find({
             invitationCommunityId: {
-                "$in": communities
+                "$in": communitiesId
             },
             invitatorId: userId,
             status: "accepted"
@@ -100,7 +91,7 @@ getUserProfileInfo = (req, res, page, userId) => {
                         "$in": uniqIds,
                     },
                     communities: {
-                        "$in": communities
+                        "$in": communitiesId
                     }
                 })
                 .skip(Number(pageTmp * 10))
@@ -123,6 +114,5 @@ getUserProfileInfo = (req, res, page, userId) => {
 module.exports = {
     getComInfo,
     getUserProfileInfo,
-    getCommunity,
     sendProfileInfo
 }

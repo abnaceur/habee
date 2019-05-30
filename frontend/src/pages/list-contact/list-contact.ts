@@ -88,7 +88,6 @@ export class ListContactPage {
       notificationStatus: this.navParams.get("notificationStatus")
     };
 
-    this.getAllUserContacts();
   }
 
   getAllUserContacts() {
@@ -113,6 +112,11 @@ export class ListContactPage {
       .subscribe(data => {
         this.invitationList = data;
       });
+  }
+
+  ionViewWillLoad(){
+    this.getAllUserContacts();
+    this.getListContact();  
   }
   
   ionViewWillEnter() {
