@@ -119,7 +119,6 @@ export class MyApp {
         active: false,
         icon: "contact"
       },
-      { title: "Communauté", component: "", active: false, icon: "people" },
       {
         title: "Paramètre",
         component: "TabsPage",

@@ -1,26 +1,3 @@
-<!-- Nav menu bar 
-
-<ion-menu [content]="content" id="menu-material">
-  <ion-content>
-    <div class="menu-header">
-      <img class="user-avatar round" src={{user.profileImage}} onerror="this.src='assets/img/avatar/girl-avatar.png'" />
-      <p class="name">{{user.name}}</p>
-      <p class="e-mail">pbolliger@email.com</p>
-    </div>
-    <ion-list no-lines>
-      <button menuClose ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon [name]="p.icon" item-left></ion-icon>
-        {{p.title}}
-      </button>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
-
--->
-
-
-
 <ion-menu [content]="content" id="menu-material">
   <ion-content>
     <div #header>
@@ -32,9 +9,6 @@
       <button menuClose ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon [name]="p.icon" item-left></ion-icon>
         <span *ngIf="p.title != 'Communauté'">
-          {{p.title}}
-        </span>
-        <span (click)="toggleCommunitymenu()" *ngIf="p.title == 'Communauté'">
           {{p.title}}
         </span>
       </button>
@@ -88,23 +62,6 @@
     </ion-list>
   </ion-content>
 </ion-menu>
-
-
-
-
-<!--Right side menu 
-  <ion-menu side="right" type="push" [content]="content" id="menu-right">
-    <ion-content>
-      <ion-list no-lines>
-        <button menuClose icon-only ion-item detail-none (click)="rightMenuClick(item)" *ngFor="let item of rightMenuItems; let i = index">
-          <div *ngIf="item.active" class="active-menu-item"></div>
-          <ion-icon [name]="item.icon"></ion-icon>
-        </button>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
- 
-  -->
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
