@@ -5,6 +5,87 @@ const utils = require('../services/utils');
 const userEmails = require('../emailsTemplate/userEmails');
 const Community = require('../models/community');
 
+let filterClassInit = [{
+    name: "Sortie entre amis",
+    filter: "sortieEntreAmis",
+    value: false,
+}, {
+    name: "Afterwork",
+    filter: "afterwork",
+    value: false,
+}, {
+    name: "Cinéma",
+    filter: "cinema",
+    value: false,
+}, {
+    name: "Sport",
+    filter: "sport",
+    value: false,
+}, {
+    name: "Repas de famille",
+    filter: "repasDeFamille",
+    value: false,
+}, {
+    name: "Farniente",
+    filter: "farniente",
+    value: false,
+}, {
+    name: "Shopping",
+    filter: "shopping",
+    value: false,
+}, {
+    name: "Ballade",
+    filter: "ballade",
+    value: false,
+}, {
+    name: "Virée en vélo",
+    filter: "virreEnVelo",
+    value: false,
+}, {
+    name: "Virée en voiture",
+    filter: "vireEnVoiture",
+    value: false,
+}, {
+    name: "Picnic",
+    filter: "picnic",
+    value: false,
+}, {
+    name: "Anniversaire",
+    filter: "anniversaire",
+    value: false,
+}, {
+    name: "Danse",
+    filter: "danse",
+    value: false,
+}, {
+    name: "Cutlure",
+    filter: "cutlure",
+    value: false,
+}, {
+    name: "Nature",
+    filter: "nature",
+    value: false,
+}, {
+    name: "Evènement en ville",
+    filter: "evenementEnVille",
+    value: false,
+}, {
+    name: "Spectacle",
+    filter: "spectacle",
+    value: false,
+}, {
+    name: "Retrouvailles",
+    filter: "retrouvailles",
+    value: false,
+}, {
+    name: "Cousinade",
+    filter: "cousinade",
+    value: false,
+}, {
+    name: "Match",
+    filter: "match",
+    value: false,
+}];
 
 exports.creatNewAccountUser = (value) => {
     let userIdGen = value.email.substring(0, value.email.search('@')) + '_' + Math.floor(Math.random() * 10000) + '_' + value.email.substring(value.email.search('@'), value.email.lenght);
@@ -42,23 +123,7 @@ exports.creatNewAccountUser = (value) => {
                     profileUserIsActive: true,
                     profileUserIsDeleted: false,
                 },
-                filterEvent: {
-                    SportValue: false,
-                    ArtsValue: false,
-                    cultureValue: false,
-                    MediaValue: false,
-                    musicValue: false,
-                    socialValue: false,
-                    internValue: false,
-                    businessValue: false,
-                    communityValue: false,
-                    santeValue: false,
-                    itValue: false,
-                    lifestyleValue: false,
-                    partyValue: false,
-                    meetingValue: false,
-                    WorkshopValue: false,
-                },
+                filterEvent: filterClassInit,
                 passions: [],
                 skills: [],
                 currentEvents: [],
@@ -105,24 +170,7 @@ exports.userClassAddNew = (password, email, activeCommunity) => {
                     profileUserIsActive: true,
                     profileUserIsDeleted: false,
                 }],
-                filterEvent: [{
-                    filterCommunity: activeCommunity,
-                    SportValue: false,
-                    ArtsValue: false,
-                    cultureValue: false,
-                    MediaValue: false,
-                    musicValue: false,
-                    socialValue: false,
-                    internValue: false,
-                    businessValue: false,
-                    communityValue: false,
-                    santeValue: false,
-                    itValue: false,
-                    lifestyleValue: false,
-                    partyValue: false,
-                    meetingValue: false,
-                    WorkshopValue: false,
-                }],
+                filterEvent: filterClassInit,
                 passions: [],
                 skills: [],
                 currentEvents: [],
@@ -142,8 +190,8 @@ exports.getUserFirstAndLastname = (userId) => {
 
     return new Promise((resolve, reject) => {
         User.find({
-                userId: userId
-            }).exec()
+            userId: userId
+        }).exec()
             .then(usr => {
                 resolve({
                     firstName: usr[0].credentials.firstname,
@@ -176,29 +224,12 @@ exports.saveUser = (userClass, email, password, userId) => {
 exports.filterEventClass = (activeCommunity) => {
 
     return new Promise((reslve, reject) => {
-        reslve({
-            filterCommunity: activeCommunity,
-            SportValue: false,
-            ArtsValue: false,
-            cultureValue: false,
-            MediaValue: false,
-            musicValue: false,
-            socialValue: false,
-            internValue: false,
-            businessValue: false,
-            communityValue: false,
-            santeValue: false,
-            itValue: false,
-            lifestyleValue: false,
-            partyValue: false,
-            meetingValue: false,
-            WorkshopValue: false,
-        })
+        reslve(filterClassInit[0])
     })
 }
 
 exports.profileClass = (invitation, user) => {
-//    let profileAvatar = Math.floor(Math.random() * 38) + 1;
+    //    let profileAvatar = Math.floor(Math.random() * 38) + 1;
     return new Promise((resolve, reject) => {
         resolve({
             profileCummunityId: invitation.invitationCommunityId,
@@ -217,17 +248,17 @@ exports.addUsertoCommunity = (userId, communityId) => {
     Community.find({
         communityId: communityId
     }).exec()
-    .then(community => {
-        community[0].communityMembers.push(userId)
-        Community.findByIdAndUpdate(community[0]._id,
-            community[0], {
-                new: false,
-            },
-            function (err, results) {
-                if (err) return console.log("addUsertoCommunity : ", err);
-                console.log("Community updated with success!")
-            });
-    }).catch(err => console.log("addUsertoCommunity error : ", err))
+        .then(community => {
+            community[0].communityMembers.push(userId)
+            Community.findByIdAndUpdate(community[0]._id,
+                community[0], {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return console.log("addUsertoCommunity : ", err);
+                    console.log("Community updated with success!")
+                });
+        }).catch(err => console.log("addUsertoCommunity error : ", err))
 }
 
 
@@ -250,7 +281,7 @@ exports.userAddNewCommnity = (invitation, user) => {
                                 // let msg = userEmails.inviteExistingContact(sendInfo);
                                 this.addUsertoCommunity(user[0].userId, invitation.invitationCommunityId)
                                 // utils.sendEmail("Habee TEAM", email, "[INVITATION]", msg);
-                                const userToSave  = new User(user[0])
+                                const userToSave = new User(user[0])
                                 userToSave.save()
                                     .then(usr => {
                                         resolve(200)
@@ -286,24 +317,7 @@ exports.userClassPost = (req, hash, imagePathprofilePhoto) => {
             profileUserIsActive: req.body.profileUserIsActive,
             profileUserIsDeleted: req.body.profileUserIsDeleted ? req.body.profileUserIsDeleted : false,
         }],
-        filterEvent: [{
-            filterCommunity: req.body.activeCommunity,
-            SportValue: false,
-            ArtsValue: false,
-            cultureValue: false,
-            MediaValue: false,
-            musicValue: false,
-            socialValue: false,
-            internValue: false,
-            businessValue: false,
-            communityValue: false,
-            santeValue: false,
-            itValue: false,
-            lifestyleValue: false,
-            partyValue: false,
-            meetingValue: false,
-            WorkshopValue: false,
-        }],
+        filterEvent: filterClassInit,
         passions: req.body.passions,
         skills: req.body.skills,
         currentEvents: req.body.currentEvents,

@@ -38,6 +38,7 @@ export class EventFilterPage {
   allCommunities = [];
   public tabParams;
   public selectAllFilters;
+  allfilters: any;
 
   constructor(
     private communityProvider: CommunityProvider,
@@ -47,7 +48,6 @@ export class EventFilterPage {
     public eventFilterProvider: EventFilterProvider,
     public navParams: NavParams) {
 
-    this.filterList = this.eventFilterProvider.filterlist;
     this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
@@ -59,11 +59,7 @@ export class EventFilterPage {
 
     this.eventProvider.getFilterOptions(this.tabParams)
       .subscribe(filters => {
-        let filter = filters.filterEvent;
-        this.eventFilterProvider.initFilterList(this.filterList, filter)
-        .then(filterList => {
-            this.filterList = filterList
-          })
+        this.allfilters = filters.filterEvent;
       })
   }
 
@@ -71,9 +67,9 @@ export class EventFilterPage {
     let activeFilters = 0;
     this.getAllCommunities()  
     
-    activeFilters = this.eventFilterProvider.objectFilterCount(this.filterList);
+    activeFilters = this.eventFilterProvider.objectFilterCount(this.allfilters);
 
-    activeFilters != Array.from(Object.keys(this.filterList)).length
+    activeFilters != Array.from(Object.keys(this.allfilters)).length
     ? this.selectAllFilters = false : this.selectAllFilters = true
   }
 
@@ -82,16 +78,16 @@ export class EventFilterPage {
   }
 
   closeConfirmModal() {
-    this.eventProvider.saveFilterOptions(this.filterList, this.tabParams)
+    this.eventProvider.saveFilterOptions(this.allfilters, this.tabParams)
       .subscribe(filters => {
-        this.filterList = filters;
+        this.allfilters = filters;
       });
-    this.viewCtrl.dismiss(this.filterList);
+    this.viewCtrl.dismiss(this.allfilters);
   }
 
   selectAllFiltersFunc() {
     this.eventFilterProvider.changeFilterList(this.selectAllFilters)
-    .then(filterUpdated => this.filterList = filterUpdated)
+    .then(filterUpdated => this.allfilters = filterUpdated)
   }
 
   getAllCommunities() {

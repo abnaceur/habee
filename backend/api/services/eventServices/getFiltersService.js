@@ -8,7 +8,6 @@ getFilterOptions = (res, userId) => {
     User.find({
         userId: userId,
     })
-    .select("filterEvent")
     .exec()
     .then(usr => {
         res.status(200).json({

@@ -106,7 +106,7 @@ router.put('/firstConnection/:userId', authCkeck, userController.updateUserByfir
  **  API [GET] for route /user/:id
  */
 
-router.get('/:id', authCkeck, userController.get_user_by_id);
+router.get('/:id', userController.get_user_by_id);
 
 
 /*

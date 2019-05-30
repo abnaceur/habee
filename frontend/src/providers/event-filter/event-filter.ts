@@ -1,5 +1,5 @@
-import { 
-  HttpClient 
+import {
+  HttpClient
 } from '@angular/common/http';
 
 import {
@@ -52,19 +52,101 @@ export class EventFilterProvider {
     private loadingCTRL: LoadingController) {
   }
 
+  allfilters = [{
+    name: "Sortie entre amis",
+    filter: "sortieEntreAmis",
+    value: "",
+  }, {
+    name: "Afterwork",
+    filter: "afterwork",
+    value: "",
+  }, {
+    name: "Cinéma",
+    filter: "cinema",
+    value: "",
+  }, {
+    name: "Sport",
+    filter: "sport",
+    value: "",
+  }, {
+    name: "Repas de famille",
+    filter: "repasDeFamille",
+    value: "",
+  }, {
+    name: "Farniente",
+    filter: "farniente",
+    value: "",
+  }, {
+    name: "Shopping",
+    filter: "shopping",
+    value: "",
+  }, {
+    name: "Ballade",
+    filter: "ballade",
+    value: "",
+  }, {
+    name: "Virée en vélo",
+    filter: "virreEnVelo",
+    value: "",
+  }, {
+    name: "Virée en voiture",
+    filter: "vireEnVoiture",
+    value: "",
+  }, {
+    name: "Picnic",
+    filter: "picnic",
+    value: "",
+  }, {
+    name: "Anniversaire",
+    filter: "anniversaire",
+    value: "",
+  }, {
+    name: "Danse",
+    filter: "danse",
+    value: "",
+  }, {
+    name: "Cutlure",
+    filter: "cutlure",
+    value: "",
+  },{
+    name: "Nature",
+    filter: "nature",
+    value: "",
+  },{
+    name: "Evènement en ville",
+    filter: "evenementEnVille",
+    value: "",
+  },{
+    name: "Spectacle",
+    filter: "spectacle",
+    value: "",
+  },{
+    name: "Retrouvailles",
+    filter: "retrouvailles",
+    value: "",
+  },{
+    name: "Cousinade",
+    filter: "cousinade",
+    value: "",
+  },{
+    name: "Match",
+    filter: "match",
+    value: "",
+  }]
+
   filterlist = {
     SportValue: String,
     ArtsValue: String,
-    cultureValue: String, 
+    cultureValue: String,
     MediaValue: String,
-    musicValue: String, 
-    socialValue: String, 
-    internValue: String, 
+    musicValue: String,
+    socialValue: String,
+    internValue: String,
     businessValue: String,
-    communityValue: String, 
+    communityValue: String,
     santeValue: String,
-    itValue: String, 
-    lifestyleValue: String, 
+    itValue: String,
+    lifestyleValue: String,
     partyValue: String,
     meetingValue: String,
     PublicValue: Boolean,
@@ -72,34 +154,24 @@ export class EventFilterProvider {
   }
 
   objectFilterCount(filter) {
-
     let i = 0;
 
-    filter.SportValue == true ? i++ : i = i;
-    filter.ArtsValue == true ?  i++ : i = i;
-    filter.cultureValue == true ? i++ : i = i;
-    filter.MediaValue == true ?  i++ : i = i;
-    filter.musicValue == true ? i++ : i = i;
-    filter.socialValue == true ? i++ : i = i;
-    filter.internValue == true ? i++ : i = i;
-    filter.businessValue == true ?  i++ : i = i;
-    filter.communityValue == true ? i++ : i = i;
-    filter.santeValue == true ?  i++ : i = i;
-    filter.itValue == true ?  i++ : i = i;
-    filter.lifestyleValue == true ?  i++ : i = i;
-    filter.partyValue == true ?  i++ : i = i;
-    filter.meetingValue == true ? i++ : i = i;
-    filter.WorkshopValue == true ?  i++ : i = i;
-    filter.PublicValue == true ?  i++ : i = i;
-
+    filter.map(flt => {
+      if (flt.value === true)
+        i++;
+    })
     return i;
   }
 
-  initFilterList(filterList, filter): Promise<{}>{
+  initFilterList(filterList, filter): Promise<{}> {
 
-    filterList.SportValue = filter.SportValue;
-    filterList.ArtsValue = filter.ArtsValue;
-    filterList.cultureValue = filter.cultureValue;
+
+    filterList.map(filter => {
+
+    })
+    filterList[0].SportValue = filter.SportValue;
+    filterList[0].ArtsValue = filter.ArtsValue;
+    filterList[0].cultureValue = filter.cultureValue;
     filterList.MediaValue = filter.MediaValue;
     filterList.musicValue = filter.musicValue;
     filterList.socialValue = filter.socialValue;
@@ -114,7 +186,7 @@ export class EventFilterProvider {
     filterList.WorkshopValue = filter.WorkshopValue;
     filterList.PublicValue = filter.PublicValue;
 
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       resolve(filterList)
     })
   }
@@ -122,26 +194,11 @@ export class EventFilterProvider {
 
   initFilter(value) {
     return new Promise((resolve, reject) => {
-      let filterlist = {
-        SportValue: value,
-        ArtsValue: value,
-        cultureValue: value, 
-        MediaValue: value,
-        musicValue: value, 
-        socialValue: value, 
-        internValue: value, 
-        businessValue: value,
-        communityValue: value, 
-        santeValue: value,
-        itValue: value, 
-        lifestyleValue: value, 
-        partyValue: value,
-        meetingValue: value,
-        PublicValue: value,
-        WorkshopValue: value
-      }
+      this.allfilters.map(flt => {
+        flt.value = value
+      })
 
-      resolve(filterlist);
+      resolve(this.allfilters);
     })
 
   }
@@ -150,10 +207,10 @@ export class EventFilterProvider {
     return new Promise((resolve, reject) => {
       if (selectAllFilters == true) {
         this.initFilter(true)
-        .then(data => resolve(data))
-      } else  if (selectAllFilters == false) {
+          .then(data => resolve(data))
+      } else if (selectAllFilters == false) {
         this.initFilter(false)
-        .then(data => resolve(data))
+          .then(data => resolve(data))
       }
     })
   }
