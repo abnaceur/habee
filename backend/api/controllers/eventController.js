@@ -10,7 +10,7 @@ const deletEvent = require('../services/eventServices/deleteEvent')
 const addEventService = require('../services/eventServices/addEventService')
 const eventFilterService = require("../services/eventServices/getFiltersService")
 const updateFilterService = require("../services/eventServices/updateFiltersService")
-
+const listEVentByUserService = require("../services/userServices/listProposedEventsServie");
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -163,32 +163,10 @@ exports.put_eventByUserId = (req, res, next) => {
 }
 
 exports.getEvntByUserIdAndCommunityId = (req, res, next) => {
-    let communityId = req.params.communityId;
+    let page = req.params.page;
     let eventCreator = req.params.userId;
 
-    Event.find({
-            eventCreator: eventCreator,
-            eventIsDeleted: false,
-            eventIsOver: false,
-        })
-        .exec()
-        .then(events => {
-            if (events.length === 0) {
-                return res.status(200).json({
-                    code: "404",
-                    message: "There are no events!"
-                })
-            } else {
-                res.status(200).json({
-                    Count: events.length,
-                    Events: events
-                });
-            }
-        })
-        .catch(err => {
-            utils.defaultError(res, err)
-        })
-
+    listEVentByUserService.listProposedEventByUserId(res, page, eventCreator)
 }
 
 

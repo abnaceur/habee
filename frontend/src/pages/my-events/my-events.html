@@ -93,20 +93,10 @@ background-color: #fcfcfc;">
   </ion-list>
 
 
-
-  <!-- 
-  <accordion-list *ngFor="let itm of eventParticipated; let index = index" [title]="itm.name" textColor="#FFF"
-    hasMargin="false" headerColor="#F53D3D" [expanded]="index === 0">
-    
-  </accordion-list> -->
-  <!-- 
-  <accordion-list *ngFor="let itm of eventPropose; let index = index" [title]="itm.name" textColor="#FFF"
-    hasMargin="false" headerColor="#F53D3D" [expanded]="index === 0">
-
-    
-
-  </accordion-list> -->
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
 </ion-content>
 

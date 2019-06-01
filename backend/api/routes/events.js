@@ -81,10 +81,10 @@ router.get('/user/:userId/community', authCkeck, eventController.getNoevent)
 
 
 /*
- * API [GET] for route /events/user/:userId/community/:communityId [TOBE USED]
+ * API [GET] for route /events/user/:userId/page/:page [TOBE USED]
  */
 
-router.get('/user/:userId/community/:communityId', eventController.getEvntByUserIdAndCommunityId)
+router.get('/user/:userId/page/:page', eventController.getEvntByUserIdAndCommunityId)
 
 /**
  * API [POST] for route /events/mobile/photo/upload [USED]

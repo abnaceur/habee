@@ -34,7 +34,7 @@ export class MyEventsPage {
   public participEvBorderDisplay = "initial"
   public orgnizeEvBorder = "";
   public orgnizeEvBorderDisplay = "none"
- 
+
   eventParticipated = [
     {
       name: "Événement participé"
@@ -46,6 +46,11 @@ export class MyEventsPage {
       name: "Événement proposé"
     }
   ];
+
+  page = 0;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
 
   public userInfo;
   public proposedEvents;
@@ -60,7 +65,7 @@ export class MyEventsPage {
     "Jui",
     "Aout",
     "Sep",
-    "Oct",  
+    "Oct",
     "Nov",
     "Dec"
   ];
@@ -90,10 +95,17 @@ export class MyEventsPage {
 
   updateProposedEventList() {
     this.eventProvider
-      .getAllProposedEvevnstByUser(this.tabParams)
+      .getAllProposedEvevnstByUser(this.tabParams, this.page)
       .subscribe(response => {
         this.proposedEvents = response.Events;
+        this.perPage = response.per_page;
+        this.totalData = response.total;
+        this.totalPage = response.total_pages;
       });
+  }
+
+  ionViewWillLeave() {
+    this.page = 0;
   }
 
   updatePrticipatedEventList() {
@@ -155,11 +167,11 @@ export class MyEventsPage {
   }
 
   deleteEvent(event) {
-      this.eventProvider
-        .deleteTheiEvent(event, this.tabParams)
-        .subscribe(response => {
-          this.deleteEventResponse(response);
-        });
+    this.eventProvider
+      .deleteTheiEvent(event, this.tabParams)
+      .subscribe(response => {
+        this.deleteEventResponse(response);
+      });
   }
 
   expandPopModal(popPage, navInfo) {
@@ -203,5 +215,26 @@ export class MyEventsPage {
     this.orgnizeEvBorderDisplay = "initial"
     this.participEvBorder = "";
     this.orgnizeEvBorder = "5px solid darkgrey";
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page = this.page + 1;
+
+    console.log("Refresh")
+    setTimeout(() => {
+      this.eventProvider
+        .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
+        .subscribe(response => {
+          if (!response) this.allEvents = [];
+          else {
+            this.proposedEvents = this.proposedEvents.concat(response.Events);
+            this.perPage = response.per_page;
+            this.totalData = response.total;
+            this.totalPage = response.total_pages;
+          }
+        });
+      console.log("Async operation has ended");
+      infiniteScroll.complete();
+    }, 1000);
   }
 }

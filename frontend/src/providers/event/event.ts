@@ -241,10 +241,10 @@ export class EventProvider {
       .map(response => response.json());
   }
 
-  getAllProposedEvevnstByUser(userInfo) {
+  getAllProposedEvevnstByUser(userInfo, page) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + '/events/user/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
+    return this.http.get(ENV.BASE_URL + '/events/user/' + userInfo.userId + '/page/' + page ,
       { headers: header })
       .map(response => response.json());
   }
