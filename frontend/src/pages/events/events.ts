@@ -225,10 +225,10 @@ export class EventsPage {
   presentFilter() {
     const modal = this.modalCtrl.create("EventFilterPage", this.tabParams);
     modal.onDidDismiss(filterData => {
-      console.log("filterData : ", filterData)
       this.countActiveFilters();
       this.eventProvider.checkFilterOptions(filterData.filters).then(activeFilters => {
         this.getAllEvents();
+        this.page = 0;
       });
     });
     modal.present();
