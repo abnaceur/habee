@@ -9,20 +9,20 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-padding fullscreen>
-  <ion-item text-wrap>
-    <ion-label>
-      En utilisant l’application, vous acceptez  nos règles de confidentialité disponibles 
-      <b (click)="showtermsScripts()">ici</b> 
-    </ion-label>
-  </ion-item>
-
-    <ion-footer>
-      <div (click)="declineTerms()"  class="pull-right" style="float: right; margin-right: 8px">
-          <p style="font-size: 12px">Je n’accepte pas</p>
-      </div>
-      <button  ion-button (click)="termsAccepted()" full style="color:#F6AE45">
-        <span style="color:white">J’accepte</span>
-      </button>
-    </ion-footer>
+<ion-content>
+  <ion-list text-wrap>
+      <ion-item >
+          En utilisant l’application, vous acceptez nos règles de confidentialité disponibles
+          <b (click)="showtermsScripts()">ici</b>
+        </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <div (click)="declineTerms()" class="pull-right" style="float: right; margin-right: 8px">
+    <p style="font-size: 12px">Je n’accepte pas</p>
+  </div>
+  <button ion-button (click)="termsAccepted()" full style="color:#F6AE45">
+    <span style="color:white">J’accepte</span>
+  </button>
+</ion-footer>
