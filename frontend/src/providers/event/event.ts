@@ -419,11 +419,11 @@ export class EventProvider {
       .map(response => response.json());
   }
 
-  saveFilterOptions(filter, userInfo) {
+  saveFilterOptions(filter, userInfo, communities) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/events/filter/' + userInfo.userId + '/community/' + userInfo.activeCommunity,
-      filter,
+      { filter, communities },
       { headers: header })
       .map(response => response.json());
   }

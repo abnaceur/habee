@@ -175,7 +175,30 @@ export class EventFilterProvider {
 
       resolve(this.allfilters);
     })
+  }
 
+  initComFilter(value, coms) {
+    return new Promise((resolve, reject) => {
+      coms.map(flt => {
+        flt.value = value
+      })
+      console.log("coms : ", coms);
+      resolve(coms);
+    })
+  }
+
+  changeComsFilterList(value, coms) {
+    console.log("changeComsFilterList", value, coms)
+    return new Promise((resolve, reject) => {
+      if (value === true) {
+        this.initComFilter(true, coms)
+          .then(data => resolve(data))
+      } else if (value === false) {
+        this.initComFilter(false, coms)
+          .then(data => resolve(data))
+      }
+    })
+    
   }
 
   changeFilterList(selectAllFilters) {

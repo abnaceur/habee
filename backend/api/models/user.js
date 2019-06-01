@@ -70,6 +70,7 @@ let userSchema = mongoose.Schema({
 			default: false,
 		}
 	},
+	communitiesFilter: [],
 	filterEvent: [{
 		name: {
 			type: String,

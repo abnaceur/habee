@@ -271,7 +271,7 @@ returnNoevent = (res) => {
 }
 
 updateCommunityEvents = (pageTmp, alluserCom, communityId, res, filter, activeEvent, userId) => {
-    
+
     if (activeEvent.length === 0 && filter[0].value === true) filterWithPublicTrue(pageTmp, res, activeEvent, filter, userId, pageTmp)
     else {
         if (activeEvent.length === 0)
@@ -292,7 +292,7 @@ updateCommunityEvents = (pageTmp, alluserCom, communityId, res, filter, activeEv
             .exec()
             .then(events => {
                 activeEvent = activeEvent.concat(events)
-                
+
                 if (activeEvent.length === 0) returnNoevent(res);
                 else filterWithPublicTrue(pageTmp, res, activeEvent, filter, userId, pageTmp)
             })
@@ -343,7 +343,20 @@ AlluserCommunity = (userId) => {
     })
 }
 
-filterEvent = (req, res, userId, communityId, page) => {
+async function getAllcomsIds(comFilters) {
+    let comIds = [];
+
+    return new Promise((resolve, reject) => {
+        comFilters.map(flt => {
+            if (flt.value === true)
+                comIds.push(flt.communityId)
+        })
+        resolve(comIds);
+    })
+
+}
+
+async function filterEvent(req, res, userId, communityId, page) {
     let pageTmp = 0
 
     if (page != undefined)
@@ -354,13 +367,13 @@ filterEvent = (req, res, userId, communityId, page) => {
             User.find({
                 userId: userId,
             })
-                .select("filterEvent")
                 .exec()
-                .then(usr => {
+                .then(async (usr) => {
                     let filter = usr[0].filterEvent;
+                    let comsIds = await getAllcomsIds(usr[0].communitiesFilter)
                     Event.find({
                         eventCommunity: {
-                            "$in": alluserCom
+                            "$in": comsIds
                         },
                         eventCreator: {
                             "$ne": userId
@@ -372,7 +385,7 @@ filterEvent = (req, res, userId, communityId, page) => {
                         .skip(Number(pageTmp * 10))
                         .limit(Number(10))
                         .exec()
-                        .then(activeEvent => updateCommunityEvents(pageTmp, alluserCom, communityId, res, filter, activeEvent, userId, pageTmp))
+                        .then(activeEvent => updateCommunityEvents(pageTmp, comsIds, communityId, res, filter, activeEvent, userId, pageTmp))
                         .catch(err => utils.defaultError(res, err))
                 }).catch(err => utils.defaultError(res, err))
         })
@@ -388,5 +401,6 @@ module.exports = {
     eventModal,
     updateEventIsOver,
     updateUserOnEventSubvscription,
-    putEventByUserId
+    putEventByUserId,
+    getAllcomsIds
 }

@@ -20,18 +20,14 @@ background-color: #48d7e4;">
       <ion-label>Tri par communauté</ion-label>
     </ion-list-header>
     <ion-item *ngIf="allCommunities.length > 1">
-      <ion-label>Tout</ion-label>
-      <ion-checkbox slot="end"></ion-checkbox>
-    </ion-item>
-
-    <ion-item *ngIf="allCommunities.length == 1">
-      <ion-label>Vous avez une seul communauté</ion-label>
+      <ion-label>Tout selectionné</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="selectAllCommunitiesFilters" (ionChange)="selectAllCommunitiesFiltesFunc()"></ion-checkbox>
     </ion-item>
 
     <span *ngFor="let community of allCommunities">
       <ion-item>
         <ion-label>{{community.communityName}}</ion-label>
-        <ion-checkbox slot="end"></ion-checkbox>
+        <ion-checkbox slot="end" [(ngModel)]="community.value" color="success"></ion-checkbox>
       </ion-item>
     </span>
 

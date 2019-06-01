@@ -34,11 +34,12 @@ import { listener } from '@angular/core/src/render3/instructions';
   templateUrl: 'event-filter.html',
 })
 export class EventFilterPage {
-  public filterList = {}
   allCommunities = [];
   public tabParams;
   public selectAllFilters;
-  allfilters: any;
+  public selectAllCommunitiesFilters;
+  allfilters = [];
+  communitiesFilter = [];
 
   constructor(
     private communityProvider: CommunityProvider,
@@ -54,43 +55,94 @@ export class EventFilterPage {
       activeCommunity: this.navParams.get('activeCommunity'),
       notificationStatus: this.navParams.get("notificationStatus")
     };
-  
-  
 
     this.eventProvider.getFilterOptions(this.tabParams)
       .subscribe(filters => {
         this.allfilters = filters.filterEvent;
+        this.communitiesFilter = filters.communitiesFilter;
       })
   }
 
   ionViewWillEnter() {
     let activeFilters = 0;
-    this.getAllCommunities()  
-    
+    this.getAllCommunities()
+
     activeFilters = this.eventFilterProvider.objectFilterCount(this.allfilters);
 
     activeFilters != Array.from(Object.keys(this.allfilters)).length
-    ? this.selectAllFilters = false : this.selectAllFilters = true
+      ? this.selectAllFilters = false : this.selectAllFilters = true
   }
 
   closeFilterModal() {
-    this.viewCtrl.dismiss(this.filterList);
+    this.viewCtrl.dismiss(this.allfilters);
   }
 
   closeConfirmModal() {
-    this.eventProvider.saveFilterOptions(this.allfilters, this.tabParams)
+    this.eventProvider.saveFilterOptions(this.allfilters, this.tabParams, this.allCommunities)
       .subscribe(filters => {
         this.allfilters = filters;
       });
-    this.viewCtrl.dismiss(this.allfilters);
+    this.viewCtrl.dismiss({
+      filters: this.allfilters,
+      comFilters: this.allCommunities
+    });
+  }
+
+  selectAllCommunitiesFiltesFunc() {
+    this.eventFilterProvider.changeComsFilterList(this.selectAllCommunitiesFilters, this.allCommunities)
+      .then(filterUpdated => this.allCommunities = filterUpdated)
   }
 
   selectAllFiltersFunc() {
     this.eventFilterProvider.changeFilterList(this.selectAllFilters)
-    .then(filterUpdated => this.allfilters = filterUpdated)
+      .then(filterUpdated => this.allfilters = filterUpdated)
+  }
+
+  initCommunitiesFilterValue(communities, check) {
+    //TODO OPTIMISE THIS FUNCTION IN THE BACKEND
+    let coms = [];
+    let z = 0;
+    let exist = 0;
+
+
+    if (check === 0) {
+      communities.map(com => {
+        coms.push({
+          communityId: com.communityId,
+          communityName: com.communityName,
+          value: true
+        })
+      })
+      this.selectAllCommunitiesFilters = true;
+    } else if (check === 1) {
+      exist = 0;
+      while (z < communities.length) {
+        this.communitiesFilter.map(flt => {
+          if (flt.communityId === communities[z])
+            exist = 1;
+        })
+
+        if (exist === 1) {
+          coms.push({
+            communityId: communities[z].communityId,
+            communityName: communities[z].communityName,
+            value: true
+          })
+        } else if (exist === 0) {
+          coms.push({
+            communityId: communities[z].communityId,
+            communityName: communities[z].communityName,
+            value: false
+          })
+        }
+        z++;
+      }
+    }
+    this.allCommunities = coms;
   }
 
   getAllCommunities() {
+
     if (this.tabParams.activeCommunity != "") {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
@@ -100,7 +152,13 @@ export class EventFilterPage {
             .subscribe(dataParticipation => {
               dataCreator.communities = dataCreator.communities.concat(dataParticipation);
               if (dataCreator.communities.length > 1) {
-                this.allCommunities = dataCreator.communities
+                if (this.communitiesFilter.length === 0)
+                  this.initCommunitiesFilterValue(dataCreator.communities, 0)
+                else {
+                  this.allCommunities = this.communitiesFilter;
+                  if (this.eventFilterProvider.objectFilterCount(this.allCommunities) === this.allCommunities.length)
+                    this.selectAllCommunitiesFilters = true;
+                }
               }
             });
         });
