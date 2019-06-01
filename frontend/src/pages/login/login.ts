@@ -37,6 +37,9 @@ export class LoginPage {
   public passwordType = "password"
   private tabParams;
 
+  public requireFirstname = false;
+  public requireLastname = false;
+
   constructor(
     private utils: UtilsProvider,
     public events: Events,
@@ -100,22 +103,36 @@ export class LoginPage {
   }
 
   createUserAccount(value) {
-    if (value.confPass != value.password)
-      this.utils.notification("Password/confirmation n'est pas correct", "top");
-    else {
-      const modal = this.modalCtrl.create("TermsOfServicePage", "", { cssClass: "terms-modal" } );
-      modal.onDidDismiss(data => {
-        if (data == true) {
-          this.loginProvider.createANewAccount(value).subscribe(data => {
-            if (data.code === 201)
-              this.utils.notification("Email exist !", "top");
-            else if (data.code == 200)
-              this.utils.notification("Compte cree avec succes", "top");
-            else this.utils.notification("Une erreur est survenu", "top");
-          });
-        }
-      });
-      modal.present();
+    let check = 0
+
+    if (value.lastname === "") {
+      check = 1;
+      this.requireLastname = true;
+    } else check = 0;
+
+    if (value.firstname === "") {
+      check = 1;
+      this.requireFirstname = true;
+    } else check = 0;
+
+    if (check === 0) {
+      if (value.confPass != value.password)
+        this.utils.notification("Password/confirmation n'est pas correct", "top");
+      else {
+        const modal = this.modalCtrl.create("TermsOfServicePage", "", { cssClass: "terms-modal" });
+        modal.onDidDismiss(data => {
+          if (data == true) {
+            this.loginProvider.createANewAccount(value).subscribe(data => {
+              if (data.code === 201)
+                this.utils.notification("Email exist !", "top");
+              else if (data.code == 200)
+                this.utils.notification("Compte cree avec succes", "top");
+              else this.utils.notification("Une erreur est survenu", "top");
+            });
+          }
+        });
+        modal.present();
+      }
     }
   }
 
@@ -125,6 +142,7 @@ export class LoginPage {
   }
 
   loginUser() {
+
     document.getElementById("submitLogin").click();
   }
 
@@ -138,8 +156,8 @@ export class LoginPage {
 
   showPassword() {
     this.showPasswordText = !this.showPasswordText;
- 
-    if(this.showPasswordText){
+
+    if (this.showPasswordText) {
       this.passwordType = 'password';
     } else {
       this.passwordType = 'text';

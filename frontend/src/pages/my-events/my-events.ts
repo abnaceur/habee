@@ -150,7 +150,7 @@ export class MyEventsPage {
   deleteEventResponse(response) {
     if (response.message == "success") {
       this.eventProvider
-        .getAllProposedEvevnstByUser(this.tabParams)
+        .getAllProposedEvevnstByUser(this.tabParams, this.page)
         .subscribe(response => {
           if (response.message == "There are no events!") {
             this.proposedEvents = [];
@@ -225,7 +225,7 @@ export class MyEventsPage {
       this.eventProvider
         .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
         .subscribe(response => {
-          if (!response) this.allEvents = [];
+          if (!response) this.proposedEvents = [];
           else {
             this.proposedEvents = this.proposedEvents.concat(response.Events);
             this.perPage = response.per_page;

@@ -19,6 +19,7 @@ import {
   EventFilterProvider
 } from '../../providers/event-filter/event-filter';
 import { listener } from '@angular/core/src/render3/instructions';
+import { Title } from '@angular/platform-browser';
 
 
 /**
@@ -90,12 +91,22 @@ export class EventFilterPage {
 
   selectAllCommunitiesFiltesFunc() {
     this.eventFilterProvider.changeComsFilterList(this.selectAllCommunitiesFilters, this.allCommunities)
-      .then(filterUpdated => this.allCommunities = filterUpdated)
+      .then(filterUpdated => {
+        if (Array.isArray(filterUpdated[0]))
+          this.allCommunities = filterUpdated[0]
+        else
+          this.allCommunities = filterUpdated
+      })
   }
 
   selectAllFiltersFunc() {
     this.eventFilterProvider.changeFilterList(this.selectAllFilters)
-      .then(filterUpdated => this.allfilters = filterUpdated)
+      .then(filterUpdated => {
+        if (Array.isArray(filterUpdated[0]))
+        this.allfilters = filterUpdated[0]
+      else
+        this.allfilters = filterUpdated
+      })
   }
 
   initCommunitiesFilterValue(communities, check) {

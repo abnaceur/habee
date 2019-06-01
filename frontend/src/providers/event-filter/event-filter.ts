@@ -168,7 +168,7 @@ export class EventFilterProvider {
   }
 
   initFilter(value) {
-    return new Promise((resolve, reject) => {
+    return new Promise<[{}]>((resolve, reject) => {
       this.allfilters.map(flt => {
         flt.value = value
       })
@@ -178,7 +178,7 @@ export class EventFilterProvider {
   }
 
   initComFilter(value, coms) {
-    return new Promise((resolve, reject) => {
+    return new Promise<[{}]>((resolve, reject) => {
       coms.map(flt => {
         flt.value = value
       })
@@ -189,20 +189,20 @@ export class EventFilterProvider {
 
   changeComsFilterList(value, coms) {
     console.log("changeComsFilterList", value, coms)
-    return new Promise((resolve, reject) => {
+    return new Promise<[{}]>((resolve, reject) => {
       if (value === true) {
         this.initComFilter(true, coms)
           .then(data => resolve(data))
       } else if (value === false) {
         this.initComFilter(false, coms)
-          .then(data => resolve(data))
+          .then(data => resolve(new Array(data)))
       }
     })
     
   }
 
   changeFilterList(selectAllFilters) {
-    return new Promise((resolve, reject) => {
+    return new Promise<[{}]>((resolve, reject) => {
       if (selectAllFilters == true) {
         this.initFilter(true)
           .then(data => resolve(data))
