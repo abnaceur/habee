@@ -67,6 +67,20 @@
 
         </ion-item>
 
+        <ion-item *ngIf="invit.invitedId == tabParams.userId && invit.contactExist == true 
+        && invit.status == 'accepted' ">
+          <ion-item>
+            <p>{{invit.invitedFullname}} <b>a test accepté votre invitation.</b></p>
+          </ion-item>
+
+          <ion-item style="margin-top: -17px">
+            <p>{{transform(invit.dateOfCreation)}}
+              <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">accpte</ion-badge>
+            </p>
+          </ion-item>
+
+        </ion-item>
+
 
         <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
         && invit.status == 'rejected' ">

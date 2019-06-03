@@ -72,7 +72,8 @@
                     Voir
                   </button> -->
 
-        <button (click)="removeComFromContact($event, user.communities, user)" class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+        <button (click)="removeComFromContact($event, user.communities, user)" class="pop-in"
+          [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
           style="position: relative; width: 50px; background-color: #e11d6f;" ion-button>
           <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="remove">
           </ion-icon>
@@ -93,7 +94,7 @@
 
     <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false
           && invit.status == 'pending'">
-      <ion-item no-lines>
+      <ion-item no-lines text-wrap>
         <p><b>Vous avez invité</b> {{invit.invitedEmail}} <b>pour rejoindre la communaute
             {{invit.InvitationCommunitName}}</b></p>
       </ion-item>
@@ -107,7 +108,7 @@
 
     <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
           && invit.status == 'pending'">
-      <ion-item no-lines>
+      <ion-item no-lines text-wrap>
         <p><b>Vous avez invité</b> {{invit.invitedFullname}} <b>pour rejoindre la communaute
             {{invit.InvitationCommunitName}}</b></p>
       </ion-item>
@@ -121,7 +122,7 @@
 
     <ion-item *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId
           && invit.contactExist == true && invit.status == 'pending'">
-      <ion-item>
+      <ion-item text-wrap>
         <p><b>Vous avez été invité par </b> {{invit.invitorFullname}} <b>pour rejoindre la communaute
             {{invit.InvitationCommunitName}}</b></p>
       </ion-item>
@@ -138,9 +139,24 @@
 
     <ion-item *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
           && invit.status == 'accepted' ">
-      <ion-item>
+      <ion-item text-wrap>
         <p>{{invit.invitedFullname}} <b>a accepté votre invitation pour rejoindre la communaute
             {{invit.InvitationCommunitName}}.</b></p>
+      </ion-item>
+
+      <ion-item style="margin-top: -17px">
+        <p>{{transform(invit.dateOfCreation)}}
+          <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">accpte</ion-badge>
+        </p>
+      </ion-item>
+
+    </ion-item>
+
+    <ion-item *ngIf="invit.invitedId == tabParams.userId && invit.contactExist == true 
+    && invit.status == 'accepted' ">
+      <ion-item text-wrap>
+        <p>Vous avez accepté l'invitation de {{invit.invitorFullname}}
+          pour rejoindre la communaute <b>{{invit.InvitationCommunitName}}.</b></p>
       </ion-item>
 
       <ion-item style="margin-top: -17px">
@@ -157,6 +173,23 @@
       <ion-item text-wrap>
         <p>{{invit.invitedFullname}} <b>a rejeté votre invitation pour rejoindre la communaute
             {{invit.InvitationCommunitName}}.</b></p>
+      </ion-item>
+      <ion-item style="margin-top: -17px">
+        <p>{{transform(invit.dateOfCreation)}}
+            <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">
+                <ion-icon style="color:chartreuse; font-size: 12px" name="refresh"></ion-icon>
+            </ion-badge>
+          <ion-badge class="pull-right" style="float:right; background-color: green" slot="end">rejete</ion-badge>
+        </p>
+      </ion-item>
+
+    </ion-item>
+
+    <ion-item *ngIf="invit.invitedId == tabParams.userId && invit.contactExist == true
+    && invit.status == 'rejected' ">
+      <ion-item text-wrap>
+        <p>Vous avez rejeté l'invitation de <b>{{invit.invitorFullname}}</b>
+          pour rejoindre la communaute <b>{{invit.InvitationCommunitName}}</b>.</p>
       </ion-item>
       <ion-item style="margin-top: -17px">
         <p>{{transform(invit.dateOfCreation)}}
