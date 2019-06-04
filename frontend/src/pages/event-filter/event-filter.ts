@@ -162,7 +162,7 @@ export class EventFilterPage {
             .getCommunitiesByParticipation(this.tabParams)
             .subscribe(dataParticipation => {
               dataCreator.communities = dataCreator.communities.concat(dataParticipation);
-              if (dataCreator.communities.length > 1) {
+              if (dataCreator.communities.length > 0) {
                 if (this.communitiesFilter.length === 0)
                   this.initCommunitiesFilterValue(dataCreator.communities, 0)
                 else {
