@@ -114,11 +114,11 @@ export class ListContactPage {
       });
   }
 
-  ionViewWillLoad(){
+  ionViewWillLoad() {
     this.getAllUserContacts();
-    this.getListContact();  
+    this.getListContact();
   }
-  
+
   ionViewWillEnter() {
     this.getAllUserContacts();
     this.getListContact();
@@ -183,7 +183,7 @@ export class ListContactPage {
         }
 
         coms.pop()
-        data.push({ value: email[0], check: "", status: "", communities: coms});
+        data.push({ value: email[0], check: "", status: "", communities: coms });
         this.addContactProvider
           .isFieldEmpty(data, this.tabParams)
           .then(data => {
@@ -197,7 +197,7 @@ export class ListContactPage {
             //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
             if (data[0].check != "") {
               let menuData = ["listContact", this.tabParams];
-            //  this.navCtrl.push("TabsPage", menuData);
+              //  this.navCtrl.push("TabsPage", menuData);
             }
           });
       },
@@ -229,7 +229,7 @@ export class ListContactPage {
 
       let coms = '';
       this.listCommunity.map(cc => {
-          coms += cc + ";"
+        coms += cc + ";"
       })
 
       let encodText = email + ";" + coms
@@ -380,4 +380,17 @@ export class ListContactPage {
       console.log("Remove community dissmissed!", data);
     });
   }
+
+  resendInvitation(invit) {
+    this.invitationProvider.resendInvitation(this.tabParams, invit)
+      .subscribe(data => {
+        if (data == 200) {
+          this.utils.notification("Invitation viens d'etre re-envoyer !", "top");
+          this.getListContact();
+        }
+        else
+          this.utils.notification("Desole, une erreur est survenu !", "top");
+      })
+  }
+
 }

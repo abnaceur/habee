@@ -5,8 +5,8 @@ const User = require('../../models/user')
 getMyInvitations = (userId) => {
     return new Promise((resolve, reject) => {
         Invitation.find({
-                invitedId: userId,
-            }).exec()
+            invitedId: userId,
+        }).exec()
             .then(invitation => {
                 resolve(invitation);
             }).catch(err => console.log("getMyInvitations Err : ", err))
@@ -17,9 +17,9 @@ getMyInvitations = (userId) => {
 
 listAllUserInvitation = (res, userId, communityId) => {
     Invitation.find({
-            invitationCommunityId: communityId,
-            invitatorId: userId,
-        }).exec()
+        invitationCommunityId: communityId,
+        invitatorId: userId,
+    }).exec()
         .then(invitation => {
             getMyInvitations(userId)
                 .then(myInvitations => {
@@ -42,10 +42,10 @@ getReceivedInvitation = (userId) => {
 
     return new Promise((resolve, reject) => {
         Invitation.find({
-                invitedId: userId,
-                status: "pending",
-                notification: true
-            }).exec()
+            invitedId: userId,
+            status: "pending",
+            notification: true
+        }).exec()
             .then(receivedInvitations => {
                 resolve(receivedInvitations)
             })
@@ -56,11 +56,11 @@ getReceivedInvitation = (userId) => {
 getAcceptedNotifications = (userId, communityId, status) => {
     return new Promise((resolve, reject) => {
         Invitation.find({
-                invitationCommunityId: communityId,
-                invitatorId: userId,
-                status: status,
-                notification: true
-            }).exec()
+            invitationCommunityId: communityId,
+            invitatorId: userId,
+            status: status,
+            notification: true
+        }).exec()
             .then(accRejInvitation => {
                 resolve(accRejInvitation)
             })
@@ -119,10 +119,9 @@ updateNotification = (res, userId, communityId) => {
 invitationService = (email, userId, lastename, firstname) => {
 
     Invitation.find({
-            invitedEmail: email
-        }).exec()
+        invitedEmail: email
+    }).exec()
         .then(invitations => {
-            console.log("invitations account creation : ", invitations)
             invitations.map(invit => {
                 invit.invitedId = userId;
                 invit.invitedFullname = lastename + " " + firstname;
@@ -157,12 +156,12 @@ updateInvitationOnStatus = (invit, res) => {
 
 
 updateInvitationStatus = (invit, userId, res) => {
-    if (invit.status == "rejected" && invit.contactExist == true) { 
+    if (invit.status == "rejected" && invit.contactExist == true) {
         updateInvitationOnStatus(invit, res)
     } else if (invit.status == "accepted" && invit.contactExist == true) {
         User.find({
-                userId: userId
-            }).exec()
+            userId: userId
+        }).exec()
             .then(user => {
                 userClass.userAddNewCommnity(invit, user)
                     .then(code => {
@@ -190,7 +189,25 @@ updateInvitationStatus = (invit, userId, res) => {
     }
 }
 
+resendInvitation = (res, userId, invit) => {
+    invit.status = "pending";
+    Invitation.findByIdAndUpdate(invit._id,
+        invit, {
+            new: false,
+        },
+        function (err, results) {
+            if (err) console.log("updateNotif Err : ", err);
+            res.status(200).json({
+                code: 200,
+                msg: "updated with success !"
+            })
+        })
+
+}
+
+
 module.exports = {
+    resendInvitation,
     updateInvitationStatus,
     invitationService,
     updateNotif,

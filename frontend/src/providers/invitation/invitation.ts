@@ -99,4 +99,17 @@ export class InvitationProvider {
       .map(response => response.json().code); 
   }
 
+
+  resendInvitation(userInfo, invit) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http
+    .put(
+      ENV.BASE_URL +
+        "/users/invitation/resend/" +
+        userInfo.userId, invit,
+      { headers: header }
+    )
+    .map(response => response.json().code); 
+  }
 }

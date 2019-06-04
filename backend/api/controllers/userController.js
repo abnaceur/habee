@@ -417,3 +417,9 @@ exports.removeCommunityFromContact = (req, res, next) => {
 
     removeCommunityService.removeCommunity(res, contactId, communityId)
 }
+
+exports.statusResendInvitation = (req, res, next) => {
+    let userId = req.params.userId;
+
+    userInvitationService.resendInvitation(res, userId, req.body);   
+}

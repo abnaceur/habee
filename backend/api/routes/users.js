@@ -205,6 +205,14 @@ router.post('/invitation/accepted/:userId/community/:communityId', authCkeck, us
 
 router.post('/invitation/rejected/:userId/community/:communityId', authCkeck, userController.statusRejectedInvitation);
 
+
+/*
+ ** API [PUT] for route /users/invitation/resend/userId [USED]
+ */
+
+router.put('/invitation/resend/:userId', authCkeck, userController.statusResendInvitation);
+
+
 /*
  ** API [PUT] for route /users/reset/email [USED]
  */

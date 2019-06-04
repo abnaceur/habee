@@ -102,7 +102,6 @@ async function removeCommunity(res, contactId, communityId) {
     }
 }
 
-
 module.exports = {
     removeCommunity,
     updateinvitationList,
