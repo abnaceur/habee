@@ -248,7 +248,7 @@ export class EventDetailsPage {
       buttons: [
         {
           icon: "logo-whatsapp",
-          text: "Depuis Whatsapp",
+          text: "Vers Whatsapp",
           role: "Whatsapp",
           cssClass: "logo-whatsappClass",
           handler: () => {
@@ -257,7 +257,7 @@ export class EventDetailsPage {
         },
         {
           icon: "logo-facebook",
-          text: "Depuis facebook",
+          text: "Vers facebook",
           role: "logo-facebook",
           cssClass: "logo-facebookClass",
           handler: () => {
@@ -266,7 +266,7 @@ export class EventDetailsPage {
         },
         {
           icon: "logo-twitter",
-          text: "Depuis twitter",
+          text: "Vers twitter",
           role: "logo-twitter",
           cssClass: "logo-twitterClass",
           handler: () => {
