@@ -31,8 +31,8 @@ export class CommunityProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + "/communities/" + comId,
-    { headers: header })
-    .map(response => response.json().community[0]);
+      { headers: header })
+      .map(response => response.json().community[0]);
   }
 
   getCommunitiesByParticipation(userInfo) {
@@ -52,7 +52,7 @@ export class CommunityProvider {
   }
 
   getCommunitySelected(com, activeCommunity): Promise<any> {
-   
+
     let comArray = [];
     com.map(data => {
       data.communityId == activeCommunity ?
@@ -67,6 +67,7 @@ export class CommunityProvider {
 
 
   postCommunity(userInfo, comInfo, data, header) {
+    console.log("here to post it !");
     return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
       {
         //TODO GEENARTE AN ID FOR COMMUNITY ID
@@ -82,17 +83,17 @@ export class CommunityProvider {
       .map(response => response.json().count);
   }
 
-  putCommunity (communityId, userInfo, communityDetails){    
+  putCommunity(communityId, userInfo, communityDetails) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.put(ENV.BASE_URL + '/communities/' + communityId,
-    {
-      "communityName": communityDetails.communityTitle,
-      "communityLogo": communityDetails.logo,
-      "communityDescripton": communityDetails.communityDescription,
-    }
-    , { headers: header })
-    .map(response => response.json().code);
+      {
+        "communityName": communityDetails.communityTitle,
+        "communityLogo": communityDetails.logo,
+        "communityDescripton": communityDetails.communityDescription,
+      }
+      , { headers: header })
+      .map(response => response.json().code);
   }
 
   addCommunity(comInfo, photo, userInfo) {
@@ -102,16 +103,16 @@ export class CommunityProvider {
       return new Promise((resolve, reject) => {
         this.postCommunity(userInfo, comInfo, photo, header)
           .subscribe(data => {
-           resolve(data)
+            resolve(data)
           })
       })
     } else {
       this.utils.uploadPhoto(photo)
         .then(data => {
           return new Promise((resolve, reject) => {
-            this.postCommunity(userInfo, comInfo, data, header)
+            this.postCommunity(userInfo, comInfo, photo, header)
               .subscribe(data => {
-                return resolve(data);
+                resolve(data)
               })
           })
         })
@@ -123,7 +124,7 @@ export class CommunityProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.post(ENV.BASE_URL + '/communities/selected/' + comId + "/" + userInfo.userId,
-    {}, { headers: header })
+      {}, { headers: header })
       .map(response => response.json().count);
   }
 
@@ -135,7 +136,7 @@ export class CommunityProvider {
       .map(response => response.json().code);
   }
 
-    getCommunityDetails(userInfo, communityId) {
+  getCommunityDetails(userInfo, communityId) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.get(ENV.BASE_URL + '/communities/details/' + communityId,

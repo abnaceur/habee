@@ -155,6 +155,7 @@ export class AddCommunityPage {
   onSubmit(newCommunity) {
     this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
       .then(data => {
+        console.log("Posted: ", data);
         if (data === 0)
           this.utils.notification("Ce nom exist !", "top");
         if (data === 1  )

@@ -48,34 +48,7 @@ exports.userToUpdate = (res, usr) => {
 }
 
 exports.formatUser = (usr, req, res) => {
-
-    // usr[0].profile[usr[0].profile.length] = {
-    //     "profileUserIsActive": true,
-    //     "profileUserIsDeleted": false,
-    //     "profileCummunityId": req.body.communityName,
-    //     "profilePhoto": usr[0].profile[usr[0].profile.length - 1].profilePhoto,
-    //     "profileUsername": usr[0].credentials.lastname + " " + usr[0].credentials.firstname,
-    //     "profileIsAdmin": 0
-    // }
     usr[0].communities.push(req.body.communityName);
-    // usr[0].filterEvent[usr[0].filterEvent.length] = {
-    //     "SportValue": false,
-    //     "ArtsValue": false,
-    //     "cultureValue": false,
-    //     "MediaValue": false,
-    //     "musicValue": false,
-    //     "socialValue": false,
-    //     "internValue": false,
-    //     "businessValue": false,
-    //     "communityValue": false,
-    //     "santeValue": false,
-    //     "itValue": false,
-    //     "lifestyleValue": false,
-    //     "partyValue": false,
-    //     "meetingValue": false,
-    //     "WorkshopValue": false,
-    //     "filterCommunity": req.body.communityName
-    // }
     this.userToUpdate(res, usr)
 }
 
