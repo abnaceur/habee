@@ -196,11 +196,11 @@ export class EventDetailsPage {
 
   compilemsg(): string {
     var msg =
-      "Hello; \n Vous avez recu une invitation pour joindre l'événement : \n \
+      "Bonjour, \nVous êtes invité par " + this.profileInfo.username + " à rejoindre l'évènement Habee suivant : \n \
     Titre : " +
       this.eventDetails.eventName +
       "\n \
-    Date debut : " +
+    Date de début : " +
       this.eventDetails.eventStartDate.substring(8, 10) +
       "." +
       this.eventDetails.eventStartDate.substring(5, 7) +
@@ -218,7 +218,11 @@ export class EventDetailsPage {
       " " +
       this.eventDetails.eventEndHour +
       "\n \
-      \n Telecharge l'application Habee depui le app store pour rejoindre ta Communauté \n \n";
+    Lieu : " +
+    this.eventDetails.eventLocation + "\n \n \
+    Téléchargez dès à présent l'application mobile HABEE sur les stores pour pouvoir accéder aux détails de l'évènement et accepter l'invitation. \
+    Vous pourrez ainsi suivre toutes les informations en temps réel qui seront échangées sur cet évènement. \
+    L'équipe Habee vous souhaite une belle aventure!  \n \n";
     return msg.concat(" \n Envoyer depuis l'application Habee.");
   }
 
