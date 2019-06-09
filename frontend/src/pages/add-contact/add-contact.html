@@ -18,23 +18,28 @@
 
   <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
     <ion-item>
-      <ion-label color="primary">Ajouter 1 </ion-label>
-      <ion-input placeholder="Email" (click)="contactArray[0].check = ''" type="email" text-right
+      <ion-input placeholder="Email du contact" (click)="contactArray[0].check = ''" type="email" text-right
         [(ngModel)]="contactArray[0].value"></ion-input>
 
     </ion-item>
 
+    <ion-item text-wrap>
+      <ion-label>
+        A quelle(s) communauté(s) vous l'ajoutez?
+      </ion-label>
+    </ion-item>
 
     <ion-item *ngIf="allCommunities.length == 1">
       <ion-label>{{allCommunities[0].communityName}}</ion-label>
       <ion-checkbox slot="end" checked disabled></ion-checkbox>
     </ion-item>
 
-      <ion-item *ngFor="let community of allCommunities">
-        <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
-        <ion-checkbox (ionChange)="getCommunity($event, community, 0)" *ngIf="allCommunities.length != 1" slot="end"></ion-checkbox>
-      </ion-item>
-    
+    <ion-item *ngFor="let community of allCommunities">
+      <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
+      <ion-checkbox (ionChange)="getCommunity($event, community, 0)" *ngIf="allCommunities.length != 1" slot="end">
+      </ion-checkbox>
+    </ion-item>
+
     <ion-item *ngIf="contactArray[0].check != '' && contactArray[0].status == ''">
       <p>{{contactArray[0].check}}</p>
     </ion-item>
@@ -82,9 +87,10 @@
 
 
       <ion-item *ngFor="let community of allCommunities">
-          <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
-          <ion-checkbox (ionChange)="getCommunity($event, community, idx)" *ngIf="allCommunities.length != 1" slot="end"></ion-checkbox>
-        </ion-item>
+        <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
+        <ion-checkbox (ionChange)="getCommunity($event, community, idx)" *ngIf="allCommunities.length != 1" slot="end">
+        </ion-checkbox>
+      </ion-item>
 
       <ion-item *ngIf="contactArray[idx].check != '' && contactArray[idx].status == ''">
         <p>{{contactArray[idx].check}}</p>
