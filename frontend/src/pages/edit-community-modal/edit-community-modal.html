@@ -1,25 +1,25 @@
 <ion-header style="height: 50px;
   background-color: #E96FA1;">
 
-<ion-icon style="z-index: 1111;" item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+  <ion-icon style="z-index: 1111;" item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
 
 
-<ion-title style="position: relative; top: 13px;">
-  <span style="font-size: 17px;color: white; font-weight: bold">Modifier cette Communauté</span>
-</ion-title>
+  <ion-title style="position: relative; top: 13px;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Modifier cette Communauté</span>
+  </ion-title>
 
 </ion-header>
-  
+
 <ion-content padding>
   <ion-grid>
     <ion-list>
       <form [formGroup]="editCommunityForm" (ngSubmit)="onSubmit(editCommunityForm.value)">
-  
+
         <ion-item>
-          <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input placeholder={{comInfo.title}} style="color:silver" placeholder="Nom" formControlName="communityTitle" type="text"></ion-input>
+          <ion-input placeholder={{comInfo.title}} (ionChange)="inputValidation = ''" style="color:silver" placeholder="Nom"
+            formControlName="communityTitle" type="text"></ion-input>
         </ion-item>
-  
+
         <ion-item>
           <ion-label style="color: gray">
             Uploader une photo &nbsp; &nbsp;
@@ -27,15 +27,19 @@
               <ion-icon style="color: gray" (click)="changePicture()" name="camera"></ion-icon>
             </ion-fab>
           </ion-label>
-  
+
         </ion-item>
-  
-  
+
+
         <ion-item>
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-textarea placeholder={{comInfo.description}} style="color:silver" placeholder="Description" formControlName="communityDescription" type="text"></ion-textarea>
+          <ion-textarea placeholder={{comInfo.description}} style="color:silver" placeholder="Description"
+            formControlName="communityDescription" type="text"></ion-textarea>
         </ion-item>
-        
+
+        <ion-item *ngIf="inputValidation != ''">
+          <p>{{inputValidation}}</p>
+        </ion-item>
 
         <ion-row>
           <ion-col col-12 text-center>
@@ -45,11 +49,10 @@
               </button>
             </div>
           </ion-col>
-    
+
         </ion-row>
 
       </form>
     </ion-list>
-  </ion-grid>   
-  </ion-content>
-  
+  </ion-grid>
+</ion-content>

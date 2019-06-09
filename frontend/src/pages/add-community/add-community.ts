@@ -36,6 +36,7 @@ import {
 import {
   CameraProvider
 } from '../../providers/camera/camera';
+import { e } from '@angular/core/src/render3';
 
 /**
  * Generated class for the AddCommunityPage page.
@@ -54,6 +55,7 @@ export class AddCommunityPage {
   public url = ENV.BASE_URL;
   public chosenPicture;
   private tabParams: Object;
+  public inputValidation = "";
 
   constructor(
     public utils: UtilsProvider,
@@ -84,7 +86,7 @@ export class AddCommunityPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();  
+    this.viewCtrl.dismiss();
   }
 
   changePicture() {
@@ -152,15 +154,24 @@ export class AddCommunityPage {
     );
   }
 
-  onSubmit(newCommunity) {
-    this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
-      .then(data => {
-        console.log("Posted: ", data);
-        if (data === 0)
-          this.utils.notification("Ce nom exist !", "top");
-        if (data === 1  )
-          this.utils.notification("Votre Communauté est ajouter avec success !", "top");
-      })
+  ionViewCanLeave(){
+   this.inputValidation = "";
   }
-  
+
+  onSubmit(newCommunity) {
+    if (newCommunity.communityTitle === "") {
+      this.inputValidation = "Ce champs est obligatoir !";
+    } else {
+      this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
+        .then(data => {
+          console.log("Posted: ", data);
+          if (data === 0) {
+            this.inputValidation = "Ce nom exist !";
+          }
+          if (data === 1)
+            this.utils.notification("Votre Communauté est ajouter avec success !", "top");
+        })
+    }
+  }
+
 }

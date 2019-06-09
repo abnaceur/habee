@@ -51,7 +51,7 @@ import {
   templateUrl: 'edit-community-modal.html',
 })
 export class EditCommunityModalPage {
-
+  public inputValidation = "";
   editCommunityForm: FormGroup;
   public url = ENV.BASE_URL;
   public chosenPicture;
@@ -176,23 +176,27 @@ export class EditCommunityModalPage {
       this.utils.uploadPhoto(this.chosenPicture)
         .then(comPhoto => {
           modifiedCommunity.logo = comPhoto;
-          this.updateCommunity(modifiedCommunity)     
+          this.updateCommunity(modifiedCommunity)
         })
     } else {
       if (this.chosenPicture == undefined && this.comInfo.logo != "")
-      modifiedCommunity.logo = this.comInfo.logo;
+        modifiedCommunity.logo = this.comInfo.logo;
       this.updateCommunity(modifiedCommunity)
     }
   }
 
-  updateCommunity (modifiedCommunity) {
-    this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity)
+  updateCommunity(modifiedCommunity) {
+    if (modifiedCommunity.communityTitle === "") {
+      this.inputValidation = "Ce champs est obligatoir !";
+    } else {
+      this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity)
         .subscribe(data => {
-          if (data === 200) 
+          if (data === 200)
             this.utils.notification("Cette Communauté est a jour", "top")
           else if (data === 202)
-            this.utils.notification("Ce nom exist !", "top")
+            this.inputValidation = "Ce nom exist !";
         })
+    }
   }
 
   dismiss() {
