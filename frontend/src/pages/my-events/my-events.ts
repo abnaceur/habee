@@ -184,6 +184,10 @@ export class MyEventsPage {
         this.contracted = !this.expanded;
         setTimeout(() => (this.showIcon = true), 330);
       });
+      modal.onDidDismiss(data => {
+        this.updateProposedEventList();
+        this.selectOrgnizeEvent();
+      })
       modal.present();
     }, 200);
   }

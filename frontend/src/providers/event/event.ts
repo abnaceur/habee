@@ -134,6 +134,18 @@ export class EventProvider {
     filter: "cousinade",
     value: false,
   }, {
+    name: "Groupe de travail",
+    filter: "groupeDeTravail    ",
+    value: false,
+  }, {
+    name: "Meeting",
+    filter: "meeting",
+    value: false,
+  }, {
+    name: "Soirée évènement",
+    filter: "soireeEvenement",
+    value: false,
+  }, {
     name: "Match",
     filter: "match",
     value: false,
@@ -244,7 +256,7 @@ export class EventProvider {
   getAllProposedEvevnstByUser(userInfo, page) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + '/events/user/' + userInfo.userId + '/page/' + page ,
+    return this.http.get(ENV.BASE_URL + '/events/user/' + userInfo.userId + '/page/' + page,
       { headers: header })
       .map(response => response.json());
   }

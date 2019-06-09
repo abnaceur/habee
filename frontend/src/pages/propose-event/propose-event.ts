@@ -47,6 +47,7 @@ export class ProposeEventPage {
   public currentDate = "2018";
   myDate: String = new Date().toISOString();
   private listCommunity = [];
+  public validateCommubities = "";
 
   placeholder = "../../assets/img/avatar/girl-avatar.png";
   chosenPicture: any;
@@ -187,11 +188,12 @@ export class ProposeEventPage {
             if (response.results == true) {
               this.utils.notification("Event cree avec succes !", "top");
               this.proposeEventProvider.emitnewCreatedEvent(response.Event);
+              this.viewCtrl.dismiss();
             } else this.utils.notification("Une erreur est apparus !", "top");
           });
       }
     } else
-        this.utils.notification("Vous devez selectionne une communaute", "top");
+        this.validateCommubities = "Vous devez selectionne une communaute";
   }
 
   dismiss() {
@@ -199,6 +201,7 @@ export class ProposeEventPage {
   }
 
   openCommunityList() {
+    this.validateCommubities = "";
     const modal = this.modalCtrl.create(
       "CommunityEventListPage",
       this.tabParams,
