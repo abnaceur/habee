@@ -8,8 +8,8 @@ const Community = require('../models/community');
 let filterClassInit = [{
     name: "Publique",
     filter: "publicEvents",
-    value:  false,
-},{
+    value: false,
+}, {
     name: "Sortie entre amis",
     filter: "sortieEntreAmis",
     value: false,
@@ -84,6 +84,18 @@ let filterClassInit = [{
 }, {
     name: "Cousinade",
     filter: "cousinade",
+    value: false,
+}, {
+    name: "Groupe de travail",
+    filter: "groupeDeTravail    ",
+    value: false,
+}, {
+    name: "Meeting",
+    filter: "meeting",
+    value: false,
+}, {
+    name: "Soirée évènement",
+    filter: "soireeEvenement",
     value: false,
 }, {
     name: "Match",

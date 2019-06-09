@@ -84,7 +84,7 @@ let userSchema = mongoose.Schema({
 			type: Boolean,
 			default: false,
 		},
-	},{
+	}, {
 		name: {
 			type: String,
 			default: "Sortie entre amis"
@@ -326,6 +326,45 @@ let userSchema = mongoose.Schema({
 		filter: {
 			type: String,
 			default: "cousinade"
+		},
+		value: {
+			type: Boolean,
+			default: false,
+		}
+	}, {
+		name: {
+			type: String,
+			default: "Groupe de travail"
+		},
+		filter: {
+			type: String,
+			default: "groupeDeTravail"
+		},
+		value: {
+			type: Boolean,
+			default: false,
+		}
+	}, {
+		name: {
+			type: String,
+			default: "Meeting"
+		},
+		filter: {
+			type: String,
+			default: "meeting"
+		},
+		value: {
+			type: Boolean,
+			default: false,
+		}
+	}, {
+		name: {
+			type: String,
+			default: "Soirée évènement"
+		},
+		filter: {
+			type: String,
+			default: "soireeEvenement"
 		},
 		value: {
 			type: Boolean,
