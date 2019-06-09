@@ -74,7 +74,7 @@ export class ProfilePage {
 
   editProfileModal() {
     const modal = this.modalCtrl.create("EditProfilePage", this.tabParams, {
-      cssClass: "comEvent-modal"
+      cssClass: ""
     });
     modal.onDidDismiss(data => this.getProfileInfo());
     modal.present();

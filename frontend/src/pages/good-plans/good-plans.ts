@@ -58,7 +58,7 @@ export class GoodPlansPage {
   }
 
   executeModal(page) {
-    const modal = this.modalCtrl.create(page, this.tabParams, { cssClass: 'inset-modal' });
+    const modal = this.modalCtrl.create(page, this.tabParams, { cssClass: '' });
 		modal.onDidDismiss(data => console.log("test this"));
 		modal.present();
   }

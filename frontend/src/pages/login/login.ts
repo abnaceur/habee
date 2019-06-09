@@ -119,7 +119,7 @@ export class LoginPage {
       if (value.confPass != value.password)
         this.utils.notification("Password/confirmation n'est pas correct", "top");
       else {
-        const modal = this.modalCtrl.create("TermsOfServicePage", "", { cssClass: "terms-modal" });
+        const modal = this.modalCtrl.create("TermsOfServicePage", "", { cssClass: "" });
         modal.onDidDismiss(data => {
           if (data == true) {
             this.loginProvider.createANewAccount(value).subscribe(data => {
