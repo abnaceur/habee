@@ -93,7 +93,7 @@ export class CommunityPage {
 
   addCommunity() {
     const modal = this.modalCtrl.create("AddCommunityPage", this.tabParams, {
-      cssClass: "comAdd-modal"
+      cssClass: ""
     });
     modal.onDidDismiss(data => {
       this.getComListByCreation();

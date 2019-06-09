@@ -18,11 +18,13 @@ exports.communityClassModal = (req, imagePathcommunityLogo) => {
 }
 
 exports.communityClassModalOnUserCreaton = (user) => {
+    let comLogo = Math.floor(Math.random() * 8) + 1;
+
     let classCom = {
         _id: new mongoose.Types.ObjectId,
         communityId: user.activeCommunity,
         communityName: user.activeCommunity.substring(0, user.activeCommunity.length - 4),
-        communityLogo: "uploads/defaultCommunityLogo.png",
+        communityLogo: "uploads/HABEECOM" + comLogo + ".png",
         communityDescripton: "",
         communityCreator: user.userId,
         communityMembers: [user.userId],

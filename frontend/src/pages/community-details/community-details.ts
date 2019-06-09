@@ -65,7 +65,7 @@ export class CommunityDetailsPage {
         userInfo: this.tabParams,
         selectCommunity: this.comId
       },
-      { cssClass: "comEdit-modal" }
+      { cssClass: "" }
     );
     modal.onDidDismiss(data => {
       this.getCommunityDetails();

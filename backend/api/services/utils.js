@@ -250,6 +250,20 @@ exports.randomValueGenerator = () => {
     return Math.floor(Math.random() * 10000) + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7).toUpperCase() + "$";
 }
 
+exports.getComImagePath = (req, imageBody) => {
+    let imagePath;
+    let comLogo = Math.floor(Math.random() * 8) + 1;
+
+    if (imageBody != undefined && imageBody != "")
+        imagePath = imageBody;
+    else if (req.files == undefined)
+        imagePath = "uploads/HABEECOM" + comLogo + ".png"
+    else if (req.files != undefined)
+        imagePath = req.files[0].path;
+
+    return imagePath
+}
+
 exports.getImagePath = (req, imageBody) => {
     let imagePath;
 
