@@ -3,7 +3,8 @@ import {
   IonicPage,
   NavController,
   ModalController,
-  NavParams
+  NavParams,
+  AlertController
 } from "ionic-angular";
 
 import { UtilsProvider } from "../../providers/utils/utils";
@@ -34,6 +35,7 @@ export class CommunityDetailsPage {
   public participation: boolean;
 
   constructor(
+    private alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams,
     private communityProvider: CommunityProvider,
@@ -98,18 +100,40 @@ export class CommunityDetailsPage {
       .present();
   }
 
-  removeContact(memberId, communityId) {
+  removeContactAction(memberId, communityId) {
     this.removeCommunityFromContactProvider
-      .removeCommunity(this.tabParams, memberId, communityId)
-      .subscribe(data => {
-        if (data == 200) {
-          this.getCommunityDetails();
-          if (this.participation == false)
-            this.utils.notification("Membre désinscrit avec succes !", "top");
-          if (this.participation == true)
-            this.utils.notification("Vous etes désinscrit avec succes !", "top");
-        } else if (data == 500)
-          this.utils.notification("Desole une erreur est survenu !", "top");
-      });
+    .removeCommunity(this.tabParams, memberId, communityId)
+    .subscribe(data => {
+      if (data == 200) {
+        this.getCommunityDetails();
+        if (this.participation == false)
+          this.utils.notification("Membre désinscrit avec succes !", "top");
+        if (this.participation == true)
+          this.utils.notification("Vous etes désinscrit avec succes !", "top");
+      } else if (data == 500)
+        this.utils.notification("Desole une erreur est survenu !", "top");
+    });
+  }
+
+  removeContact(memberId, communityId) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Etes-vous sûr de vouloir supprimer ce contact ?',
+      buttons: [
+        {
+          text: 'Fermer',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Confirmer',
+          handler: () => {
+            this.removeContactAction(memberId, communityId)
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
