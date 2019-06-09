@@ -125,8 +125,10 @@ export class LoginPage {
             this.loginProvider.createANewAccount(value).subscribe(data => {
               if (data.code === 201)
                 this.utils.notification("Email exist !", "top");
-              else if (data.code == 200)
+              else if (data.code == 200) {
                 this.utils.notification("Compte cree avec succes", "top");
+                this.loginUserToSession(value);
+              }
               else this.utils.notification("Une erreur est survenu", "top");
             });
           }
@@ -142,7 +144,6 @@ export class LoginPage {
   }
 
   loginUser() {
-
     document.getElementById("submitLogin").click();
   }
 
