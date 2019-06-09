@@ -132,6 +132,7 @@ export class CommunityProvider {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http.put(ENV.BASE_URL + '/communities/delete/' + communityId,
+      {},
       { headers: header })
       .map(response => response.json().code);
   }

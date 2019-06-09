@@ -110,4 +110,19 @@ export class CommunityPage {
 
     this.navCtrl.push("CommunityDetailsPage", data);
   }
+
+  deleteCommunity(communityId) {
+    if (this.comListByCreator.length > 1) {
+      this.communityProvider.deleteCommunity(this.tabParams, communityId)
+      .subscribe(data => {
+        if (data === 200)
+        this.utils.notification("Cette communautè est supprimèe avec succès !", "top");
+        else
+        this.utils.notification("Désolé. Un problème est survenu. Veuillez réessayer plus tard. !", "top");
+      })
+    } else {
+      this.utils.notification("Vous avez une seul communautè !", "top");      
+    }
+  }
+
 }

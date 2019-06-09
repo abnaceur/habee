@@ -11,21 +11,6 @@
 
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
 
-  <!-- 
-  <ion-icon class="optionsStyle pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand()"
-    name="person-add"></ion-icon> -->
-
-  <!-- <ion-icon (click)="presentContactFilter($event)" class="optionsStyle" style="margin-left: 10px; z-index: 1111" name="options">
-      </ion-icon> -->
-
-  <!-- <div (click)="openInvitationsList()">
-    <ion-icon style="z-index:1111" class="optionsStyle pop-in" name="notifications">
-      <span *ngIf="notificationCount != 0">
-        <ion-badge class="pull-right" class="icon-badge">{{notificationCount}}</ion-badge>
-      </span>
-    </ion-icon>
-  </div> -->
-
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Habee'Team</span>
@@ -47,22 +32,30 @@
 
 
   <ion-list [ngStyle]="{'display': myCommunitiesBorderDisplay}">
-      <span>
-        <ion-item-sliding *ngFor='let community of comListByCreator'>
-          <ion-item (click)="showComDatails(community.communityId, false)" no-lines>
-            <ion-avatar item-left>
-              <img [src]='url + "/" + community.communityLogo'>
-            </ion-avatar>
-            <h2>{{community.communityName}}</h2>
-            <p>{{community.communityMembers.length}} Contacts</p>
-          </ion-item>
-        </ion-item-sliding>
-      </span>
+    <span>
+      <ion-item-sliding *ngFor='let community of comListByCreator'>
+        <ion-item (click)="showComDatails(community.communityId, false)" no-lines>
+          <ion-avatar item-left>
+            <img [src]='url + "/" + community.communityLogo'>
+          </ion-avatar>
+          <h2>{{community.communityName}}</h2>
+          <p>{{community.communityMembers.length}} Contacts</p>
+        </ion-item>
+
+
+        <ion-item-options side="right">
+          <button ion-button style="position: relative; width: 100px" color="danger" (click)="deleteCommunity(community.communityId)">
+            <ion-icon name="trash"></ion-icon>
+            Supprimer
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </span>
   </ion-list>
 
 
   <ion-list [ngStyle]="{'display': communitiesByInvteBorderDisplay}">
-   
+
     <span>
       <ion-item-sliding *ngFor='let community of comListByParticipation'>
         <ion-item no-lines (click)="showComDatails(community.communityId, true)">
