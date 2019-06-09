@@ -20,8 +20,7 @@ const getNotificationStatus = require("../services/userServices/getNotificationS
 const getUsrService = require('../services/userServices/getUserById')
 const allusersCommunityConcat = require("../services/userServices/allusersCommunityConcatService")
 const removeCommunityService = require("../services/userServices/removeCommunityService")
-
-
+const cancelInvitationService = require("../services/userServices/cancelInvitationService")
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -422,4 +421,11 @@ exports.statusResendInvitation = (req, res, next) => {
     let userId = req.params.userId;
 
     userInvitationService.resendInvitation(res, userId, req.body);   
+}
+
+exports.cancelInvitationBySender = (req, res, next) => {
+    let userId = req.params.userId;
+
+    console.log("test ===============")
+    cancelInvitationService.cancelInvitation(req.body, res, userId);   
 }

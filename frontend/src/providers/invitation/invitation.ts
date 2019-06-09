@@ -112,4 +112,18 @@ export class InvitationProvider {
     )
     .map(response => response.json().code); 
   }
+
+  cancelInvitation(userInfo, invit) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http
+    .put(
+      ENV.BASE_URL +
+        "/users/invitation/cancel/" +
+        userInfo.userId, invit,
+      { headers: header }
+    )
+    .map(response => response.json().code);
+  }
+  
 }

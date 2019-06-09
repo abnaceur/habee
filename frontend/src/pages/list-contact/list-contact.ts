@@ -28,6 +28,7 @@ import {
   BarcodeScannerOptions
 } from "@ionic-native/barcode-scanner";
 import { c } from "@angular/core/src/render3";
+import { Subscriber } from "rxjs/Subscriber";
 
 /**
  * Generated class for the ListContactPage page.
@@ -391,6 +392,19 @@ export class ListContactPage {
         else
           this.utils.notification("Desole, une erreur est survenu !", "top");
       })
+  }
+
+  cancelInviatation(invit) {
+    this.invitationProvider.cancelInvitation(this.tabParams, invit)
+    .subscribe(data => {
+      console.log("Data ", data)
+      if (data == 200) {
+        this.utils.notification("Invitation viens d'etre annuler !", "top");
+        this.getListContact();
+      }
+      else
+        this.utils.notification("Desole, une erreur est survenu !", "top");
+    })
   }
 
 }

@@ -250,5 +250,10 @@ router.get('/app/allcontacts/:userId', authCkeck, userController.getAllusersComm
 
 router.put('/contact/:contactId/community/:communityId', authCkeck, userController.removeCommunityFromContact);
 
+/*
+ ** API [PUT] for route /users/invitation/cancel/:userId [USED]
+ */
+
+router.put('/invitation/cancel/:userId', authCkeck, userController.cancelInvitationBySender);
 
 module.exports = router;

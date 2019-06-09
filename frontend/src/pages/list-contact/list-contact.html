@@ -100,6 +100,9 @@
       </ion-item>
       <ion-item style="margin-top: -17px">
         <p>{{transform(invit.dateOfCreation)}}
+          <ion-badge (click)="cancelInviatation(invit)" class="pull-right" style="float:right; background-color: red"
+            slot="end">annuler
+          </ion-badge>
           <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...
           </ion-badge>
         </p>
@@ -114,6 +117,9 @@
       </ion-item>
       <ion-item style="margin-top: -17px">
         <p>{{transform(invit.dateOfCreation)}}
+          <ion-badge (click)="cancelInviatation(invit)" class="pull-right" style="float:right; margin-left: 5px; background-color: red"
+            slot="end">annuler
+          </ion-badge>
           <ion-badge class="pull-right" style="float:right; background-color: darkorange" slot="end">pending...
           </ion-badge>
         </p>
@@ -176,9 +182,10 @@
       </ion-item>
       <ion-item style="margin-top: -17px">
         <p>{{transform(invit.dateOfCreation)}}
-            <ion-badge (click)="resendInvitation(invit)"  class="pull-right" style="float:right; background-color: green" slot="end">
-                <ion-icon style="color:chartreuse; font-size: 12px" name="refresh"></ion-icon>
-            </ion-badge>
+          <ion-badge (click)="resendInvitation(invit)" class="pull-right" style="float:right; background-color: green"
+            slot="end">
+            <ion-icon style="color:chartreuse; font-size: 12px" name="refresh"></ion-icon>
+          </ion-badge>
           <ion-badge class="pull-right" style="float:right; background-color: red" slot="end">rejete</ion-badge>
         </p>
       </ion-item>
