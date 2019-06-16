@@ -154,8 +154,8 @@ export class AddCommunityPage {
     );
   }
 
-  ionViewCanLeave(){
-   this.inputValidation = "";
+  ionViewCanLeave() {
+    this.inputValidation = "";
   }
 
   onSubmit(newCommunity) {
@@ -164,12 +164,13 @@ export class AddCommunityPage {
     } else {
       this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
         .then(data => {
-          console.log("Posted: ", data);
           if (data === 0) {
             this.inputValidation = "Ce nom exist !";
           }
-          if (data === 1)
+          if (data === 1) {
+            this.dismiss();
             this.utils.notification("Votre Communauté est ajouter avec success !", "top");
+          }
         })
     }
   }

@@ -380,6 +380,7 @@ updateUser = (res, user) => {
                 code: 500,
                 msg: "An error occured"
             });
+            console.log("here =================")
             res.status(200).json({
                 code: 200,
                 msg: "Profile updated with success !"
