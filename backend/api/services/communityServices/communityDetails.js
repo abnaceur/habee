@@ -23,7 +23,8 @@ async function getEventsInfo (comId) {
         Event.find({
             eventCommunity : {
                 "$in": [comId]
-            }
+            },
+            eventIsDeleted: false
         }).exec()
         .then(data => { 
             resolve(data)
@@ -34,7 +35,8 @@ async function getEventsInfo (comId) {
 
 async function communityDetails (res, comId) {
     Community.find({
-        communityId: comId
+        communityId: comId,
+        communityIsDeleted: false
     }).then(async data => {
         let members = await getMembersinfo(data[0].communityMembers)
         let events = await getEventsInfo(data[0].communityId);

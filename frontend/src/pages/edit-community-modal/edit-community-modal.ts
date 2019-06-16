@@ -191,8 +191,10 @@ export class EditCommunityModalPage {
     } else {
       this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity)
         .subscribe(data => {
-          if (data === 200)
+          if (data === 200) {
             this.utils.notification("Cette Communauté est a jour", "top")
+            this.dismiss();
+          }
           else if (data === 202)
             this.inputValidation = "Ce nom exist !";
         })

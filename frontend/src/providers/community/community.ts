@@ -65,24 +65,6 @@ export class CommunityProvider {
     })
   }
 
-
-  postCommunity(userInfo, comInfo, data, header) {
-    console.log("here to post it !");
-    return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
-      {
-        //TODO GEENARTE AN ID FOR COMMUNITY ID
-        "communityId": comInfo.communityTitle,
-        "communityName": comInfo.communityTitle,
-        "communityLogo": data,
-        "communityCreator": userInfo.userId,
-        "communityMembers": [userInfo.userId],
-        "communityDescripton": comInfo.communityDescription,
-        "communityIsActive": true,
-      }
-      , { headers: header })
-      .map(response => response.json().count);
-  }
-
   putCommunity(communityId, userInfo, communityDetails) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
@@ -99,24 +81,19 @@ export class CommunityProvider {
   addCommunity(comInfo, photo, userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    if (photo === undefined) {
-      return new Promise((resolve, reject) => {
-        this.postCommunity(userInfo, comInfo, photo, header)
-          .subscribe(data => {
-            resolve(data)
-          })
-      })
-    } else {
-      this.utils.uploadPhoto(photo)
-        .then(data => {
-          return new Promise((resolve, reject) => {
-            this.postCommunity(userInfo, comInfo, photo, header)
-              .subscribe(data => {
-                resolve(data)
-              })
-          })
-        })
-    }
+    return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
+      {
+        //TODO GEENARTE AN ID FOR COMMUNITY ID
+        "communityId": comInfo.communityTitle,
+        "communityName": comInfo.communityTitle,
+        "communityLogo": photo,
+        "communityCreator": userInfo.userId,
+        "communityMembers": [userInfo.userId],
+        "communityDescripton": comInfo.communityDescription,
+        "communityIsActive": true,
+      }
+      , { headers: header })
+      .map(response => response.json().count);
   }
 
   updateSelectedCommunity(comId, userInfo) {

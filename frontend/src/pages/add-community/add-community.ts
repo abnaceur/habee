@@ -159,11 +159,12 @@ export class AddCommunityPage {
   }
 
   onSubmit(newCommunity) {
+
     if (newCommunity.communityTitle === "") {
       this.inputValidation = "Ce champs est obligatoir !";
-    } else {
+    } else if (this.chosenPicture === undefined) {
       this.communityProvider.addCommunity(newCommunity, this.chosenPicture, this.tabParams)
-        .then(data => {
+        .subscribe(data => {
           if (data === 0) {
             this.inputValidation = "Ce nom exist !";
           }
@@ -171,6 +172,20 @@ export class AddCommunityPage {
             this.dismiss();
             this.utils.notification("Votre Communauté est ajouter avec success !", "top");
           }
+        })
+    } else {
+      this.utils.uploadPhoto(this.chosenPicture)
+        .then(dataPhoto => {
+          this.communityProvider.addCommunity(newCommunity, dataPhoto, this.tabParams)
+            .subscribe(data => {
+              if (data === 0) {
+                this.inputValidation = "Ce nom exist !";
+              }
+              if (data === 1) {
+                this.dismiss();
+                this.utils.notification("Votre Communauté est ajouter avec success !", "top");
+              }
+            })
         })
     }
   }
