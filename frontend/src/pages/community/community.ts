@@ -115,8 +115,10 @@ export class CommunityPage {
     if (this.comListByCreator.length > 1) {
       this.communityProvider.deleteCommunity(this.tabParams, communityId)
       .subscribe(data => {
-        if (data === 200)
-        this.utils.notification("Cette communautè est supprimèe avec succès !", "top");
+        if (data === 200) {
+          this.utils.notification("Cette communautè est supprimèe avec succès !", "top");
+          this.getComListByCreation(); 
+        }
         else
         this.utils.notification("Désolé. Un problème est survenu. Veuillez réessayer plus tard. !", "top");
       })
