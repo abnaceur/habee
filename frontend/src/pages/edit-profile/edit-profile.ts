@@ -85,7 +85,7 @@ export class EditProfilePage {
   }
 
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.tabParams = this.navParams.get("info");
     this.currentUser = this.navParams.get("user");
   }
@@ -168,14 +168,38 @@ export class EditProfilePage {
     if (this.chosenPicture === undefined && this.currentUser.profilePhoto != undefined)
       this.chosenPicture = this.currentUser.profilePhoto
 
-    this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
-      .then(data => {
-        if (data === 200) {
-          this.utils.notification("Votre profile est mise a jour !", "top");
-          this.dismiss();
-        }
-        if (data != 200)
-          this.utils.notification("Une erreur est survenu !", "top");
+    if (this.chosenPicture === undefined) {
+      this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
+        .subscribe(data => {
+          if (data === 200) {
+            this.utils.notification("Votre profile est mise a jour !", "top");
+            this.dismiss();
+          }
+          if (data != 200)
+            this.utils.notification("Une erreur est survenu !", "top");
+        })
+    } else if (this.chosenPicture != undefined && this.chosenPicture.length < 100) {
+      this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
+        .subscribe(data => {
+          if (data === 200) {
+            this.utils.notification("Votre profile est mise a jour !", "top");
+            this.dismiss();
+          }
+          if (data != 200)
+            this.utils.notification("Une erreur est survenu !", "top");
+        })
+    } else {
+      this.utils.uploadPhoto(this.chosenPicture).then(data => {
+        this.profileService.editProfil(editProfile, data, this.tabParams)
+          .subscribe(data => {
+            if (data === 200) {
+              this.utils.notification("Votre profile est mise a jour !", "top");
+              this.dismiss();
+            }
+            if (data != 200)
+              this.utils.notification("Une erreur est survenu !", "top");
+          })
       })
+    }
   }
 }

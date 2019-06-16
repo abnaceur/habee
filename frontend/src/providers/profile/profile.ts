@@ -83,7 +83,7 @@ export class ProfileProvider {
   }
 
   postProfile(userInfo, profileName, photo, header) {
-  
+
     return this.http
       .put(
         ENV.BASE_URL +
@@ -101,35 +101,22 @@ export class ProfileProvider {
       .map(response => response.json().code);
   }
 
-  async editProfil(profileName, photo, userInfo) {
+  editProfil(profileName, photo, userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
-
-    if (photo === undefined) {
-      return new Promise((resolve, reject) => {
-        this.postProfile(userInfo, profileName, photo, header).subscribe(
-          data => {
-            resolve(data);
-          }
-        );
-      });
-    } else if (photo != undefined && photo.length < 100) {
-      return new Promise((resolve, reject) => {
-        this.postProfile(userInfo, profileName, photo, header).subscribe(
-          data => {
-            resolve(data);
-          }
-        );
-      });
-    } else {
-      this.utils.uploadPhoto(photo).then(data => {
-        return new Promise((resolve, reject) => {
-          this.postProfile(userInfo, profileName, data, header).subscribe(
-            data => {
-              resolve(data);
-            }
-          );
-        });
-      });
-    }
+    return this.http
+      .put(
+        ENV.BASE_URL +
+        "/users/profile/user/" +
+        userInfo.userId +
+        "/community/" +
+        userInfo.activeCommunity,
+        {
+          profileFirstname: profileName.profileFirstname,
+          profileLastname: profileName.profileLastname,
+          profileImage: photo
+        },
+        { headers: header }
+      )
+      .map(response => response.json().code);
   }
 }
