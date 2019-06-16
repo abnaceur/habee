@@ -1,5 +1,5 @@
-import { 
-  Component 
+import {
+  Component
 } from "@angular/core";
 
 
@@ -15,16 +15,16 @@ import {
 } from 'ionic-angular';
 
 
-  import {
-    FormBuilder,
-    FormGroup,
-    Validators,
-    AbstractControl
-  } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
 
 
-import { 
-  environment as ENV 
+import {
+  environment as ENV
 } from "../../environments/environment";
 
 import {
@@ -36,7 +36,7 @@ import {
 } from '../../providers/camera/camera';
 
 import {
-ProfileProvider
+  ProfileProvider
 } from '../../providers/profile/profile'
 
 /**
@@ -56,11 +56,11 @@ export class EditProfilePage {
   public url = ENV.BASE_URL;
   public chosenPicture;
   private tabParams: Object;
-
+  public currentUser;
 
   constructor(
     private utils: UtilsProvider,
-    private profileService : ProfileProvider,
+    private profileService: ProfileProvider,
     private actionsheetCtrl: ActionSheetController,
     public cameraProvider: CameraProvider,
     public platform: Platform,
@@ -77,17 +77,21 @@ export class EditProfilePage {
       profileFirstname: ['', Validators.compose([Validators.required])],
     });
 
-    this.tabParams = {
-      userId: this.navParams.get("userId"),
-      token: this.navParams.get("token"),
-      activeCommunity: this.navParams.get('activeCommunity'),
-      notificationStatus: this.navParams.get("notificationStatus")
-    };
+    this.tabParams = this.navParams.get("info");
+    this.currentUser = this.navParams.get("user");
+
+    console.log("Information user :", this.currentUser);
+    console.log("Information tabparams :", this.tabParams);
   }
 
 
+  ionViewWillEnter(){
+    this.tabParams = this.navParams.get("info");
+    this.currentUser = this.navParams.get("user");
+  }
+
   dismiss() {
-    this.viewCtrl.dismiss(true);  
+    this.viewCtrl.dismiss(true);
   }
 
   changePicture() {
@@ -154,13 +158,23 @@ export class EditProfilePage {
       }
     );
   }
-  
+
   onSubmit(editProfile) {
+    if (editProfile.profileFirstname === "")
+      editProfile.profileFirstname = this.currentUser.profileFirstname;
+    if (editProfile.profileLastname === "")
+      editProfile.profileLastname = this.currentUser.profileLastname;
+
+    if (this.chosenPicture === undefined && this.currentUser.profilePhoto != undefined)
+      this.chosenPicture = this.currentUser.profilePhoto
+
     this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
       .then(data => {
-        if (data === 200)
+        if (data === 200) {
           this.utils.notification("Votre profile est mise a jour !", "top");
-        if (data != 200 )
+          this.dismiss();
+        }
+        if (data != 200)
           this.utils.notification("Une erreur est survenu !", "top");
       })
   }

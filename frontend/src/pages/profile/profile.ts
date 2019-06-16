@@ -69,11 +69,12 @@ export class ProfilePage {
       .getUserProfileByCommunityId(this.tabParams)
       .subscribe(response => {
         this.user = response.User[0];
+        console.log("User : ", this.user)
       });
   }
 
   editProfileModal() {
-    const modal = this.modalCtrl.create("EditProfilePage", this.tabParams, {
+    const modal = this.modalCtrl.create("EditProfilePage", {info: this.tabParams, user: this.user.profile}, {
       cssClass: ""
     });
     modal.onDidDismiss(data => this.getProfileInfo());

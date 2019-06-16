@@ -26,9 +26,9 @@ export class ProfileProvider {
   getUserProfileByCommunityId(userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get( ENV.BASE_URL + "/users/" + userInfo.userId + "/" + userInfo.activeCommunity,
-        { headers: header }
-      )
+    return this.http.get(ENV.BASE_URL + "/users/" + userInfo.userId + "/" + userInfo.activeCommunity,
+      { headers: header }
+    )
       .map(response => response.json());
   }
 
@@ -69,8 +69,8 @@ export class ProfileProvider {
       this.http
         .get(
           ENV.BASE_URL +
-            "/passions/subpassion/com_tes_2016_9/" +
-            userPassionsList[i],
+          "/passions/subpassion/com_tes_2016_9/" +
+          userPassionsList[i],
           { headers: header }
         )
         .map(results => results.json())
@@ -83,13 +83,14 @@ export class ProfileProvider {
   }
 
   postProfile(userInfo, profileName, photo, header) {
+  
     return this.http
       .put(
         ENV.BASE_URL +
-          "/users/profile/user/" +
-          userInfo.userId +
-          "/community/" +
-          userInfo.activeCommunity,
+        "/users/profile/user/" +
+        userInfo.userId +
+        "/community/" +
+        userInfo.activeCommunity,
         {
           profileFirstname: profileName.profileFirstname,
           profileLastname: profileName.profileLastname,
@@ -100,10 +101,18 @@ export class ProfileProvider {
       .map(response => response.json().code);
   }
 
-  editProfil(profileName, photo, userInfo) {
+  async editProfil(profileName, photo, userInfo) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     if (photo === undefined) {
+      return new Promise((resolve, reject) => {
+        this.postProfile(userInfo, profileName, photo, header).subscribe(
+          data => {
+            resolve(data);
+          }
+        );
+      });
+    } else if (photo != undefined && photo.length < 100) {
       return new Promise((resolve, reject) => {
         this.postProfile(userInfo, profileName, photo, header).subscribe(
           data => {

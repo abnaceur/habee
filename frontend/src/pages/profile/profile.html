@@ -16,8 +16,10 @@ background-color: #fcfcfc;">
 </ion-header>
 
 <ion-content no-padding>
-  <ion-icon item-right style="z-index: 111; color: white; position: absolute;top: 8px;right: 13px;font-size: 27px;"
-    class="optionsStyle pop-in" (click)="editProfileModal()" name="create"></ion-icon>
+  <span (click)="editProfileModal()" style="width: 60px; height: 50px;">
+      <ion-icon item-right style="z-index: 111; color: white; position: absolute;top: 8px;right: 13px;font-size: 27px;"
+      class="optionsStyle pop-in" name="create"></ion-icon>  
+  </span>
   <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + imageUrl +')'}"></div>
   <div id="content">
     <div id="profile-info">

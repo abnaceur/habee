@@ -87,17 +87,16 @@ export class UtilsProvider {
       }
 
       fileTransfer.upload(currentImage, ENV.BASE_URL + '/events/mobile/photo/upload', options)
-        .then((data) => {
-          loader.dismiss();
+        .then(data => {
           resolve(data.response);
           // success
         }, (err) => {
           // error
-          loader.dismiss();
           let error = "Error"
           resolve(error);
         })
-    })
+        loader.dismiss();
+      })
   }
 
   inihttpHeaderWIthToken(token) {

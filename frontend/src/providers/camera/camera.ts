@@ -24,7 +24,7 @@ export class CameraProvider {
   }
 
   // This method takes optional parameters to make it more customizable
-  getImage(pictureSourceType, crop = false, quality = 50, allowEdit = true, saveToAlbum = true) {
+  getImage(pictureSourceType, crop = false, quality = 50, allowEdit = false, saveToAlbum = true) {
     const options = {
       quality,
       allowEdit,
