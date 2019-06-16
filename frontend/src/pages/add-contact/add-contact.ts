@@ -11,6 +11,11 @@ import { CommunityProvider } from "../../providers/community/community";
 
 import { AddContactProvider } from "../../providers/add-contact/add-contact";
 
+import {
+  UtilsProvider
+} from '../../providers/utils/utils';
+
+
 @IonicPage()
 @Component({
   selector: "page-add-contact",
@@ -24,6 +29,7 @@ export class AddContactPage {
   public allCommunities = [];
 
   constructor(
+    public utils: UtilsProvider,
     private communityProvider: CommunityProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -106,6 +112,11 @@ export class AddContactPage {
       this.tabParams
     );
     this.contactArray = emailsList;
+    
+    if (this.contactArray[0].value != "" && this.contactArray[0].communities.length != 0) {
+      this.utils.notification(this.contactArray[0].check, "top");
+      this.dismiss()     
+    }
   }
 
   getAllCommunities() {

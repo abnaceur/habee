@@ -149,6 +149,7 @@ export class ListContactPage {
       this.expanded = false;
       this.contracted = !this.expanded;
       this.getListContact();
+      this.selectInvitationList();
       setTimeout(() => (this.showIcon = true), 330);
     });
     modal.present();
