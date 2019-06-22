@@ -188,7 +188,7 @@ export class ProposeEventPage {
             if (response.results == true) {
               this.utils.notification("Event cree avec succes !", "top");
               this.proposeEventProvider.emitnewCreatedEvent(response.Event);
-              this.viewCtrl.dismiss();
+              //this.viewCtrl.dismiss();
             } else this.utils.notification("Une erreur est apparus !", "top");
           });
       }

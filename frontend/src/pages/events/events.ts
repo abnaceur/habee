@@ -167,6 +167,7 @@ export class EventsPage {
       i++;
     }
 
+    console.log("Moths : ", tmp);
     this.listMonths = tmp;
   }
 
@@ -211,6 +212,7 @@ export class EventsPage {
           if (!response) this.allEvents = [];
           else {
             this.allEvents = this.allEvents.concat(response.Events);
+            this.getMonthsDelimiter(this.allEvents);
             this.allEvents_tmp = this.allEvents_tmp.concat(response.Events);
             this.perPage = response.per_page;
             this.totalData = response.total;
