@@ -11,6 +11,7 @@ import {
 } from "ionic-angular";
 
 import { UtilsProvider } from "../../providers/utils/utils";
+import { Storage } from '@ionic/storage';
 
 import {
   FormBuilder,
@@ -35,12 +36,13 @@ export class LoginPage {
   public createAccount = false;
   public showPasswordText = true;
   public passwordType = "password"
-  private tabParams;
+  public tabParams;
 
   public requireFirstname = false;
   public requireLastname = false;
 
   constructor(
+    private storage: Storage,
     private utils: UtilsProvider,
     public events: Events,
     private toastController: ToastController,
@@ -53,10 +55,11 @@ export class LoginPage {
     public modalCtrl: ModalController,
     public formBuilder: FormBuilder
   ) {
+    this.tabParams = this.navParams.get("logout");
+    if (this.tabParams === true)
+      this.storage.set("response", null);
     this.nav = nav;
-
     this.menu.enable(false, "left");
-
     this.authForm = formBuilder.group({
       firstname: [""],
       lastname: [""],
@@ -79,7 +82,6 @@ export class LoginPage {
       ],
       confPass: [""]
     });
-
   }
 
   loginUserToSession(value) {
@@ -92,8 +94,10 @@ export class LoginPage {
             this.loginProvider
               .updateUserNbrConnection(response.token, response.userId)
               .subscribe(response => response);
+              this.storage.set('response', response);
             this.nav.push("HabeeWalkthroughPage", response);
           } else {
+            this.storage.set('response', response);
             this.events.publish("user:info", response);
             this.nav.push("TabsPage", response);
           }
@@ -136,6 +140,15 @@ export class LoginPage {
         modal.present();
       }
     }
+  }
+
+  ionViewWillEnter(){
+    this.storage.get('response').then((response) => {
+      if (response != null && response.token != null && response.userId != null) {
+        this.events.publish("user:info", response);
+        this.nav.push("TabsPage", response);
+      } 
+    });
   }
 
   onSubmit(value: any): void {
