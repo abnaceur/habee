@@ -60,15 +60,12 @@ feedbackEvent = (io) => {
             if (unshiftComm[eventId] == null)
                 unshiftComm[eventId] = []
             console.log("Client joined!")
-            console.log("comConnectedClient :", comConnectedClient)
         });
 
         client.on('send-message', function (data) {
             comments[data.eventId].push(data)
             unshiftComm[data.eventId].unshift(data)
             io.to(data.eventId).emit('broad-msg', data);
-            console.log("data :", comments)
-
         });
 
 

@@ -48,15 +48,12 @@ pushCommentsToclass = (data, comments) => {
 updateComments = (comments) => {
     if (comments != []) {
         let eventId = comments[0].eventId;
-        let communityId = comments[0].eventCommunity;
-
         Comment.find({
                 eventId: eventId,
-                communityId: communityId,
             }).exec()
             .then(data => {
                 pushCommentsToclass(data, comments)
-            }).catch(err => utils.defaultError(res, err))
+            }).catch(err => console.log("updateComments Err:", err))
     }
 
 }

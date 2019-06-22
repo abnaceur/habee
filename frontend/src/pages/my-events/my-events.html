@@ -60,6 +60,10 @@ background-color: #fcfcfc;">
 
   <ion-list *ngFor="let event of proposedEvents, let idx = index" [ngStyle]="{'display': orgnizeEvBorderDisplay}">
 
+    <ion-item *ngIf="proposedEvents.length == 0" text-wrap>
+      Vous avez aucun evenement dans vos communaute.
+    </ion-item>
+
     <span *ngIf="listMonths.length > 0">
       <ion-item *ngIf="idx == 0">
         <p style="color: #64B3D7;
@@ -81,7 +85,6 @@ background-color: #fcfcfc;">
                           }} </p>
       </ion-item>
     </span>
-
 
     <ion-item-sliding>
 

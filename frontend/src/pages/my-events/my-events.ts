@@ -88,7 +88,7 @@ export class MyEventsPage {
     moment.locale("fr");
     this.dateFormat = moment;
 
-     this.months = [
+    this.months = [
       "Janvier",
       "Fevrier",
       "Mars",
@@ -113,7 +113,8 @@ export class MyEventsPage {
     this.eventProvider
       .getAllProposedEvevnstByUser(this.tabParams, this.page)
       .subscribe(response => {
-        this.getMonthsDelimiter(response.Events);
+        if (response.Events != undefined)
+          this.getMonthsDelimiter(response.Events);
         this.proposedEvents = response.Events;
         this.perPage = response.per_page;
         this.totalData = response.total;
