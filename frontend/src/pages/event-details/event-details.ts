@@ -261,7 +261,7 @@ export class EventDetailsPage {
         },
         {
           icon: "logo-facebook",
-          text: "Vers facebook",
+          text: "Vers Facebook",
           role: "logo-facebook",
           cssClass: "logo-facebookClass",
           handler: () => {
@@ -270,7 +270,7 @@ export class EventDetailsPage {
         },
         {
           icon: "logo-twitter",
-          text: "Vers twitter",
+          text: "Vers Twitter",
           role: "logo-twitter",
           cssClass: "logo-twitterClass",
           handler: () => {
