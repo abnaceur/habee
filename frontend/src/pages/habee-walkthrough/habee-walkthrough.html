@@ -5,27 +5,23 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-<ion-navbar style="position: absolute; z-index: 100" transparent>
+  <ion-navbar style="position: absolute; z-index: 100" transparent>
     <ion-buttons right>
-      <button ion-button color="light"
-              *ngIf="slideIndex < slides.length - 1"
-              class="skip-button"
-              (click)="skip()">SKIP</button>
+      <button ion-button color="light" *ngIf="slideIndex < slides.length - 1" class="skip-button"
+        (click)="skip()">SKIP</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content fullscreen="true" class="no-padding-top">
-        
-  
+
+
   <ion-slides #slider pager="true" autoplay="5000" (ionSlideWillChange)="onSlideChanged()">
-    <ion-slide *ngFor="let slide of slides"
-               class="slide-background"
-               [ngStyle]="{'background-image': 'url(' + slide.imageUrl +')',
+    <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{'background-image': 'url(' + slide.imageUrl +')',
                'background-size': 'cover',
                'background-repeat': 'no-repeat'}">
+      <div style="top: 233px; z-index: 1111; position: relative;" class="floating-buttons pop-in" *ngIf="slideIndex >= slides.length - 1">
+        <button ion-button clear large full (click)="goToApp()"><b>Let's go !</b></button>
+      </div>
     </ion-slide>
   </ion-slides>
-  <div class="floating-buttons pop-in" *ngIf="slideIndex >= slides.length - 1">
-    <button ion-button clear large full (click)="goToApp()">Let's go!</button>
-  </div>
 </ion-content>
