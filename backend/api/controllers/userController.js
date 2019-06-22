@@ -425,7 +425,6 @@ exports.statusResendInvitation = (req, res, next) => {
 
 exports.cancelInvitationBySender = (req, res, next) => {
     let userId = req.params.userId;
-
-    console.log("test ===============")
+    
     cancelInvitationService.cancelInvitation(req.body, res, userId);   
 }

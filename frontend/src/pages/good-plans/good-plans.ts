@@ -59,13 +59,14 @@ export class GoodPlansPage {
 
   executeModal(page) {
     const modal = this.modalCtrl.create(page, this.tabParams, { cssClass: '' });
-		modal.onDidDismiss(data => console.log("test this"));
+		modal.onDidDismiss(data => {
+      data = [];
+    });
 		modal.present();
   }
 
   modifyProfileModal() {
     const modal = this.modalCtrl.create("EditProfilePage", this.tabParams);
-		modal.onDidDismiss(data => console.log("test this"));
 		modal.present();
   }
 
@@ -79,7 +80,6 @@ export class GoodPlansPage {
 
   modifyAccountModal() {
     const modal = this.modalCtrl.create("EditAccountPage", this.tabParams);
-		modal.onDidDismiss(data => console.log("test this"));
 		modal.present();
   }
 

@@ -167,7 +167,6 @@ export class EventsPage {
       i++;
     }
 
-    console.log("Moths : ", tmp);
     this.listMonths = tmp;
   }
 

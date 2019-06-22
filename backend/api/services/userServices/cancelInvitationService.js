@@ -6,7 +6,6 @@ const utils = require('../utils')
 
 
 cancelInvitation = (invit, res, userId) => {
-    console.log("invitation :", invit, userId)
     Invitation.deleteOne({
         _id: invit._id,
         invitatorId: userId,

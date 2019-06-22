@@ -10,7 +10,6 @@ updateFilterOptions = (req, res, userId) => {
     })
     .exec()
     .then(usr => {
-        console.log("req.body : ", req.body);
         usr[0].filterEvent = req.body.filter;
         usr[0].communitiesFilter = req.body.communities;
         User.findByIdAndUpdate(usr[0]._id,

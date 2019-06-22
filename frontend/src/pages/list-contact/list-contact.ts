@@ -398,7 +398,6 @@ export class ListContactPage {
   cancelInviatation(invit) {
     this.invitationProvider.cancelInvitation(this.tabParams, invit)
     .subscribe(data => {
-      console.log("Data ", data)
       if (data == 200) {
         this.utils.notification("Invitation viens d'etre annuler !", "top");
         this.getListContact();

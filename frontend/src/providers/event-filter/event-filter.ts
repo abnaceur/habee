@@ -182,13 +182,11 @@ export class EventFilterProvider {
       coms.map(flt => {
         flt.value = value
       })
-      console.log("coms : ", coms);
       resolve(coms);
     })
   }
 
   changeComsFilterList(value, coms) {
-    console.log("changeComsFilterList", value, coms)
     return new Promise<any[]>((resolve, reject) => {
       if (value === true) {
         this.initComFilter(true, coms)

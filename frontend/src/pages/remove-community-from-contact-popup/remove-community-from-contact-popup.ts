@@ -63,7 +63,6 @@ export class RemoveCommunityFromContactPopupPage {
   }
 
   getAllCommunities() {
-    console.log("this.userCommunities  :", this.userCommunities);
     if (this.tabParams.activeCommunity != "") {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
