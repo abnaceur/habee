@@ -9,6 +9,8 @@ import {
   ModalController
 } from "ionic-angular";
 
+import moment from "moment";
+
 import { UtilsProvider } from "../../providers/utils/utils";
 
 import { EventProvider } from "../../providers/event/event";
@@ -33,8 +35,10 @@ export class MyEventsPage {
   public participEvBorder = "5px solid darkgrey";
   public participEvBorderDisplay = "initial"
   public orgnizeEvBorder = "";
+  public topList = "5vw";
   public orgnizeEvBorderDisplay = "none"
 
+  public months: String[];
   eventParticipated = [
     {
       name: "Événement participé"
@@ -52,23 +56,12 @@ export class MyEventsPage {
   totalData = 0;
   totalPage = 0;
 
+  public dateFormat;
+  public listMonths: any[];
   public userInfo;
   public proposedEvents;
   public url = ENV.BASE_URL;
-  public months = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Avr",
-    "Mai",
-    "Jun",
-    "Jui",
-    "Aout",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
+
 
   // Moadal declaration
   expanded: any;
@@ -91,12 +84,36 @@ export class MyEventsPage {
       activeCommunity: this.navParams.get("activeCommunity"),
       notificationStatus: this.navParams.get("notificationStatus")
     };
+
+    moment.locale("fr");
+    this.dateFormat = moment;
+
+     this.months = [
+      "Janvier",
+      "Fevrier",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Jun",
+      "Juillet",
+      "Aout",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Decembre"
+    ];
+  }
+
+  formatTime(month, day) {
+    let time = { subtitle: this.months[month], title: day };
+    return time;
   }
 
   updateProposedEventList() {
     this.eventProvider
       .getAllProposedEvevnstByUser(this.tabParams, this.page)
       .subscribe(response => {
+        this.getMonthsDelimiter(response.Events);
         this.proposedEvents = response.Events;
         this.perPage = response.per_page;
         this.totalData = response.total;
@@ -114,6 +131,30 @@ export class MyEventsPage {
       .subscribe(response => {
         this.userInfo = response.User;
       });
+  }
+
+
+  getMonthsDelimiter(events) {
+    let tmp = [];
+    let i = 1;
+
+    while (i < events.length) {
+      if (
+        events[i - 1].eventStartDate.toString().substring(5, 7) ==
+        events[i].eventStartDate.toString().substring(5, 7)
+      ) {
+        tmp[i - 1] = false;
+      } else if (
+        events[i - 1].eventStartDate.toString().substring(5, 7) !=
+        events[i].eventStartDate.toString().substring(5, 7)
+      ) {
+        i++;
+        tmp[i - 1] = events[i].eventStartDate;
+      }
+      i++;
+    }
+
+    this.listMonths = tmp;
   }
 
   ionViewWillEnter() {
@@ -232,6 +273,7 @@ export class MyEventsPage {
           if (!response) this.proposedEvents = [];
           else {
             this.proposedEvents = this.proposedEvents.concat(response.Events);
+            this.getMonthsDelimiter(this.proposedEvents)
             this.perPage = response.per_page;
             this.totalData = response.total;
             this.totalPage = response.total_pages;

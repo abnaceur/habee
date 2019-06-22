@@ -17,7 +17,7 @@ page-my-events {
 
   .styleParticipants {
     margin-top: 11px;
-    background-color: #5abcc2;
+    background-color: #48d7e4;
     color: white;
     padding: 0vw 10px;
     border-radius: 20%;
@@ -144,6 +144,14 @@ page-my-events {
     border-radius: 100%;
   }
 
+  .scroll-content {
+    bottom: 56px;
+  }
 
-
+  ion-content.has-refresher > .scroll-content {
+    padding-bottom: 61px;
+    background-color: inherit;
+  }
+  
 }
+

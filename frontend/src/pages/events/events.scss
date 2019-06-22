@@ -164,3 +164,7 @@ ion-slides { height: initial; }
   }
 }
 
+ion-content.has-refresher > .scroll-content {
+  padding-bottom: 61px;
+  background-color: inherit;
+}

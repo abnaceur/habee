@@ -20,7 +20,7 @@ background-color: #fcfcfc;">
 
 
 
-<ion-content class="myview_myevents" padding>
+<ion-content class="myview_myevents"  fullscreen #myContent>
 
   <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
     <ion-col (click)="selectParticipEvent()" [ngStyle]="{'border-bottom': participEvBorder}" col-6>
@@ -57,8 +57,33 @@ background-color: #fcfcfc;">
     </ion-item-sliding>
   </ion-list>
 
-  <ion-list [ngStyle]="{'display': orgnizeEvBorderDisplay}">
-    <ion-item-sliding *ngFor="let event of proposedEvents">
+
+  <ion-list *ngFor="let event of proposedEvents, let idx = index" [ngStyle]="{'display': orgnizeEvBorderDisplay}">
+
+    <span *ngIf="listMonths.length > 0">
+      <ion-item *ngIf="idx == 0">
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
+                      + dateFormat(event.eventStartDate).format('MMM').toString().substring(1,
+                      dateFormat(event.eventStartDate).format('MMM').toString().length)
+                      }} </p>
+      </ion-item>
+    </span>
+
+    <span *ngIf="listMonths.length > 0">
+      <ion-item *ngIf="idx >= 1 && listMonths[idx]">
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()
+                          + dateFormat(listMonths[idx]).format('MMM').toString().substring(1,
+                          dateFormat(listMonths[idx]).format('MMM').toString().length)
+                          }} </p>
+      </ion-item>
+    </span>
+
+
+    <ion-item-sliding>
 
       <ion-item (click)='viewEventDetails(event)' style="margin-top: 10px" no-lines>
         <ion-thumbnail style="min-width: 5rem;    
@@ -93,10 +118,10 @@ background-color: #fcfcfc;">
   </ion-list>
 
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">
-      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
 
