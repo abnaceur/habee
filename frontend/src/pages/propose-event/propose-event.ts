@@ -60,6 +60,7 @@ export class ProposeEventPage {
   public eventStartDate = "";
   public eventEndDate = "";
   public dateLabel = "Date de debut/fin";
+  private endStartDate;
 
   constructor(
     private socket: Socket,
@@ -168,10 +169,9 @@ export class ProposeEventPage {
   }
 
   onSubmit(value) {
-    value.eventStartDate = this.eventStartDate;
-    value.eventEndDate = this.eventEndDate;
-    
-    console.log("Value : ", value)
+    value.eventStartDate = this.endStartDate.from.years + "-" + this.endStartDate.from.months + "-" + this.endStartDate.from.date;
+    value.eventEndDate = this.endStartDate.to.years + "-" + this.endStartDate.to.months + "-" + this.endStartDate.to.date;;
+
     if (this.listCommunity.length > 0 && this.listCommunity != null) {
       if (this.chosenPicture) {
         this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
@@ -201,7 +201,7 @@ export class ProposeEventPage {
           });
       }
     } else
-        this.validateCommubities = "Vous devez selectionne une communaute";
+      this.validateCommubities = "Vous devez selectionne une communaute";
   }
 
   dismiss() {
@@ -220,7 +220,7 @@ export class ProposeEventPage {
       else if (data.length > 0) this.listCommunity = data;
     });
     modal.present();
-  
+
   }
 
   openCalendar() {
@@ -241,11 +241,12 @@ export class ProposeEventPage {
     myCalendar.present();
 
     myCalendar.onDidDismiss((date: { from: CalendarResult; to: CalendarResult }, type: string) => {
-      if ( date != null) {
-        this.eventStartDate = date.from.date + '/' + date.from.months + '/' + date.from.years; 
+      if (date != null) {
+        this.eventStartDate = date.from.date + '/' + date.from.months + '/' + date.from.years;
         this.eventEndDate = date.to.date + '/' + date.to.months + '/' + date.to.years;
         this.dateLabel = this.eventStartDate + " - " + this.eventEndDate;
+        this.endStartDate = date;
       }
     });
-}
+  }
 }
