@@ -32,6 +32,8 @@ import { EventProvider } from "../providers/event/event";
 
 import { LocalNotifications } from "@ionic-native/local-notifications";
 
+import { Storage } from '@ionic/storage';
+
 @Component({
   templateUrl: "app.html"
 })
@@ -61,6 +63,7 @@ export class MyApp {
   public editableCommunity: String;
 
   constructor(
+    private storage: Storage,
     public localNotifications: LocalNotifications,
     private eventFilterProvider: EventFilterProvider,
     private eventProvider: EventProvider,
@@ -83,19 +86,33 @@ export class MyApp {
     // this.backgroundMode.excludeFromTaskList();
     // this.backgroundMode.overrideBackButton();
 
-    events.subscribe("user:info", userData => {
-      this.userData = userData;
-      this.updatCommunityList();
-      // user and time are the same arguments passed in `events.publish(user, time)`
-      this.profileProvider
-        .getUserProfileByCommunityId(this.userData)
-        .subscribe(response => {
-          (this.user.name = response.User[0].profile.profileUsername),
-            response.User[0].profile.profilePhoto
-              ? (this.user.profileImage =
+    this.storage.get('response').then((response) => {
+      if (response != undefined) {
+        this.profileProvider
+          .getUserProfileByCommunityId(response)
+          .subscribe(response => {
+            (this.user.name = response.User[0].profile.profileUsername),
+              response.User[0].profile.profilePhoto
+                ? (this.user.profileImage =
                   ENV.BASE_URL + "/" + response.User[0].profile.profilePhoto)
-              : this.user.profileImage;
+                : this.user.profileImage;
+          });
+      } else {
+        events.subscribe("user:info", userData => {
+          this.userData = userData;
+          this.updatCommunityList();
+          // user and time are the same arguments passed in `events.publish(user, time)`
+          this.profileProvider
+            .getUserProfileByCommunityId(this.userData)
+            .subscribe(response => {
+              (this.user.name = response.User[0].profile.profileUsername),
+                response.User[0].profile.profilePhoto
+                  ? (this.user.profileImage =
+                    ENV.BASE_URL + "/" + response.User[0].profile.profilePhoto)
+                  : this.user.profileImage;
+            });
         });
+      }
     });
 
     this.rightMenuItems = [
