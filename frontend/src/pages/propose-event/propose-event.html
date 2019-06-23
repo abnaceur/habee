@@ -28,7 +28,8 @@
       </ion-item>
 
       <ion-item
-        *ngIf="proposeEventForm.controls.eventTitle.hasError('required') && proposeEventForm.controls.eventTitle.touched" no-lines>
+        *ngIf="proposeEventForm.controls.eventTitle.hasError('required') && proposeEventForm.controls.eventTitle.touched"
+        no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
@@ -45,20 +46,21 @@
 
       <ion-item no-lines>
         <ion-label>
-          <ion-icon  style="color: black" name="time" item-left>
+          <ion-icon style="color: black" name="time" item-left>
           </ion-icon>
         </ion-label>
         <ion-datetime style="position: relative;float: left; color: black" name="eventStartHour" type="time"
           placeholder="Heur de debut" displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
 
-        <ion-datetime style="position: relative;float: right; color: black" name="eventEndHour" type="time" placeholder="Heur de fin"
-          displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
+        <ion-datetime style="position: relative;float: right; color: black" name="eventEndHour" type="time"
+          placeholder="Heur de fin" displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
 
       </ion-item>
 
 
       <ion-item
-        *ngIf="proposeEventForm.controls.eventStartHour.hasError('required') && proposeEventForm.controls.eventStartHour.touched" no-lines>
+        *ngIf="proposeEventForm.controls.eventStartHour.hasError('required') && proposeEventForm.controls.eventStartHour.touched"
+        no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
@@ -72,7 +74,8 @@
       </ion-item>
 
       <ion-item
-        *ngIf="proposeEventForm.controls.eventCategory.hasError('required') && proposeEventForm.controls.eventCategory.touched" no-lines>
+        *ngIf="proposeEventForm.controls.eventCategory.hasError('required') && proposeEventForm.controls.eventCategory.touched"
+        no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
@@ -84,7 +87,8 @@
 
 
       <ion-item
-        *ngIf="proposeEventForm.controls.eventLocation.hasError('required') && proposeEventForm.controls.eventLocation.touched" no-lines>
+        *ngIf="proposeEventForm.controls.eventLocation.hasError('required') && proposeEventForm.controls.eventLocation.touched"
+        no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
@@ -94,7 +98,8 @@
       </ion-item>
 
       <ion-item
-        *ngIf="proposeEventForm.controls.eventNbrParticipants.hasError('required') && proposeEventForm.controls.eventNbrParticipants.touched" no-lines>
+        *ngIf="proposeEventForm.controls.eventNbrParticipants.hasError('required') && proposeEventForm.controls.eventNbrParticipants.touched"
+        no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
@@ -118,7 +123,7 @@
         <ion-textarea placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
       </ion-item>
 
-      <ion-item (click)="openCommunityList()" no-lines>
+      <ion-item no-lines>
         <ion-label>
           Paratger avec vos communauté &nbsp; &nbsp;
           <ion-fab>
@@ -126,6 +131,13 @@
           </ion-fab>
         </ion-label>
       </ion-item>
+
+      <ion-scroll scrollX="true" style="white-space: nowrap; height: 55px; width: 100%;
+      min-height: 40px;">
+      <a *ngFor="let com of allCommunities">
+        <ion-badge (click)="com.selected = !com.selected; selectedCommunityList(com)" [ngStyle]='{"background-color" : com.selected == false ? "silver" : "blue", "color" : com.selected == false ? "white": "white"}'>{{com.value}}</ion-badge>
+      </a>
+    </ion-scroll>
 
       <ion-item *ngIf="validateCommubities != ''" no-lines>
         <p>{{validateCommubities}}</p>

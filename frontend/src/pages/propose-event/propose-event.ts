@@ -23,6 +23,8 @@ import {
 
 import { CameraProvider } from "../../providers/camera/camera";
 
+import { CommunityProvider } from "../../providers/community/community";
+
 import { EventProvider } from "../../providers/event/event";
 
 import { environment as ENV } from "../../environments/environment";
@@ -61,8 +63,11 @@ export class ProposeEventPage {
   public eventEndDate = "";
   public dateLabel = "Date de debut/fin";
   private endStartDate;
+  public allCommunities = [];
+  public selectedCommunity = [];
 
   constructor(
+    private communityProvider: CommunityProvider,
     private socket: Socket,
     public modalCtrl: ModalController,
     private proposeEventProvider: ProposeEventProvider,
@@ -96,6 +101,38 @@ export class ProposeEventPage {
       eventIsPublic: [false, Validators.compose([Validators.required])],
       eventCategory: ["", Validators.compose([Validators.required])]
     });
+  }
+
+  initListCommunity(communities) {
+    let coms = [];
+
+    communities.map(com => {
+      coms.push({
+        id: com.communityId,
+        value: com.communityName,
+        selected: false
+      })
+    })
+
+    this.allCommunities = coms;
+  }
+
+  getAllCommunities() {
+    this.communityProvider
+      .getCommunitiesbyCreator(this.tabParams)
+      .subscribe(dataCreator => {
+        this.communityProvider
+          .getCommunitiesByParticipation(this.tabParams)
+          .subscribe(dataParticipation => {
+            dataCreator.communities = dataCreator.communities.concat(dataParticipation);
+            this.initListCommunity(dataCreator.communities);
+            console.log("this.allCommunities :", this.allCommunities);
+          });
+      });
+  }
+
+  ionViewWillEnter() {
+    this.getAllCommunities()
   }
 
   ionViewWillLeave() {
@@ -166,6 +203,13 @@ export class ProposeEventPage {
         alert(error);
       }
     );
+  }
+
+  selectedCommunityList(com) {
+    if (com.selected === true)
+      this.listCommunity.push(com.id);
+    else
+      this.listCommunity.splice(this.listCommunity.indexOf(com.id), 1)
   }
 
   onSubmit(value) {
