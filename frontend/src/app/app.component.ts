@@ -40,7 +40,7 @@ import { Storage } from '@ionic/storage';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = "LoginPage";
+  rootPage: any = null;
 
   pages: Array<{
     title: string;
@@ -197,6 +197,15 @@ export class MyApp {
           this.socket.disconnect(true);
         });
       });
+    });
+
+    this.storage.get('response').then((response) => {
+      if (response != null && response.token != null && response.userId != null) {
+        this.events.publish("user:info", response);
+        this.nav.push("TabsPage", response);
+      } else {
+        this.rootPage = "LoginPage";
+      }
     });
   }
 

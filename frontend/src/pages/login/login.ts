@@ -142,15 +142,6 @@ export class LoginPage {
     }
   }
 
-  ionViewWillEnter(){
-    this.storage.get('response').then((response) => {
-      if (response != null && response.token != null && response.userId != null) {
-        this.events.publish("user:info", response);
-        this.nav.push("TabsPage", response);
-      } 
-    });
-  }
-
   onSubmit(value: any): void {
     if (this.createAccount === false) this.loginUserToSession(value);
     else if (this.createAccount === true) this.createUserAccount(value);
