@@ -88,29 +88,10 @@ export class MyApp {
 
     this.storage.get('response').then((response) => {
       if (response != undefined) {
-        this.profileProvider
-          .getUserProfileByCommunityId(response)
-          .subscribe(response => {
-            (this.user.name = response.User[0].profile.profileUsername),
-              response.User[0].profile.profilePhoto
-                ? (this.user.profileImage =
-                  ENV.BASE_URL + "/" + response.User[0].profile.profilePhoto)
-                : this.user.profileImage;
-          });
+        this.userData = response;
       } else {
         events.subscribe("user:info", userData => {
           this.userData = userData;
-          this.updatCommunityList();
-          // user and time are the same arguments passed in `events.publish(user, time)`
-          this.profileProvider
-            .getUserProfileByCommunityId(this.userData)
-            .subscribe(response => {
-              (this.user.name = response.User[0].profile.profileUsername),
-                response.User[0].profile.profilePhoto
-                  ? (this.user.profileImage =
-                    ENV.BASE_URL + "/" + response.User[0].profile.profilePhoto)
-                  : this.user.profileImage;
-            });
         });
       }
     });

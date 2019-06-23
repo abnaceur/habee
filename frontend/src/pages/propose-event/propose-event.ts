@@ -11,6 +11,9 @@ import {
   ViewController
 } from "ionic-angular";
 
+import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
+
+
 import {
   FormBuilder,
   FormGroup,
@@ -54,6 +57,9 @@ export class ProposeEventPage {
   public tabParams;
   public url = ENV.BASE_URL;
   allfilters: any;
+  public eventStartDate = "";
+  public eventEndDate = "";
+  public dateLabel = "Date de debut/fin";
 
   constructor(
     private socket: Socket,
@@ -84,8 +90,6 @@ export class ProposeEventPage {
       eventLocation: ["", Validators.compose([Validators.required])],
       eventNbrParticipants: ["", Validators.compose([Validators.required])],
       eventDescription: ["", Validators.compose([Validators.required])],
-      eventStartDate: ["", Validators.compose([Validators.required])],
-      eventEndDate: ["", Validators.compose([Validators.required])],
       eventStartHour: ["", Validators.compose([Validators.required])],
       eventEndHour: ["", Validators.compose([Validators.required])],
       eventIsPublic: [false, Validators.compose([Validators.required])],
@@ -164,6 +168,10 @@ export class ProposeEventPage {
   }
 
   onSubmit(value) {
+    value.eventStartDate = this.eventStartDate;
+    value.eventEndDate = this.eventEndDate;
+    
+    console.log("Value : ", value)
     if (this.listCommunity.length > 0 && this.listCommunity != null) {
       if (this.chosenPicture) {
         this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
@@ -214,4 +222,30 @@ export class ProposeEventPage {
     modal.present();
   
   }
+
+  openCalendar() {
+    const options: CalendarModalOptions = {
+      pickMode: 'range',
+      title: '',
+      cssClass: 'calamdarCustomColor',
+      weekdays: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+      closeIcon: true,
+      doneIcon: true,
+      canBackwardsSelected: true,
+    };
+
+    let myCalendar = this.modalCtrl.create(CalendarModal, {
+      options: options
+    });
+
+    myCalendar.present();
+
+    myCalendar.onDidDismiss((date: { from: CalendarResult; to: CalendarResult }, type: string) => {
+      if ( date != null) {
+        this.eventStartDate = date.from.date + '/' + date.from.months + '/' + date.from.years; 
+        this.eventEndDate = date.to.date + '/' + date.to.months + '/' + date.to.years;
+        this.dateLabel = this.eventStartDate + " - " + this.eventEndDate;
+      }
+    });
+}
 }

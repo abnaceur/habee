@@ -1,11 +1,25 @@
 page-propose-event {
+  ::placeholder {
+    color: black;
+    font-weight: bold
+      /* Firefox */
+  }
 
+  .datetime-md {
+    padding: 13px 30px 13px 16px;
+  }
+
+  .datetime-placeholder {
+    color: black;
+    font-weight: bold
+      /* Firefox */
+  }
 }
 
-.myview_proposedEvent{
- //   background-image: url('../assets/imgs/MainBackground_1.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+.myview_proposedEvent {
+  //   background-image: url('../assets/imgs/MainBackground_1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .avatarPicture {
@@ -25,7 +39,7 @@ page-propose-event {
 //   height: 74%;
 // }
 
-  .toolbar-background {
+.toolbar-background {
   color: red !important;
 }
 
@@ -34,19 +48,27 @@ page-propose-event {
   height: 89%;
   contain: strict;
 }
+
 .comEvent-modal ion-modal.modal-wrapper {
   transform: translateY(30%) !important;
 }
+
 .comEvent-modal ion-page.modal {
   padding: 30px;
   background: rgba(0, 0, 0, 0.5);
 }
+
 .comEvent-modal .modal-backdrop-bg {
   background-color: #000;
   opacity: 0;
 }
+
 .comEvent-modal .active .modal-backdrop-bg {
   opacity: 0.5;
+}
+
+.calamdarCustomColor {
+  color: blue
 }
 
 .comEvent-modal ion-modal.inset-modal {

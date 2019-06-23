@@ -22,101 +22,84 @@
   <ion-list>
     <form [formGroup]="proposeEventForm" (ngSubmit)="onSubmit(proposeEventForm.value)">
 
-      <ion-item>
+      <ion-item no-lines>
         <!--   <ion-label floating>E-mail</ion-label> -->
         <ion-input placeholder="Nom de l'événement" formControlName="eventTitle" type="text"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="proposeEventForm.controls.eventTitle.hasError('required') && proposeEventForm.controls.eventTitle.touched">
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventTitle.hasError('required') && proposeEventForm.controls.eventTitle.touched" no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
 
-      <ion-item>
-        <ion-label>
+      <ion-item (click)="openCalendar()" no-lines>
+        <ion-label style="color: black">
           <ion-icon name="calendar" item-left></ion-icon>
         </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventStartDate" type="date" placeholder="Date de debut"
-          displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventStartDate"></ion-datetime>
-      </ion-item>
-
-
-      <ion-item *ngIf="proposeEventForm.controls.eventStartDate.hasError('required') && proposeEventForm.controls.eventStartDate.touched">
-        <p>Ce champs est obligatoire!</p>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          <ion-icon name="time" item-left></ion-icon>
+        <ion-label style="position: relative;    left: -98px;
+        color: #9c9c9c;
+        font-weight: bold;">
+          {{dateLabel}}
         </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventStartHour" type="time" placeholder="Heur de debut"
-          displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
       </ion-item>
 
-
-      <ion-item *ngIf="proposeEventForm.controls.eventStartHour.hasError('required') && proposeEventForm.controls.eventStartHour.touched">
-        <p>Ce champs est obligatoire!</p>
-      </ion-item>
-
-
-      <ion-item>
+      <ion-item no-lines>
         <ion-label>
-          <ion-icon name="calendar" item-left></ion-icon>
+          <ion-icon  style="color: black" name="time" item-left>
+          </ion-icon>
         </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventEndDate" type="date" placeholder="Date de fin"
-          displayFormat="DD/MM/YYYY" min="2018" max="2030" formControlName="eventEndDate"></ion-datetime>
-      </ion-item>
+        <ion-datetime style="position: relative;float: left; color: black" name="eventStartHour" type="time"
+          placeholder="Heur de debut" displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
 
-      <ion-item *ngIf="proposeEventForm.controls.eventEndDate.hasError('required') && proposeEventForm.controls.eventEndDate.touched">
-        <p>Ce champs est obligatoire!</p>
-      </ion-item>
-
-
-      <ion-item>
-        <ion-label>
-          <ion-icon name="time" item-left></ion-icon>
-        </ion-label>
-        <ion-datetime style="position: relative;left: -43px;" name="eventEndHour" type="time" placeholder="Heur de fin"
+        <ion-datetime style="position: relative;float: right; color: black" name="eventEndHour" type="time" placeholder="Heur de fin"
           displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
+
       </ion-item>
 
-      <ion-item *ngIf="proposeEventForm.controls.eventEndHour.hasError('required') && proposeEventForm.controls.eventEndHour.touched">
+
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventStartHour.hasError('required') && proposeEventForm.controls.eventStartHour.touched" no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
 
-      <ion-item>
+
+      <ion-item no-lines>
         <ion-label>Categorie</ion-label>
         <ion-select formControlName="eventCategory" multiple="false">
-              <ion-option *ngFor="let filter of allfilters" >{{filter.name}}</ion-option>
+          <ion-option *ngFor="let filter of allfilters">{{filter.name}}</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item *ngIf="proposeEventForm.controls.eventCategory.hasError('required') && proposeEventForm.controls.eventCategory.touched">
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventCategory.hasError('required') && proposeEventForm.controls.eventCategory.touched" no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
 
-      <ion-item>
+      <ion-item no-lines>
         <!--   <ion-label floating>E-mail</ion-label> -->
         <ion-input placeholder="Location" formControlName="eventLocation" type="text"></ion-input>
       </ion-item>
 
 
-      <ion-item *ngIf="proposeEventForm.controls.eventLocation.hasError('required') && proposeEventForm.controls.eventLocation.touched">
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventLocation.hasError('required') && proposeEventForm.controls.eventLocation.touched" no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
-      <ion-item>
+      <ion-item no-lines>
         <!--   <ion-label floating>E-mail</ion-label> -->
         <ion-input placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="proposeEventForm.controls.eventNbrParticipants.hasError('required') && proposeEventForm.controls.eventNbrParticipants.touched">
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventNbrParticipants.hasError('required') && proposeEventForm.controls.eventNbrParticipants.touched" no-lines>
         <p>Ce champs est obligatoire!</p>
       </ion-item>
 
-      <ion-item>
+      <ion-item no-lines>
         <ion-label>
           Uploader une photo &nbsp; &nbsp;
           <ion-fab>
@@ -126,16 +109,17 @@
 
       </ion-item>
 
-      <ion-item>
-        <img class="avatarPicture" [src]="chosenPicture || placeholder" onerror="this.src='assets/img/defaultsEvent.png'" />
+      <ion-item no-lines>
+        <img class="avatarPicture" [src]="chosenPicture || placeholder"
+          onerror="this.src='assets/img/defaultsEvent.png'" />
       </ion-item>
 
-      <ion-item>
+      <ion-item no-lines>
         <!--   <ion-label floating>E-mail</ion-label> -->
         <ion-textarea placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
       </ion-item>
 
-      <ion-item (click)="openCommunityList()" >
+      <ion-item (click)="openCommunityList()" no-lines>
         <ion-label>
           Paratger avec vos communauté &nbsp; &nbsp;
           <ion-fab>
@@ -144,12 +128,12 @@
         </ion-label>
       </ion-item>
 
-      <ion-item *ngIf="validateCommubities != ''">
+      <ion-item *ngIf="validateCommubities != ''" no-lines>
         <p>{{validateCommubities}}</p>
       </ion-item>
 
-      <ion-item>
-        <ion-label  style="position: relative; left:-14%">Publique</ion-label>
+      <ion-item no-lines>
+        <ion-label style="position: relative; left:-14%">Publique</ion-label>
         <ion-toggle formControlName="eventIsPublic" color="success"></ion-toggle>
       </ion-item>
 
@@ -163,8 +147,6 @@
           </div>
         </ion-col>
       </ion-row>
-
-
     </form>
   </ion-list>
 

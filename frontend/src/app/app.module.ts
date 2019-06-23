@@ -67,6 +67,7 @@ import { RemoveCommunityFromContactProvider } from '../providers/remove-communit
 
 import { CommunityDetailsPageModule } from "../pages/community-details/community-details.module";
 import { IonicStorageModule } from '@ionic/storage';
+import { CalendarModule } from "ion2-calendar";
 
 
 
@@ -108,6 +109,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SocketIoModule.forRoot(config),
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     IonicStorageModule.forRoot(),
+    CalendarModule,
     SharedModule,
   ],
   bootstrap: [IonicApp],
