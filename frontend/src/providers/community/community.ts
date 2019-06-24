@@ -114,10 +114,10 @@ export class CommunityProvider {
       .map(response => response.json().code);
   }
 
-  getCommunityDetails(userInfo, communityId) {
+  getCommunityDetails(userInfo, communityId, page) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.get(ENV.BASE_URL + '/communities/details/' + communityId,
+    return this.http.get(ENV.BASE_URL + '/communities/details/' + communityId + '/' + page, 
       { headers: header })
       .map(response => response.json());
   }

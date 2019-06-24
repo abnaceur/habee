@@ -50,6 +50,7 @@ exports.getCommunitiesByParticipation = (req, res, next) => {
 
 exports.getCommunityDetails = (req, res, next) => {
     const communityId = req.params.communityId;
+    const page = req.params.page;
  
-    comDetailsService.communityDetails(res, communityId)
+    comDetailsService.communityDetails(res, communityId, page)
 }

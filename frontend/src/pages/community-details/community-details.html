@@ -61,7 +61,7 @@
     <p style="position: relative;margin-bottom: 3px">
       <b>Mes Habee'creation encours : </b>
       <p>
-        <ion-item *ngFor="let event of community.communityEvents" (click)='viewEventDetails(event)'
+        <ion-item *ngFor="let event of communityEvents" (click)='viewEventDetails(event)'
           style="margin-top: 10px" no-lines>
           <ion-thumbnail item-start>
             <img [src]='url + "/" + event.eventPhoto'>
@@ -75,6 +75,10 @@
         </ion-item>
   </ion-item>
 
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>  
 </ion-content>
 
 <ion-footer>

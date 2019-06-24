@@ -34,6 +34,13 @@ export class CommunityDetailsPage {
   public community = {};
   public participation: boolean;
 
+  page = 0;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
+
+  public communityEvents;
+
   constructor(
     private alertCtrl: AlertController,
     public navCtrl: NavController,
@@ -54,10 +61,36 @@ export class CommunityDetailsPage {
 
   getCommunityDetails() {
     this.communityProvider
-      .getCommunityDetails(this.tabParams, this.comId)
-      .subscribe(data => {
-        this.community = data;
+      .getCommunityDetails(this.tabParams, this.comId, this.page)
+      .subscribe(response => {
+        this.community = response;
+        this.communityEvents = response.communityEvents.events;
+        this.perPage = response.communityEvents.per_page;
+        this.totalData = response.communityEvents.total;
+        this.totalPage = response.communityEvents.total_pages;
       });
+  }
+
+  ionViewWillLeave() {
+    this.page = 0;
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page = this.page + 1;
+
+    console.log("Refresh")
+    setTimeout(() => {
+      this.communityProvider
+      .getCommunityDetails(this.tabParams, this.comId, this.page)
+      .subscribe(response => {
+      this.communityEvents = this.communityEvents.concat(response.communityEvents.events);
+      this.perPage = response.communityEvents.per_page;
+      this.totalData = response.communityEvents.total;
+      this.totalPage = response.communityEvents.total_pages;
+      })
+      console.log("Async operation has ended");
+      infiniteScroll.complete();
+    }, 1000);
   }
 
   editCommunityModal() {
@@ -102,17 +135,17 @@ export class CommunityDetailsPage {
 
   removeContactAction(memberId, communityId) {
     this.removeCommunityFromContactProvider
-    .removeCommunity(this.tabParams, memberId, communityId)
-    .subscribe(data => {
-      if (data == 200) {
-        this.getCommunityDetails();
-        if (this.participation == false)
-          this.utils.notification("Membre désinscrit avec succes !", "top");
-        if (this.participation == true)
-          this.utils.notification("Vous etes désinscrit avec succes !", "top");
-      } else if (data == 500)
-        this.utils.notification("Desole une erreur est survenu !", "top");
-    });
+      .removeCommunity(this.tabParams, memberId, communityId)
+      .subscribe(data => {
+        if (data == 200) {
+          this.getCommunityDetails();
+          if (this.participation == false)
+            this.utils.notification("Membre désinscrit avec succes !", "top");
+          if (this.participation == true)
+            this.utils.notification("Vous etes désinscrit avec succes !", "top");
+        } else if (data == 500)
+          this.utils.notification("Desole une erreur est survenu !", "top");
+      });
   }
 
   removeContact(memberId, communityId) {

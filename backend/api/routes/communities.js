@@ -84,9 +84,9 @@ router.put('/delete/:communityId', authCkeck, communityController.putDeleteCommu
 router.get('/byparticipation/:userId', authCkeck, communityController.getCommunitiesByParticipation);
 
 /*
- ** API routes [GET] /communities/details/:communityId [USED]
+ ** API routes [GET] /communities/details/:communityId/:page [USED]
  */
 
-router.get('/details/:communityId', authCkeck, communityController.getCommunityDetails);
+router.get('/details/:communityId/:page', authCkeck, communityController.getCommunityDetails);
 
 module.exports = router;
