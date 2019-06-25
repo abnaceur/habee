@@ -61,9 +61,9 @@ export class ProposeEventPage {
   allfilters: any;
   public eventStartDate = "";
   public eventEndDate = "";
-  public dateLabel = "Date de debut/fin";
+  public dateLabel = "Date de debut/fin"; 
   private endStartDate;
-  public allCommunities = [];
+    public allCommunities = [];
   public selectedCommunity = [];
 
   constructor(
@@ -126,7 +126,6 @@ export class ProposeEventPage {
           .subscribe(dataParticipation => {
             dataCreator.communities = dataCreator.communities.concat(dataParticipation);
             this.initListCommunity(dataCreator.communities);
-            console.log("this.allCommunities :", this.allCommunities);
           });
       });
   }

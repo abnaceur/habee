@@ -39,7 +39,7 @@ background-color: #fcfcfc;">
         </ion-thumbnail>
         <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
         <p>{{event.eventLocation}} •
-          {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5, 7)}}.{{event.eventEndDate.substring(0, 4)}}
+          {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5, 7)}}.{{event.eventStartDate.substring(0, 4)}}
           {{event.eventEndHour}}
         </p>
         <ion-badge style="font-size: 12px" class="pull-right" color="info">{{event.eventCommunityName}}</ion-badge>
@@ -96,7 +96,7 @@ background-color: #fcfcfc;">
         </ion-thumbnail>
         <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
         <p>{{event.eventLocation}} •
-          {{event.eventEndDate.substring(8,10)}}.{{event.eventEndDate.substring(5, 7)}}.{{event.eventEndDate.substring(0, 4)}}
+          {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5, 7)}}.{{event.eventStartDate.substring(0, 4)}}
           {{event.eventEndHour}}
         </p>
         <span class="styleParticipants">{{event.participants.length}}/{{event.nbrParticipants}}</span>

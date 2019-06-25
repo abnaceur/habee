@@ -14,7 +14,11 @@ import {
 
 import { CameraProvider } from "../../../providers/camera/camera";
 
+import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
+
 import { EventProvider } from "../../../providers/event/event";
+
+import { CommunityProvider } from "../../../providers/community/community";
 
 import { environment as ENV } from "../../../environments/environment";
 
@@ -46,8 +50,16 @@ export class PopupEditModalPage {
   public chosenPicture;
   private listCommunity = [];
   public url = ENV.BASE_URL;
+  public validateCommubities = "";
+
+  public eventStartDate = "";
+  public eventEndDate = "";
+  public dateLabel = "Date de debut/fin";
+  private endStartDate;
+  public allCommunities = [];
 
   constructor(
+    private communityProvider: CommunityProvider,
     public utils: UtilsProvider,
     public modalCtrl: ModalController,
     public eventProvider: EventProvider,
@@ -67,8 +79,6 @@ export class PopupEditModalPage {
       eventLocation: ["", Validators.compose([Validators.required])],
       eventNbrParticipants: ["", Validators.compose([Validators.required])],
       eventDescription: ["", Validators.compose([Validators.required])],
-      eventStartDate: ["", Validators.compose([Validators.required])],
-      eventEndDate: ["", Validators.compose([Validators.required])],
       eventStartHour: ["", Validators.compose([Validators.required])],
       eventEndHour: ["", Validators.compose([Validators.required])],
       eventIsPublic: [false, Validators.compose([Validators.required])],
@@ -79,6 +89,9 @@ export class PopupEditModalPage {
     this.tabParams = this.navParams.data.userInfo;
 
     this.chosenPicture = this.eventDetails.eventPhoto;
+
+    this.eventStartDate = this.eventDetails.eventStartDate;
+    this.eventEndDate = this.eventDetails.eventEndDate; 
 
     this.editEventForm = this._FB.group({
       eventId: [this.eventDetails.eventId],
@@ -97,6 +110,10 @@ export class PopupEditModalPage {
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  ionViewWillEnter() {
+    this.getAllCommunities()
   }
 
   changePicture() {
@@ -164,7 +181,15 @@ export class PopupEditModalPage {
     );
   }
 
+  selectedCommunityList(com) {
+    if (com.selected === true)
+      this.listCommunity.push(com.id);
+    else
+      this.listCommunity.splice(this.listCommunity.indexOf(com.id), 1)
+  }
+
   onSubmit(event) {
+
     if (this.listCommunity.length > 0 && this.listCommunity != null) {
       event.eventCommunity = this.listCommunity;
       if (this.chosenPicture != this.eventDetails.eventPhoto) {
@@ -174,6 +199,7 @@ export class PopupEditModalPage {
             .subscribe(response => {
               if (response.message == "success") {
                 this.utils.notification("Event modifier avec succes", "top");
+                this.dismiss();
               } else {
                 this.utils.notification("Une erreur est survenu !", "top");
               }
@@ -191,7 +217,7 @@ export class PopupEditModalPage {
           });
       }
     } else {
-      this.utils.notification("Vous devez selectionne une communaute", "top");
+      this.validateCommubities = "Vous devez selectionne une communaute";
     }
   }
 
@@ -207,5 +233,61 @@ export class PopupEditModalPage {
       else if (data != null && data.length > 0) this.listCommunity = data;
     });
     modal.present();
+  }
+
+  openCalendar() {
+    const options: CalendarModalOptions = {
+      pickMode: 'range',
+      title: '',
+      cssClass: 'calamdarCustomColor',
+      weekdays: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+      closeIcon: true,
+      defaultDateRange: { from: this.eventDetails.eventStartDate, to: this.eventDetails.eventEndDate },
+      doneIcon: true,
+      canBackwardsSelected: true,
+    };
+
+    let myCalendar = this.modalCtrl.create(CalendarModal, {
+      options: options
+    });
+
+    myCalendar.present();
+
+    myCalendar.onDidDismiss((date: { from: CalendarResult; to: CalendarResult }, type: string) => {
+      if (date != null) {
+        this.eventStartDate = date.from.date + '/' + date.from.months + '/' + date.from.years;
+        this.eventEndDate = date.to.date + '/' + date.to.months + '/' + date.to.years;
+        this.dateLabel = this.eventStartDate + " - " + this.eventEndDate;
+        this.endStartDate = date;
+      }
+    });
+  }
+
+
+  initListCommunity(communities) {
+    let coms = [];
+
+    communities.map(com => {
+      coms.push({
+        id: com.communityId,
+        value: com.communityName,
+        selected: false
+      })
+    })
+
+    this.allCommunities = coms;
+  }
+
+  getAllCommunities() {
+    this.communityProvider
+      .getCommunitiesbyCreator(this.tabParams)
+      .subscribe(dataCreator => {
+        this.communityProvider
+          .getCommunitiesByParticipation(this.tabParams)
+          .subscribe(dataParticipation => {
+            dataCreator.communities = dataCreator.communities.concat(dataParticipation);
+            this.initListCommunity(dataCreator.communities);
+          });
+      });
   }
 }
