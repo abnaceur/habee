@@ -91,8 +91,9 @@ export class PopupEditModalPage {
     this.chosenPicture = this.eventDetails.eventPhoto;
 
     this.eventStartDate = this.eventDetails.eventStartDate;
-    this.eventEndDate = this.eventDetails.eventEndDate; 
+    this.eventEndDate = this.eventDetails.eventEndDate;
 
+    console.log("event : ==> ", this.eventDetails);
     this.editEventForm = this._FB.group({
       eventId: [this.eventDetails.eventId],
       eventTitle: [this.eventDetails.eventName],
@@ -211,6 +212,7 @@ export class PopupEditModalPage {
           .subscribe(response => {
             if (response.message == "success") {
               this.utils.notification("Event modifier avec succes", "top");
+              this.dismiss();
             } else {
               this.utils.notification("Une erreur est survenu !", "top");
             }
@@ -263,16 +265,40 @@ export class PopupEditModalPage {
     });
   }
 
+  isInArray(arr, index) {
+    let check = 0;
+
+    arr.map(ar => {
+      console.log("Ar == index", ar, index);
+      if (ar.toString() == index.toString()) {
+        check = 1;
+      }
+    })
+
+    if (check == 1)
+    return true;
+    else
+    return false;
+  }
 
   initListCommunity(communities) {
     let coms = [];
 
     communities.map(com => {
-      coms.push({
-        id: com.communityId,
-        value: com.communityName,
-        selected: false
-      })
+      if (this.isInArray(this.eventDetails.eventCommunity, com.communityId) === true) {
+        coms.push({
+          id: com.communityId,
+          value: com.communityName,
+          selected: true
+        })
+        this.listCommunity.push(com.communityId);
+      } else {
+        coms.push({
+          id: com.communityId,
+          value: com.communityName,
+          selected: false
+        })
+      }
     })
 
     this.allCommunities = coms;
