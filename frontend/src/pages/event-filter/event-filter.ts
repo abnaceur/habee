@@ -21,7 +21,6 @@ import {
 import { listener } from '@angular/core/src/render3/instructions';
 import { Title } from '@angular/platform-browser';
 
-
 /**
  * Generated class for the EventFilterPage page.
  *
@@ -71,6 +70,7 @@ export class EventFilterPage {
     activeFilters = this.eventFilterProvider.objectFilterCount(this.allfilters);
 
     activeFilters != Array.from(Object.keys(this.allfilters)).length
+    || activeFilters === 0
       ? this.selectAllFilters = false : this.selectAllFilters = true
   }
 

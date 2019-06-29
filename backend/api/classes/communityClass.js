@@ -23,7 +23,7 @@ exports.communityClassModalOnUserCreaton = (user) => {
     let classCom = {
         _id: new mongoose.Types.ObjectId,
         communityId: user.activeCommunity,
-        communityName: user.activeCommunity.substring(0, user.activeCommunity.length - 4),
+        communityName: user.profile.profileFirstname + " " + user.profile.profileLastname,
         communityLogo: "uploads/HABEECOM" + comLogo + ".png",
         communityDescripton: "",
         communityCreator: user.userId,

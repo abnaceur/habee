@@ -167,7 +167,24 @@ export class EventFilterProvider {
     return i;
   }
 
+  sortAlphaFilter (filter) {
+    let alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    let sortedFilter = [];
+
+    return new Promise((resolve, reject) => {
+        alpha.map(char => {
+            filter.map(fls => {
+                if (fls.name[0].toLowerCase() === char)
+                    sortedFilter.push(fls)
+            })
+        })
+        this.allfilters = sortedFilter;
+        resolve(sortedFilter)
+    })
+}
+
   initFilter(value) {
+    this.sortAlphaFilter(this.allfilters);
     return new Promise<any[]>((resolve, reject) => {
       this.allfilters.map(flt => {
         flt.value = value
