@@ -7,8 +7,7 @@ const classComment = require('../../classes/commentClass')
 
 getAllComments = (res, req, eventId, communityId) => {
     Comment.find({
-            eventId: eventId,
-            communityId: communityId,
+            eventId: eventId
         }).exec()
         .then(data => {
             res.status(200).json({
@@ -62,7 +61,7 @@ createCommentsForEvent = (eventId, communityId) => {
     let comment = new Comment(classComment.commentClassModal(eventId, communityId))
     comment.save()
         .then(result => {
-            console.log('Comments : ', result)
+            console.log("COMMENT SAVED : createCommentsForEvent")
         })
         .catch(err => {
             utils.defaultError(res, err)

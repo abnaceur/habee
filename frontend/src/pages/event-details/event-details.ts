@@ -142,18 +142,20 @@ export class EventDetailsPage {
     this.eventProvider
       .getComments(this.tabParams, this.eventDetails)
       .subscribe(comments => {
-        if (comments.conmments[0].messages.length != 0) {
-          comments.conmments[0].messages.map(msg => {
-            this.allComments.push({
-              userId: msg.userId,
-              photo: msg.userPhoto,
-              username: msg.username,
-              date: msg.dateOfCreation,
-              comment: msg.userMessage
+        if (comments.conmments.length != 0) {
+          if (comments.conmments[0].messages.length != 0) {
+            comments.conmments[0].messages.map(msg => {
+              this.allComments.push({
+                userId: msg.userId,
+                photo: msg.userPhoto,
+                username: msg.username,
+                date: msg.dateOfCreation,
+                comment: msg.userMessage
+              });
             });
-          });
-        }
-
+          }  
+        } 
+        
         this.socket.on("live-message", data => {
           data.map(d => {
             this.liveComments.unshift(d);
