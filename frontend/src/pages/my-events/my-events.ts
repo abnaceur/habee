@@ -139,7 +139,7 @@ export class MyEventsPage {
     let tmp = [];
     let i = 1;
 
-    while (i < events.length) {
+    while (i < events.length - 1) {
       if (
         events[i - 1].eventStartDate.toString().substring(5, 7) ==
         events[i].eventStartDate.toString().substring(5, 7)
