@@ -124,8 +124,8 @@ export class EventsPage {
     this.getAllEvents();
   }
 
-  ionViewWillLeave(){
-  this.page = 0;
+  ionViewWillLeave() {
+    this.page = 0;
   }
 
   goToEventDetail(eventDetails) {
@@ -254,14 +254,14 @@ export class EventsPage {
       this.allEvents = [];
       searchResults.map(event => {
         this.utils.checkStringExist(event.eventDescription, this.queryText) ==
-        true
+          true
           ? this.allEvents.push(event)
           : this.utils.checkStringExist(event.eventName, this.queryText) == true
-          ? this.allEvents.push(event)
-          : this.utils.checkStringExist(event.eventLocation, this.queryText) ==
-            true
-          ? this.allEvents.push(event)
-          : "";
+            ? this.allEvents.push(event)
+            : this.utils.checkStringExist(event.eventLocation, this.queryText) ==
+              true
+              ? this.allEvents.push(event)
+              : "";
       });
     }
   }

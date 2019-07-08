@@ -55,6 +55,7 @@ export class EventDetailsPage {
   public tabParams;
   public showComments = false;
   public subPassions;
+  public subColor = "lightseagreen";
   public url = ENV.BASE_URL;
   eventDetails: {
     eventId: string;
@@ -124,8 +125,11 @@ export class EventDetailsPage {
 
     this.eventDetails.participants.map(pr => {
       if (pr != null) {
-        if (pr.participantId == this.tabParams.userId)
+        if (pr.participantId == this.tabParams.userId) {
+          this.subColor = "deeppink"; 
           this.isSubscribed = "Desinscrir";
+
+        }
       }
     });
   }
@@ -181,7 +185,7 @@ export class EventDetailsPage {
         this.profileInfo = {
           userId: profile.User[0].userId,
           photo: profile.User[0].profile.profilePhoto,
-          username: profile.User[0].profile.profileLastname + " " + profile.User[0].profile.profileFirstname
+          username: profile.User[0].profile.profileFirstname + " " + profile.User[0].profile.profileLastname
         };
       });
 
@@ -213,9 +217,9 @@ export class EventDetailsPage {
       " \n \
     Date de fin : " +
       this.eventDetails.eventEndDate.substring(8, 10) +
-      " " +
+      "." +
       this.eventDetails.eventEndDate.substring(5, 7) +
-      " " +
+      "." +
       this.eventDetails.eventEndDate.substring(0, 4) +
       " " +
       this.eventDetails.eventEndHour +
@@ -301,8 +305,8 @@ export class EventDetailsPage {
   }
 
   updateParticipantsList(value, eventId) {
-    if (value == true) (this.isSubscribed = "Desinscrir")
-    else this.isSubscribed = "S'inscrir";
+    if (value == true) (this.subColor = "deeppink", this.isSubscribed = "Desinscrir")
+    else (this.subColor = "lightseagreen", this.isSubscribed = "S'inscrir");
 
     this.eventProvider
       .getEventById(eventId, this.tabParams.token)

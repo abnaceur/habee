@@ -130,9 +130,10 @@
 
   <div *ngIf="eventDetails.participants.length < eventDetails.nbrParticipants" style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
-      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
-        class="col col-50 button button-block">
-        {{isSubscribed}}
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' 
+      [ngStyle]="{'color': 'white', 'backgroundColor': subColor}"
+      class="col col-50 button button-block">
+        {{isSubscribed}} 
       </button>
     </div>
   </div>
@@ -141,8 +142,9 @@
   <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
     style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
-      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' style="color: wite; background-color:deeppink;"
-        class="col col-50 button button-block">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)' 
+      [ngStyle]="{'color': 'white', 'backgroundColor': subColor}"
+      class="col col-50 button button-block">
         {{isSubscribed}}
       </button>
     </div>
