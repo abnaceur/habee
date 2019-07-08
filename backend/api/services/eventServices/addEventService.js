@@ -64,7 +64,7 @@ saveEvent = (res, req, imagePath) => {
     event
         .save()
         .then(result => {
-            eventCommentService.createCommentsForEvent(req.body.eventId, req.body.eventCommunity)
+            eventCommentService.createCommentsForEvent(req.body.eventId, req.body.eventCommunity[0])
             res.status(200).json({
                 results: true,
                 Event: result

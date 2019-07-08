@@ -64,7 +64,7 @@ createCommentsForEvent = (eventId, communityId) => {
             console.log("COMMENT SAVED : createCommentsForEvent")
         })
         .catch(err => {
-            utils.defaultError(res, err)
+            console.log("createCommentsForEvent ERR :", err)
         });
 }
 

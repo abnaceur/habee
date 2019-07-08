@@ -35,10 +35,10 @@ app.use(bodyParser.json());
 
 
 // Limit request per ip address
-app.use(rateLimiter({
-  limit: 1000, 
-  reset: '1 hour'
-}))
+// app.use(rateLimiter({
+//   limit: 1000, 
+//   reset: '1 hour'
+// }))
 
 // Fix CORS errors
 app.use((req, res, next) => {

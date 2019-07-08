@@ -70,7 +70,7 @@ export class EventFilterPage {
     activeFilters = this.eventFilterProvider.objectFilterCount(this.allfilters);
 
     activeFilters != Array.from(Object.keys(this.allfilters)).length
-    || activeFilters === 0
+      || activeFilters === 0
       ? this.selectAllFilters = false : this.selectAllFilters = true
   }
 
@@ -103,9 +103,9 @@ export class EventFilterPage {
     this.eventFilterProvider.changeFilterList(this.selectAllFilters)
       .then(filterUpdated => {
         if (Array.isArray(filterUpdated[0]))
-        this.allfilters = filterUpdated[0]
-      else
-        this.allfilters = filterUpdated
+          this.allfilters = filterUpdated[0]
+        else
+          this.allfilters = filterUpdated
       })
   }
 
@@ -129,7 +129,7 @@ export class EventFilterPage {
       exist = 0;
       while (z < communities.length) {
         this.communitiesFilter.map(flt => {
-          if (flt.communityId === communities[z])
+          if (flt.communityId === communities[z].communityId)
             exist = 1;
         })
 
@@ -153,27 +153,24 @@ export class EventFilterPage {
   }
 
   getAllCommunities() {
-
-    if (this.tabParams.activeCommunity != "") {
-      this.communityProvider
-        .getCommunitiesbyCreator(this.tabParams)
-        .subscribe(dataCreator => {
-          this.communityProvider
-            .getCommunitiesByParticipation(this.tabParams)
-            .subscribe(dataParticipation => {
-              dataCreator.communities = dataCreator.communities.concat(dataParticipation);
-              if (dataCreator.communities.length > 0) {
-                if (this.communitiesFilter.length === 0)
-                  this.initCommunitiesFilterValue(dataCreator.communities, 0)
-                else {
-                  this.allCommunities = this.communitiesFilter;
-                  if (this.eventFilterProvider.objectFilterCount(this.allCommunities) === this.allCommunities.length)
-                    this.selectAllCommunitiesFilters = true;
-                }
+    this.communityProvider
+      .getCommunitiesbyCreator(this.tabParams)
+      .subscribe(dataCreator => {
+        this.communityProvider
+          .getCommunitiesByParticipation(this.tabParams)
+          .subscribe(dataParticipation => {
+            dataCreator.communities = dataCreator.communities.concat(dataParticipation);
+            if (dataCreator.communities.length > 0) {
+              if (this.communitiesFilter.length === 0)
+                this.initCommunitiesFilterValue(dataCreator.communities, 0)
+              else {
+                this.allCommunities = this.communitiesFilter;
+                if (this.eventFilterProvider.objectFilterCount(this.allCommunities) === this.allCommunities.length)
+                  this.selectAllCommunitiesFilters = true;
               }
-            });
-        });
-    }
+            }
+          });
+      });
   }
 
 }
