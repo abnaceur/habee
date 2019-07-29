@@ -135,7 +135,7 @@
       <ion-scroll scrollX="true" style="white-space: nowrap; height: 55px; width: 100%;
       min-height: 40px;">
       <a *ngFor="let com of allCommunities">
-        <ion-badge (click)="com.selected = !com.selected; selectedCommunityList(com)" [ngStyle]='{"background-color" : com.selected == false ? "silver" : "mediumslateblue", "color" : com.selected == false ? "white": "white"}'>{{com.value}}</ion-badge>
+        <ion-badge (click)="com.selected = !com.selected; selectedCommunityList(com)" [ngStyle]='{"background-color" : com.selected == false ? "silver" : "#45D8E5", "color" : com.selected == false ? "white": "white"}'>{{com.value}}</ion-badge>
       </a>
     </ion-scroll>
 
