@@ -64,6 +64,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
 import { ProposeEventProvider } from '../providers/propose-event/propose-event';
 import { CommunityEventListPageModule } from "../pages/community-event-list/community-event-list.module"
 import { RemoveCommunityFromContactProvider } from '../providers/remove-community-from-contact/remove-community-from-contact';
+import { AppInfoPageModule } from '../pages/app-info/app-info.module';
 
 import { CommunityDetailsPageModule } from "../pages/community-details/community-details.module";
 import { IonicStorageModule } from '@ionic/storage';
@@ -83,6 +84,7 @@ import { CalendarModule } from "ion2-calendar";
     ProfilePageModule,
     HabeeWalkthroughPageModule,
     MyEventsPageModule,
+    AppInfoPageModule,
     EventsPageModule,
     LoginPageModule,
     TermsOfServiceScriptPageModule,

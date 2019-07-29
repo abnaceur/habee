@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>À propos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content parallax-header no-bounce class="bg-modal">
+  <div class="header-image"></div>
+  <div class="main-content" text-wrap text-center>
+    <div class="circular"></div>
+    <h2>Habee</h2>
+    <p>Version &bull; Beta test</p>
+    <p class="profile-description">Evenht</p>
+    <hr>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-icon name="mail" color="primary" item-start></ion-icon>
+        <p>Email</p>
+        contact@habee.fr
+        <a button ion-button href="mailto:contact@habee.fr" color="primary" item-end medium>ouvez l'app</a>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="call" color="danger"></ion-icon>
+        <p>Mobile</p>
+        +33766882423
+        <a button ion-button href="tel:0033766882423" color="secondary" item-end medium>Appel</a>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="book" color="danger"></ion-icon>
+        <p>Conditions d'utilisation</p>
+        <a button ion-button (click)="openCgu()" color="info" item-end medium>Lire</a>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="book" color="danger"></ion-icon>
+        <p>Conditions de confidentialité</p>
+        <a button ion-button (click)="openConfidentiality()" color="info" item-end medium>Lire</a>
+      </ion-item>
+    </ion-list>
+    <h2>Suivez-nous sur </h2>
+    <hr>
+    <!-- <a href="#" button ion-button block color="linkedin" icon-start>
+            <ion-icon name='logo-linkedin'></ion-icon>
+            LinkedIn
+        </a> -->
+    <a href="https://www.facebook.com/HabeeTeam/" button ion-button block color="fb" icon-start>
+      <ion-icon name='logo-facebook'></ion-icon>
+      Facebook
+    </a>
+    <!-- <a href="#" button ion-button block color="danger" icon-start>
+            <ion-icon name='logo-youtube'></ion-icon>
+            Youtube
+        </a> -->
+  </div>
+
+</ion-content>

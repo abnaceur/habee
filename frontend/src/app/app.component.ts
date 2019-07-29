@@ -124,6 +124,12 @@ export class MyApp {
         icon: "settings"
       },
       {
+        title: "À propos",
+        component: "TabsPage",
+        active: false,
+        icon: "information-circle"
+      },
+      {
         title: "Deconnexion",
         component: "TabsPage",
         active: false,
@@ -237,6 +243,8 @@ export class MyApp {
       this.menu.toggle("menu-community");
     } else if (page.title == "Paramètre") {
       this.nav.push("GoodPlansPage", this.userData)
+    } else if (page.title == "À propos") {
+      this.nav.push("AppInfoPage", this.userData)
     }
     else {
       let menuData = [page.title, this.userData];
