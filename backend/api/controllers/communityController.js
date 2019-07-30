@@ -1,6 +1,7 @@
 const utils = require('../services/utils');
 const communitySrvice = require('../services/communityServices/communityService')
 const comDetailsService = require("../services/communityServices/communityDetails")
+const listComsService = require("../services/communityServices/listCommunitiesByUserId");
 
 exports.get_all_communities = (req, res, next) => {
     communitySrvice.getAllcommunities(res)
@@ -53,4 +54,11 @@ exports.getCommunityDetails = (req, res, next) => {
     const page = req.params.page;
  
     comDetailsService.communityDetails(res, communityId, page)
+}
+
+exports.getCommunitiesByUserId = (req, res, next) => {
+    const userId = req.params.userId;
+    const page = req.params.page;
+
+    listComsService.listAllCommunitiesByUserid(userId, page, res);
 }

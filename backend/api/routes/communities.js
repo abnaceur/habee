@@ -89,4 +89,10 @@ router.get('/byparticipation/:userId', authCkeck, communityController.getCommuni
 
 router.get('/details/:communityId/:page', authCkeck, communityController.getCommunityDetails);
 
+/*
+ ** API routes [GET] /communities/listbyuser/:userId/:page [USED]
+ */
+
+router.get('/listbyuser/:userId/:page', authCkeck, communityController.getCommunitiesByUserId);
+
 module.exports = router;

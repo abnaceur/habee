@@ -51,6 +51,14 @@ export class CommunityProvider {
       .map(response => response.json());
   }
 
+  getCommunitiesListbyUserId(userInfo, page) {
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.get(ENV.BASE_URL + '/communities/listbyuser/' + userInfo.userId + "/" + page,
+      { headers: header })
+      .map(response => response.json());
+  }
+
   getCommunitySelected(com, activeCommunity): Promise<any> {
 
     let comArray = [];

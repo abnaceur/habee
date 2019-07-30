@@ -44,7 +44,8 @@
 
 
         <ion-item-options side="right">
-          <button ion-button style="position: relative; width: 100px" color="danger" (click)="deleteCommunity(community.communityId)">
+          <button ion-button style="position: relative; width: 100px" color="danger"
+            (click)="deleteCommunity(community.communityId)">
             <ion-icon name="trash"></ion-icon>
             Supprimer
           </button>
@@ -70,7 +71,12 @@
   </ion-list>
 
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+  <ion-infinite-scroll (ionInfinite)="doInfiniteComCreated($event)" *ngIf="pageComCreated < totalPageComCreated">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-infinite-scroll (ionInfinite)="  doInfiniteComParticipation($event)" *ngIf="pageComParticipation < totalPageComParticipation">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
