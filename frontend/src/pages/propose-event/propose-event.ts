@@ -34,6 +34,7 @@ import { UtilsProvider } from "../../providers/utils/utils";
 import { ProposeEventProvider } from "../../providers/propose-event/propose-event";
 
 import { Socket } from "ng-socket-io";
+import { dateDataSortValue } from "ionic-angular/umd/util/datetime-util";
 
 /**
  * Generated class for the ProposeEventPage page.
@@ -270,11 +271,11 @@ export class ProposeEventPage {
     const options: CalendarModalOptions = {
       pickMode: 'range',
       title: '',
-      cssClass: 'calamdarCustomColor',
+      color: "secondary",  
       weekdays: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
       closeIcon: true,
       doneIcon: true,
-      canBackwardsSelected: true,
+      canBackwardsSelected: false,
     };
 
     let myCalendar = this.modalCtrl.create(CalendarModal, {

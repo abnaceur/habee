@@ -17,13 +17,13 @@ getMyInvitations = (userId) => {
 
 listAllUserInvitation = (res, userId, communityId) => {
     Invitation.find({
-        invitationCommunityId: communityId,
         invitatorId: userId,
     }).exec()
         .then(invitation => {
             getMyInvitations(userId)
                 .then(myInvitations => {
                     let allInvit = myInvitations.concat(invitation)
+                    console.log("==========| TEST |========", invitation.length);
                     res.status(200).json({
                         data: allInvit
                     })
@@ -78,12 +78,13 @@ updateNotif = (res, invitation) => {
             },
             function (err, results) {
                 if (err) console.log("updateNotif Err : ", err);
-                res.status(200).json({
-                    count: invitation.length,
-                    code: 200,
-                    msg: "updated with success !"
-                })
+                console.log("invitation updated");
             })
+    })
+    res.status(200).json({
+        count: invitation.length,
+        code: 200,
+        msg: "updated with success !"
     })
 }
 
@@ -99,6 +100,7 @@ updateNotification = (res, userId, communityId) => {
                             if (arr2.length > 0)
                                 updateNotif(res, arr2)
                             else {
+                                console.log("test");
                                 res.status(200).json({
                                     count: 0,
                                     code: 200,
