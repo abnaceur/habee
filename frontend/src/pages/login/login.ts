@@ -94,7 +94,7 @@ export class LoginPage {
             this.loginProvider
               .updateUserNbrConnection(response.token, response.userId)
               .subscribe(response => response);
-              this.storage.set('response', response);
+            this.storage.set('response', response);
             this.nav.push("HabeeWalkthroughPage", response);
           } else {
             this.storage.set('response', response);

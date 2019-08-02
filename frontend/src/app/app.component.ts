@@ -52,7 +52,12 @@ export class MyApp {
   state: any;
   placeholder = "assets/img/avatar/girl-avatar.png";
   chosenPicture: any;
-  userData: any;
+  userData = {
+    token: "",
+    userFullname: "",
+    userId: "",
+    userImage: "",
+  };
   public user = {
     name: "test",
     profileImage: "assets/img/avatar/girl-avatar.png"
@@ -94,6 +99,12 @@ export class MyApp {
           this.userData = userData;
         });
       }
+
+      events.subscribe('profile:modified', (user, photo) => {
+        // user and time are the same arguments passed in `events.publish(user, time)`
+        this.userData.userImage = photo;
+        this.userData.userFullname = user.profileLastname + " " + user.profileFirstname;
+      });
     });
 
     this.rightMenuItems = [
@@ -115,7 +126,7 @@ export class MyApp {
         title: "Profile",
         component: "TabsPage",
         active: false,
-        icon: "contact"
+        icon: "custom-profile"
       },
       {
         title: "Paramètre",
@@ -147,8 +158,8 @@ export class MyApp {
   }
 
   initializeApp() {
-    let events = [];
 
+    let events = [];
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -215,33 +226,11 @@ export class MyApp {
     });
   }
 
-  backToMainMenu() {
-    this.optionsMore = false;
-    this.menu.enable(true, "menu-material");
-    this.menu.toggle("menu-material");
-  }
-
-  goToAddCommunityModal() {
-    //this.nav.setRoot("AddCommunityPage");
-    const modal = this.modalCtrl.create("AddCommunityPage", this.userData, { cssClass: "comAdd-modal" });
-    modal.onDidDismiss(data => {
-      // this.updatCommunityList();
-      this.optionsMore = false;
-      this.updatCommunityList();
-    });
-    modal.present();
-  }
-
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
 
-    if (page.title == "Communauté") {
-      this.menu.getMenus();
-      this.updatCommunityList();
-      this.menu.enable(true, "menu-community");
-      this.menu.toggle("menu-community");
-    } else if (page.title == "Paramètre") {
+    if (page.title == "Paramètre") {
       this.nav.push("GoodPlansPage", this.userData)
     } else if (page.title == "À propos") {
       this.nav.push("AppInfoPage", this.userData)
@@ -252,81 +241,4 @@ export class MyApp {
     }
   }
 
-  selectCommunity(comId) {
-    this.communityProvider
-      .updateSelectedCommunity(comId, this.userData)
-      .subscribe(data => {
-        if (data === 1) {
-          this.userData.activeCommunity = comId;
-          this.communityProvider
-            .getCommunitiesbyCreator(this.userData)
-            .subscribe(dataCreator => {
-              this.communityProvider
-                .getCommunitiesByParticipation(this.userData)
-                .subscribe(dataParticipation => {
-                  dataCreator.communities.concat(dataParticipation);
-                  this.communityProvider
-                    .getCommunitySelected(
-                      dataCreator.communities,
-                      this.userData.activeCommunity
-                    )
-                    .then(data => {
-                      this.allCommunitiesbyUserId = data;
-                      this.menu.enable(true, "menu-material");
-                      //  this.menu.toggle("menu-avatar");
-                      this.nav.push("TabsPage", this.userData);
-                    });
-                });
-            });
-        }
-      });
-  }
-
-  updatCommunityList() {
-    this.communityProvider
-      .getCommunitiesbyCreator(this.userData)
-      .subscribe(dataCreator => {
-        this.communityProvider
-          .getCommunitiesByParticipation(this.userData)
-          .subscribe(dataParticipation => {
-            let arr = dataCreator.communities.concat(dataParticipation);
-            this.communityProvider
-              .getCommunitySelected(arr, this.userData.activeCommunity)
-              .then(data => {
-                this.allCommunitiesbyUserId = data;
-              });
-          });
-      });
-  }
-
-  editCommunity() {
-    const modal = this.modalCtrl.create("EditCommunityModalPage", {
-      userInfo: this.userData,
-      selectCommunity: this.editableCommunity
-    });
-    modal.onDidDismiss(data => {
-      this.updatCommunityList();
-      this.optionsMore = false;
-    });
-    modal.present();
-  }
-
-  presentPopover(community) {
-    this.optionsMore = true;
-    this.editableCommunity = community;
-  }
-
-  deletCommunity() {
-    this.communityProvider
-      .deleteCommunity(this.userData, this.editableCommunity)
-      .subscribe(code => {
-        if (code === 200) {
-          this.utils.notification(
-            "Cette Communauté est Supprimer avec succes",
-            "top"
-          );
-          this.updatCommunityList();
-        } else this.utils.notification("Une erreur est survenu !", "top");
-      });
-  }
 }

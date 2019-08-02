@@ -1,67 +1,20 @@
 <ion-menu [content]="content" id="menu-material">
   <ion-content>
-    <div #header>
-      <ion-item>
-        <ion-label>Menu</ion-label>
-      </ion-item>
-    </div>
-    <ion-list no-lines>
-      <button menuClose ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
+    <ion-row style="height: 147px; background-size: contain; background-image: url(../assets/imgs/menu-bg-blue.png);">
+      <img id="profile-image-menu" [src]='url + "/" + userData.userImage'>
+      <span id="profile-name-menu">{{userData.userFullname}}</span>
+    </ion-row>
+    <ion-list>
+      <ion-item menuClose ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon [name]="p.icon" item-left></ion-icon>
-        <span *ngIf="p.title != 'Communauté'">
+        <span style="background-color: white; color: black"  *ngIf="p.title != 'Communauté'">
           {{p.title}}
         </span>
-      </button>
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
 
-
-
-<ion-menu [content]="content" id="menu-community">
-  <ion-content>
-    <div #header>
-      <ion-item ion-item no-line>
-        <ion-icon (click)="backToMainMenu()" name="arrow-back" item-left></ion-icon>
-        <span style="font-size:4vw; color:silver"><b>Changer la Communauté</b></span>
-        <ion-icon (click)="goToAddCommunityModal()" name="add" item-right></ion-icon>
-      </ion-item>
-    </div><br>
-
-
-    <ion-list no-lines *ngFor="let community of allCommunitiesbyUserId">
-
-      <ion-item style="border-left: 5px solid silver" *ngIf="community.selected == 'true'">
-          <ion-avatar item-start>
-              <img ion-img style="border-radius: 12%;" [src]='url + "/" + community.communityLogo'/>
-          </ion-avatar>
-          <ion-label>
-              {{community.communityName}}
-          </ion-label>
-      </ion-item>
-
-      <ion-item *ngIf="community.selected == 'false'">
-          <ion-avatar item-start (click)="selectCommunity(community.communityId)">
-              <img ion-img style="border-radius: 12%;" [src]='url + "/" + community.communityLogo'/>
-          </ion-avatar>
-          <ion-label (click)="selectCommunity(community.communityId)">
-              {{community.communityName}}
-          </ion-label>
-          
-        <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver"
-          (click)="editCommunity()" item-right name="create"></ion-icon>
-
-        <ion-icon *ngIf="optionsMore == true && community.communityId == editableCommunity" style="color: silver;
-     border-left: 1px solid silver;padding-left: 10px;"
-          (click)="deletCommunity()" item-right name="trash"></ion-icon>
-
-        <ion-icon *ngIf="optionsMore == false && userData.userId == community.communityCreator && community.communityId != editableCommunity"
-          style="color: silver" item-right name="more" (click)="presentPopover(community.communityId)"></ion-icon>
-      </ion-item>
-
-    </ion-list>
-  </ion-content>
-</ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

@@ -76,7 +76,10 @@ export class ProfilePage {
     const modal = this.modalCtrl.create("EditProfilePage", {info: this.tabParams, user: this.user.profile}, {
       cssClass: ""
     });
-    modal.onDidDismiss(data => this.getProfileInfo());
+    modal.onDidDismiss(data => {
+      this.getCommunties();
+      this.getProfileInfo()
+    });
     modal.present();
   }
 

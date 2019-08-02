@@ -11,7 +11,8 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
+  Events
 } from 'ionic-angular';
 
 
@@ -59,6 +60,7 @@ export class EditProfilePage {
   public currentUser;
 
   constructor(
+    public events: Events,
     private utils: UtilsProvider,
     private profileService: ProfileProvider,
     private actionsheetCtrl: ActionSheetController,
@@ -79,9 +81,6 @@ export class EditProfilePage {
 
     this.tabParams = this.navParams.get("info");
     this.currentUser = this.navParams.get("user");
-
-    console.log("Information user :", this.currentUser);
-    console.log("Information tabparams :", this.tabParams);
   }
 
 
@@ -172,6 +171,7 @@ export class EditProfilePage {
       this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
         .subscribe(data => {
           if (data === 200) {
+            this.events.publish('profile:modified', editProfile, this.chosenPicture);
             this.utils.notification("Votre profile est mise a jour !", "top");
             this.dismiss();
           }
@@ -182,6 +182,7 @@ export class EditProfilePage {
       this.profileService.editProfil(editProfile, this.chosenPicture, this.tabParams)
         .subscribe(data => {
           if (data === 200) {
+            this.events.publish('profile:modified', editProfile, this.chosenPicture);
             this.utils.notification("Votre profile est mise a jour !", "top");
             this.dismiss();
           }
@@ -194,6 +195,7 @@ export class EditProfilePage {
           .subscribe(data => {
             if (data === 200) {
               this.utils.notification("Votre profile est mise a jour !", "top");
+              this.events.publish('profile:modified', editProfile, data);
               this.dismiss();
             }
             if (data != 200)
