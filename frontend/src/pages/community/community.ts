@@ -68,7 +68,7 @@ export class CommunityPage {
 
   getComunitiesList() {
     this.communityProvider.
-      getCommunitiesListbyUserId(this.tabParams, this.page)
+      getCommunitiesListbyUserId(this.tabParams, this.pageComCreated)
       .subscribe(data => {
         if (data) {
           this.comListByCreator = data.communitiesCreated.userCreatedComs;

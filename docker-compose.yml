@@ -50,6 +50,7 @@ services:
       - VIRTUAL_HOST=app.habee.local
     ports:
       - "8100:8100"
+    
   
   mongoclient:
     image: mongoclient/mongoclient:latest
