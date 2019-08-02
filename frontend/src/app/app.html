@@ -6,7 +6,7 @@
     </ion-row>
     <ion-list>
       <ion-item menuClose ion-item detail-none *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon [name]="p.icon" item-left></ion-icon>
+        <ion-icon style="color:black" [name]="p.icon" item-left></ion-icon>
         <span style="background-color: white; color: black"  *ngIf="p.title != 'Communauté'">
           {{p.title}}
         </span>

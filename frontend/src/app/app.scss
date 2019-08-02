@@ -16,6 +16,8 @@
 // automatically applied to the <body> element in the app.
 
 // Material Design Sidemenu
+
+// Setup custom icons 
 ion-icon {
   &[class*="custom-"] {
     mask-size: contain;
@@ -30,7 +32,6 @@ ion-icon {
     mask-image: url(../assets/icon/profile.svg);
   }
 }
-
 
 #profile-image-menu {
   position: absolute;
@@ -55,7 +56,7 @@ ion-icon {
   left: 20px;
   color: black;
   font-family: cursive;
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .menu-head {
