@@ -3,7 +3,7 @@ var path = require('path');
 exports.sendEmailAccountCreation = (to, subject, email, psw, name) => {
     var nodemailer = require('nodemailer');
     var EmailTemplate = require('email-templates').EmailTemplate;
-    
+
     var transporter;
 
     // if (process.env.NODE_ENV == "dev") {
@@ -21,16 +21,16 @@ exports.sendEmailAccountCreation = (to, subject, email, psw, name) => {
     //         debug:true
     //     })
     // } else {
-        transporter = nodemailer.createTransport({
-            host: 'send.one.com', //host of mail service provider
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.USER,
-                pass: process.env.PASS
-            }
-        });
-     //}
+    transporter = nodemailer.createTransport({
+        host: 'send.one.com', //host of mail service provider
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.USER,
+            pass: process.env.PASS
+        }
+    });
+    //}
 
 
     var templateDir = path.join(__dirname, "../../", 'emailsTemplate', 'templates/accountCreation/')
@@ -55,9 +55,9 @@ exports.sendEmailAccountCreation = (to, subject, email, psw, name) => {
                 html: temp.html
             }, function (error, info) {
                 if (error) {
-                    console.log(error);
-                }
-                console.log('Message sent: ' + info.response);
+                    console.log("sendEmailAccountCreation : Email failed to be sent");
+                } else
+                    console.log('Message sent: ' + info.response);
             })
         }
     })

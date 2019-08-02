@@ -90,10 +90,10 @@
       </ion-item>
 
 
-      <ion-item *ngIf="authForm.controls.password.hasError('pattern') && authForm.controls.password.touched" text-wrap>
+      <!-- <ion-item *ngIf="authForm.controls.password.hasError('pattern') && authForm.controls.password.touched" text-wrap>
         <p style="position: relative;">Le mot de passe doit contenir 8 caractères au minimum une lettres majuscules,
           minuscules, chiffre, et un charactere specieau!</p>
-      </ion-item>
+      </ion-item> -->
 
 
       <ion-item style="background-color: white;  opacity: 0.7" *ngIf="createAccount == true"
@@ -118,10 +118,10 @@
       </ion-item>
 
 
-      <ion-item *ngIf="authForm.controls.confPass.hasError('pattern') && authForm.controls.confPass.touched" text-wrap>
+      <!-- <ion-item *ngIf="authForm.controls.confPass.hasError('pattern') && authForm.controls.confPass.touched" text-wrap>
         <p style="position: relative;">Le mot de passe doit contenir 8 caractères au minimum une lettres majuscules,
           minuscules, chiffre, et un charactere specieau!</p>
-      </ion-item>
+      </ion-item> -->
 
       <!-- <ion-item *ngIf="createAccount == true" style="background-color: transparent" [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}"> -->
       <!--  <ion-label floating>Mot de passe</ion-label> -->

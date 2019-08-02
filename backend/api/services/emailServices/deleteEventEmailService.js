@@ -18,12 +18,12 @@ exports.delEventEmail = (to, subject, name, eventDate, eventTitle) => {
 
     var testMailTemplate = new EmailTemplate(templateDir)
 
-    var locals = 
-        {
-            name: name,
-            eventName: eventTitle,
-            eventStartDate: eventDate 
-        }
+    var locals =
+    {
+        name: name,
+        eventName: eventTitle,
+        eventStartDate: eventDate
+    }
 
     testMailTemplate.render(locals, function (err, temp) {
         if (err) {
@@ -39,9 +39,9 @@ exports.delEventEmail = (to, subject, name, eventDate, eventTitle) => {
             }, function (error, info) {
                 if (error) {
 
-                    console.log(error);
-                }
-                console.log('Message sent: ' + info.response);
+                    console.log("delEventEmail : An error occured !");
+                } else
+                    console.log('Message sent: ' + info.response);
             })
         }
     })

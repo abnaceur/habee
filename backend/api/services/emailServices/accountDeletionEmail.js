@@ -18,10 +18,10 @@ exports.accountDeleteEmail = (to, subject, name) => {
 
     var testMailTemplate = new EmailTemplate(templateDir)
 
-    var locals = 
-        {
-            name: name
-        }
+    var locals =
+    {
+        name: name
+    }
 
     testMailTemplate.render(locals, function (err, temp) {
         if (err) {
@@ -35,10 +35,9 @@ exports.accountDeleteEmail = (to, subject, name) => {
                 html: temp.html
             }, function (error, info) {
                 if (error) {
-
-                    console.log(error);
-                }
-                console.log('Message sent: ' + info.response);
+                    console.log("accountDeleteEmail : An error occured!");
+                } else
+                    console.log('Message sent: ' + info.response);
             })
         }
     })

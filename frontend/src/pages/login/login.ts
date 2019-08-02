@@ -74,9 +74,9 @@ export class LoginPage {
         "",
         Validators.compose([
           Validators.required,
-          Validators.pattern(
-            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
-          ),
+          // Validators.pattern(
+          //   "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+          // ),
           Validators.minLength(8)
         ])
       ],

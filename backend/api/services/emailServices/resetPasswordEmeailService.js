@@ -18,11 +18,11 @@ exports.sendEmailResetPassword = (to, subject, email, psw) => {
 
     var testMailTemplate = new EmailTemplate(templateDir)
 
-    var locals = 
-        {
-            email: email,
-            password: psw,   
-        }
+    var locals =
+    {
+        email: email,
+        password: psw,
+    }
 
     testMailTemplate.render(locals, function (err, temp) {
         if (err) {
@@ -37,10 +37,9 @@ exports.sendEmailResetPassword = (to, subject, email, psw) => {
                 html: temp.html
             }, function (error, info) {
                 if (error) {
-
-                    console.log(error);
-                }
-                console.log('Message sent: ' + info.response);
+                    console.log("sendEmailResetPassword : An error occured !");
+                } else
+                    console.log('Message sent: ' + info.response);
             })
         }
     })
