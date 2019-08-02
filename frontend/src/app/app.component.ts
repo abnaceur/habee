@@ -56,6 +56,8 @@ export class MyApp {
     token: "",
     userFullname: "",
     userId: "",
+    notificationStatus: false,
+    activeCommunity: "",
     userImage: "",
   };
   public user = {
@@ -123,13 +125,13 @@ export class MyApp {
     this.pages = [
       { title: "Accueil", component: "TabsPage", active: true, icon: "home" },
       {
-        title: "Profile",
+        title: "Profil",
         component: "TabsPage",
         active: false,
         icon: "custom-profile"
       },
       {
-        title: "Paramètre",
+        title: "Paramètres",
         component: "TabsPage",
         active: false,
         icon: "settings"
@@ -141,7 +143,7 @@ export class MyApp {
         icon: "information-circle"
       },
       {
-        title: "Deconnexion",
+        title: "Déconnexion",
         component: "TabsPage",
         active: false,
         icon: "log-out"
