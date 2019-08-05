@@ -22,7 +22,7 @@ export class TabsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private backgroundMode: BackgroundMode,
-    ) {
+  ) {
     if (this.navParams.data.length == 2) {
       this.tabParams = {
         userId: this.navParams.data[1]["userId"],
@@ -42,16 +42,28 @@ export class TabsPage {
 
   ionViewWillEnter() {
     if (this.navParams.data.length == 2) {
-      if (this.navParams.data[0] == "Acceuil") this.tabRef.select(0);
-      if (this.navParams.data[0] == "Profile") this.tabRef.select(4);
+      if (this.navParams.data[0] == "Accueil") this.tabRef.select(0);
+      if (this.navParams.data[0] == "Profil") this.tabRef.select(4);
       if (this.navParams.data[0] == "listContact") this.tabRef.select(2);
-      if (this.navParams.data[0] == "Deconnexion") {
+      if (this.navParams.data[0] == "Déconnexion") {
         this.backgroundMode.disable();
         this.tabParams = [];
         this.navCtrl.setRoot("LoginPage", {
-          "logout" : true
+          "logout": true
         })
       };
+    } else {
+      if (this.navParams[0] == "Accueil") this.tabRef.select(0);
+      if (this.navParams[0] == "Profil") this.tabRef.select(4);
+      if (this.navParams[0] == "listContact") this.tabRef.select(2);
+      if (this.navParams[0] == "Déconnexion") {
+        this.backgroundMode.disable();
+        this.tabParams = [];
+        this.navCtrl.setRoot("LoginPage", {
+          "logout": true
+        })
+      };
+
     }
   }
 }

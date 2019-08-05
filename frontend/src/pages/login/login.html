@@ -46,8 +46,7 @@
       <ion-item style="background-color: white;  opacity: 0.7 ; color: white"
         [ngClass]="{'error-border':!authForm.controls.email.valid && authForm.controls.email.touched}">
         <!--   <ion-label floating>E-mail</ion-label> -->
-        <ion-input style="color: darkblue" placeholder="email" formControlName="email" type="text"
-          value="hisec4ever@gmail.com"></ion-input>
+        <ion-input style="color: darkblue" placeholder="Email" formControlName="email" type="text"></ion-input>
       </ion-item>
 
       <ion-item *ngIf="authForm.controls.email.hasError('required') && authForm.controls.email.touched">
@@ -71,8 +70,7 @@
       <ion-item style="background-color: white;  opacity: 0.7"
         [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
         <!--  <ion-label floating>Mot de passe</ion-label> -->
-        <ion-input style="color: darkblue" placeholder="Mot de passe" formControlName="password" type={{passwordType}}
-          value="1658oqhi8fkW8MC87$">
+        <ion-input style="color: darkblue" placeholder="Mot de passe" formControlName="password" type={{passwordType}}>
         </ion-input>
         <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="showPasswordText" ion-button clear
           color="dark" type="button" item-right (click)="showPassword()">

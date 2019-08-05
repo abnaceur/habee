@@ -232,7 +232,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
 
-    if (page.title == "Paramètre") {
+    if (page.title == "Paramètres") {
       this.nav.push("GoodPlansPage", this.userData)
     } else if (page.title == "À propos") {
       this.nav.push("AppInfoPage", this.userData)

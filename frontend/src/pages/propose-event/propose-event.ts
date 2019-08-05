@@ -94,11 +94,11 @@ export class ProposeEventPage {
 
     this.proposeEventForm = formBuilder.group({
       eventTitle: ["", Validators.compose([Validators.required])],
-      eventLocation: ["", Validators.compose([Validators.required])],
-      eventNbrParticipants: ["", Validators.compose([Validators.required])],
-      eventDescription: ["", Validators.compose([Validators.required])],
-      eventStartHour: ["", Validators.compose([Validators.required])],
-      eventEndHour: ["", Validators.compose([Validators.required])],
+      eventLocation: ["", Validators.compose([])],
+      eventNbrParticipants: [2, Validators.compose([Validators.required])],
+      eventDescription: ["", Validators.compose([])],
+      eventStartHour: ["00:00", Validators.compose([])],
+      eventEndHour: ["00:00", Validators.compose([])],
       eventIsPublic: [false, Validators.compose([Validators.required])],
       eventCategory: ["", Validators.compose([Validators.required])]
     });
@@ -276,6 +276,7 @@ export class ProposeEventPage {
       closeIcon: true,
       doneIcon: true,
       canBackwardsSelected: false,
+      
     };
 
     let myCalendar = this.modalCtrl.create(CalendarModal, {

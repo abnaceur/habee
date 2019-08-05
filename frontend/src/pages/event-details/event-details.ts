@@ -51,7 +51,11 @@ export class EventDetailsPage {
   public commentText = "";
   public allComments = [];
   private liveComments = [];
-  public profileInfo;
+  public profileInfo = {
+    userId: "",
+    photo: "",
+    username: "",
+  };
   public tabParams;
   public showComments = false;
   public subPassions;
@@ -126,7 +130,7 @@ export class EventDetailsPage {
     this.eventDetails.participants.map(pr => {
       if (pr != null) {
         if (pr.participantId == this.tabParams.userId) {
-          this.subColor = "deeppink"; 
+          this.subColor = "deeppink";
           this.isSubscribed = "Desinscrir";
 
         }
@@ -157,9 +161,9 @@ export class EventDetailsPage {
                 comment: msg.userMessage
               });
             });
-          }  
-        } 
-        
+          }
+        }
+
         this.socket.on("live-message", data => {
           data.map(d => {
             this.liveComments.unshift(d);
@@ -225,7 +229,7 @@ export class EventDetailsPage {
       this.eventDetails.eventEndHour +
       "\n \
     Lieu : " +
-    this.eventDetails.eventLocation + "\n \n \
+      this.eventDetails.eventLocation + "\n \n \
     Téléchargez dès à présent l'application mobile HABEE sur les stores pour pouvoir accéder aux détails de l'évènement et accepter l'invitation. \
     Vous pourrez ainsi suivre toutes les informations en temps réel qui seront échangées sur cet évènement. \
     L'équipe Habee vous souhaite une belle aventure!  \n \n";
