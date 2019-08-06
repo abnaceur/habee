@@ -97,8 +97,8 @@
       <ion-item style="background-color: white;  opacity: 0.7" *ngIf="createAccount == true"
         [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}">
         <!--  <ion-label floating>Mot de passe</ion-label> -->
-        <ion-input style="color: darkblue" formControlName="confPass" placeholder="Confirme mot de passe"
-          type={{passwordType}} value="1658oqhi8fkW8MC87$"></ion-input>
+        <ion-input style="color: darkblue" formControlName="confPass" placeholder="Confirmer le mot de passe"
+          type={{passwordType}} ></ion-input>
         <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="showPasswordText" ion-button clear
           color="dark" type="button" item-right (click)="showPassword()">
           <ion-icon name="ios-eye-off-outline"></ion-icon>
