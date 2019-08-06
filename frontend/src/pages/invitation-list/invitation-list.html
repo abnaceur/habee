@@ -41,7 +41,9 @@
         <ion-item *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId
         && invit.contactExist == true && invit.status == 'pending'">
           <ion-item>
-            <p><b>Vous avez été invité par </b> {{invit.invitorFullname}}</p>
+            <p><b>invitation reçue </b></p>
+            <p>par {{invit.invitorFullname}}</p> 
+              
           </ion-item>
           <ion-item style="margin-top: -17px">
             <p>{{transform(invit.dateOfCreation)}}

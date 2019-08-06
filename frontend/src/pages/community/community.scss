@@ -33,7 +33,15 @@ page-community {
     background-color: rgba(0, 0, 0, .5) !important;
     transition: opacity .25s ease-in-out;
     padding: 20vh 10vw;
+  } 
+
+  .scroll-content {
+    bottom: 56px;
   }
-  
-  
+
+  ion-content.has-refresher > .scroll-content {
+    padding-bottom: 61px;
+    background-color: inherit;
+  }
 }
+

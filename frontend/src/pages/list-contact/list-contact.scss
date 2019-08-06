@@ -1,4 +1,15 @@
 page-list-contact {
+
+  .scroll-content {
+    bottom: 56px;
+  }
+
+  ion-content.has-refresher > .scroll-content {
+    padding-bottom: 61px;
+    background-color: inherit;
+  }
+
+  
   .icon-badge {
     position: absolute;
     z-index: 11;
