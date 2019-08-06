@@ -105,7 +105,7 @@ export class MyApp {
       events.subscribe('profile:modified', (user, photo) => {
         // user and time are the same arguments passed in `events.publish(user, time)`
         this.userData.userImage = photo;
-        this.userData.userFullname = user.profileLastname + " " + user.profileFirstname;
+        this.userData.userFullname = user.profileFirstname + " " + user.profileLastname;
       });
     });
 

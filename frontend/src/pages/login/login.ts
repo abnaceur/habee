@@ -25,6 +25,7 @@ import { Http } from "@angular/http";
 import "rxjs/add/operator/map";
 
 import { LoginProvider } from "../../providers/login/login";
+import { calcBindingFlags } from "@angular/core/src/view/util";
 
 @IonicPage()
 @Component({
@@ -67,7 +68,7 @@ export class LoginPage {
         "",
         Validators.compose([
           Validators.required,
-          Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$")
+          Validators.pattern('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
         ])
       ],
       password: [
@@ -132,7 +133,7 @@ export class LoginPage {
               else if (data.code == 200) {
                 this.utils.notification("Compte cree avec succes", "top");
                 this.loginUserToSession(value);
-              }
+              } 
               else this.utils.notification("Une erreur est survenu", "top");
             });
           }

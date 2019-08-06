@@ -43,11 +43,9 @@ updatUser = (user, res) => {
 
 editUser = (usr, data, res) => {
     
-    usr[0].profile.map(pr => {
-        pr.profileDateOfLastUpdate = Date.now;
-        pr.profileUsername = data.firstName + " " + data.lastName;
-    })
-
+    usr[0].profile.profileDateOfLastUpdate = Date.now;
+    usr[0].profile.profileLastname = data.lastName;
+    usr[0].profile.profileFirstname = data.firstName; 
     usr[0].credentials.firstname = data.firstName;
     usr[0].credentials.lastname = data.lastName;
     usr[0].credentials.address = data.address;

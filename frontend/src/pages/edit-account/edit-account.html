@@ -17,39 +17,39 @@
 
         <ion-item>
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" value={{accInfo.lastname}} formControlName="lastName" type="text"></ion-input>
+          <ion-input style="color:black" value={{accInfo.lastname}} formControlName="lastName" type="text"></ion-input>
         </ion-item>
 
         <ion-item>
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" value={{accInfo.firstname}} formControlName="firstName" type="text"></ion-input>
+          <ion-input style="color:black" value={{accInfo.firstname}} formControlName="firstName" type="text"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="accInfo.address != ''">
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" value={{accInfo.address}} formControlName="address" type="text"></ion-input>
+          <ion-input style="color:black" value={{accInfo.address}} formControlName="address" type="text"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="accInfo.address == ''">
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" placeholder="Entrez votre adresse" formControlName="address" type="text"></ion-input>
+          <ion-input style="color:black" placeholder="Entrez votre adresse" formControlName="address" type="text"></ion-input>
         </ion-item>
 
 
         <ion-item *ngIf="accInfo.phone != ''">
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" value={{accInfo.phone}} formControlName="phoneNumber" type="text"></ion-input>
+          <ion-input style="color:black" value={{accInfo.phone}} formControlName="phoneNumber" type="text"></ion-input>
         </ion-item>
 
 
         <ion-item *ngIf="accInfo.phone == ''">
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" placeholder="Entrez votre numero de mobile" formControlName="phoneNumber" type="text"></ion-input>
+          <ion-input style="color:black" placeholder="Entrez votre numero de mobile" formControlName="phoneNumber" type="text"></ion-input>
         </ion-item>
 
         <ion-item>
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input style="color:silver" value={{accInfo.email}} formControlName="email" type="text"></ion-input>
+          <ion-input style="color:black" value={{accInfo.email}} formControlName="email" type="text"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="editAccountForm.controls.email.hasError('pattern') && editAccountForm.controls.email.touched">
@@ -58,7 +58,7 @@
 
         <ion-item>
             <!--   <ion-label floating>E-mail</ion-label> -->
-            <ion-input style="color:silver" placeholder="Confirmer votre e-mail" formControlName="confirmEmail" type="text"></ion-input>
+            <ion-input style="color:black" placeholder="Confirmer votre e-mail" formControlName="confirmEmail" type="text"></ion-input>
           </ion-item>
   
         <ion-row>
