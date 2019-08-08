@@ -116,6 +116,7 @@ export class EventFilterPage {
     let exist = 0;
 
 
+    console.log("communities :", communities, check);
     if (check === 0) {
       communities.map(com => {
         coms.push({
@@ -130,6 +131,8 @@ export class EventFilterPage {
       while (z < communities.length) {
         this.communitiesFilter.map(flt => {
           if (flt.communityId === communities[z].communityId)
+            coms.push(flt);
+          else
             exist = 1;
         })
 
@@ -138,12 +141,6 @@ export class EventFilterPage {
             communityId: communities[z].communityId,
             communityName: communities[z].communityName,
             value: true
-          })
-        } else if (exist === 0) {
-          coms.push({
-            communityId: communities[z].communityId,
-            communityName: communities[z].communityName,
-            value: false
           })
         }
         z++;
@@ -160,10 +157,15 @@ export class EventFilterPage {
           .getCommunitiesByParticipation(this.tabParams)
           .subscribe(dataParticipation => {
             dataCreator.communities = dataCreator.communities.concat(dataParticipation);
+            this.communitiesFilter
             if (dataCreator.communities.length > 0) {
               if (this.communitiesFilter.length === 0)
                 this.initCommunitiesFilterValue(dataCreator.communities, 0)
-              else {
+              else if (this.communitiesFilter.length != dataCreator.communities.length) {
+                this.initCommunitiesFilterValue(dataCreator.communities, 1)
+                if (this.eventFilterProvider.objectFilterCount(this.allCommunities) === this.allCommunities.length)
+                  this.selectAllCommunitiesFilters = true;
+              } else {
                 this.allCommunities = this.communitiesFilter;
                 if (this.eventFilterProvider.objectFilterCount(this.allCommunities) === this.allCommunities.length)
                   this.selectAllCommunitiesFilters = true;

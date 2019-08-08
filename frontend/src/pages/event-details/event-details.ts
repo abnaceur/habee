@@ -132,7 +132,6 @@ export class EventDetailsPage {
         if (pr.participantId == this.tabParams.userId) {
           this.subColor = "deeppink";
           this.isSubscribed = "Desinscrir";
-
         }
       }
     });

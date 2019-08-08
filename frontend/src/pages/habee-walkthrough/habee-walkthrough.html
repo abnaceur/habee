@@ -17,7 +17,7 @@
 
   <ion-slides #slider pager="true" autoplay="5000" (ionSlideWillChange)="onSlideChanged()">
     <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{'background-image': 'url(' + slide.imageUrl +')',
-               'background-size': 'cover',
+               'background-size': 'contain',
                'background-repeat': 'no-repeat',
                'width': '100%'}">
       <div style="top: 233px; z-index: 1111; position: relative;" class="floating-buttons pop-in" *ngIf="slideIndex >= slides.length - 1">
