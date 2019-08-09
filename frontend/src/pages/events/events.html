@@ -25,7 +25,7 @@ background-color: #fcfcfc;">
 
   <expandable-header [ngStyle]="{'display': searchBar}" [scrollArea]="myContent" headerHeight="125">
     <ion-toolbar style="position: relative; top:1vw; overflow: hidden;  ">
-      <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateEventlist()" placeholder="Rechercher...">
+      <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateEventlistRequest()" placeholder="Rechercher...">
       </ion-searchbar>
     </ion-toolbar>
   </expandable-header>

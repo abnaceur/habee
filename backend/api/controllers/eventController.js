@@ -11,6 +11,7 @@ const addEventService = require('../services/eventServices/addEventService')
 const eventFilterService = require("../services/eventServices/getFiltersService")
 const updateFilterService = require("../services/eventServices/updateFiltersService")
 const listEVentByUserService = require("../services/userServices/listProposedEventsServie");
+const searchEventService = require("../services/eventServices/searchEventService");
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -342,6 +343,11 @@ exports.put_all_events_isOver = (req, res, next) => {
                     utils.defaultError(res, err)
                 })
         })
+}
 
+exports.searchEventByInput = (req, res, next) => {
+    let text = req.body;
+    let userId = req.params.userId;
 
+    searchEventService.searchEventByInput(text, userId,  res)
 }

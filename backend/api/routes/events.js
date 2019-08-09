@@ -140,5 +140,10 @@ router.put('/all/isover/:userId/:communityId', authCkeck, eventController.put_al
 
 router.get('/comments/:eventId/community/:communityId', authCkeck, eventController.getCommentByEventId);
 
+/*
+ ** API route [POST] for /events//search [USED]
+ */
+
+router.post('/search/:userId', authCkeck, eventController.searchEventByInput);
 
 module.exports = router;

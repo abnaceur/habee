@@ -266,6 +266,16 @@ export class EventsPage {
     }
   }
 
+  updateEventlistRequest() {
+    this.eventProvider.searchEventByInput(this.queryText, this.tabParams)
+    .subscribe(data => {
+      if (data.code === 200) {
+        this.allEvents = data.events
+      }
+    })
+
+  }
+
   showAllCommunities() {
     const modal = this.modalCtrl.create(
       "CommunityEventListPage",

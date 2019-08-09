@@ -477,4 +477,14 @@ export class EventProvider {
     })
   }
 
+  searchEventByInput(text, userInfo) {
+    console.log("here provider : ",  text, userInfo)
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+
+    return this.http.post(ENV.BASE_URL + '/events/search/' + userInfo.userId, {text},
+      { headers: header })
+      .map(response => response.json());
+ 
+  }
+
 }
