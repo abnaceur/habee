@@ -138,8 +138,13 @@ background-color: #fcfcfc;">
   </ion-slides> -->
 
 
-  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage && queryText == ''">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfiniteSearch($event)" *ngIf="pageSearch <= totalPageSearch && queryText != ''">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données recherché...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

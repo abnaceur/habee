@@ -37,6 +37,7 @@ import { Socket } from "ng-socket-io";
 import { LocalNotifications } from "@ionic-native/local-notifications";
 
 import { UtilsProvider } from "../../providers/utils/utils";
+import { ThrowStmt } from "@angular/compiler";
 
 @IonicPage({ name: "EventsPage" })
 @Component({
@@ -54,6 +55,11 @@ export class EventsPage {
   totalData = 0;
   totalPage = 0;
 
+  pageSearch = 0;
+  perPageSearch = 0;
+  totalDataSearch = 0;
+  totalPageSearch = 0;
+
   public dateFormat;
   public listMonths: any[];
 
@@ -62,7 +68,7 @@ export class EventsPage {
   public isSubscribed = "S'inscrir3";
   public months: String[];
   public url = ENV.BASE_URL;
-  public queryText;
+  public queryText = "";
   public allEvents_tmp;
   public searchBar = "none";
   public topList = "5vw";
@@ -126,6 +132,8 @@ export class EventsPage {
 
   ionViewWillLeave() {
     this.page = 0;
+    this.pageSearch = 0;
+    this.queryText = "";
   }
 
   goToEventDetail(eventDetails) {
@@ -189,6 +197,7 @@ export class EventsPage {
 
   doRefresh(refresher) {
     this.page = 0;
+    this.pageSearch = 0;
     this.getAllEvents();
     setTimeout(() => {
       refresher.complete();
@@ -203,7 +212,6 @@ export class EventsPage {
   doInfinite(infiniteScroll) {
     this.page = this.page + 1;
 
-    console.log("Refresh")
     setTimeout(() => {
       this.eventProvider
         .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
@@ -218,9 +226,28 @@ export class EventsPage {
             this.totalPage = response.total_pages;
           }
         });
-      console.log("Async operation has ended");
       infiniteScroll.complete();
     }, 1000);
+  }
+
+  doInfiniteSearch(infiniteScroll) {
+    this.pageSearch = this.pageSearch + 1;
+
+    setTimeout(() => {
+
+      this.eventProvider.searchEventByInput(this.queryText, this.tabParams, this.pageSearch)
+        .subscribe(data => {
+          if (data.code === 200) {
+            this.allEvents = this.allEvents.concat(data.events);
+            this.getMonthsDelimiter(this.allEvents);
+            this.perPageSearch = data.per_page;
+            this.totalDataSearch = data.total;
+            this.totalPageSearch = data.total_pages;
+          }
+        })
+      infiniteScroll.complete();
+    }, 1000);
+
   }
 
   presentFilter() {
@@ -267,13 +294,18 @@ export class EventsPage {
   }
 
   updateEventlistRequest() {
-    this.eventProvider.searchEventByInput(this.queryText, this.tabParams)
-    .subscribe(data => {
-      if (data.code === 200) {
-        this.allEvents = data.events
-      }
-    })
+    this.pageSearch = 0;
 
+    this.eventProvider.searchEventByInput(this.queryText, this.tabParams, this.pageSearch)
+      .subscribe(data => {
+        if (data.code === 200) {
+          this.allEvents = data.events;
+          this.getMonthsDelimiter(this.allEvents);
+          this.perPageSearch = data.per_page;
+          this.totalDataSearch = data.total;
+          this.totalPageSearch = data.total_pages;
+        }
+      })
   }
 
   showAllCommunities() {

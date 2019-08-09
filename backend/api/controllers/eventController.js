@@ -41,10 +41,10 @@ exports.get_userEventSubscribed = (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
-            eventId: eventId,
-            eventCommunity: communityId,
-            "participants.participantId": userId,
-        }).exec()
+        eventId: eventId,
+        eventCommunity: communityId,
+        "participants.participantId": userId,
+    }).exec()
         .then(event => {
             res.status(200).json({
                 event: event
@@ -79,7 +79,7 @@ exports.postEventFilter = (req, res, next) => {
 
 exports.getEventFilter = (req, res, next) => {
     let userId = req.params.userId;
- 
+
     eventFilterService.getFilterOptions(res, userId)
 }
 
@@ -87,7 +87,7 @@ exports.getFilteredEvent = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
     let page = req.params.page;
-    
+
     eventService.filterEvent(req, res, userId, communityId, page);
 }
 
@@ -96,10 +96,10 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
-            eventCommunity: communityId,
-            eventIsOver: false,
-            eventIsDeleted: false,
-        })
+        eventCommunity: communityId,
+        eventIsOver: false,
+        eventIsDeleted: false,
+    })
         .exec()
         .then(activeEvent => {
             if (activeEvent.length === 0) {
@@ -124,10 +124,10 @@ exports.get_all_events_byCommunityId = (req, res, next) => {
                     }
                 })
                 Event.find({
-                        eventCommunity: communityId,
-                        eventIsOver: false,
-                        eventIsDeleted: false,
-                    })
+                    eventCommunity: communityId,
+                    eventIsOver: false,
+                    eventIsDeleted: false,
+                })
                     .exec()
                     .then(events => {
                         if (events.length === 0) {
@@ -176,9 +176,9 @@ exports.eventByCommunityId = (req, res, next) => {
     let communityId = req.params.communityId;
 
     Event.find({
-            eventCommunity: communityId,
-            eventId: eventId,
-        })
+        eventCommunity: communityId,
+        eventId: eventId,
+    })
         .exec()
         .then(events => {
             if (events.length === 0) {
@@ -202,8 +202,8 @@ exports.eventByCommunityId = (req, res, next) => {
 exports.get_event_by_community = (req, res, next) => {
     const id = req.params.eventCommunity;
     Event.find({
-            eventCommunity: id
-        })
+        eventCommunity: id
+    })
         .exec()
         .then(evt => {
             if (evt.length === 0) {
@@ -235,8 +235,8 @@ exports.deleteEventByCommunityId = (req, res, next) => {
 exports.get_event_by_id = (req, res, next) => {
     const id = req.params.eventId;
     Event.find({
-            eventId: id
-        })
+        eventId: id
+    })
         .exec()
         .then(evt => {
             if (evt.length === 0) {
@@ -262,7 +262,7 @@ exports.get_event_by_id = (req, res, next) => {
 exports.getCommentByEventId = (req, res, next) => {
     let eventId = req.params.eventId;
     let communityId = req.params.communityId;
-   
+
     eventCommentService.getCommentsByEventId(res, req, eventId, communityId)
 }
 
@@ -276,14 +276,14 @@ exports.put_all_events_isOver = (req, res, next) => {
 
     // Update the users events list
     User.find({
-            userId: userId,
-            "profile.profileCummunityId": communityId
-        }).exec()
+        userId: userId,
+        "profile.profileCummunityId": communityId
+    }).exec()
         .then(user => {
             Event.find({
-                    eventIsOver: false,
-                    eventIsDeleted: false,
-                })
+                eventIsOver: false,
+                eventIsDeleted: false,
+            })
                 .exec()
                 .then(activeEvent => {
                     if (activeEvent.length === 0) {
@@ -348,6 +348,7 @@ exports.put_all_events_isOver = (req, res, next) => {
 exports.searchEventByInput = (req, res, next) => {
     let text = req.body;
     let userId = req.params.userId;
+    let page = req.params.page;
 
-    searchEventService.searchEventByInput(text, userId,  res)
+    searchEventService.searchEventByInput(text, userId, res, page)
 }

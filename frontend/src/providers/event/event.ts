@@ -477,11 +477,11 @@ export class EventProvider {
     })
   }
 
-  searchEventByInput(text, userInfo) {
+  searchEventByInput(text, userInfo, page) {
     console.log("here provider : ",  text, userInfo)
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
-    return this.http.post(ENV.BASE_URL + '/events/search/' + userInfo.userId, {text},
+    return this.http.post(ENV.BASE_URL + '/events/search/' + userInfo.userId + "/" + page, {text},
       { headers: header })
       .map(response => response.json());
  

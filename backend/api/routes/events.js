@@ -144,6 +144,6 @@ router.get('/comments/:eventId/community/:communityId', authCkeck, eventControll
  ** API route [POST] for /events//search [USED]
  */
 
-router.post('/search/:userId', authCkeck, eventController.searchEventByInput);
+router.post('/search/:userId/:page', authCkeck, eventController.searchEventByInput);
 
 module.exports = router;
