@@ -31,57 +31,7 @@ export class ProfileProvider {
     )
       .map(response => response.json());
   }
-
-  getUserPassionsByCommunityId(token, userId, activeCommunity) {
-    const header = this.utils.inihttpHeaderWIthToken(token);
-
-    return this.http
-      .get(ENV.BASE_URL + "/users/test_id1/com_tes_2016_9", { headers: header })
-      .map(response => response.json());
-  }
-
-  getUserSubPassionsByCommunityId(response, token, userId, activeCommunity) {
-    this.userPassionsList = response.User[0];
-    let UserPassions = [];
-    UserPassions = this.userPassionsList["passions"];
-
-    //    let nbUserPassions = UserPassions.length;
-    let nbUserPassions = 0;
-
-    let i = 0;
-
-    while (nbUserPassions > 0) {
-      this.getSubPassions(token, i, UserPassions).then(data => {
-        this.getUserSubPassions.push(data);
-      });
-      nbUserPassions--;
-      i++;
-    }
-    return new Promise(resolve => {
-      resolve(this.getUserSubPassions);
-    });
-  }
-
-  getSubPassions(token, i, userPassionsList) {
-    const header = this.utils.inihttpHeaderWIthToken(token);
-
-    return new Promise(resolve => {
-      this.http
-        .get(
-          ENV.BASE_URL +
-          "/passions/subpassion/com_tes_2016_9/" +
-          userPassionsList[i],
-          { headers: header }
-        )
-        .map(results => results.json())
-        .subscribe(data => {
-          data = this.utils.filter_array(data["passion"]);
-          this.userSubPassionList = data[0];
-          resolve(this.userSubPassionList);
-        });
-    });
-  }
-
+  
   postProfile(userInfo, profileName, photo, header) {
 
     return this.http

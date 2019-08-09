@@ -127,6 +127,7 @@ export class EventDetailsPage {
       this.socket.emit("getmessage", this.eventDetails.eventId);
     }, 200)
 
+    console.log("this.eventDetails :", this.eventDetails);
     this.eventDetails.participants.map(pr => {
       if (pr != null) {
         if (pr.participantId == this.tabParams.userId) {
@@ -192,7 +193,19 @@ export class EventDetailsPage {
         };
       });
 
-    this.socket.on("broad-msg", data => {
+    
+      let userInfo = {
+        userId: this.eventDetails.eventCreator,
+        token: this.tabParams.token
+      }
+
+      this.profileProvider
+      .getUserProfileByCommunityId(userInfo)
+      .subscribe(profile => {
+        this.userName = profile.User[0].profile.profileFirstname + " " + profile.User[0].profile.profileLastname
+      });
+
+      this.socket.on("broad-msg", data => {
       this.allComments.push(data);
       this.scrolltobottomnfun();
     });
