@@ -133,10 +133,12 @@ export class CommunityDetailsPage {
       .present();
   }
 
+
   removeContactAction(memberId, communityId) {
     this.removeCommunityFromContactProvider
       .removeCommunity(this.tabParams, memberId, communityId)
       .subscribe(data => {
+        console.log("data :", data);
         if (data == 200) {
           this.getCommunityDetails();
           if (this.participation == false)
