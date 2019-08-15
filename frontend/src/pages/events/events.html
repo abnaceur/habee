@@ -9,15 +9,16 @@ background-color: #fcfcfc;">
     <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Event à l’affiche</span>
   </ion-title>
 
-  <ion-icon style="color: #3b3b3b;" class="optionsStyle" (click)='presentFilter()' name="options">
+  <!-- <ion-icon style="color: #3b3b3b;" class="optionsStyle" (click)='presentFilter()' name="options">
 
     <span *ngIf="activeAllFilters != 0">
       <ion-badge class="pull-right" id="badg-notif">{{activeAllFilters}}</ion-badge>
     </span>
+  </ion-icon> -->
+
+
+  <ion-icon style="margin-right: 8px; color: #3b3b3b;" class="optionsStyle" (click)='showsearchbar()' name="search">
   </ion-icon>
-
-
-  <ion-icon style="margin-right: 8px; color: #3b3b3b;" class="optionsStyle" (click)='showsearchbar()' name="search"></ion-icon>
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
     <span style="font-size: 17px;color: white; font-weight: bold"></span>
@@ -91,7 +92,19 @@ background-color: #fcfcfc;">
 
 
     <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
-      <ion-thumbnail item-start>
+      <ion-thumbnail item-left class="item-ribbon">
+        <span *ngIf="event.eventIsPublic == true && event.eventCreator != tabParams.userId" class=" ribbon cruzeiro">
+          <span>Public</span>
+        </span>
+        <span *ngIf="event.eventIsPublic == false && event.eventCreator != tabParams.userId" class="ribbon atletico">
+          <span>Invite</span>
+        </span>
+        <span *ngIf="event.eventIsPublic == false && event.eventCreator == tabParams.userId" class="ribbon sale">
+          <span>Prive</span>
+        </span>
+        <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId" class=" ribbon javascript">
+          <span>Public - moi</span>
+        </span>
         <img [src]='url + "/" + event.eventPhoto'>
       </ion-thumbnail>
       <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
@@ -118,17 +131,17 @@ background-color: #fcfcfc;">
 
     <ion-item-sliding *ngFor="let event of weeklyEvents">
 
-          <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
-              <ion-thumbnail item-start>
-                <img [src]='url + "/" + event.eventPhoto'>
-              </ion-thumbnail>
-              <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
-              <p>{{event.eventLocation}} •
-                {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+      <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
+        <ion-thumbnail item-start>
+          <img [src]='url + "/" + event.eventPhoto'>
+        </ion-thumbnail>
+        <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+        <p>{{event.eventLocation}} •
+          {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
                     7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
-              </p>
-              <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-            </ion-item>
+        </p>
+        <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+      </ion-item>
     </ion-item-sliding>
   </ion-list>
 
@@ -138,12 +151,14 @@ background-color: #fcfcfc;">
   </ion-slides> -->
 
 
-  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage && queryText == ''">
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfinite($event)"
+    *ngIf="page <= totalPage && queryText == ''">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfiniteSearch($event)" *ngIf="pageSearch <= totalPageSearch && queryText != ''">
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfiniteSearch($event)"
+    *ngIf="pageSearch <= totalPageSearch && queryText != ''">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données recherché...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

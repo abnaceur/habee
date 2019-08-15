@@ -223,6 +223,7 @@ export class MyEventsPage {
         this.updatePrticipatedEventList();
         this.updateProposedEventList();
         this.expanded = false;
+        this.page = 0;
         this.contracted = !this.expanded;
         setTimeout(() => (this.showIcon = true), 330);
       });

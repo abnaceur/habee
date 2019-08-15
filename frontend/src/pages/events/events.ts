@@ -182,12 +182,12 @@ export class EventsPage {
     this.eventProvider
       .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
       .subscribe(response => {
-        if (response.Events.length == 0) {
+        if (response.events != undefined && response.events.length == 0) {
           this.allEvents = [];
         } else {
-          this.getMonthsDelimiter(response.Events);
-          this.allEvents = response.Events;
-          this.allEvents_tmp = response.Events;
+          this.getMonthsDelimiter(response.events);
+          this.allEvents = response.events;
+          this.allEvents_tmp = response.events;
           this.perPage = response.per_page;
           this.totalData = response.total;
           this.totalPage = response.total_pages;
@@ -218,9 +218,9 @@ export class EventsPage {
         .subscribe(response => {
           if (!response) this.allEvents = [];
           else {
-            this.allEvents = this.allEvents.concat(response.Events);
+            this.allEvents = this.allEvents.concat(response.events);
             this.getMonthsDelimiter(this.allEvents);
-            this.allEvents_tmp = this.allEvents_tmp.concat(response.Events);
+            this.allEvents_tmp = this.allEvents_tmp.concat(response.events);
             this.perPage = response.per_page;
             this.totalData = response.total;
             this.totalPage = response.total_pages;
@@ -234,7 +234,6 @@ export class EventsPage {
     this.pageSearch = this.pageSearch + 1;
 
     setTimeout(() => {
-
       this.eventProvider.searchEventByInput(this.queryText, this.tabParams, this.pageSearch)
         .subscribe(data => {
           if (data.code === 200) {

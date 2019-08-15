@@ -12,6 +12,7 @@ const eventFilterService = require("../services/eventServices/getFiltersService"
 const updateFilterService = require("../services/eventServices/updateFiltersService")
 const listEVentByUserService = require("../services/userServices/listProposedEventsServie");
 const searchEventService = require("../services/eventServices/searchEventService");
+const getAlluserEventsService = require('../services/eventServices/getAlleventsNoFilter');
 
 exports.get_all_events = (req, res, next) => {
     Event.find()
@@ -83,6 +84,7 @@ exports.getEventFilter = (req, res, next) => {
     eventFilterService.getFilterOptions(res, userId)
 }
 
+//THIS IS FOR EVENTS WITH FILTER
 exports.getFilteredEvent = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
@@ -90,6 +92,15 @@ exports.getFilteredEvent = (req, res, next) => {
 
     eventService.filterEvent(req, res, userId, communityId, page);
 }
+
+exports.getAllEventsNofilter = (req, res, next) => {
+    let userId = req.params.userId;
+    let page = req.params.page;
+
+    getAlluserEventsService.getAllUserEvents(userId, res, page);
+}
+
+
 
 exports.get_all_events_byCommunityId = (req, res, next) => {
 

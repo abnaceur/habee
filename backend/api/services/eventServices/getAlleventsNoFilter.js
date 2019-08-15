@@ -4,7 +4,7 @@ const User = require('../../models/user');
 const Community = require('../../models/community');
 const eventService = require('../eventService');
 
-getMyCommunities = (userId, res) => {
+getMyCommunitiesNofilter = (userId, res) => {
     return new Promise((resolve, reject) => {
         Community.find({
             communityMembers: {
@@ -21,7 +21,7 @@ getMyCommunities = (userId, res) => {
     })
 }
 
-allMyEvents = (comdId, text, res, page) => {
+allMyEventsNoFilter = (comdId, res, page) => {
     return new Promise((resolve, reject) => {
 
         Event.find({
@@ -35,12 +35,6 @@ allMyEvents = (comdId, text, res, page) => {
                     ],
                 }
             ],
-            "$or": [
-                { eventName: { $regex: text, $options: 'i' } },
-                { eventDescription: { $regex: text, $options: 'i' } },
-                { eventLocation: { $regex: text, $options: 'i' } },
-                { eventCategory: { $regex: text, $options: 'i' } },
-            ]
         })
             .sort('eventStartDate')
             .skip(Number(page * 10))
@@ -52,7 +46,7 @@ allMyEvents = (comdId, text, res, page) => {
     })
 }
 
-getAllMyEvents = (coms, text, res) => {
+getallMyEventsNoFilter = (coms, res) => {
     return new Promise((resolve, reject) => {
         Event.find({
             eventIsDeleted: false,
@@ -65,12 +59,6 @@ getAllMyEvents = (coms, text, res) => {
                     ],
                 }
             ],
-            "$or": [
-                { eventName: { $regex: text, $options: 'i' } },
-                { eventDescription: { $regex: text, $options: 'i' } },
-                { eventLocation: { $regex: text, $options: 'i' } },
-                { eventCategory: { $regex: text, $options: 'i' } },
-            ]
         })
             .exec()
             .then(events => {
@@ -79,10 +67,10 @@ getAllMyEvents = (coms, text, res) => {
     })
 }
 
-async function searchEventByInput(text, userId, res, page) {
-    let communities = await getMyCommunities(userId, res)
-    let events = await allMyEvents(communities, text.text, res, page);
-    let totalEvents = await getAllMyEvents(communities, text.text, res)
+async function getAllUserEvents(userId, res, page) {
+    let communities = await getMyCommunitiesNofilter(userId, res)
+    let events = await allMyEventsNoFilter(communities, res, page);
+    let totalEvents = await getallMyEventsNoFilter(communities, res)
 
     res.status(200).json({
         code: 200,
@@ -97,8 +85,5 @@ async function searchEventByInput(text, userId, res, page) {
 }
 
 module.exports = {
-    searchEventByInput,
-    getMyCommunities,
-    getAllMyEvents,
-    allMyEvents 
+    getAllUserEvents
 }

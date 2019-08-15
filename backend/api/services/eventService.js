@@ -39,6 +39,7 @@ eventModal = (event) => {
     let test = {
         _id: event._id,
         eventId: event.eventId,
+        eventIsPublic: event.eventIsPublic,
         eventCommunity: event.eventCommunity,
         eventName: event.eventName,
         eventCreator: event.eventCreator,

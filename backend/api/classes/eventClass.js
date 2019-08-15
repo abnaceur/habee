@@ -43,7 +43,7 @@ eventAddComName = (event, communityName) => {
         eventLocation: event.eventLocation,
         nbrParticipants: event.nbrParticipants,
         eventCategory: event.eventCategory,
-        eventIsPublic: false.eventIsPublic,
+        eventIsPublic: event.eventIsPublic,
         dateOfCreation: event.dateOfCreation,
         dateOfLastUpdate: event.dateOfLastUpdate,
         participants: event.participants,

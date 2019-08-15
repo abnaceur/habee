@@ -55,7 +55,7 @@ router.get('/community/:communityId', authCkeck,  eventController.get_all_events
  * API [GET] for route /events/filtered/user/:userId/community/:communityId/page/:page [USED]
  */
 
-router.get('/filtered/user/:userId/community/:communityId/page/:page', eventController.getFilteredEvent);
+router.get('/filtered/user/:userId/community/:communityId/page/:page', eventController.getAllEventsNofilter);
 
 
 /*
