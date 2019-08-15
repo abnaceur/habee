@@ -53,8 +53,8 @@ export class ProposeEventPage {
   public currentDate = "2018";
   myDate: String = new Date().toISOString();
   private listCommunity = [];
-  public validateCommubities = "";
-
+  public validateCommunities = "";
+  public validateStartEndData = "";
   placeholder = "../../assets/img/avatar/girl-avatar.png";
   chosenPicture: any;
   public tabParams;
@@ -62,9 +62,9 @@ export class ProposeEventPage {
   allfilters: any;
   public eventStartDate = "";
   public eventEndDate = "";
-  public dateLabel = "Date de debut/fin"; 
+  public dateLabel = "Date de debut/fin";
   private endStartDate;
-    public allCommunities = [];
+  public allCommunities = [];
   public selectedCommunity = [];
 
   constructor(
@@ -100,7 +100,7 @@ export class ProposeEventPage {
       eventStartHour: ["00:00", Validators.compose([])],
       eventEndHour: ["00:00", Validators.compose([])],
       eventIsPublic: [false, Validators.compose([Validators.required])],
-      eventCategory: ["", Validators.compose([Validators.required])]
+      eventCategory: ["Autres", Validators.compose([])]
     });
   }
 
@@ -213,39 +213,41 @@ export class ProposeEventPage {
   }
 
   onSubmit(value) {
-    value.eventStartDate = this.endStartDate.from.years + "-" + this.endStartDate.from.months + "-" + this.endStartDate.from.date;
-    value.eventEndDate = this.endStartDate.to.years + "-" + this.endStartDate.to.months + "-" + this.endStartDate.to.date;;
-
-    if (this.listCommunity.length > 0 && this.listCommunity != null) {
-      if (this.chosenPicture) {
-        this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
+    if (this.eventStartDate != "") {
+      value.eventStartDate = this.endStartDate.from.years + "-" + this.endStartDate.from.months + "-" + this.endStartDate.from.date;
+      value.eventEndDate = this.endStartDate.to.years + "-" + this.endStartDate.to.months + "-" + this.endStartDate.to.date;;
+      if (this.listCommunity.length > 0 && this.listCommunity != null) {
+        if (this.chosenPicture) {
+          this.eventProvider.uploadPhoto(this.chosenPicture).then(data => {
+            this.eventProvider
+              .addEventByCommunity(
+                value,
+                this.tabParams,
+                data,
+                this.listCommunity
+              )
+              .subscribe(response => {
+                if (response.results == true) {
+                  this.utils.notification("Event cree avec succes !", "top");
+                  this.proposeEventProvider.emitnewCreatedEvent(response.Event);
+                } else this.utils.notification("Une erreur est apparus !", "top");
+              });
+          });
+        } else {
           this.eventProvider
-            .addEventByCommunity(
-              value,
-              this.tabParams,
-              data,
-              this.listCommunity
-            )
+            .addEventByCommunity(value, this.tabParams, this.chosenPicture, this.listCommunity)
             .subscribe(response => {
               if (response.results == true) {
                 this.utils.notification("Event cree avec succes !", "top");
                 this.proposeEventProvider.emitnewCreatedEvent(response.Event);
+                //this.viewCtrl.dismiss();
               } else this.utils.notification("Une erreur est apparus !", "top");
             });
-        });
-      } else {
-        this.eventProvider
-          .addEventByCommunity(value, this.tabParams, this.chosenPicture, this.listCommunity)
-          .subscribe(response => {
-            if (response.results == true) {
-              this.utils.notification("Event cree avec succes !", "top");
-              this.proposeEventProvider.emitnewCreatedEvent(response.Event);
-              //this.viewCtrl.dismiss();
-            } else this.utils.notification("Une erreur est apparus !", "top");
-          });
-      }
+        }
+      } else
+        this.validateCommunities = "Vous devez selectionne une communaute";
     } else
-      this.validateCommubities = "Vous devez selectionne une communaute";
+      this.validateStartEndData = "Vous devez selectionne une date de debut/fin";
   }
 
   dismiss() {
@@ -253,7 +255,7 @@ export class ProposeEventPage {
   }
 
   openCommunityList() {
-    this.validateCommubities = "";
+    this.validateCommunities = "";
     const modal = this.modalCtrl.create(
       "CommunityEventListPage",
       this.tabParams,
@@ -268,15 +270,17 @@ export class ProposeEventPage {
   }
 
   openCalendar() {
+    this.validateStartEndData = "";
     const options: CalendarModalOptions = {
       pickMode: 'range',
       title: '',
-      color: "secondary",  
+      color: "primary",
+      weekStart: 1,
       weekdays: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
       closeIcon: true,
       doneIcon: true,
       canBackwardsSelected: false,
-      
+
     };
 
     let myCalendar = this.modalCtrl.create(CalendarModal, {

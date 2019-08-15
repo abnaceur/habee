@@ -70,7 +70,7 @@ async function listProposedEventByUserId(res, page, eventCreatorId) {
                     code: "404",
                     message: "There are no events!"
                 })
-            } else {
+            } else { 
                 res.status(200).json({
                     Count: Allevents.length,
                     per_page: 10,

@@ -113,6 +113,7 @@ export class MyEventsPage {
     this.eventProvider
       .getAllProposedEvevnstByUser(this.tabParams, this.page)
       .subscribe(response => {
+        console.log("Respone :", response);
         if (response.Events != undefined)
           this.getMonthsDelimiter(response.Events);
         this.proposedEvents = response.Events;
@@ -270,12 +271,12 @@ export class MyEventsPage {
     console.log("Refresh")
     setTimeout(() => {
       this.eventProvider
-        .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
+        .getAllProposedEvevnstByUser(this.tabParams, this.page)
         .subscribe(response => {
-          if (!response) this.proposedEvents = [];
-          else {
+          if (response.code != 404) {
             this.proposedEvents = this.proposedEvents.concat(response.Events);
-            this.getMonthsDelimiter(this.proposedEvents)
+            if (response.Events != undefined)
+              this.getMonthsDelimiter(this.proposedEvents)
             this.perPage = response.per_page;
             this.totalData = response.total;
             this.totalPage = response.total_pages;

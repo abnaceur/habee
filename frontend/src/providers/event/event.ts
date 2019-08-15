@@ -62,8 +62,8 @@ export class EventProvider {
     filter: "sortieEntreAmis",
     value: false,
   }, {
-    name: "Afterwork",
-    filter: "afterwork",
+    name: "Autres",
+    filter: "autres",
     value: false,
   }, {
     name: "Cinéma",
