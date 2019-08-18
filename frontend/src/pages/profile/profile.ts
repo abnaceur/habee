@@ -4,7 +4,8 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ModalController
+  ModalController,
+  Events
 } from "ionic-angular";
 
 import { Http, ResponseOptions } from "@angular/http";
@@ -16,6 +17,8 @@ import { CommunityProvider } from "../../providers/community/community";
 import "rxjs/add/operator/map";
 
 import { ProfileProvider } from "../../providers/profile/profile";
+
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -35,12 +38,16 @@ export class ProfilePage {
     nbrEventsParticipated: "",
     profile: {
       profileUsername: "",
-      profilePhoto: ""
+      profilePhoto: "",
+      profileFirstname: "",
+      profileLastname: "",
     },
     eventCreated: ""
   };
 
   constructor(
+    private storage: Storage,
+    public events: Events,
     public profileProvider: ProfileProvider,
     public http: Http,
     public navCtrl: NavController,
@@ -52,7 +59,9 @@ export class ProfilePage {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
       activeCommunity: this.navParams.get("activeCommunity"),
-      notificationStatus: this.navParams.get("notificationStatus")
+      notificationStatus: this.navParams.get("notificationStatus"),
+      userImage: "",
+      userFullname: "",
     };
 
     this.getProfileInfo();
@@ -61,14 +70,20 @@ export class ProfilePage {
 
   ionViewWillEnter() {
     this.getCommunties();
-    this.getProfileInfo();
+    this.getProfileInfo(0);
   }
-
-  getProfileInfo() {
+ 
+  getProfileInfo(check) {
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
       .subscribe(response => {
-        this.user = response.User[0]
+        this.user = response.User[0];
+        if (check === 1) {
+          this.events.publish('profile:modified', this.user.profile, this.user.profile.profilePhoto);
+          this.tabParams.userFullname = this.user.profile.profileFirstname + " " + this.user.profile.profileLastname;
+          this.tabParams.userImage = this.user.profile.profilePhoto;
+          this.storage.set("response", this.tabParams);
+        }
       });
   }
 
@@ -78,7 +93,7 @@ export class ProfilePage {
     });
     modal.onDidDismiss(data => {
       this.getCommunties();
-      this.getProfileInfo()
+      this.getProfileInfo(1)
     });
     modal.present();
   }

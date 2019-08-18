@@ -70,7 +70,7 @@ export class MyApp {
   public editableCommunity: String;
 
   constructor(
-    private storage: Storage,
+      private storage: Storage,
     public localNotifications: LocalNotifications,
     private eventFilterProvider: EventFilterProvider,
     private eventProvider: EventProvider,
