@@ -159,40 +159,44 @@ export class EventsPage {
     let tmp = [];
     let i = 1;
 
-    while (i < events.length - 1) {
-      if (
-        events[i - 1].eventStartDate.toString().substring(5, 7) ==
-        events[i].eventStartDate.toString().substring(5, 7) &&
-        events[i - 1].eventStartDate.toString().substring(0, 4) ==
-        events[i].eventStartDate.toString().substring(0, 4)
-      ) {
-        tmp[i - 1] = false;
-      } else if (
-        events[i - 1].eventStartDate.toString().substring(5, 7) ==
-        events[i].eventStartDate.toString().substring(5, 7) &&
-        events[i - 1].eventStartDate.toString().substring(0, 4) ==
-        events[i].eventStartDate.toString().substring(0, 4)
-      ) {
+    if (events.length > 1) {
+      while (i < events.length - 1) {
+        if (
+          events[i - 1].eventStartDate.toString().substring(5, 7) ==
+          events[i].eventStartDate.toString().substring(5, 7) &&
+          events[i - 1].eventStartDate.toString().substring(0, 4) ==
+          events[i].eventStartDate.toString().substring(0, 4)
+        ) {
+          tmp[i - 1] = false;
+        } else if (
+          events[i - 1].eventStartDate.toString().substring(5, 7) ==
+          events[i].eventStartDate.toString().substring(5, 7) &&
+          events[i - 1].eventStartDate.toString().substring(0, 4) ==
+          events[i].eventStartDate.toString().substring(0, 4)
+        ) {
+          i++;
+          tmp[i - 1] = events[i].eventStartDate;
+        } else if (
+          events[i - 1].eventStartDate.toString().substring(5, 7) !=
+          events[i].eventStartDate.toString().substring(5, 7)
+        ) {
+          i++;
+          tmp[i - 1] = events[i].eventStartDate;
+        }
         i++;
-        tmp[i - 1] = events[i].eventStartDate;
-      } else if (
-        events[i - 1].eventStartDate.toString().substring(5, 7) !=
-        events[i].eventStartDate.toString().substring(5, 7)
-      ) {
-        i++;
-        tmp[i - 1] = events[i].eventStartDate;
       }
-      i++;
+  
+      if (
+        events[events.length - 2].eventStartDate.toString().substring(5, 7) !=
+        events[events.length - 1].eventStartDate.toString().substring(5, 7)
+      ) {
+        tmp[i] = events[events.length - 1].eventStartDate;
+      } else
+        tmp[i] = false;
+    } else {
+      tmp[0] = false;
     }
-
-    if (
-      events[events.length - 2].eventStartDate.toString().substring(5, 7) !=
-      events[events.length - 1].eventStartDate.toString().substring(5, 7)
-    ) {
-      tmp[i] = events[events.length - 1].eventStartDate;
-    } else
-      tmp[i] = false;
-
+    
     this.listMonths = tmp;
   }
 
@@ -203,7 +207,9 @@ export class EventsPage {
         if (response.events != undefined && response.events.length == 0) {
           this.allEvents = [];
         } else {
-          this.getMonthsDelimiter(response.events);
+          console.log("response.events ", response.events);
+          if (response.events.length > 0)
+            this.getMonthsDelimiter(response.events);
           this.allEvents = response.events;
           this.allEvents_tmp = response.events;
           this.perPage = response.per_page;
@@ -237,7 +243,8 @@ export class EventsPage {
           if (!response) this.allEvents = [];
           else {
             this.allEvents = this.allEvents.concat(response.events);
-            this.getMonthsDelimiter(this.allEvents);
+            if (this.allEvBorder.length > 0)
+              this.getMonthsDelimiter(this.allEvents);
             this.allEvents_tmp = this.allEvents_tmp.concat(response.events);
             this.perPage = response.per_page;
             this.totalData = response.total;
@@ -256,7 +263,8 @@ export class EventsPage {
         .subscribe(data => {
           if (data.code === 200) {
             this.allEvents = this.allEvents.concat(data.events);
-            this.getMonthsDelimiter(this.allEvents);
+            if (this.allEvents.length > 0)
+              this.getMonthsDelimiter(this.allEvents);
             this.perPageSearch = data.per_page;
             this.totalDataSearch = data.total;
             this.totalPageSearch = data.total_pages;
@@ -317,7 +325,8 @@ export class EventsPage {
       .subscribe(data => {
         if (data.code === 200) {
           this.allEvents = data.events;
-          this.getMonthsDelimiter(this.allEvents);
+          if (this.allEvents.length > 0)
+            this.getMonthsDelimiter(this.allEvents);
           this.perPageSearch = data.per_page;
           this.totalDataSearch = data.total;
           this.totalPageSearch = data.total_pages;

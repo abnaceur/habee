@@ -64,7 +64,7 @@ export class ProfilePage {
       userFullname: "",
     };
 
-    this.getProfileInfo();
+    this.getProfileInfo(0);
     this.getCommunties();
   }
 

@@ -166,7 +166,10 @@ export class CommunityPage {
       cssClass: ""
     });
     modal.onDidDismiss(data => {
-      this.getComListByCreation();
+      this.pageComParticipation = 0;
+      this.pageComCreated = 0;
+      this.getComListByParticipation();
+      this.getComunitiesList();
     });
     modal.present();
   }
