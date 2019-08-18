@@ -38,6 +38,7 @@ export class LoginPage {
   public showPasswordText = true;
   public passwordType = "password"
   public tabParams;
+  public validatePasswords = "";
 
   public requireFirstname = false;
   public requireLastname = false;
@@ -107,6 +108,10 @@ export class LoginPage {
       });
   }
 
+  hideValidationPasswordError() {
+    this.validatePasswords = "";
+  }
+
   createUserAccount(value) {
     let check = 0
 
@@ -122,7 +127,7 @@ export class LoginPage {
 
     if (check === 0) {
       if (value.confPass != value.password)
-        this.utils.notification("Password/confirmation n'est pas correct", "top");
+        this.validatePasswords = "Votre mot de passe n'est pas correct";
       else {
         const modal = this.modalCtrl.create("TermsOfServicePage", "", { cssClass: "" });
         modal.onDidDismiss(data => {
@@ -131,7 +136,7 @@ export class LoginPage {
               if (data.code === 201)
                 this.utils.notification("Email exist !", "top");
               else if (data.code == 200) {
-                this.utils.notification("Compte cree avec succes", "top");
+                this.utils.notification("Compte créé avec succès !", "top");
                 this.loginUserToSession(value);
               } 
               else this.utils.notification("Une erreur est survenu", "top");

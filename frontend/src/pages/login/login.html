@@ -29,7 +29,7 @@
       </ion-item>
 
       <ion-item *ngIf="createAccount == true && requireLastname == true">
-          <p>Ce champs est obligatoire!</p>
+          <p>Ce champ est obligatoire!</p>
         </ion-item>
 
       <ion-item *ngIf="createAccount == true" style="background-color: white;  opacity: 0.7"
@@ -39,7 +39,7 @@
       </ion-item>
 
       <ion-item *ngIf="createAccount == true && requireFirstname == true">
-        <p>Ce champs est obligatoire!</p>
+        <p>Ce champ est obligatoire!</p>
       </ion-item>
 
 
@@ -50,11 +50,11 @@
       </ion-item>
 
       <ion-item *ngIf="authForm.controls.email.hasError('required') && authForm.controls.email.touched">
-        <p>Ce champs est obligatoire!</p>
+        <p>Ce champ est obligatoire!</p>
       </ion-item>
 
       <ion-item *ngIf="authForm.controls.email.hasError('pattern') && authForm.controls.email.touched">
-        <p>Cet email est non valid!</p>
+        <p>L'email n'est pas valide!</p>
       </ion-item>
 
       <!--
@@ -70,7 +70,7 @@
       <ion-item style="background-color: white;  opacity: 0.7"
         [ngClass]="{'error-border':!authForm.controls.password.valid && authForm.controls.password.touched}">
         <!--  <ion-label floating>Mot de passe</ion-label> -->
-        <ion-input style="color: darkblue" placeholder="Mot de passe" formControlName="password" type={{passwordType}}>
+        <ion-input (click)="hideValidationPasswordError()" style="color: darkblue" placeholder="Mot de passe" formControlName="password" type={{passwordType}}>
         </ion-input>
         <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="showPasswordText" ion-button clear
           color="dark" type="button" item-right (click)="showPassword()">
@@ -82,6 +82,9 @@
         </button>
       </ion-item>
 
+      <ion-item text-wrap *ngIf="authForm.controls.password.hasError('minlength') && authForm.controls.password.touched">
+        <p>Votre mot de passe doit contenir un minimum de 8 caractères !</p>
+      </ion-item>
 
       <ion-item *ngIf="authForm.controls.password.hasError('required') && authForm.controls.password.touched">
         <p>Ce champ est obligatoire!</p>
@@ -97,7 +100,7 @@
       <ion-item style="background-color: white;  opacity: 0.7" *ngIf="createAccount == true"
         [ngClass]="{'error-border':!authForm.controls.confPass.valid && authForm.controls.confPass.touched}">
         <!--  <ion-label floating>Mot de passe</ion-label> -->
-        <ion-input style="color: darkblue" formControlName="confPass" placeholder="Confirmer le mot de passe"
+        <ion-input (click)="hideValidationPasswordError()" style="color: darkblue" formControlName="confPass" placeholder="Confirmez le mot de passe"
           type={{passwordType}} ></ion-input>
         <button style="color: blueviolet;  opacity: 10; font-size: 19px;" *ngIf="showPasswordText" ion-button clear
           color="dark" type="button" item-right (click)="showPassword()">
@@ -108,12 +111,15 @@
           <ion-icon name="ios-eye-outline"></ion-icon>
         </button>
       </ion-item>
-
-
-
+    
+      <ion-item *ngIf="validatePasswords != ''">
+        <p>{{validatePasswords}}</p>
+      </ion-item>
+    
       <ion-item *ngIf="authForm.controls.confPass.hasError('required') && authForm.controls.confPass.touched">
         <p>Ce champ est obligatoire!</p>
       </ion-item>
+
 
 
       <!-- <ion-item *ngIf="authForm.controls.confPass.hasError('pattern') && authForm.controls.confPass.touched" text-wrap>
@@ -130,7 +136,7 @@
                   </ion-item> -->
 
 
-      <div (click)="resetPassword()" style="float: right;color: lightgray;">
+      <div (click)="resetPassword()" style="float: right;color: white; font-weight: 700">
         <ion-label>
           Mot de passe perdu ou oublié ?
         </ion-label>
@@ -162,6 +168,6 @@
       <ion-icon style="color: #45D8E5;" name='arrow-backward'></ion-icon> RETOUR
     </button>
     <button ion-button (click)="loginUser()" style="color:wite; background-color:rgb(31, 199, 214);"
-      class="col col-50 button button-block">CREE</button>
+      class="col col-50 button button-block">CRÉER</button>
   </div>
 </div>

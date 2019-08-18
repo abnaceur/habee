@@ -75,9 +75,9 @@ background-color: #fcfcfc;">
                         <ion-icon name="eye"></ion-icon>
                         Voir
                       </button> -->
-        <button ion-button style="position: relative; width: 100px" color="danger" (click)="unsubscrib(event.eventId)">
-          <ion-icon name="people"></ion-icon>
-          Desinscrire
+        <button text-wrap ion-button style="position: relative; width: 100px; background-color: deeppink"  (click)="unsubscrib(event.eventId)">
+          <!-- <ion-icon name="people"></ion-icon> -->
+          ME DÉSINSCRIRE
         </button>
       </ion-item-options>
     </ion-item-sliding>
@@ -136,11 +136,11 @@ background-color: #fcfcfc;">
                   Voir
                 </button> -->
         <button class="pop-in" [ngClass]="{ 'expand' : expanded, 'contract': contracted }" (click)="expand(event)"
-          style="position: relative; width: 100px" ion-button color="secondary">
+          style="position: relative; width: 100px; background-color: #77ad35" ion-button>
           <ion-icon name="create"></ion-icon>
           Modifier
         </button>
-        <button ion-button style="position: relative; width: 100px" color="danger" (click)="deleteEvent(event)">
+        <button ion-button style="position: relative; width: 100px; background-color: deeppink" (click)="deleteEvent(event)">
           <ion-icon name="trash"></ion-icon>
           Supprimer
         </button>
@@ -157,7 +157,7 @@ background-color: #fcfcfc;">
 </ion-content>
 
 <ion-footer>
-  <ion-fab (click)="expand('this')" style="margin-bottom: 16vw" bottom right mini #fab>
+  <ion-fab [ngStyle]="{'display': orgnizeEvBorderDisplay}" (click)="expand('this')" style="margin-bottom: 16vw" bottom right mini #fab>
     <button ion-fab style="background-color: #48d7e4;" mini>
       <ion-icon  [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
        style="color:white; font-size: 32px" name="add"></ion-icon>

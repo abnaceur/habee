@@ -123,7 +123,7 @@ export class MyApp {
     ];
 
     this.pages = [
-      { title: "Accueil", component: "TabsPage", active: true, icon: "home" },
+      { title: "Les évent à l'affiche", component: "TabsPage", active: true, icon: "home" },
       {
         title: "Profil",
         component: "TabsPage",

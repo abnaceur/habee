@@ -62,7 +62,7 @@ background-color: #fcfcfc;">
 
   <ion-list [ngStyle]="{'margin-top': topList, 'display': allEvBorderDisplay}">
     <ion-item *ngIf="allEvents.length == 0" text-wrap>
-      Vous avez aucun evenement dans vos communaute.
+      Aucun événement pour le moment, n'hésitez pas à en proposer un.
     </ion-item>
   </ion-list>
 
@@ -100,7 +100,7 @@ background-color: #fcfcfc;">
           <span>Invite</span>
         </span>
         <span *ngIf="event.eventIsPublic == false && event.eventCreator == tabParams.userId" class="ribbon sale">
-          <span>Privé-Moi</span>
+          <span>PRIVÉ-Moi</span>
         </span>
         <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId" class=" ribbon javascript">
           <span>Public-Moi</span>
@@ -122,7 +122,7 @@ background-color: #fcfcfc;">
 
   <ion-list [ngStyle]="{'margin-top': topList, 'display': weeklyEvBorderDisplay}">
     <ion-item *ngIf="weeklyEvents.length == 0">
-      Vous avez aucun evenement cet semaine
+      Aucun évent cette semaine, n'hésitez pas à en proposer un
     </ion-item>
   </ion-list>
 

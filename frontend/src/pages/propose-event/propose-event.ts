@@ -143,7 +143,7 @@ export class ProposeEventPage {
   changePicture() {
     const actionsheet = this.actionsheetCtrl.create({
       title: "upload picture",
-      buttons: [
+      buttons: [  
         {
           text: "camera",
           icon: !this.platform.is("ios") ? "camera" : null,

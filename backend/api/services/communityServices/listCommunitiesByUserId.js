@@ -9,7 +9,6 @@ getUserComs = (userId) => {
             userId: userId
         }).exec()
         .then(user => {
-            console.log("User :", user);
             resolve(user[0].communities)
         })
         .catch(err => console.log("getUserComs Err :", err))
@@ -22,11 +21,12 @@ getUserCreatedComs = (userId, pageTmp) => {
             communityCreator: userId,
             communityIsDeleted: false
         })
+        .collation({locale:'en',strength: 2})
+        .sort({communityName: 'asc'})
         .skip(Number(pageTmp * 10))
         .limit(Number(10))
         .exec()
         .then(communitiesByCreation => {
-            console.log("comCreate = ", communitiesByCreation)
             resolve(communitiesByCreation)
         }).catch(err => {
             reject(err);
@@ -46,11 +46,12 @@ getUserParticipatedComs = (coms,userId, pageTmp) => {
             },
             communityIsDeleted: false
         })
+        .collation({locale:'en',strength: 2})
+        .sort({communityName: 'asc'})
         .skip(Number(pageTmp * 10))
         .limit(Number(10))
         .exec()
         .then(communitiesByParticipation => {
-            console.log("communitiesByParticipation = ", communitiesByParticipation.length)
             resolve(communitiesByParticipation)
         }).catch(err => {
             reject(err);

@@ -88,7 +88,7 @@ export class EditAccountPage {
     else {
       this.accountService.updateUserAccount(values, this.tabParams)
       .subscribe(data => {
-        if (data === 200) this.utils.notification("Compte est mise ajour", "top")
+        if (data === 200) this.utils.notification("Votre compte a été mis à jour", "top")
         else if (data === 500) this.utils.notification("Une erreur est survenu", "top");
       })
     }

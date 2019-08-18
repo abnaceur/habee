@@ -42,7 +42,7 @@ export class TabsPage {
 
   ionViewWillEnter() {
     if (this.navParams.data.length == 2) {
-      if (this.navParams.data[0] == "Accueil") this.tabRef.select(0);
+      if (this.navParams.data[0] == "Les évent à l'affiche") this.tabRef.select(0);
       if (this.navParams.data[0] == "Profil") this.tabRef.select(4);
       if (this.navParams.data[0] == "listContact") this.tabRef.select(2);
       if (this.navParams.data[0] == "Déconnexion") {
@@ -53,7 +53,7 @@ export class TabsPage {
         })
       };
     } else {
-      if (this.navParams[0] == "Accueil") this.tabRef.select(0);
+      if (this.navParams[0] == "Les évent à l'affiche") this.tabRef.select(0);
       if (this.navParams[0] == "Profil") this.tabRef.select(4);
       if (this.navParams[0] == "listContact") this.tabRef.select(2);
       if (this.navParams[0] == "Déconnexion") {

@@ -28,21 +28,24 @@
       <ion-row text-wrap>
         <ion-col text-center>
           <ion-icon name="">{{eventDetails.nbrParticipants - eventDetails.participants.length}}</ion-icon>
-          <span class="item-block">Place libre</span>
+          <span *ngIf="eventDetails.nbrParticipants - eventDetails.participants.length <= 1" class="item-block">Place libre</span>
+          <span *ngIf="eventDetails.nbrParticipants - eventDetails.participants.length >= 1" class="item-block">Places libre</span>
         </ion-col>
         <ion-col text-center>
           <ion-icon name="">{{eventDetails.participants.length}}</ion-icon>
-          <span class="item-block">Participants</span>
+          <span *ngIf="eventDetails.participants.length <= 1" class="item-block">Participant</span>
+          <span *ngIf="eventDetails.participants.length >= 1" class="item-block">Participants</span>
         </ion-col>
         <ion-col text-center>
           <ion-icon name="">{{allComments.length}}</ion-icon>
-          <span class="item-block">Commentaires</span>
+          <span *ngIf="allComments.length <= 1" class="item-block">Commentaire</span>
+          <span *ngIf="allComments.length >= 1" class="item-block">Commentaires</span>
         </ion-col>
       </ion-row>
     </ion-grid>
     <ion-grid class="listing-details">
       <ion-item style="text-align: justify">
-        <p> <span style="color: #1aa6d0">Commenece le </span>
+        <p> <span style="color: #1aa6d0">Commence le </span>
           <b>
             {{eventDetails.eventStartDate.substring(8,10)}}/{{eventDetails.eventStartDate.substring(5,
                   7)}}/{{eventDetails.eventStartDate.substring(0, 4)}} a {{eventDetails.eventStartHour}}
@@ -235,7 +238,7 @@
   </div>
 
 
-  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed == 'Desinscrir'"
+  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed == 'ME DÉSINSCRIRE'"
     style="background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
       <button ion-button (click)='subscribeToEvent(eventDetails.eventId)'
@@ -245,7 +248,7 @@
     </div>
   </div>
 
-  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed != 'Desinscrir'"
+  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed != 'ME DÉSINSCRIRE'"
     style="background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
       <button ion-button style="color: wite; background-color:deeppink;" class="col col-50 button button-block">

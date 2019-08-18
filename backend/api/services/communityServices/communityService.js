@@ -8,8 +8,8 @@ const communityClass = require('../../classes/communityClass')
 exports.getAllcommunitiesIds = () => {
     return new Promise((resolve, reject) => {
         Community.find({
-                communityIsDeleted: false
-            })
+            communityIsDeleted: false
+        })
             .exec().then(data => {
                 let arr = [];
                 data.map(d => {
@@ -24,8 +24,8 @@ exports.getUserCommunities = (userId) => {
 
     return new Promise((resolve, reject) => {
         User.find({
-                userId: userId
-            }).exec()
+            userId: userId
+        }).exec()
             .then(usr => {
                 resolve(usr[0].communities)
             })
@@ -63,27 +63,45 @@ exports.getAllcommunitiesById = (communities, res) => {
     })
 }
 
+// OLD LOGIC
+// exports.getCommunityByCreator = (userId, res) => {
+//     this.getUserCommunities(userId)
+//         .then(communities => {
+//             Community.find({
+//                     communityCreator: userId,
+//                     communityIsDeleted: false
+//                 })
+//                 .exec()
+//                 .then(coms => {
+//                     (coms.length != 0 && communities.length != 0) ?
+//                     this.ifCommunityExist(communities, coms, res):
+//                         (coms.length == 0 && communities.length != 0) ?
+//                         this.getAllcommunitiesById(communities, res) :
+//                         res.status(200).json({
+//                             communities: coms
+//                         })
+//                 }).catch(err => {
+//                     res.status(500).json({
+//                         Error: err
+//                     })
+//                 })
+//         })
+// }
+
 exports.getCommunityByCreator = (userId, res) => {
-    this.getUserCommunities(userId)
-        .then(communities => {
-            Community.find({
-                    communityCreator: userId,
-                    communityIsDeleted: false
-                })
-                .exec()
-                .then(coms => {
-                    (coms.length != 0 && communities.length != 0) ?
-                    this.ifCommunityExist(communities, coms, res):
-                        (coms.length == 0 && communities.length != 0) ?
-                        this.getAllcommunitiesById(communities, res) :
-                        res.status(200).json({
-                            communities: coms
-                        })
-                }).catch(err => {
-                    res.status(500).json({
-                        Error: err
-                    })
-                })
+    Community.find({
+        communityCreator: userId,
+        communityIsDeleted: false
+    })
+        .exec()
+        .then(coms => {
+            res.status(200).json({
+                communities: coms
+            })
+        }).catch(err => {
+            res.status(500).json({
+                Error: err
+            })
         })
 }
 
@@ -111,9 +129,9 @@ exports.updateThis = (res, community, communityInfo, communityPhoto) => {
 exports.checkIfNameExist = (res, community, communityInfo, communityPhoto) => {
 
     Community.find({
-            communityName: communityInfo.communityName,
-            communityIsDeleted: false
-        }).exec()
+        communityName: communityInfo.communityName,
+        communityIsDeleted: false
+    }).exec()
         .then(com => {
             if (com.length != 0) {
                 res.status(200).json({
@@ -128,9 +146,9 @@ exports.checkIfNameExist = (res, community, communityInfo, communityPhoto) => {
 
 exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
     Community.find({
-            communityId: communityId,
-            communityIsDeleted: false
-        }).exec()
+        communityId: communityId,
+        communityIsDeleted: false
+    }).exec()
         .then(community => {
             if (community[0].communityName != communityInfo.communityName) {
                 this.checkIfNameExist(res, community, communityInfo, communityPhoto)
@@ -145,9 +163,9 @@ exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
 
 exports.deleteCommunityById = (res, communityId) => {
     Community.find({
-            communityId: communityId,
-            communityIsDeleted: false
-        }).exec()
+        communityId: communityId,
+        communityIsDeleted: false
+    }).exec()
         .then(community => {
             community[0].communityIsDeleted = true;
             this.updateCommunityById(res, community)
@@ -192,8 +210,8 @@ exports.updateUser = (res, usr) => {
 exports.updateSelectedCommunity = (res, communityId, userId) => {
 
     User.find({
-            userId: userId
-        })
+        userId: userId
+    })
         .exec()
         .then(usr => {
             usr[0].activeCommunity = communityId;
@@ -206,9 +224,9 @@ exports.updateSelectedCommunity = (res, communityId, userId) => {
 
 exports.addCommunity = (req, res, imagePath, userId) => {
     Community.find({
-            communityId: req.body.communityId,
-            communityIsDeleted: false
-        }).exec()
+        communityId: req.body.communityId,
+        communityIsDeleted: false
+    }).exec()
         .then(com => {
             if (com.length > 0) {
                 res.status(200).json({
@@ -217,8 +235,8 @@ exports.addCommunity = (req, res, imagePath, userId) => {
                 })
             } else {
                 User.find({
-                        userId: userId
-                    }).exec()
+                    userId: userId
+                }).exec()
                     .then(usr => {
                         const community = new Community(communityClass.communityClassModal(req, imagePath));
                         community
@@ -242,9 +260,9 @@ exports.addCommunity = (req, res, imagePath, userId) => {
 
 exports.getCommunityById = (res, id) => {
     Community.find({
-            communityId: id,
-            communityIsDeleted: false,
-        })
+        communityId: id,
+        communityIsDeleted: false,
+    })
         .exec()
         .then(com => {
             if (com.length === 0) {
@@ -292,9 +310,9 @@ exports.filterCommunities = (data, userId) => {
 
 exports.getCommunitiesByParticipation = (res, userId) => {
     Community.find({
-            communityMembers: userId,
-            communityIsDeleted: false
-        }).exec()
+        communityMembers: userId,
+        communityIsDeleted: false
+    }).exec()
         .then(data => {
             this.filterCommunities(data, userId)
                 .then(data => {

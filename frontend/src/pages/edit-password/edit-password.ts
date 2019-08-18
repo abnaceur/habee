@@ -80,7 +80,7 @@ export class EditPasswordPage {
               .subscribe(code => {
                 if (code === 200)
                   this.utils.notification(
-                    "Votre mot de passe est mise a jour.",
+                    "Votre mot de passe a été mis à jour",
                     "top"
                   );
                 else this.utils.notification("Une erreur est survenu!", "top");

@@ -96,7 +96,7 @@ export class EventDetailsPage {
     "Nov",
     "Dec"
   ];
-  public isSubscribed = "S'inscrir";
+  public isSubscribed = "M'INSCRIRE";
   quotes: any;
 
   constructor(
@@ -132,7 +132,7 @@ export class EventDetailsPage {
       if (pr != null) {
         if (pr.participantId == this.tabParams.userId) {
           this.subColor = "deeppink";
-          this.isSubscribed = "Desinscrir";
+          this.isSubscribed = "ME DÉSINSCRIRE";
         }
       }
     });
@@ -309,7 +309,7 @@ export class EventDetailsPage {
           }
         },
         {
-          text: "Cancel",
+          text: "Annuler",
           role: "cancel",
           handler: () => {
             console.log("Cancel clicked");
@@ -321,8 +321,8 @@ export class EventDetailsPage {
   }
 
   updateParticipantsList(value, eventId) {
-    if (value == true) (this.subColor = "deeppink", this.isSubscribed = "Desinscrir")
-    else (this.subColor = "lightseagreen", this.isSubscribed = "S'inscrir");
+    if (value == true) (this.subColor = "deeppink", this.isSubscribed = "ME DÉSINSCRIRE")
+    else (this.subColor = "lightseagreen", this.isSubscribed = "M'INSCRIRE");
 
     this.eventProvider
       .getEventById(eventId, this.tabParams.token)
@@ -342,10 +342,10 @@ export class EventDetailsPage {
       .subscribe(response => {
         if (response.Subscribe == true) {
           this.updateParticipantsList(true, eventId);
-          this.utils.notification("inscription reussie !", "top");
+          this.utils.notification("Inscription enregistrée !", "top");
         } else if (response.Subscribe == false) {
           this.updateParticipantsList(false, eventId);
-          this.utils.notification("Desinscription reussie !", "top");
+          this.utils.notification("Désinscription enregistrée !", "top");
         }
       });
   }
