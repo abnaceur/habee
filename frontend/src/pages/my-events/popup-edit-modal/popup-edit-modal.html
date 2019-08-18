@@ -24,40 +24,43 @@
           <p>Ce champs est obligatoire!</p>
         </ion-item>
 
-        <ion-item (click)="openCalendar()" no-lines>
+        <ion-item (click)="openCalendar()" text-wrap>
+          <ion-icon name="calendar" item-left></ion-icon>
+
           <ion-label style="color: black">
-            <ion-icon name="calendar" item-left></ion-icon>
-          </ion-label>
-          <ion-label style="position: relative;    left: -98px;
-            color: #9c9c9c;
-            font-weight: bold;">
             {{dateLabel}}
           </ion-label>
         </ion-item>
 
-        <ion-item no-lines>
-          <ion-label>
-            <ion-icon style="color: black" name="time" item-left>
-            </ion-icon>
+        <ion-item>
+          <ion-icon style="color: black" name="time" item-left>
+          </ion-icon>
+          <ion-label style="color: black">
+            Heure de debut
           </ion-label>
+  
           <ion-datetime style="position: relative;float: left; color: black" name="eventStartHour" type="time"
             placeholder="Heur de debut" displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
+        </ion-item>
 
+        <ion-item>
+          <ion-icon style="color: black" name="time" item-left>
+          </ion-icon>
+  
+          <ion-label style="color: black">
+            Heure de fin
+          </ion-label>
+  
           <ion-datetime style="position: relative;float: right; color: black" name="eventEndHour" type="time"
             placeholder="Heur de fin" displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
-
         </ion-item>
-
-        <ion-item
-          *ngIf="editEventForm.controls.eventStartHour.hasError('required') && editEventForm.controls.eventStartHour.touched">
-          <p>Ce champs est obligatoire!</p>
-        </ion-item>
-
+  
 
 
         <ion-item>
           <ion-label>Categorie</ion-label>
           <ion-select formControlName="eventCategory" multiple="false">
+            <ion-option>Autres</ion-option>
             <ion-option>Sports</ion-option>
             <ion-option>Arts</ion-option>
             <ion-option>Culture</ion-option>
@@ -76,31 +79,54 @@
           </ion-select>
         </ion-item>
 
-        <ion-item
-          *ngIf="editEventForm.controls.eventCategory.hasError('required') && editEventForm.controls.eventCategory.touched">
-          <p>Ce champs est obligatoire!</p>
-        </ion-item>
-
 
         <ion-item>
           <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-input placeholder="Location" formControlName="eventLocation" type="text"></ion-input>
+          <ion-input placeholder="Lieu" formControlName="eventLocation" type="text"></ion-input>
         </ion-item>
 
 
-        <ion-item
-          *ngIf="editEventForm.controls.eventLocation.hasError('required') && editEventForm.controls.eventLocation.touched">
-          <p>Ce champs est obligatoire!</p>
-        </ion-item>
-
+        
         <ion-item>
-          <!--   <ion-label floating>E-mail</ion-label> -->
+          <ion-label floating>Nombre de participants requis/ attendu</ion-label>
           <ion-input placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
         </ion-item>
-
+  
         <ion-item
           *ngIf="editEventForm.controls.eventNbrParticipants.hasError('required') && editEventForm.controls.eventNbrParticipants.touched">
           <p>Ce champs est obligatoire!</p>
+        </ion-item>
+
+        <ion-item>
+          <!--   <ion-label floating>E-mail</ion-label> -->
+          <ion-textarea placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            Avec quelle(s) team(s) partager l'event ? &nbsp; &nbsp;
+            <ion-fab>
+              <ion-icon name=""></ion-icon>
+            </ion-fab>
+          </ion-label>
+        </ion-item>
+  
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 55px; width: 100%;
+        min-height: 40px;">
+          <a *ngFor="let com of allCommunities">
+            <ion-badge (click)="com.selected = !com.selected; selectedCommunityList(com)"
+              [ngStyle]='{"background-color" : com.selected == false ? "silver" : "#45D8E5", "color" : com.selected == false ? "white": "white"}'>
+              {{com.value}}</ion-badge>
+          </a>
+        </ion-scroll>
+  
+        <ion-item *ngIf="validateCommubities != ''" no-lines>
+          <p>{{validateCommubities}}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label style="left:-14%">Evènement public</ion-label>
+          <ion-toggle formControlName="eventIsPublic" color="success"></ion-toggle>
         </ion-item>
 
         <ion-item>
@@ -118,37 +144,6 @@
             onerror="this.src='assets/img/defaultsEvent.png'" />
         </ion-item>
 
-        <ion-item>
-          <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-textarea placeholder="Description" formControlName="eventDescription" type="text"></ion-textarea>
-        </ion-item>
-
-        <ion-item no-lines>
-          <ion-label>
-            Paratger avec vos communauté &nbsp; &nbsp;
-            <ion-fab>
-              <ion-icon name=""></ion-icon>
-            </ion-fab>
-          </ion-label>
-        </ion-item>
-
-        <ion-scroll scrollX="true" style="white-space: nowrap; height: 55px; width: 100%;
-      min-height: 40px;">
-          <a *ngFor="let com of allCommunities">
-            <ion-badge (click)="com.selected = !com.selected; selectedCommunityList(com)"
-              [ngStyle]='{"background-color" : com.selected == false ? "silver" : "mediumslateblue", "color" : com.selected == false ? "white": "white"}'>
-              {{com.value}}</ion-badge>
-          </a>
-        </ion-scroll>
-
-        <ion-item *ngIf="validateCommubities != ''" no-lines>
-          <p>{{validateCommubities}}</p>
-        </ion-item>
-
-        <ion-item>
-          <ion-label style="position: relative; left:-14%">Publique</ion-label>
-          <ion-toggle formControlName="eventIsPublic" color="success"></ion-toggle>
-        </ion-item>
 
 
         <ion-row>

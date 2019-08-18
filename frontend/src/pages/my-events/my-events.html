@@ -31,8 +31,33 @@ background-color: #fcfcfc;">
     </ion-col>
   </div>
 
-  <ion-list [ngStyle]="{'display': participEvBorderDisplay}">
-    <ion-item-sliding *ngFor="let event of userInfo">
+  <ion-list *ngFor="let event of userInfo, let idx = index" [ngStyle]="{'display': participEvBorderDisplay}">
+
+    <span *ngIf="listMonthsUser.length > 0">
+      <ion-item *ngIf="idx == 0">
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
+                      + dateFormat(event.eventStartDate).format('MMM').toString().substring(1,
+                      dateFormat(event.eventStartDate).format('MMM').toString().length)
+                      }} </p>
+      </ion-item>
+    </span>
+
+    <span *ngIf="listMonthsUser.length > 0">
+      <ion-item *ngIf="idx >= 1 && listMonthsUser[idx]">
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(listMonthsUser[idx]).format('MMM').charAt(0).toUpperCase()
+                          + dateFormat(listMonthsUser[idx]).format('MMM').toString().substring(1,
+                          dateFormat(listMonthsUser[idx]).format('MMM').toString().length)
+                          }} </p>
+      </ion-item>
+    </span>
+  
+
+    <ion-item-sliding>
+
       <ion-item *ngIf="event != null" (click)='viewEventDetails(event)' no-lines>
         <ion-thumbnail item-start>
           <img [src]='url + "/" + event.eventPhoto'>

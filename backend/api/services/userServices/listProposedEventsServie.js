@@ -8,6 +8,7 @@ eventModal = (event) => {
         eventCommunity: event.eventCommunity,
         eventName: event.eventName,
         eventCreator: event.eventCreator,
+        eventIsPublic: event.eventIsPublic,
         eventDescription: event.eventDescription,
         eventStartDate: event.eventStartDate,
         eventEndDate: event.eventEndDate,

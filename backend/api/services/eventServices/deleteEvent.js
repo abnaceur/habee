@@ -57,7 +57,6 @@ deleteThisEvent = (eventId, communityId, req, res) => {
 
                     });
             } else if (req.body.check == 0) {
-                console.log("req.body edit : ", req.body)
                 Event.findByIdAndUpdate(req.body._id,
                     req.body, {
                         new: false,
@@ -68,7 +67,6 @@ deleteThisEvent = (eventId, communityId, req, res) => {
                         res.status(200).json({
                             message: "success"
                         })
-
                     });
             }
         })

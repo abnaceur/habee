@@ -279,7 +279,7 @@ export class EventProvider {
         "eventId": userInfo.eventId,
         "eventIsDeleted": false,
         "eventIsOver": false,
-        "eventIsPublic": false,
+        "eventIsPublic": event.eventIsPublic,
         "eventLocation": event.eventLocation,
         "eventName": event.eventTitle,
         "eventPhoto": uploadedImage,

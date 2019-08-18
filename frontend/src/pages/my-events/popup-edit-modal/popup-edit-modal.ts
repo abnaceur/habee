@@ -76,23 +76,27 @@ export class PopupEditModalPage {
   ) {
     this.editEventForm = formBuilder.group({
       eventTitle: ["", Validators.compose([Validators.required])],
-      eventLocation: ["", Validators.compose([Validators.required])],
-      eventNbrParticipants: ["", Validators.compose([Validators.required])],
-      eventDescription: ["", Validators.compose([Validators.required])],
-      eventStartHour: ["", Validators.compose([Validators.required])],
-      eventEndHour: ["", Validators.compose([Validators.required])],
+      eventLocation: ["", Validators.compose([])],
+      eventNbrParticipants: [2, Validators.compose([Validators.required])],
+      eventDescription: ["", Validators.compose([])],
+      eventStartHour: ["00:00", Validators.compose([])],
+      eventEndHour: ["00:00", Validators.compose([])],
       eventIsPublic: [false, Validators.compose([Validators.required])],
-      eventCategory: ["", Validators.compose([Validators.required])]
+      eventCategory: ["Autres", Validators.compose([])]
     });
-
+ 
     this.eventDetails = this.navParams.data.event;
     this.tabParams = this.navParams.data.userInfo;
 
     this.chosenPicture = this.eventDetails.eventPhoto;
 
+    console.log("this.eventDetails :" , this.eventDetails);
     this.eventStartDate = this.eventDetails.eventStartDate;
     this.eventEndDate = this.eventDetails.eventEndDate;
 
+    this.dateLabel = this.eventStartDate.substring(8, 10) + "/" + this.eventStartDate.substring(5, 7) + "/" + this.eventStartDate.substring(0, 4)
+    + "-" + this.eventEndDate.substring(8, 10) + "/" + this.eventEndDate.substring(5, 7) + "/" + this.eventEndDate.substring(0, 4)
+     
     console.log("event : ==> ", this.eventDetails);
     this.editEventForm = this._FB.group({
       eventId: [this.eventDetails.eventId],
@@ -269,16 +273,15 @@ export class PopupEditModalPage {
     let check = 0;
 
     arr.map(ar => {
-      console.log("Ar == index", ar, index);
       if (ar.toString() == index.toString()) {
         check = 1;
       }
     })
 
     if (check == 1)
-    return true;
+      return true;
     else
-    return false;
+      return false;
   }
 
   initListCommunity(communities) {

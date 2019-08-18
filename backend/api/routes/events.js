@@ -114,7 +114,7 @@ router.get('/:eventId/issubscribed/:userId/community/:communityId', authCkeck, e
 router.get('/:eventId', authCkeck, eventController.get_event_by_id);
 
 /**
- * API [PUT] foor route /events/delete/:eventId/community/:communityId [USED]
+ * API [PUT] foor route /events/edit/:eventId/community/:communityId [USED]
  */
 
 router.put('/edit/:eventId/community/:communityId', authCkeck, eventController.deleteEventByCommunityId)

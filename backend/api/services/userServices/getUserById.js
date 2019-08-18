@@ -10,13 +10,13 @@ getCommunityName = (comId) => {
         Community.find({
             communityId: comId
         }).exec()
-        .then(com => {
-            resolve(com[0].communityName) 
-        }).catch(err => console.log("getCommunityName : Err ", err))
+            .then(com => {
+                resolve(com[0].communityName)
+            }).catch(err => console.log("getCommunityName : Err ", err))
     })
 }
 
-async function  getAllEventCommunityname (res, events, usr) {
+async function getAllEventCommunityname(res, events, usr) {
     let ev = [];
     let i = 0;
 
@@ -28,47 +28,50 @@ async function  getAllEventCommunityname (res, events, usr) {
         i++;
     }
 
-    //TODO REMOVE THE NULL FILED
+
+    i = 0;
+    ev.map(event => {
+        if (event === undefined || event === null)
+            ev.splice(i, 1);
+        i++;
+    })
+
     res.status(200).json({
         User: ev,
         event: events
     });
 }
 
+getEventIds = (events) => {
+    let ids = [];
+    events.map(ev => {
+        ids.push(ev.eventId);
+    })
+
+    return Promise.resolve(ids);
+}
+
 async function getUserEvent(usr, res) {
+    let eventsParticipatedIds = await getEventIds(usr[0].eventsParticipated);
     Event.find({
-            eventIsOver: false,
-            eventIsDeleted: false,
-        }).exec()
+        eventIsOver: false,
+        eventIsDeleted: false,
+        eventId: {
+            "$in": eventsParticipatedIds
+        }
+    })
+        .sort("eventStartDate")
+        .exec()
         .then(event => {
-            eventService.getAllpublicEvents()
-                .then(ev => {
-                    event = utils.concatArraysUser(event, ev)
-
-                    let allUserEvents = [];
-                    let i = 0;
-                    let z = 0;
-
-                    while (i < usr[0].eventsParticipated.length) {
-                        while (z < event.length) {
-                            if (usr[0].eventsParticipated[i].eventId == event[z].eventId) {                                
-                                allUserEvents.push(event[z]);
-                            }
-                            z++;
-                        }
-                        z = 0;
-                        i++;
-                    }
-                    usr[0].eventsParticipated = allUserEvents;
-                    getAllEventCommunityname(res, event, usr)
-                })
+            usr[0].eventsParticipated = event;
+            getAllEventCommunityname(res, event, usr)
         })
 }
 
 getUserById = (id, res) => {
     User.find({
-            userId: id
-        })
+        userId: id
+    })
         .exec()
         .then(usr => {
             if (usr.length === 0) {

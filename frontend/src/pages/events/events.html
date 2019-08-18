@@ -100,10 +100,10 @@ background-color: #fcfcfc;">
           <span>Invite</span>
         </span>
         <span *ngIf="event.eventIsPublic == false && event.eventCreator == tabParams.userId" class="ribbon sale">
-          <span>Prive</span>
+          <span>Privé-Moi</span>
         </span>
         <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId" class=" ribbon javascript">
-          <span>Public - moi</span>
+          <span>Public-Moi</span>
         </span>
         <img [src]='url + "/" + event.eventPhoto'>
       </ion-thumbnail>
