@@ -81,7 +81,7 @@ export class RemoveCommunityFromContactPopupPage {
       )
       .subscribe(data => {
         if (data == 200)
-          this.utils.notification("Communautes supprimer avec succes !", "top");
+          this.utils.notification("Désinscription prise en compte", "top");
         else if (data == 500)
           this.utils.notification("Desole une erreur est survenu !", "top");
       });

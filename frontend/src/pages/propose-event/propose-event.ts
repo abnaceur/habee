@@ -62,7 +62,7 @@ export class ProposeEventPage {
   allfilters: any;
   public eventStartDate = "";
   public eventEndDate = "";
-  public dateLabel = "Date de debut/fin";
+  public dateLabel = "Date de début/Date de fin";
   private endStartDate;
   public allCommunities = [];
   public selectedCommunity = [];
@@ -247,7 +247,7 @@ export class ProposeEventPage {
       } else
         this.validateCommunities = "Vous devez selectionne une communaute";
     } else
-      this.validateStartEndData = "Vous devez selectionne une date de debut/fin";
+      this.validateStartEndData = "Vous devez selectionne une date";
   }
 
   dismiss() {

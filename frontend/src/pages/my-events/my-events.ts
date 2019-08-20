@@ -303,7 +303,7 @@ export class MyEventsPage {
           if (response.code != 404) {
             this.proposedEvents = this.proposedEvents.concat(response.Events);
             if (response.Events != undefined)
-              this.getMonthsDelimiter(this.proposedEvents)
+              this.getMonthsDelimiter(this.proposedEvents, 0)
             this.perPage = response.per_page;
             this.totalData = response.total;
             this.totalPage = response.total_pages;

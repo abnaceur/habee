@@ -58,8 +58,13 @@ export class LoginPage {
     public formBuilder: FormBuilder
   ) {
     this.tabParams = this.navParams.get("logout");
-    if (this.tabParams === true)
-      this.storage.set("response", null);
+    if (this.tabParams === true) {
+      this.storage.set('response', null);
+      this.storage.remove('response')
+        .then(resp => console.log("Response removerd"))
+        .catch(err => console.log("error storage !"));
+      this.storage.clear();
+    }
     this.nav = nav;
     this.menu.enable(false, "left");
     this.authForm = formBuilder.group({
@@ -96,11 +101,22 @@ export class LoginPage {
             this.loginProvider
               .updateUserNbrConnection(response.token, response.userId)
               .subscribe(response => response);
-            this.storage.set('response', response);
-            this.nav.push("HabeeWalkthroughPage", response);
-          } else {
+            this.storage.remove('response')
+              .then(resp => console.log("Response removerd"))
+              .catch(err => console.log("error storage !"));
+            this.storage.clear();
             this.storage.set('response', response);
             this.events.publish("user:info", response);
+            console.log("Resposne new account :", response);
+            this.nav.push("HabeeWalkthroughPage", response);
+          } else {
+            this.storage.remove('response')
+              .then(resp => console.log("Response removerd"))
+              .catch(err => console.log("error storage !"));
+            this.storage.clear();
+            this.storage.set('response', response);
+            this.events.publish("user:info", response);
+            console.log("Resposne login :", response);
             this.nav.push("TabsPage", response);
           }
         } else
@@ -138,7 +154,7 @@ export class LoginPage {
               else if (data.code == 200) {
                 this.utils.notification("Compte créé avec succès !", "top");
                 this.loginUserToSession(value);
-              } 
+              }
               else this.utils.notification("Une erreur est survenu", "top");
             });
           }

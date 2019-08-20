@@ -29,7 +29,7 @@
       </ion-item>
 
       <ion-item *ngIf="createAccount == true && requireLastname == true">
-          <p>Ce champ est obligatoire!</p>
+          <p>Ce champ est obligatoire</p>
         </ion-item>
 
       <ion-item *ngIf="createAccount == true" style="background-color: white;  opacity: 0.7"
@@ -39,7 +39,7 @@
       </ion-item>
 
       <ion-item *ngIf="createAccount == true && requireFirstname == true">
-        <p>Ce champ est obligatoire!</p>
+        <p>Ce champ est obligatoire</p>
       </ion-item>
 
 
@@ -50,11 +50,11 @@
       </ion-item>
 
       <ion-item *ngIf="authForm.controls.email.hasError('required') && authForm.controls.email.touched">
-        <p>Ce champ est obligatoire!</p>
+        <p>Ce champ est obligatoire</p>
       </ion-item>
 
       <ion-item *ngIf="authForm.controls.email.hasError('pattern') && authForm.controls.email.touched">
-        <p>L'email n'est pas valide!</p>
+        <p>L'email n'est pas valide</p>
       </ion-item>
 
       <!--
@@ -83,11 +83,11 @@
       </ion-item>
 
       <ion-item text-wrap *ngIf="authForm.controls.password.hasError('minlength') && authForm.controls.password.touched">
-        <p>Votre mot de passe doit contenir un minimum de 8 caractères !</p>
+        <p>Votre mot de passe doit contenir un minimum de 8 caractères </p>
       </ion-item>
 
       <ion-item *ngIf="authForm.controls.password.hasError('required') && authForm.controls.password.touched">
-        <p>Ce champ est obligatoire!</p>
+        <p>Ce champ est obligatoire</p>
       </ion-item>
 
 
@@ -136,9 +136,9 @@
                   </ion-item> -->
 
 
-      <div (click)="resetPassword()" style="float: right;color: white; font-weight: 700">
+      <div *ngIf="createAccount == false" (click)="resetPassword()" style="float: right;color: white; font-weight: 700">
         <ion-label>
-          Mot de passe perdu ou oublié ?
+          Mot de passe oublié ?
         </ion-label>
       </div>
 

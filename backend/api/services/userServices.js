@@ -294,7 +294,7 @@ checkPassword = (req, res, users) => {
             userId: users[0].userId,
             activeCommunity: users[0].activeCommunity,
             firstConnection: users[0].firstConnection,
-            userFullname: users[0].profile.profileLastname + " " +  users[0].profile.profileFirstname,
+            userFullname: users[0].profile.profileFirstname + " " +  users[0].profile.profileLastname,
             userImage: users[0].profile.profilePhoto,
             notificationStatus: users[0].notificationStatus,
             token: token

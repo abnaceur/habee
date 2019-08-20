@@ -5,7 +5,7 @@
 
 
   <ion-title style="width: 66vw; position: relative; top: 11px;">
-    <span style="font-size: 17px;color: white; font-weight: bold">Ajouter des contacts</span>
+    <span style="font-size: 17px;color: white; font-weight: bold">Ajouter un Habeenaute</span>
   </ion-title>
 </ion-header>
 
@@ -22,9 +22,9 @@
 
     </ion-item>
 
-    <ion-item text-wrap>
+    <ion-item text-wrap no-lines>
       <ion-label>
-        A quelle(s) communauté(s) vous l'ajoutez?
+          Dans quelle(s) Team(s) voulez-vous l'inviter ?
       </ion-label>
     </ion-item>
 
@@ -60,7 +60,7 @@
 
 
     <ion-item *ngIf="contactArray[0].status == 200">
-      <p text-right>Invitation envoyer avec succes</p>
+      <p text-right>Invitation envoyée</p>
     </ion-item>
 
 
@@ -111,7 +111,7 @@
 
 
       <ion-item *ngIf="contactArray[idx].status == 200">
-        <p text-right style="color:green">Invitation envoyer avec succes</p>
+        <p text-right style="color:green">Invitation envoyée</p>
       </ion-item>
 
 

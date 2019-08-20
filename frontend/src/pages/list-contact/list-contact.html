@@ -2,17 +2,17 @@
   background-color: #fcfcfc;">
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
-    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Habeenautes/Mes contacts</span>
+    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Habeenautes (Mes contacts)</span>
   </ion-title>
 </ion-header>
 
 <ion-content padding>
   <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
     <ion-col (click)="selectContactList()" [ngStyle]="{'border-bottom': myContactBorder}" col-6>
-      Mes Habee'Nautes
+      Mes Habeenautesautes
     </ion-col>
     <ion-col (click)="selectInvitationList()" [ngStyle]="{'border-bottom': listInvitBorder}" col-6>
-      En attente
+        Mes invitations
       <span *ngIf="notificationCount != 0">
         <ion-badge class="icon-badge">{{notificationCount}}</ion-badge>
       </span>
@@ -36,8 +36,9 @@
         </span>
 
         <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
-          <ion-badge class="pull-right" color="danger">moi</ion-badge>
+          <ion-badge class="pull-right" style="background-color:#e0236f; color:white">moi</ion-badge>
         </button>
+        <ion-icon  *ngIf="user.userId != tabParams.userId" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft" item-right></ion-icon>
       </ion-item>
 
       <ion-item-options *ngIf="user.userId != tabParams.userId" side="right">
@@ -61,6 +62,7 @@
 
       </ion-item-options>
     </ion-item-sliding>
+  
   </ion-list>
 
 
@@ -68,7 +70,7 @@
 
     <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false
           && invit.status == 'pending'">
-      <p style="color: black"><b>Invitations envoyée</b> </p>
+      <p style="color: black"><b>Invitation envoyée</b> </p>
       <p style="color: black">a {{invit.invitedEmail}}</p>
       <p style="color: black">pour {{invit.InvitationCommunitName}}</p>
       <p>{{transform(invit.dateOfCreation)}}</p>
@@ -89,7 +91,7 @@
 
     <ion-item text-wrap *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId
           && invit.contactExist == true && invit.status == 'pending'">
-      <p style="color: black"><b>invitation reçue </b></p>
+      <p style="color: black"><b>Invitation reçue </b></p>
       <p style="color: black">De {{invit.invitorFullname}}</p>
       <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
       <p>{{transform(invit.dateOfCreation)}}</p>
@@ -106,21 +108,21 @@
     <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
           && invit.status == 'accepted' ">
 
-      <p style="color: black">Invitation accepté</p>
+      <p style="color: black">Invitation acceptée</p>
       <p style="color: black">Par {{invit.invitedFullname}}</p>
       <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
       <p>{{transform(invit.dateOfCreation)}}</p>
 
       <span style="color:#9bd289; position: absolute; right: 6%; top: 30%;">
         <p>Invitation</p>
-        <p>accepté</p>
+        <p>acceptée</p>
       </span>
 
     </ion-item>
 
     <ion-item text-wrap *ngIf="invit.invitedId == tabParams.userId && invit.contactExist == true 
     && invit.status == 'accepted' ">
-      <p style="color: black">invitation accepté</p>
+      <p style="color: black">Invitation acceptée</p>
       <p style="color: black">Par vous</p>
       <p style="color: black">De {{invit.invitorFullname}}</p>
       <p style="color: black">Pour <b>{{invit.InvitationCommunitName}}</b></p>
@@ -128,14 +130,14 @@
 
       <span style="color:#9bd289; position: absolute; right: 6%; top: 30%;">
         <p>Invitation</p>
-        <p>accepté</p>
+        <p>acceptée</p>
       </span>
     </ion-item>
 
 
     <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
           && invit.status == 'rejected' ">
-      <p style="color: black">Invitation rejeté</p>
+      <p style="color: black">Invitation rejetée</p>
       <p style="color: black">Par {{invit.invitedFullname}}</p>
       <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
       <p>{{transform(invit.dateOfCreation)}}</p>
@@ -148,7 +150,7 @@
     <ion-item text-wrap *ngIf="invit.invitedId == tabParams.userId && invit.contactExist == true
     && invit.status == 'rejected' ">
 
-      <p style="color: black">Invitation rejeté</p>
+      <p style="color: black">Invitation rejetée</p>
       <p style="color: black">Par vous</p>
       <p style="color: black">De {{invit.invitorFullname}}</p>
       <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
@@ -156,7 +158,7 @@
 
       <span style="color:#e088bc; position: absolute; right: 6%; top: 30%;">
         <p>Invitation</p>
-        <p>rejeté</p>
+        <p>rejetée</p>
       </span>
 
     </ion-item>

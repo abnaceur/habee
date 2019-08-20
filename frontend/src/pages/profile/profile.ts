@@ -72,7 +72,7 @@ export class ProfilePage {
     this.getCommunties();
     this.getProfileInfo(0);
   }
- 
+
   getProfileInfo(check) {
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
@@ -82,13 +82,17 @@ export class ProfilePage {
           this.events.publish('profile:modified', this.user.profile, this.user.profile.profilePhoto);
           this.tabParams.userFullname = this.user.profile.profileFirstname + " " + this.user.profile.profileLastname;
           this.tabParams.userImage = this.user.profile.profilePhoto;
+          this.storage.remove('response')
+            .then(resp => console.log("Response removerd"))
+            .catch(err => console.log("error storage !"));
+          this.storage.clear();
           this.storage.set("response", this.tabParams);
         }
       });
   }
 
   editProfileModal() {
-    const modal = this.modalCtrl.create("EditProfilePage", {info: this.tabParams, user: this.user.profile}, {
+    const modal = this.modalCtrl.create("EditProfilePage", { info: this.tabParams, user: this.user.profile }, {
       cssClass: ""
     });
     modal.onDidDismiss(data => {

@@ -192,7 +192,7 @@ export class EditCommunityModalPage {
       this.communityProvider.putCommunity(this.communityId, this.tabParams, modifiedCommunity)
         .subscribe(data => {
           if (data === 200) {
-            this.utils.notification("Cette Communauté est a jour", "top")
+            this.utils.notification("Team mise à jour", "top")
             this.dismiss();
           }
           else if (data === 202)

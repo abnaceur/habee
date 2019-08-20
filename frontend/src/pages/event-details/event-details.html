@@ -29,17 +29,17 @@
         <ion-col text-center>
           <ion-icon name="">{{eventDetails.nbrParticipants - eventDetails.participants.length}}</ion-icon>
           <span *ngIf="eventDetails.nbrParticipants - eventDetails.participants.length <= 1" class="item-block">Place libre</span>
-          <span *ngIf="eventDetails.nbrParticipants - eventDetails.participants.length >= 1" class="item-block">Places libre</span>
+          <span *ngIf="eventDetails.nbrParticipants - eventDetails.participants.length > 1" class="item-block">Places libres</span>
         </ion-col>
         <ion-col text-center>
           <ion-icon name="">{{eventDetails.participants.length}}</ion-icon>
           <span *ngIf="eventDetails.participants.length <= 1" class="item-block">Participant</span>
-          <span *ngIf="eventDetails.participants.length >= 1" class="item-block">Participants</span>
+          <span *ngIf="eventDetails.participants.length > 1" class="item-block">Participants</span>
         </ion-col>
         <ion-col text-center>
           <ion-icon name="">{{allComments.length}}</ion-icon>
           <span *ngIf="allComments.length <= 1" class="item-block">Commentaire</span>
-          <span *ngIf="allComments.length >= 1" class="item-block">Commentaires</span>
+          <span *ngIf="allComments.length > 1" class="item-block">Commentaires</span>
         </ion-col>
       </ion-row>
     </ion-grid>

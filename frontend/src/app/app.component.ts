@@ -95,10 +95,12 @@ export class MyApp {
 
     this.storage.get('response').then((response) => {
       if (response != undefined) {
+        console.log("Response :", response)
         this.userData = response;
       } else {
         events.subscribe("user:info", userData => {
           this.userData = userData;
+          console.log("Response User data :", userData);
         });
       }
 
@@ -123,7 +125,7 @@ export class MyApp {
     ];
 
     this.pages = [
-      { title: "Les évent à l'affiche", component: "TabsPage", active: true, icon: "home" },
+      { title: "Events à l'affiche", component: "TabsPage", active: true, icon: "home" },
       {
         title: "Profil",
         component: "TabsPage",

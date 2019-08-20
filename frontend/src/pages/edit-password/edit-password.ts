@@ -69,7 +69,7 @@ export class EditPasswordPage {
 
   onSubmit(values) {
     if (values.newPassword != values.confirmPassword)
-      this.utils.notification("Nouveaux mot de passe sont differents", "top");
+      this.utils.notification("Mots de passe différents", "top");
     else {
       this.pswService
         .checkPasswords(values.oldPassword, this.tabParams)

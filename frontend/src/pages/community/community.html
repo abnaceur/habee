@@ -13,7 +13,7 @@
 
 
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
-    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Habeeteam/Mes groupes</span>
+    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Habee'Teams (Mes groupes)</span>
   </ion-title>
 </ion-header>
 
@@ -25,7 +25,7 @@
       Mes Habee'Team
     </ion-col>
     <ion-col (click)="selectCommunitiesByInvte()" [ngStyle]="{'border-bottom': communitiesByInvteBorder}" col-6>
-      Habee'Team invite
+        Habee'Team Membre
     </ion-col>
   </div>
 
@@ -39,12 +39,13 @@
             <img [src]='url + "/" + community.communityLogo'>
           </ion-avatar>
           <h2>{{community.communityName}}</h2>
-          <p>{{community.communityMembers.length}} Contacts</p>
+          <p>{{community.communityMembers.length}} Membres</p>
+          <ion-icon style="color:#48d7e4; font-size: 42px" name="arrow-dropleft" item-right></ion-icon>
         </ion-item>
 
 
         <ion-item-options side="right">
-          <button ion-button style="position: relative; width: 100px" color="danger"
+          <button ion-button style="position: relative; width: 100px; background-color: #e0236f" 
             (click)="deleteCommunity(community.communityId)">
             <ion-icon name="trash"></ion-icon>
             Supprimer

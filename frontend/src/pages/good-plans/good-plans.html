@@ -21,7 +21,7 @@ background-color: #F6AE45;">
 <ion-content>
   <ion-list>
     <div ion-item>
-      <ion-icon name="notifications" item-start color="primary"></ion-icon>
+      <ion-icon name="notifications" item-start style="color:#48d7e4"></ion-icon>
       <ion-label style="position: relative; left:-14%">Notification</ion-label>
       <ion-toggle [(ngModel)]="notifStatus" style="display: inline; z-index: 111;" (ionChange)="updateNotificationStatus();" color="secondary"></ion-toggle>
     </div>
@@ -31,15 +31,15 @@ background-color: #F6AE45;">
       <ion-label>Modifier mon profile</ion-label>
     </button> -->
     <button ion-item (click)="modifyPasswordModal()">
-      <ion-icon name="key" item-start color="primary"></ion-icon>
+      <ion-icon name="key" item-start style="color:#48d7e4"></ion-icon>
       <ion-label>Modifier mon mot de passe</ion-label>
     </button>
     <button ion-item (click)="modifyAccountModal()">
-      <ion-icon name="construct" item-start color="primary"></ion-icon>
+      <ion-icon name="construct" item-start style="color:#48d7e4"></ion-icon>
       <ion-label>Modifier mon compte</ion-label>
     </button>
     <button ion-item (click)="deletemyAccount()">
-      <ion-icon name="trash" item-start color="danger"></ion-icon>
+      <ion-icon name="trash" item-start style="color:#e0236f"></ion-icon>
       <ion-label>Supprimer mon compte</ion-label>
     </button>
   </ion-list>

@@ -54,7 +54,7 @@ export class AddContactProvider {
           cc.check = cc.value + " : email non valid";
         } else if (cc.communities.length == 0) {
           check++;
-          cc.check = "Vous devez choisir une communaute";   
+          cc.check = "Vous devez l'inviter dans au moins 1 Team";   
         }
       })
       if (check === 0) {

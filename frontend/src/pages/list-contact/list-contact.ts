@@ -313,7 +313,7 @@ export class ListContactPage {
             .subscribe(data => {
               this.invitationList = data;
               this.utils.notification(
-                "Votre nouvel communauté est bien ajouté!",
+                "Adhesion prise en compte",
                 "top"
               );
             });
@@ -332,7 +332,7 @@ export class ListContactPage {
             .getAllUserInvitations(this.tabParams)
             .subscribe(data => {
               this.invitationList = data;
-              this.utils.notification("Cet invitation est rejeter!", "top");
+              this.utils.notification("Annulation envoyée", "top");
             });
         } else {
           this.utils.notification("Sorry, something went wrong!", "top");

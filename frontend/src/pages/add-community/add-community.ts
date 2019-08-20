@@ -170,7 +170,7 @@ export class AddCommunityPage {
           }
           if (data === 1) {
             this.dismiss();
-            this.utils.notification("Votre Communauté est ajouter avec success !", "top");
+            this.utils.notification("Team créée avec succès", "top");
           }
         })
     } else {

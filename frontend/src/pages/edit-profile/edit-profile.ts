@@ -172,7 +172,7 @@ export class EditProfilePage {
         .subscribe(data => {
           if (data === 200) {
             this.events.publish('profile:modified', editProfile, this.chosenPicture);
-            this.utils.notification("Votre profile est mise a jour !", "top");
+            this.utils.notification("Profil mis à jour", "top");
             this.dismiss();
           }
           if (data != 200)

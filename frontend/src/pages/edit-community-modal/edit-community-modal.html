@@ -5,7 +5,7 @@
 
 
   <ion-title style="position: relative; top: 13px;">
-    <span style="font-size: 17px;color: white; font-weight: bold">Modifier cette Communauté</span>
+    <span style="font-size: 17px;color: white; font-weight: bold">Modifier la Team</span>
   </ion-title>
 
 </ion-header>
@@ -16,25 +16,24 @@
       <form [formGroup]="editCommunityForm" (ngSubmit)="onSubmit(editCommunityForm.value)">
 
         <ion-item>
-          <ion-input placeholder={{comInfo.title}} (ionChange)="inputValidation = ''" style="color:silver" placeholder="Nom"
-            formControlName="communityTitle" type="text"></ion-input>
+          <ion-input placeholder={{comInfo.title}} (ionChange)="inputValidation = ''" style="color:silver"
+            placeholder="Nom" formControlName="communityTitle" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label *ngIf="comInfo.description == ''" floating>Description</ion-label>
+          <ion-textarea placeholder={{comInfo.description}} style="color:silver" placeholder="Description"
+            formControlName="communityDescription" type="text"></ion-textarea>
         </ion-item>
 
         <ion-item>
           <ion-label style="color: gray">
-            Uploader une photo &nbsp; &nbsp;
+              Ajouter une image &nbsp; &nbsp;
             <ion-fab>
               <ion-icon style="color: gray" (click)="changePicture()" name="camera"></ion-icon>
             </ion-fab>
           </ion-label>
 
-        </ion-item>
-
-
-        <ion-item>
-          <!--   <ion-label floating>E-mail</ion-label> -->
-          <ion-textarea placeholder={{comInfo.description}} style="color:silver" placeholder="Description"
-            formControlName="communityDescription" type="text"></ion-textarea>
         </ion-item>
 
         <ion-item *ngIf="inputValidation != ''">

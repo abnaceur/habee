@@ -144,7 +144,7 @@ export class CommunityDetailsPage {
           if (this.participation == false)
             this.utils.notification("Membre désinscrit avec succes !", "top");
           if (this.participation == true)
-            this.utils.notification("Vous etes désinscrit avec succes !", "top");
+            this.utils.notification("Désinscription enregistrée", "top");
         } else if (data == 500)
           this.utils.notification("Desole une erreur est survenu !", "top");
       });
@@ -153,7 +153,7 @@ export class CommunityDetailsPage {
   removeContact(memberId, communityId) {
     let alert = this.alertCtrl.create({
       title: 'Confirmation',
-      message: 'Etes-vous sûr de vouloir supprimer ce contact ?',
+      message: 'Etes-vous sûr de vouloir supprimer ce membre ?',
       buttons: [
         {
           text: 'Fermer',
