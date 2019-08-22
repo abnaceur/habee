@@ -1,6 +1,6 @@
 var saveComments = require('../services/eventServices/eventCommentsService')
 const allCommuntiesByIds = require("../services/communityServices/communityService")
-
+const communityService = require("../services/communityServices/listCommunitiesByUserId");
 
 getCommmunityPosition = (community, comments, countComm) => {
 
@@ -71,13 +71,50 @@ feedbackEvent = (io) => {
 
         client.on('getmessage', function (eventId) {
             if (comments[eventId].length > 0) {
-            client.emit('live-message', unshiftComm[eventId]);
-            // io.to(data.eventCommunity + data.eventId).emit('live-message', unshiftComm[pos][data]);
+                client.emit('live-message', unshiftComm[eventId]);
+                // io.to(data.eventCommunity + data.eventId).emit('live-message', unshiftComm[pos][data]);
             }
         });
 
-        client.on('new-event', function (event) {
-            client.to(event.eventId).emit('broad-event', event);
+        client.on('new-event', async function (event) {
+            let i = 0;
+            let userIds = [];
+
+            while (i < comConnectedClient.length) {
+                if (Object.keys(comConnectedClient[i]) != null && Object.keys(comConnectedClient[i]) != undefined) {
+                    let a = Object.values(comConnectedClient[i]);
+                    userIds.push(a[0]);
+                }
+                i++;
+            }
+            
+            userIds.map(async userId => {
+                let userComs = await communityService.getUserCreatedComsTotalEntitites(userId);
+                let userPartComs = await communityService.getUserParticipatedComsTotalEntities(userId);
+                let i = 0;
+                let z = 0;
+                let check = 0;
+
+                userComs.concat(userPartComs);
+                if (userComs.length > 0) {
+                    while (i < event.eventCommunity.length) {
+                        while (z < userComs.length) {
+                            if (userComs[z].communityId === event.eventCommunity[i]) {
+                                check = 1;
+                                break;
+                            }
+                            z++;
+                        }
+                        if (check === 1)
+                            break;
+                        i++;
+                    }
+                    if (check === 1) {
+                        client.to(userId).emit('broad-event', {cpmmunityName: userComs[z].communityName, eventName: event.eventName});
+                    }
+                    check = 0;
+                }
+            })
         });
 
 

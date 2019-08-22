@@ -34,6 +34,9 @@ import { LocalNotifications } from "@ionic-native/local-notifications";
 
 import { Storage } from '@ionic/storage';
 
+import { AccountProvider } from '../providers/account/account';
+import { not } from "@angular/compiler/src/output/output_ast";
+
 @Component({
   templateUrl: "app.html"
 })
@@ -70,7 +73,8 @@ export class MyApp {
   public editableCommunity: String;
 
   constructor(
-      private storage: Storage,
+    private accountProvider: AccountProvider,
+    private storage: Storage,
     public localNotifications: LocalNotifications,
     private eventFilterProvider: EventFilterProvider,
     private eventProvider: EventProvider,
@@ -95,12 +99,10 @@ export class MyApp {
 
     this.storage.get('response').then((response) => {
       if (response != undefined) {
-        console.log("Response :", response)
         this.userData = response;
       } else {
         events.subscribe("user:info", userData => {
           this.userData = userData;
-          console.log("Response User data :", userData);
         });
       }
 
@@ -153,10 +155,10 @@ export class MyApp {
     ];
   }
 
-  pushLocalNotification() {
+  pushLocalNotification(data) {
     this.localNotifications.schedule({
       id: Math.floor(Math.random() * 10000),
-      text: "Vous avez un nouveau événement dans votre comunaute",
+      text: "Vous avez un nouveau événement : " + data.eventName + " dans votre communauté : " + data.cpmmunityName,
       badge: 1
     });
   }
@@ -164,6 +166,7 @@ export class MyApp {
   initializeApp() {
 
     let events = [];
+   
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -172,38 +175,15 @@ export class MyApp {
 
       this.platform.pause.subscribe(() => {
         console.log("[INFO] App paused");
-        this.socket.connect();
+        //TODO ADD NOTIFICATION STATUS VALIDATION
         setTimeout(() => {
-          //TODO GET NOTIFICATION STATUS
+          this.socket.connect();
           if (this.userData && this.userData.notificationStatus == true) {
             this.backgroundMode.on("activate").subscribe(data => {
-              this.socket.emit("join", this.userData.activeCommunity);
+              this.socket.emit("join", this.userData.userId);
               this.socket.on("broad-event", data => {
                 if (data != "") {
-                  if (events.indexOf(data.eventId) == -1) {
-                    events.push(data.eventId);
-                    this.eventProvider
-                      .getFilterOptions(this.userData)
-                      .subscribe(allFilters => {
-                        let activeAllFilters = this.eventFilterProvider.objectFilterCount(
-                          allFilters.filterEvent
-                        );
-                        if (activeAllFilters != 0) {
-                          this.eventProvider
-                            .checkIfNotifIsActive(
-                              allFilters.filterEvent,
-                              data.eventCategory
-                            )
-                            .then(count => {
-                              if (count > 0) {
-                                this.pushLocalNotification();
-                              }
-                            });
-                        } else {
-                          this.pushLocalNotification();
-                        }
-                      });
-                  }
+                    this.pushLocalNotification(data);
                 }
               });
             });

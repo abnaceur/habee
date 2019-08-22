@@ -39,7 +39,7 @@ getUserParticipatedComs = (coms,userId, pageTmp) => {
     return new Promise((resolve, reject) => {
         Community.find({
             communityId: {
-                '$in': coms,
+                '$in': coms, 
             },
             communityCreator: {
                 '$ne': userId
@@ -76,6 +76,22 @@ getUserCreatedComsTotal = (userId) => {
     })
 }
 
+getUserCreatedComsTotalEntitites = (userId) => {
+    return new Promise((resolve, reject) => {
+        Community.find({
+            communityCreator: userId,
+            communityIsDeleted: false
+        })
+        .exec()
+        .then(communitiesByCreationTotal => {
+            resolve(communitiesByCreationTotal)
+        }).catch(err => {
+            reject(err);
+            utils.defaultError(res, err)
+        })
+    })
+}
+
 getUserParticipatedComsTotal = (coms,userId) => {
     return new Promise((resolve, reject) => {
         Community.find({
@@ -90,6 +106,27 @@ getUserParticipatedComsTotal = (coms,userId) => {
         .exec()
         .then(communitiesByParticipationTotal => {
             resolve(communitiesByParticipationTotal.length)
+        }).catch(err => {
+            reject(err);
+            utils.defaultError(res, err)
+        })
+    })
+}
+
+getUserParticipatedComsTotalEntities = (coms,userId) => {
+    return new Promise((resolve, reject) => {
+        Community.find({
+            communityId: {
+                '$in': coms,
+            },
+            communityCreator: {
+                '$ne': userId
+            },
+            communityIsDeleted: false
+        })
+        .exec()
+        .then(communitiesByParticipationTotal => {
+            resolve(communitiesByParticipationTotal)
         }).catch(err => {
             reject(err);
             utils.defaultError(res, err)
@@ -130,5 +167,7 @@ async function listAllCommunitiesByUserid (userId, page, res) {
 
 
 module.exports = {
-    listAllCommunitiesByUserid
+    listAllCommunitiesByUserid,
+    getUserParticipatedComsTotalEntities,
+    getUserCreatedComsTotalEntitites
 }

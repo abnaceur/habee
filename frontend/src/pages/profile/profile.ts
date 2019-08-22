@@ -5,7 +5,8 @@ import {
   NavController,
   NavParams,
   ModalController,
-  Events
+  Events,
+  LoadingController
 } from "ionic-angular";
 
 import { Http, ResponseOptions } from "@angular/http";
@@ -47,6 +48,7 @@ export class ProfilePage {
 
   constructor(
     private storage: Storage,
+    private loadingCTRL: LoadingController,
     public events: Events,
     public profileProvider: ProfileProvider,
     public http: Http,
@@ -65,18 +67,34 @@ export class ProfilePage {
     };
 
     this.getProfileInfo(0);
-    this.getCommunties();
   }
 
   ionViewWillEnter() {
-    this.getCommunties();
+    let loader = this.loadingCTRL.create({
+      spinner: 'dots',
+    });
+    loader.present();
     this.getProfileInfo(0);
+    loader.dismiss();
   }
 
   getProfileInfo(check) {
+    // let loader = this.loadingCTRL.create({
+    //   spinner: 'hide',
+    //   content: `
+    //     <div class="custom-spinner-container">
+    //       <div class="custom-spinner-box">
+    //          <img src="https://media0.giphy.com/media/8rE48TZOXKNKqrkMP6/source.gif" />
+    //       </div>
+    //     </div>`,
+    // });
+
+
+
     this.profileProvider
       .getUserProfileByCommunityId(this.tabParams)
       .subscribe(response => {
+        console.log("Response :", response);
         this.user = response.User[0];
         if (check === 1) {
           this.events.publish('profile:modified', this.user.profile, this.user.profile.profilePhoto);
@@ -96,22 +114,21 @@ export class ProfilePage {
       cssClass: ""
     });
     modal.onDidDismiss(data => {
-      this.getCommunties();
       this.getProfileInfo(1)
     });
     modal.present();
   }
 
-  getCommunties() {
-    this.communityProvider
-      .getCommunitiesbyCreator(this.tabParams)
-      .subscribe(dataCreator => {
-        this.communityProvider
-          .getCommunitiesByParticipation(this.tabParams)
-          .subscribe(dataParticipation => {
-            this.user.nbrCommunityByCreation = dataCreator.communities.length;
-            this.user.nbrCommunityByPrticipation = dataParticipation.length;
-          });
-      });
-  }
+  // getCommunties() {
+  //   this.communityProvider
+  //     .getCommunitiesbyCreator(this.tabParams)
+  //     .subscribe(dataCreator => {
+  //       this.communityProvider
+  //         .getCommunitiesByParticipation(this.tabParams)
+  //         .subscribe(dataParticipation => {
+  //           this.user.nbrCommunityByCreation = dataCreator.communities.length;
+  //           this.user.nbrCommunityByPrticipation = dataParticipation.length;
+  //         });
+  //     });
+  // }
 }

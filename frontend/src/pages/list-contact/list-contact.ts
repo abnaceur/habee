@@ -5,6 +5,7 @@ import {
   NavController,
   ModalController,
   ToastController,
+  LoadingController,
   NavParams,
   PopoverController
 } from "ionic-angular";
@@ -73,6 +74,7 @@ export class ListContactPage {
     private communityProvider: CommunityProvider,
     public popoverCtrl: PopoverController,
     private utils: UtilsProvider,
+    private loadingCTRL: LoadingController,
     private addContactProvider: AddContactProvider,
     private barcodeScanner: BarcodeScanner,
     public navCtrl: NavController,
@@ -115,14 +117,14 @@ export class ListContactPage {
       });
   }
 
-  ionViewWillLoad() {
-    this.getAllUserContacts();
-    this.getListContact();
-  }
-
   ionViewWillEnter() {
+    let loader = this.loadingCTRL.create({
+      spinner: 'dots',
+    });
+    loader.present();
     this.getAllUserContacts();
     this.getListContact();
+    loader.dismiss();
   }
 
   getCountinvitation() {

@@ -6,6 +6,7 @@ import {
   NavController,
   NavParams,
   ToastController,
+  LoadingController,
   ModalController
 } from "ionic-angular";
 
@@ -72,6 +73,7 @@ export class MyEventsPage {
 
   constructor(
     public nav: NavController,
+    private loadingCTRL: LoadingController,
     public modalCtrl: ModalController,
     private toastController: ToastController,
     public eventProvider: EventProvider,
@@ -152,21 +154,19 @@ export class MyEventsPage {
           events[i - 1].eventStartDate.toString().substring(0, 4) ==
           events[i].eventStartDate.toString().substring(0, 4)
         ) {
-          tmp[i - 1] = false;
+          tmp[i] = false;
         } else if (
-          events[i - 1].eventStartDate.toString().substring(5, 7) ==
+          events[i - 1].eventStartDate.toString().substring(5, 7) !=
           events[i].eventStartDate.toString().substring(5, 7) &&
-          events[i - 1].eventStartDate.toString().substring(0, 4) ==
+          events[i - 1].eventStartDate.toString().substring(0, 4) <
           events[i].eventStartDate.toString().substring(0, 4)
         ) {
-          i++;
-          tmp[i - 1] = events[i].eventStartDate;
+          tmp[i] = events[i].eventStartDate;
         } else if (
           events[i - 1].eventStartDate.toString().substring(5, 7) !=
           events[i].eventStartDate.toString().substring(5, 7)
         ) {
-          i++;
-          tmp[i - 1] = events[i].eventStartDate;
+          tmp[i] = events[i].eventStartDate;
         }
         i++;
       }
@@ -187,8 +187,13 @@ export class MyEventsPage {
   }
 
   ionViewWillEnter() {
+    let loader = this.loadingCTRL.create({
+      spinner: 'dots',
+    });
+    loader.present();
     this.updatePrticipatedEventList();
     this.updateProposedEventList();
+    loader.dismiss();
   }
 
   unsubscrib(eventId) {

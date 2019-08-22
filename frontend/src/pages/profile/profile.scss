@@ -145,6 +145,16 @@ page-profile {
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.7);
   }
 
+  .custom-spinner-container {
+    background-color: #000;
+    color: blue
+  }
+
+  .custom-spinner-box img{
+    background-color: green;
+    width: 50%;
+  }
+
   .list-item-content {
     padding: 5px;
   }

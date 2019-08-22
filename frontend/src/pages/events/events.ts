@@ -8,6 +8,7 @@ import {
   MenuController,
   NavParams,
   Platform,
+  LoadingController,
   Events,
   Item
 } from "ionic-angular";
@@ -84,6 +85,7 @@ export class EventsPage {
 
   constructor(
     public events: Events,
+    private loadingCTRL: LoadingController,
     public platform: Platform,
     public localNotifications: LocalNotifications,
     private communityProvider: CommunityProvider,
@@ -126,8 +128,13 @@ export class EventsPage {
   }
 
   ionViewWillEnter() {
+    let loader = this.loadingCTRL.create({
+      spinner: 'dots',
+    });
+    loader.present();
     this.countActiveFilters();
     this.getAllEvents();
+    loader.dismiss();
   }
 
   ionViewWillLeave() {
@@ -167,21 +174,19 @@ export class EventsPage {
           events[i - 1].eventStartDate.toString().substring(0, 4) ==
           events[i].eventStartDate.toString().substring(0, 4)
         ) {
-          tmp[i - 1] = false;
+          tmp[i] = false;
         } else if (
-          events[i - 1].eventStartDate.toString().substring(5, 7) ==
+          events[i - 1].eventStartDate.toString().substring(5, 7) !=
           events[i].eventStartDate.toString().substring(5, 7) &&
-          events[i - 1].eventStartDate.toString().substring(0, 4) ==
+          events[i - 1].eventStartDate.toString().substring(0, 4) <
           events[i].eventStartDate.toString().substring(0, 4)
         ) {
-          i++;
-          tmp[i - 1] = events[i].eventStartDate;
+          tmp[i] = events[i].eventStartDate;
         } else if (
           events[i - 1].eventStartDate.toString().substring(5, 7) !=
           events[i].eventStartDate.toString().substring(5, 7)
         ) {
-          i++;
-          tmp[i - 1] = events[i].eventStartDate;
+          tmp[i] = events[i].eventStartDate;
         }
         i++;
       }
