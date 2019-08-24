@@ -188,22 +188,32 @@ emailExist = (email, userId) => {
                     inviteNewContact(email, userId)
                         .then(emailValue => resolve(emailValue))
                 } else {
-                    checkIfCommunityExist(email.value, email.communities)
-                        .then(results => {
-                            if (results.length === 0) {
-                                let newEmail = {
-                                    communities: email.communities,
-                                    value: email.value,
-                                    status: 500
+                    if (usr[0].userId === userId) {
+                        let newEmail = {
+                            communities: email.communities,
+                            value: email.value,
+                            status: 500,
+                            check: "Vous ne pouvez pas envoyer une invitation a vous meme."
+                        }
+                        resolve(newEmail)
+                    } else {
+                        checkIfCommunityExist(email.value, email.communities)
+                            .then(results => {
+                                if (results.length === 0) {
+                                    let newEmail = {
+                                        communities: email.communities,
+                                        value: email.value,
+                                        status: 500
+                                    }
+                                    resolve(newEmail)
+                                } else if (results.length >= 1) {
+                                    inviteExistingContactToCommunity(email, usr, userId)
+                                        .then(email => {
+                                            resolve(email)
+                                        })
                                 }
-                                resolve(newEmail)
-                            } else if (results.length >= 1) {
-                                inviteExistingContactToCommunity(email, usr, userId)
-                                    .then(email => {
-                                        resolve(email)
-                                    })
-                            }
-                        })
+                            })
+                    }
                 }
             })
     })
@@ -294,7 +304,7 @@ checkPassword = (req, res, users) => {
             userId: users[0].userId,
             activeCommunity: users[0].activeCommunity,
             firstConnection: users[0].firstConnection,
-            userFullname: users[0].profile.profileFirstname + " " +  users[0].profile.profileLastname,
+            userFullname: users[0].profile.profileFirstname + " " + users[0].profile.profileLastname,
             userImage: users[0].profile.profilePhoto,
             notificationStatus: users[0].notificationStatus,
             token: token

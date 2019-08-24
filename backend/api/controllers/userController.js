@@ -234,6 +234,7 @@ exports.postInvitedContacts = (req, res, next) => {
 
     userService.addContacts(req.body, userId)
         .then(email => {
+            console.log("Email", email)
             res.status(200).json({
                 code: 200,
                 msg: email
