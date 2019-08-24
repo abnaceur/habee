@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
 
 import { CommunityProvider } from "../../providers/community/community";
 
@@ -29,6 +29,7 @@ export class RemoveCommunityFromContactPopupPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public viewCtrl: ViewController,
     private removeCommunityFromContactProvider: RemoveCommunityFromContactProvider,
     private utils: UtilsProvider,
     private communityProvider: CommunityProvider
@@ -85,5 +86,6 @@ export class RemoveCommunityFromContactPopupPage {
         else if (data == 500)
           this.utils.notification("Desole une erreur est survenu !", "top");
       });
+      this.viewCtrl.dismiss();
   }
 }

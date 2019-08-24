@@ -364,7 +364,11 @@ export class ListContactPage {
 
     await popover.onDidDismiss(data => {
       console.log("Add community dissmissed!", data);
+      this.getAllUserContacts();
+      this.getListContact();
     });
+    this.getAllUserContacts();
+    this.getListContact();
   }
 
   async removeComFromContact(ev: any, userCommunities, contactInfo) {
@@ -382,7 +386,11 @@ export class ListContactPage {
 
     await popover.onDidDismiss(data => {
       console.log("Remove community dissmissed!", data);
+      this.getAllUserContacts();
+      this.getListContact();
     });
+    this.getAllUserContacts();
+    this.getListContact();
   }
 
   resendInvitation(invit) {

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
 
 import { CommunityProvider } from "../../providers/community/community";
 
@@ -31,6 +31,7 @@ export class AddCommunityToContactPopupPage {
     private addContactProvider: AddContactProvider,
     public navParams: NavParams,
     private utils: UtilsProvider,
+    public viewCtrl: ViewController,
     private communityProvider: CommunityProvider
   ) {
     this.tabParams = this.navParams.get("tabParams");
@@ -105,6 +106,7 @@ export class AddCommunityToContactPopupPage {
             "top"
           );
         else this.utils.notification("Une erreur est survenu!", "top");
+        this.viewCtrl.dismiss();
       });
   }
 }
