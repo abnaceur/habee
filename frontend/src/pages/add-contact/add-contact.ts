@@ -11,6 +11,8 @@ import { CommunityProvider } from "../../providers/community/community";
 
 import { AddContactProvider } from "../../providers/add-contact/add-contact";
 
+import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
+
 import {
   UtilsProvider
 } from '../../providers/utils/utils';
@@ -27,9 +29,11 @@ export class AddContactPage {
   public validateInput: any;
   public tabParams;
   public allCommunities = [];
+  public myContact = "";
 
   constructor(
     public utils: UtilsProvider,
+    private contacts: Contacts,
     private communityProvider: CommunityProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -142,4 +146,16 @@ export class AddContactPage {
       );
     }
   }
+  
+  invitContactfromMyContactList() {
+    this.contacts.pickContact().then(data => {
+      console.log("Contacts :", data)
+      if (!data.emails)
+        this.utils.notification("L'addresse email de votre contact est vide", "top");
+      else {
+        this.contactArray[0].value = data.emails[0].value;
+      } 
+    })
+  }
+
 }

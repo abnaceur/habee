@@ -16,6 +16,10 @@
 
 
   <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
+    
+    <ion-item style="border-radius: 6%; background-color: #48d7e4; color: white; font-weight: bold" text-center (click)="invitContactfromMyContactList()" no-lines>
+      <ion-label>Invite depuis mes contact</ion-label>
+    </ion-item>
     <ion-item>
       <ion-input placeholder="Email du contact" (click)="contactArray[0].check = ''" type="email" text-right
         [(ngModel)]="contactArray[0].value"></ion-input>

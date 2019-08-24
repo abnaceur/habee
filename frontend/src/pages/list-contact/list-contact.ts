@@ -367,8 +367,6 @@ export class ListContactPage {
       this.getAllUserContacts();
       this.getListContact();
     });
-    this.getAllUserContacts();
-    this.getListContact();
   }
 
   async removeComFromContact(ev: any, userCommunities, contactInfo) {
@@ -389,8 +387,6 @@ export class ListContactPage {
       this.getAllUserContacts();
       this.getListContact();
     });
-    this.getAllUserContacts();
-    this.getListContact();
   }
 
   resendInvitation(invit) {
@@ -407,14 +403,14 @@ export class ListContactPage {
 
   cancelInviatation(invit) {
     this.invitationProvider.cancelInvitation(this.tabParams, invit)
-    .subscribe(data => {
-      if (data == 200) {
-        this.utils.notification("Invitation viens d'etre annuler !", "top");
-        this.getListContact();
-      }
-      else
-        this.utils.notification("Desole, une erreur est survenu !", "top");
-    })
+      .subscribe(data => {
+        if (data == 200) {
+          this.utils.notification("Invitation viens d'etre annuler !", "top");
+          this.getListContact();
+        }
+        else
+          this.utils.notification("Desole, une erreur est survenu !", "top");
+      })
   }
 
 }

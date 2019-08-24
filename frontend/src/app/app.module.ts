@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
+
 
 import { MyApp } from './app.component';
 import { LoginProvider } from '../providers/login/login';
@@ -36,12 +38,12 @@ import { InvitationListPageModule } from '../pages/invitation-list/invitation-li
 import { ForgotPasswordPageModule } from "../pages/forgot-password/forgot-password.module"
 import { TermsOfServicePageModule } from "../pages/terms-of-service/terms-of-service.module"
 import { TermsOfServiceScriptPageModule } from "../pages/terms-of-service-script/terms-of-service-script.module"
-import {  ConatctListFilterPageModule } from "../pages/conatct-list-filter/conatct-list-filter.module"
-import { AddCommunityToContactPopupPageModule } from "../pages/add-community-to-contact-popup/add-community-to-contact-popup.module" 
+import { ConatctListFilterPageModule } from "../pages/conatct-list-filter/conatct-list-filter.module"
+import { AddCommunityToContactPopupPageModule } from "../pages/add-community-to-contact-popup/add-community-to-contact-popup.module"
 import { RemoveCommunityFromContactPopupPageModule } from "../pages/remove-community-from-contact-popup/remove-community-from-contact-popup.module"
 
 import { CameraProvider } from '../providers/camera/camera';
-import { SharedModule   } from './shared.module';
+import { SharedModule } from './shared.module';
 
 import { Camera } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -54,9 +56,9 @@ import { AccountProvider } from '../providers/account/account';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { environment } from '../environments/environment.prod';
 import { InvitationProvider } from '../providers/invitation/invitation';
-const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
+//const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
 //const config: SocketIoConfig = { url: "http://3.14.71.156", options: {} };
-//const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} };
+const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} };
 //const config: SocketIoConfig = { url: "http://10.18.187.205:3000", options: {} };
 //const config: SocketIoConfig = { url: "https://aqueous-citadel-42524.herokuapp.com", options: {} };
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -110,7 +112,7 @@ import { CalendarModule } from "ion2-calendar";
     ForgotPasswordPageModule,
     CommunityEventListPageModule,
     SocketIoModule.forRoot(config),
-    IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
+    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true }),
     IonicStorageModule.forRoot(),
     CalendarModule,
     SharedModule,
@@ -121,6 +123,7 @@ import { CalendarModule } from "ion2-calendar";
   ],
   providers: [
     BarcodeScanner,
+    Contacts, 
     SocialSharing,
     StatusBar,
     SplashScreen,
@@ -128,7 +131,7 @@ import { CalendarModule } from "ion2-calendar";
     LoginProvider,
     Camera,
     FileTransfer,
-    FileTransferObject, 
+    FileTransferObject,
     File,
     CommunityProvider,
     ProfileProvider,

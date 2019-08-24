@@ -12,7 +12,7 @@
       Mes Habeenautesautes
     </ion-col>
     <ion-col (click)="selectInvitationList()" [ngStyle]="{'border-bottom': listInvitBorder}" col-6>
-        Mes invitations
+      Mes invitations
       <span *ngIf="notificationCount != 0">
         <ion-badge class="icon-badge">{{notificationCount}}</ion-badge>
       </span>
@@ -38,7 +38,8 @@
         <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
           <ion-badge class="pull-right" style="background-color:#e0236f; color:white">moi</ion-badge>
         </button>
-        <ion-icon  *ngIf="user.userId != tabParams.userId" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft" item-right></ion-icon>
+        <ion-icon *ngIf="user.userId != tabParams.userId" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft"
+          item-right></ion-icon>
       </ion-item>
 
       <ion-item-options *ngIf="user.userId != tabParams.userId" side="right">
@@ -62,7 +63,7 @@
 
       </ion-item-options>
     </ion-item-sliding>
-  
+
   </ion-list>
 
 
@@ -173,25 +174,28 @@
 </ion-content>
 
 <ion-footer>
-  <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
+  <!-- <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
     <button style="background-color: #48d7e4;" ion-fab mini (click)="expand()">
       <ion-icon name="person-add"></ion-icon>
     </button>
-  </ion-fab>
-  <!-- <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
+  </ion-fab> -->
+  <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
     <button ion-fab style="background-color: #48d7e4;" mini>
       <ion-icon style="color:white; font-size: 32px" name="add"></ion-icon>
     </button>
-    <ion-fab-list side="top"> -->
-  <!-- <button ion-fab mini (click)="scanBrCode()">
+    <ion-fab-list side="top">
+      <!-- <button ion-fab mini (click)="scanBrCode()">
         <ion-icon name="qr-scanner"></ion-icon>
-      </button>
-      <button ion-fab mini (click)="encodeData()">
+      </button> -->
+      <!-- <button ion-fab mini (click)="encodeData()">
         <ion-icon name="barcode"></ion-icon>
       </button> -->
-  <!-- <button ion-fab mini (click)="expand()">
+      <button ion-fab mini (click)="invitContactfromGmail()">
+        <ion-icon name="mail"></ion-icon>
+      </button>
+      <button ion-fab mini (click)="expand()">
         <ion-icon name="person-add"></ion-icon>
       </button>
     </ion-fab-list>
-  </ion-fab> -->
+  </ion-fab>
 </ion-footer>
