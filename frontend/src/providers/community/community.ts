@@ -87,12 +87,13 @@ export class CommunityProvider {
   }
 
   addCommunity(comInfo, photo, userInfo) {
-    const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
+    const header = this.utils.inihttpHeaderWIthToken(userInfo.token); 
+    let communityId = comInfo.communityTitle + "_" + userInfo.userId + "_" + Math.floor(Math.random() * 12) + 1;
 
     return this.http.post(ENV.BASE_URL + '/communities/creator/' + userInfo.userId,
       {
         //TODO GEENARTE AN ID FOR COMMUNITY ID
-        "communityId": comInfo.communityTitle,
+        "communityId": communityId,
         "communityName": comInfo.communityTitle,
         "communityLogo": photo,
         "communityCreator": userInfo.userId,
