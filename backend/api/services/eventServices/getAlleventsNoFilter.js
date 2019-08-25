@@ -72,6 +72,12 @@ async function getAllUserEvents(userId, res, page) {
     let events = await allMyEventsNoFilter(communities, res, page);
     let totalEvents = await getallMyEventsNoFilter(communities, res)
 
+    events.map(event => {
+        updateEventIsOver(event)
+    })
+
+    events = await allMyEventsNoFilter(communities, res, page);
+
     res.status(200).json({
         code: 200,
         Count: totalEvents,
@@ -84,6 +90,36 @@ async function getAllUserEvents(userId, res, page) {
     })
 }
 
+updateEventIsOver = (event) => {
+    let formatedEndDate = formatDate(event).formatedEndDate;
+    let currentDate = formatDate(event).currentdate;
+
+    if (formatedEndDate <= currentDate) {
+        event.eventIsOver = true;
+        Event.findByIdAndUpdate(event._id,
+            event, {
+                new: false,
+            },
+            function (err, results) {
+                if (err) return res.status(500).json(err);
+                console.log("EVENT IS OVER")
+            });
+    }
+}
+
+formatDate = (event) => {
+    const currentDate = new Date;
+    const i = currentDate.toISOString().slice(0, 10) + "T00:59:18.132Z";
+    const currentdate = new Date(i);
+    const formatTime = "T" + event.eventEndHour.substring(0, 2) + ":" + event.eventEndHour.substring(3, 5) + ":00.000Z"
+    const endDate = event.eventEndDate.toISOString().slice(0, 10) + formatTime
+    const formatedEndDate = new Date(endDate)
+
+    return ({
+        formatedEndDate,
+        currentdate
+    });
+}
 module.exports = {
     getAllUserEvents
 }
