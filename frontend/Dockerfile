@@ -17,4 +17,5 @@ RUN apt-get update \
     && npm install -g ionic \
     && npm rebuild node-sass --force
 
+EXPOSE 8100
 CMD ionic serve --browser

@@ -21,6 +21,7 @@ const getUsrService = require('../services/userServices/getUserById')
 const allusersCommunityConcat = require("../services/userServices/allusersCommunityConcatService")
 const removeCommunityService = require("../services/userServices/removeCommunityService")
 const cancelInvitationService = require("../services/userServices/cancelInvitationService")
+const invitationService = require('../services/invitationService/invitationSendToContact');
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -232,7 +233,7 @@ exports.get_user_by_id = (req, res, next) => {
 exports.postInvitedContacts = (req, res, next) => {
     let userId = req.params.userId;
 
-    userService.addContacts(req.body, userId)
+    invitationService.addContacts(req.body, userId)
         .then(email => {
             console.log("Email", email)
             res.status(200).json({
