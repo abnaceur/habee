@@ -189,20 +189,19 @@ export class ListContactPage {
         coms.pop()
         data.push({ value: email[0], check: "", status: "", communities: coms });
         this.addContactProvider
-          .isFieldEmpty(data, this.tabParams)
-          .then(data => {
+          .getQrCodeInvitation(data, this.tabParams)
+          .then(data => { 
             if (data[0].status == 200)
               this.utils.notification(
-                "Votre invitation est bien envoyer",
+                "Invitation bien reçue",
                 "top"
               );
             else if (data[0].status == 500)
               this.utils.notification("Ce compte exist!", "top");
             //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
             if (data[0].check != "") {
-              let menuData = ["listContact", this.tabParams];
-              //  this.navCtrl.push("TabsPage", menuData);
-            }
+              this.utils.notification(data[0].check, "top");
+            } 
           });
       },
       err => {

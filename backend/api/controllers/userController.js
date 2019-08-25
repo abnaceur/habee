@@ -22,6 +22,7 @@ const allusersCommunityConcat = require("../services/userServices/allusersCommun
 const removeCommunityService = require("../services/userServices/removeCommunityService")
 const cancelInvitationService = require("../services/userServices/cancelInvitationService")
 const invitationService = require('../services/invitationService/invitationSendToContact');
+const invitationQrCodeService = require('../services/invitationService/invitationQrCodeService');
 
 exports.login_user = (req, res, next) => {
     userService.loginUser(req, res);
@@ -235,7 +236,18 @@ exports.postInvitedContacts = (req, res, next) => {
 
     invitationService.addContacts(req.body, userId)
         .then(email => {
-            console.log("Email", email)
+            res.status(200).json({
+                code: 200,
+                msg: email
+            })
+        })
+}
+
+exports.getInvitedByQrCode = (req, res, next) => {
+    let userId = req.params.userId;
+
+    invitationQrCodeService.addContacts(req.body, userId)
+        .then(email => {
             res.status(200).json({
                 code: 200,
                 msg: email

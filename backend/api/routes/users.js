@@ -124,6 +124,14 @@ router.get('/:id/:communityId', userController.get_userId_communityId);
 router.post('/invite/contacts/:userId/:activeCommunity', authCkeck, userController.postInvitedContacts)
 
 /*
+ ** API [POST] for route /users/invite/contacts/:userId/:activeCommunity   [USED]
+ */
+
+
+router.post('/invite/contactsbyqrcode/:userId', authCkeck, userController.getInvitedByQrCode)
+
+
+/*
  ** API [PATCH] for route /users/id/communityId   [USED]
  */
 
