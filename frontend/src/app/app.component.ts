@@ -97,6 +97,10 @@ export class MyApp {
     // this.backgroundMode.excludeFromTaskList();
     // this.backgroundMode.overrideBackButton();
 
+    events.subscribe("user:info", userData => {
+      this.userData = userData;
+    });
+
     this.storage.get('response').then((response) => {
       if (response != undefined) {
         this.userData = response;

@@ -132,7 +132,19 @@ background-color: #fcfcfc;">
     <ion-item-sliding *ngFor="let event of weeklyEvents">
 
       <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
-        <ion-thumbnail item-start>
+        <ion-thumbnail item-left class="item-ribbon">
+          <span *ngIf="event.eventIsPublic == true && event.eventCreator != tabParams.userId" class=" ribbon cruzeiro">
+            <span>Public</span>
+          </span>
+          <span *ngIf="event.eventIsPublic == false && event.eventCreator != tabParams.userId" class="ribbon atletico">
+            <span>Invite</span>
+          </span>
+          <span *ngIf="event.eventIsPublic == false && event.eventCreator == tabParams.userId" class="ribbon sale">
+            <span>PRIVÉ-Moi</span>
+          </span>
+          <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId" class=" ribbon javascript">
+            <span>Public-Moi</span>
+          </span>
           <img [src]='url + "/" + event.eventPhoto'>
         </ion-thumbnail>
         <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
