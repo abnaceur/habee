@@ -112,7 +112,15 @@ background-color: #fcfcfc;">
         {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
             7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
       </p>
+      <ion-scroll scrollX="true" style="white-space: nowrap; height: 55px; width: 100%;
+      min-height: 40px;">
       <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+   <a *ngFor="let coms of eventComsNames[idx]">
+          <ion-badge
+            [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
+            {{coms}}</ion-badge>
+        </a>
+      </ion-scroll>
     </ion-item>
   </ion-list>
 
@@ -129,7 +137,7 @@ background-color: #fcfcfc;">
   <ion-list *ngIf="weeklyEvents.length > 0" [ngStyle]="{'margin-top': topList, 'display': weeklyEvBorderDisplay}">
 
 
-    <ion-item-sliding *ngFor="let event of weeklyEvents">
+    <ion-item-sliding *ngFor="let event of weeklyEvents; let i of index">
 
       <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
         <ion-thumbnail item-left class="item-ribbon">
@@ -153,6 +161,7 @@ background-color: #fcfcfc;">
                     7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
         </p>
         <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+      
       </ion-item>
     </ion-item-sliding>
   </ion-list>

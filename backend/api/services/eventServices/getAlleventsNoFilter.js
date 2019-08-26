@@ -67,6 +67,33 @@ getallMyEventsNoFilter = (coms, res) => {
     })
 }
 
+findCommunities = (comId) => {
+    return new Promise((resolve, reject) => {
+        Community.find({
+            communityId: comId
+        }).exec()
+            .then(com => {
+                if (com.length > 0)
+                    resolve(com[0].communityName)
+                else
+                    resolve("");
+            }).catch(err => console.log("getEventComNames ERR :", err))
+    })
+}
+
+getEventComNames = (communities) => {
+    return new Promise((resolve, reject) => {
+        let comNames = [];
+        let i = 1
+        communities.map(async com => {
+            comNames.push(await findCommunities(com));
+            if (i === communities.length)
+                resolve(comNames);
+            i++;
+        })
+    })
+}
+
 async function getAllUserEvents(userId, res, page) {
     let communities = await getMyCommunitiesNofilter(userId, res)
     let events = await allMyEventsNoFilter(communities, res, page);
@@ -78,15 +105,25 @@ async function getAllUserEvents(userId, res, page) {
 
     events = await allMyEventsNoFilter(communities, res, page);
 
-    res.status(200).json({
-        code: 200,
-        Count: totalEvents,
-        per_page: 10,
-        total: totalEvents,
-        total_pages: Math.floor(totalEvents / 10),
-        events: events.map(event => {
-            return eventService.eventModal(event)
-        })
+    let i = 0;
+    let eventCommunitiesName = [];
+
+    await events.map(async event => {
+        await eventCommunitiesName.push(await getEventComNames(event.eventCommunity));
+        i++;
+
+        if (i === events.length)
+            res.status(200).json({
+                code: 200,
+                Count: totalEvents,
+                per_page: 10,
+                total: totalEvents,
+                total_pages: Math.floor(totalEvents / 10),
+                comNames: eventCommunitiesName,
+                events: events.map(event => {
+                    return eventService.eventModal(event)
+                })
+            })
     })
 }
 

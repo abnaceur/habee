@@ -66,6 +66,7 @@ export class EventsPage {
 
   private tabParams;
   public allEvents = [];
+  public eventComsNames = [];
   public isSubscribed = "S'inscrir3";
   public months: String[];
   public url = ENV.BASE_URL;
@@ -190,7 +191,7 @@ export class EventsPage {
         }
         i++;
       }
-  
+
       if (
         events[events.length - 2].eventStartDate.toString().substring(5, 7) !=
         events[events.length - 1].eventStartDate.toString().substring(5, 7)
@@ -201,7 +202,7 @@ export class EventsPage {
     } else {
       tmp[0] = false;
     }
-    
+
     this.listMonths = tmp;
   }
 
@@ -211,11 +212,12 @@ export class EventsPage {
       .subscribe(response => {
         if (response.events != undefined && response.events.length == 0) {
           this.allEvents = [];
+          this.eventComsNames = [];
         } else {
-          console.log("response.events ", response.events);
           if (response.events.length > 0)
             this.getMonthsDelimiter(response.events);
           this.allEvents = response.events;
+          this.eventComsNames = response.comNames;
           this.allEvents_tmp = response.events;
           this.perPage = response.per_page;
           this.totalData = response.total;
@@ -245,12 +247,16 @@ export class EventsPage {
       this.eventProvider
         .getFilteredAllEventsByCommunityId(this.tabParams, this.page)
         .subscribe(response => {
-          if (!response) this.allEvents = [];
+          if (!response) {
+            this.allEvents = [];
+            this.eventComsNames = [];
+          }
           else {
             this.allEvents = this.allEvents.concat(response.events);
             if (this.allEvBorder.length > 0)
               this.getMonthsDelimiter(this.allEvents);
             this.allEvents_tmp = this.allEvents_tmp.concat(response.events);
+            this.eventComsNames = response.comNames;
             this.perPage = response.per_page;
             this.totalData = response.total;
             this.totalPage = response.total_pages;
@@ -270,6 +276,7 @@ export class EventsPage {
             this.allEvents = this.allEvents.concat(data.events);
             if (this.allEvents.length > 0)
               this.getMonthsDelimiter(this.allEvents);
+            this.eventComsNames = data.comNames;
             this.perPageSearch = data.per_page;
             this.totalDataSearch = data.total;
             this.totalPageSearch = data.total_pages;
@@ -309,6 +316,7 @@ export class EventsPage {
     }
     if (this.queryText.length > 0) {
       this.allEvents = [];
+      this.eventComsNames = [];
       searchResults.map(event => {
         this.utils.checkStringExist(event.eventDescription, this.queryText) ==
           true
@@ -333,6 +341,7 @@ export class EventsPage {
           if (this.allEvents.length > 0)
             this.getMonthsDelimiter(this.allEvents);
           this.perPageSearch = data.per_page;
+          this.eventComsNames = data.comNames;
           this.totalDataSearch = data.total;
           this.totalPageSearch = data.total_pages;
         }

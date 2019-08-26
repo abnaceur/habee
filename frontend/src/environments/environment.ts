@@ -1,6 +1,6 @@
 export var environment = {
    // Local machine
-   //BASE_URL: "http://localhost:3000",
+   BASE_URL: "http://localhost:3000",
 
    // AWS servere
    //BASE_URL: "http://3.14.71.156",
@@ -18,6 +18,6 @@ export var environment = {
    //BASE_URL: "http://192.168.0.105:3000",
   
    //USB connected device
-  BASE_URL: "http://192.168.42.140:3000",   
+  //BASE_URL: "http://192.168.42.140:3000",   
 }  
 
