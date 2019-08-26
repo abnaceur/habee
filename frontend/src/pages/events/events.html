@@ -160,8 +160,15 @@ background-color: #fcfcfc;">
           {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
                     7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
         </p>
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 55px; width: 100%;
+        min-height: 40px;">
         <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-      
+     <a *ngFor="let coms of eventComsNames[idx]">
+            <ion-badge
+              [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
+              {{coms}}</ion-badge>
+          </a>
+        </ion-scroll>
       </ion-item>
     </ion-item-sliding>
   </ion-list>

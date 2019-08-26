@@ -79,26 +79,80 @@ getAllMyEvents = (coms, text, res) => {
     })
 }
 
+
+findCommunities = (comId) => {
+    return new Promise((resolve, reject) => {
+        Community.find({
+            communityId: comId
+        }).exec()
+            .then(com => {
+                if (com.length > 0)
+                    resolve(com[0].communityName)
+                else
+                    resolve("");
+            }).catch(err => console.log("getEventComNames ERR :", err))
+    })
+}
+
+getEventComNames = (communities) => {
+    return new Promise((resolve, reject) => {
+        let comNames = [];
+        let i = 1
+        communities.map(async com => {
+            comNames.push(await findCommunities(com));
+            if (i === communities.length)
+                resolve(comNames);
+            i++;
+        })
+    })
+}
+
 async function searchEventByInput(text, userId, res, page) {
     let communities = await getMyCommunities(userId, res)
     let events = await allMyEvents(communities, text.text, res, page);
     let totalEvents = await getAllMyEvents(communities, text.text, res)
 
-    res.status(200).json({
-        code: 200,
-        Count: totalEvents,
-        per_page: 10,
-        total: totalEvents,
-        total_pages: Math.floor(totalEvents / 10),
-        events: events.map(event => {
-            return eventService.eventModal(event)
+    let i = 0;
+    let eventCommunitiesName = [];
+
+
+    console.log("Event :", events.length);
+    if (events.length === 0) {
+        res.status(200).json({
+            code: 200,
+            Count: totalEvents,
+            per_page: 10,
+            total: totalEvents,
+            total_pages: Math.floor(totalEvents / 10),
+            comNames: eventCommunitiesName,
+            events: events.map(event => {
+                return eventService.eventModal(event)
+            })
         })
-    })
+    } else {
+        await events.map(async event => {
+            await eventCommunitiesName.push(await getEventComNames(event.eventCommunity));
+            i++;
+
+            if (i === events.length)
+                res.status(200).json({
+                    code: 200,
+                    Count: totalEvents,
+                    per_page: 10,
+                    total: totalEvents,
+                    total_pages: Math.floor(totalEvents / 10),
+                    comNames: eventCommunitiesName,
+                    events: events.map(event => {
+                        return eventService.eventModal(event)
+                    })
+                })
+        })
+    }
 }
 
 module.exports = {
     searchEventByInput,
     getMyCommunities,
     getAllMyEvents,
-    allMyEvents 
+    allMyEvents
 }
