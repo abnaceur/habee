@@ -169,8 +169,9 @@ export class ListContactPage {
   scanBrCode() {
     this.options = {
       prompt: "Scanner le codebare",
-      showFlipCameraButton: true,
-      showTorchButton: true
+      showFlipCameraButton: false,
+      showTorchButton: false,
+      resultDisplayDuration: 0
     };
 
     this.barcodeScanner.scan(this.options).then(
@@ -188,21 +189,23 @@ export class ListContactPage {
 
         coms.pop()
         data.push({ value: email[0], check: "", status: "", communities: coms });
-        this.addContactProvider
-          .getQrCodeInvitation(data, this.tabParams)
-          .then(data => { 
-            if (data[0].status == 200)
-              this.utils.notification(
-                "Invitation bien reçue",
-                "top"
-              );
-            else if (data[0].status == 500)
-              this.utils.notification("Ce compte exist!", "top");
-            //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
-            if (data[0].check != "") {
-              this.utils.notification(data[0].check, "top");
-            } 
-          });
+        if (email[0] != "") {
+          this.addContactProvider
+            .getQrCodeInvitation(data, this.tabParams)
+            .then(data => {
+              if (data[0].status == 200)
+                this.utils.notification(
+                  "Invitation bien reçue",
+                  "top"
+                );
+              else if (data[0].status == 500)
+                this.utils.notification("Ce compte exist!", "top");
+              //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
+              if (data[0].check != "") {
+                this.utils.notification(data[0].check, "top");
+              }
+            });
+        }
       },
       err => {
         console.log("Error ; ", err);
@@ -241,6 +244,7 @@ export class ListContactPage {
         .encode(this.barcodeScanner.Encode.TEXT_TYPE, encodText)
         .then(
           data => {
+            console.log("data :", data);
             console.log("Encoded with success!");
           },
           err => {

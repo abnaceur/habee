@@ -3,12 +3,15 @@ import { Component, ViewChild } from "@angular/core";
 import {
   Nav,
   Platform,
+  AlertController,
   MenuController,
   ModalController,
   Events,
   PopoverController,
   NavParams
 } from "ionic-angular";
+
+import { App } from 'ionic-angular';
 
 import { StatusBar } from "@ionic-native/status-bar";
 
@@ -73,6 +76,8 @@ export class MyApp {
   public editableCommunity: String;
 
   constructor(
+    public alertCtrl: AlertController,
+    public app: App,
     private accountProvider: AccountProvider,
     private storage: Storage,
     public localNotifications: LocalNotifications,
@@ -170,7 +175,7 @@ export class MyApp {
   initializeApp() {
 
     let events = [];
-   
+
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -187,7 +192,7 @@ export class MyApp {
               this.socket.emit("join", this.userData.userId);
               this.socket.on("broad-event", data => {
                 if (data != "") {
-                    this.pushLocalNotification(data);
+                  this.pushLocalNotification(data);
                 }
               });
             });
@@ -202,6 +207,7 @@ export class MyApp {
           this.socket.disconnect(true);
         });
       });
+
     });
 
     this.storage.get('response').then((response) => {
@@ -212,6 +218,21 @@ export class MyApp {
         this.rootPage = "LoginPage";
       }
     });
+
+    this.platform.registerBackButtonAction(() => {
+      // Catches the active view
+      let nav = this.app.getActiveNavs()[0];
+      let activeView = nav.getActive();
+      // Checks if can go back before show up the alert
+      if (activeView.name === 'HomePage') {
+        if (nav.canGoBack()) {
+          nav.pop();
+        } else {
+          this.nav.setRoot('LoginPage', "logout");
+          this.platform.exitApp();
+        }
+      }
+    })
   }
 
   openPage(page) {

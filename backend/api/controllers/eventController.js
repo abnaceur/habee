@@ -56,6 +56,7 @@ exports.get_userEventSubscribed = (req, res, next) => {
 }
 
 exports.upload_mobile_photo = (req, res, next) => {
+    console.log("dd :", req.body)
     if (req.files[0].path != undefined) {
         res.send(req.files[0].path)
     } else {

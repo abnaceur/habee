@@ -24,7 +24,7 @@ export class CameraProvider {
   }
 
   // This method takes optional parameters to make it more customizable
-  getImage(pictureSourceType, crop = false, quality = 50, allowEdit = false, saveToAlbum = true) {
+  getImage(pictureSourceType, crop = false, quality = 100, allowEdit = false, saveToAlbum = true) {
     const options = {
       quality,
       allowEdit,
@@ -32,17 +32,19 @@ export class CameraProvider {
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: pictureSourceType,
       encodingType: this.camera.EncodingType.PNG,
-      saveToPhotoAlbum: saveToAlbum
+      saveToPhotoAlbum: saveToAlbum,
+      mediaType: this.camera.MediaType.PICTURE,
     };
 
     // If set to crop, restricts the image to a square of 600 by 600
-    if (crop) {
-      options['targetWidth'] = 600;
-      options['targetHeight'] = 600;
+    if (crop === false) {
+      options['targetWidth'] = 1500;
+      options['targetHeight'] = 1500;
     }
 
+
     return this.camera.getPicture(options).then(imageData => {
-      const base64Image = 'data:image/png;base64,' + imageData;
+      const base64Image = 'data:image/jpg;base64,' + imageData;
       return base64Image;
     }, error => {
       console.log('CAMERA ERROR -> ' + JSON.stringify(error));
