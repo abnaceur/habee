@@ -170,7 +170,15 @@ emailExist = (email, userId) => {
             "credentials.email": email.value
         }).exec()
             .then(usr => {
-                if (usr[0].userId === userId) {
+                if (usr.length === 0) {
+                    let newEmail = {
+                        communities: email.communities,
+                        value: email.value,
+                        status: 500,
+                        check: "Cet utilisateur n'exist pas."
+                    }
+                    resolve(newEmail)
+                } else if (usr[0].userId === userId) {
                     let newEmail = {
                         communities: email.communities,
                         value: email.value,

@@ -198,7 +198,7 @@ export class ListContactPage {
                   "Invitation bien reçue",
                   "top"
                 );
-              else if (data[0].status == 500)
+              else if (data[0].status == 500 && data[0].check == "")
                 this.utils.notification("Ce compte exist!", "top");
               //TODO ADD BACK BUTTON TO THE BARECODE SCANNER
               if (data[0].check != "") {
