@@ -1,9 +1,9 @@
 export var environment = {
    // Local machine
-   //BASE_URL: "http://localhost:3000",
+   BASE_URL: "http://localhost:3000",
 
    // AWS servere
-   BASE_URL: "http://3.14.71.156",
+   //BASE_URL: "http://3.14.71.156",
 
    // ON the preprod server
   //BASE_URL: "https://aqueous-citadel-42524.herokuapp.com",
