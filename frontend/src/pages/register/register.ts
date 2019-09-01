@@ -3,12 +3,17 @@ import { Component, ViewChild } from "@angular/core";
 import {
   Platform,
   ActionSheetController,
-  LoadingController,
   IonicPage,
   NavController,
   NavParams,
-  Slides
+  Slides,
+  ModalController,
+  Events
 } from "ionic-angular";
+
+import { Storage } from '@ionic/storage';
+
+import { UtilsProvider } from "../../providers/utils/utils";
 
 import {
   FormBuilder,
@@ -25,6 +30,7 @@ import {
   RegisterProvider
 } from '../../providers/register/register';
 
+import { LoginProvider } from "../../providers/login/login";
 
 /**
  * Generated class for the RegisterPage page.
@@ -39,145 +45,150 @@ import {
   templateUrl: "register.html"
 })
 export class RegisterPage {
-  @ViewChild(Slides) slides: Slides;
 
-  public currentIndex = 0;
 
-  communityForm: FormGroup;
-  chosenPicture: any;
-  communityPhoto: any;
-  userPhoto: any;
-  public errorCommunity = "";
-  public nameComm = "";
-  public queryTextCom = "";
-  public emptyField = "";
+  authForm: FormGroup;
+  public showPasswordText = true;
+  public passwordType = "password"
+  public tabParams;
+  public validatePasswords = "";
+
+  public requireFirstname = false;
+  public requireLastname = false;
 
   constructor(
+    private utils: UtilsProvider,
+    private storage: Storage,
     public navCtrl: NavController,
-    public cameraProvider: CameraProvider,
+    public events: Events,
     public navParams: NavParams,
-    public actionsheetCtrl: ActionSheetController,
-    public loadingCtrl: LoadingController,
+    public modalCtrl: ModalController,
+    public nav: NavController,
     public platform: Platform,
     public registerProvider: RegisterProvider,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public loginProvider: LoginProvider,
   ) {
 
-    this.communityForm = formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      commName: ["", Validators.compose([Validators.required])],
-      firstName: ["", Validators.compose([Validators.required])],
-      lastName: ["", Validators.compose([Validators.required])],
-      commDescription: ["", Validators.compose([Validators.required])],
-    });
-  }
-
-  commNameChange () {
-    
-    if (this.queryTextCom != "") {
-      this.emptyField = "" 
-    }
-
-    this.nameComm != this.queryTextCom ? this.errorCommunity = ""
-    : this.nameComm === this.queryTextCom  && this.nameComm != "" ? this.errorCommunity = "Ce nom exist!" : ""
-  }
-
-  nextSlide(value) {
-    this.currentIndex = this.slides.getActiveIndex();
-    this.communityPhoto = this.chosenPicture;
-    this.nameComm = value.commName;
-
-    // emptyField
-    if (this.queryTextCom == "") {
-        this.emptyField = "Ce champs doit etere rempli!"
-    } else {
-      this.registerProvider.checkCommunityIfExist(value.commName)
-      .subscribe(data => {
-        if (data.count === 0) {
-          this.slides.slideTo(this.currentIndex + 1);
-        } else {
-          this.errorCommunity = "Ce nom exist!"
-        }
+    this.authForm = formBuilder.group({
+        firstname: [""],
+        lastname: [""],
+        email: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')
+          ])
+        ],
+        password: [
+          "",
+          Validators.compose([
+            Validators.required,
+            // Validators.pattern(
+            //   "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+            // ),
+            Validators.minLength(8)
+          ])
+        ],
+        confPass: [""]
       });
+  }
+
+  createUserAccount(value) {
+    let check = 0
+    console.log("here222")
+
+    if (value.lastname === "") {
+      check = 1;
+      this.requireLastname = true;
+    } else check = 0;
+
+    if (value.firstname === "") {
+      check = 1;
+      this.requireFirstname = true;
+    } else check = 0;
+
+    if (check === 0) {
+      if (value.confPass != value.password)
+        this.validatePasswords = "Votre mot de passe n'est pas correct";
+      else {
+        const modal = this.modalCtrl.create("TermsOfServicePage", "", { cssClass: "" });
+        modal.onDidDismiss(data => {
+          if (data == true) {
+            this.loginProvider.createANewAccount(value).subscribe(data => {
+              if (data.code === 201)
+                this.utils.notification("Email exist !", "top");
+              else if (data.code == 200) {
+                this.utils.notification("Compte créé avec succès !", "top");
+                this.loginUserToSession(value);
+              }
+              else this.utils.notification("Une erreur est survenu", "top");
+            });
+          }
+        });
+        modal.present();
+      }
     }
   }
 
-  // TODO VALIDATE CONFIRMED PASSWORD
-  // TODO FERIVY EMAIL IF IT DOES EXIST
-  userInfoSubmit(value) {
-    this.userPhoto = this.chosenPicture;
-    this.registerProvider.registerNewUserCommunity(value, this.userPhoto, this.communityPhoto);
-  }
-
-  backSlide() {
-    this.currentIndex = this.slides.getActiveIndex();
-    this.slides.slideTo(this.currentIndex - 1);
-  }
-
-
-  changePicture() {
-    const actionsheet = this.actionsheetCtrl.create({
-      title: "upload picture",
-      buttons: [
-        {
-          text: "camera",
-          icon: !this.platform.is("ios") ? "camera" : null,
-          handler: () => {
-            this.takePicture();
+  loginUserToSession(value) {
+    this.loginProvider
+      .loginUser(value.email, value.password)
+      .subscribe(response => {
+        if (response.code == "200") {
+          if (response.firstConnection == 0) {
+            this.events.publish("user:info", response);
+            this.loginProvider
+              .updateUserNbrConnection(response.token, response.userId)
+              .subscribe(result => result);
+            this.storage.remove('response')
+              .then(resp => {
+                console.log("Response removed ");
+                this.storage.set('response', response);
+                this.events.publish("user:info", response);
+                console.log("Resposne new account :", response);
+                this.nav.push("HabeeWalkthroughPage", response);
+              })
+              .catch(err => console.log("error storage !"));
+            this.storage.clear();
+          } else {
+            this.storage.remove('response')
+              .then(resp => { 
+                console.log("Response removerd")
+                this.storage.clear();
+                this.storage.set('response', response);
+                this.events.publish("user:info", response);
+                console.log("Resposne login :", response);
+                this.nav.push("TabsPage", response);
+              })
+              .catch(err => console.log("error storage !"));
           }
-        },
-        {
-          text: !this.platform.is("ios") ? "gallery" : "camera roll",
-          icon: !this.platform.is("ios") ? "image" : null,
-          handler: () => {
-            this.getPicture();
-          }
-        },
-        {
-          text: "cancel",
-          icon: !this.platform.is("ios") ? "close" : null,
-          role: "destructive",
-          handler: () => {
-            console.log("the user has cancelled the interaction.");
-          }
-        }
-      ]
-    });
-    return actionsheet.present();
+        } else
+          this.utils.notification("E-mail et/ou mot de pass non valid", "top");
+      });
   }
 
-  takePicture() {
-    const loading = this.loadingCtrl.create();
+  onSubmit(value: any): void {
+    console.log("here sub,kit")
 
-    loading.present();
-    return this.cameraProvider.getPictureFromCamera().then(
-      picture => {
-        if (picture) {
-          this.chosenPicture = picture;
-        }
-        loading.dismiss();
-      },
-      error => {
-        alert(error);
-      }
-    );
+    this.createUserAccount(value);
   }
 
-  getPicture() {
-    const loading = this.loadingCtrl.create();
+  showPassword() {
+    this.showPasswordText = !this.showPasswordText;
 
-    loading.present();
-    return this.cameraProvider.getPictureFromPhotoLibrary().then(
-      picture => {
-        if (picture) {
-          this.chosenPicture = picture;
-        }
-        loading.dismiss();
-      },
-      error => {
-        alert(error);
-      }
-    );
+    if (this.showPasswordText) {
+      this.passwordType = 'password';
+    } else {
+      this.passwordType = 'text';
+    }
+  }
+
+  goTologinPage() {
+    this.navCtrl.push("LoginPage");
+  }
+
+  hideValidationPasswordError() {
+    this.validatePasswords = "";
   }
 }
