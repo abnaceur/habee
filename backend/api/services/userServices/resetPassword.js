@@ -25,8 +25,9 @@ resetPsw = (email, res) => {
                             new: false,
                         },
                         function (err, results) {
+                            let name = user[0].credentials.firstname;
                             if (err) return res.status(500).json(err);
-                            resetPswEmails.sendEmailResetPassword(email, "Ré-initialisation de votre mot de passe", email, psw);
+                            resetPswEmails.sendEmailResetPassword(email, "Ré-initialisation de votre mot de passe", email, psw, name);
                             res.status(200).json({
                                 code: 200,
                                 msg: "Password reset successefully"

@@ -273,7 +273,7 @@ createNewAccount = (value, res) => {
             user.save()
                 .then(user => {
                     communityService.newUserCommunity(user);
-                    let name = user.credentials.lastname;
+                    let name = user.credentials.firstname;
                     //let msg = userEmails.accountFirstCrevaluevalueation(value.email, value.password);
                     // utils.sendEmail("Habee TEAM", value.email, "Confirmationi de creation de compte", msg);
                     emailCreation.sendEmailAccountCreation(value.email, "Confirmation de création du compte", value.email, value.password, name)

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 
 import {
   ViewController,
@@ -12,7 +12,8 @@ import { AccountProvider } from "../../providers/account/account";
 import { environment as ENV } from "../../environments/environment";
 
 import { UtilsProvider } from "../../providers/utils/utils";
-import { ThrowStmt } from "@angular/compiler";
+
+import { BackgroundMode } from "@ionic-native/background-mode";
 /**
  * Generated class for the DeleteMyAccountPage page.
  *
@@ -30,6 +31,7 @@ export class DeleteMyAccountPage {
   private tabParams: Object;
 
   constructor(
+    private backgroundMode: BackgroundMode,
     private accountService: AccountProvider,
     public viewCtrl: ViewController,
     public navCtrl: NavController,
@@ -52,13 +54,11 @@ export class DeleteMyAccountPage {
     this.accountService.deleteUserAccount(this.tabParams)
     .subscribe(data => {
       if (data == 200) {
-        this.utils.notification("Votre compte est bien Supprimer", "bottomn")
-        setTimeout(() => {
-          this.tabParams = "";
-          this.navCtrl.push("LoginPage")
-        }, 1000)
-      } else if (data == 500) this.utils.notification("Une erreur est survenu", "bottomn")
-      else this.utils.notification("Une erreur est survenu", "bottomn")
+        this.utils.notification("Votre compte est bien Supprimer", "top")
+        let menuData = ["Déconnexion", this.tabParams];
+        this.navCtrl.push("TabsPage", menuData);
+      } else if (data == 500) this.utils.notification("Une erreur est survenu", "top")
+      else this.utils.notification("Une erreur est survenu", "top")
     })
   }
 }

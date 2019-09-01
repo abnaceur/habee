@@ -27,11 +27,18 @@ async function getFilterOptions (res, userId) {
         .sort({ filterEvent: 1 })
         .exec()
         .then(async usr => {
-            filters = await sortAlphaFilter(usr[0].filterEvent);
-            res.status(200).json({
-                filterEvent: filters,
-                communitiesFilter: usr[0].communitiesFilter
-            })
+            if(usr.length > 0) {
+                filters = await sortAlphaFilter(usr[0].filterEvent);
+                res.status(200).json({
+                    filterEvent: filters,
+                    communitiesFilter: usr[0].communitiesFilter
+                })
+            } else {
+                res.status(200).json({
+                    filterEvent: [],
+                    communitiesFilter: []
+                })
+            }
         })
 }
 

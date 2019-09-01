@@ -100,24 +100,28 @@ export class LoginPage {
             this.events.publish("user:info", response);
             this.loginProvider
               .updateUserNbrConnection(response.token, response.userId)
-              .subscribe(response => response);
+              .subscribe(result => result);
             this.storage.remove('response')
-              .then(resp => console.log("Response removerd"))
+              .then(resp => {
+                console.log("Response removed ");
+                this.storage.set('response', response);
+                this.events.publish("user:info", response);
+                console.log("Resposne new account :", response);
+                this.nav.push("HabeeWalkthroughPage", response);
+              })
               .catch(err => console.log("error storage !"));
             this.storage.clear();
-            this.storage.set('response', response);
-            this.events.publish("user:info", response);
-            console.log("Resposne new account :", response);
-            this.nav.push("HabeeWalkthroughPage", response);
           } else {
             this.storage.remove('response')
-              .then(resp => console.log("Response removerd"))
+              .then(resp => { 
+                console.log("Response removerd")
+                this.storage.clear();
+                this.storage.set('response', response);
+                this.events.publish("user:info", response);
+                console.log("Resposne login :", response);
+                this.nav.push("TabsPage", response);
+              })
               .catch(err => console.log("error storage !"));
-            this.storage.clear();
-            this.storage.set('response', response);
-            this.events.publish("user:info", response);
-            console.log("Resposne login :", response);
-            this.nav.push("TabsPage", response);
           }
         } else
           this.utils.notification("E-mail et/ou mot de pass non valid", "top");
