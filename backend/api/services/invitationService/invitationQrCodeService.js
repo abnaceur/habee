@@ -8,7 +8,7 @@ const invitationClass = require('../../classes/invitationClass')
 const invitationService = require('../userServices/userInvitationService')
 const emailCreation = require('../emailServices/accountCreationEmailservice')
 
-getUserInformation = (userId) => {
+getUserInformationQrcode = (userId) => {
     return new Promise((resolve, reject) => {
         User.find({
             userId: userId,
@@ -17,19 +17,6 @@ getUserInformation = (userId) => {
             .then(usr => {
                 resolve({ profile: usr[0].profile, email: usr[0].credentials.email })
             })
-    })
-}
-
-
-async function saveInvitation(invitor, invitorId, invitedEmail, communityIds) {
-    communityIds.map(async comId => {
-        const invitation = new Invitation(await invitationClass.classInvitationNewAccount(invitor, invitorId, invitedEmail, comId))
-        invitation.save()
-            .then(inv => console.log("SAVED INVITATION")).catch(err => console.log("Error ==> : ", err))
-    })
-
-    return new Promise((resolve, reject) => {
-        resolve(invitedEmail)
     })
 }
 
@@ -46,7 +33,7 @@ checkInvitationStatus = (comId, invitorId, userId) => {
     })
 }
 
-invitationIfExist = (email, userId, invitorId) => {
+invitationIfExistQrCode = (email, userId, invitorId) => {
     return new Promise((resolve, reject) => {
         let i = 0;
         let z = 1;
@@ -65,14 +52,14 @@ invitationIfExist = (email, userId, invitorId) => {
 }
 
 
-getInvitedUserInformation = (user) => {
+getInvitedUserInformationQrCode = (user) => {
 
     return new Promise((resolve, reject) => {
         resolve(user[0].profile)
     })
 }
 
-saveInvitationExistingUser = (invitorId, profileInvitor, profileInvited, invitedId, email, communityIds) => {
+saveInvitationExistingUserQrCode = (invitorId, profileInvitor, profileInvited, invitedId, email, communityIds) => {
 
     communityIds.map(async comId => { //invitedId, invitor, invited, invitorId, invitedEmail, communityId
         const invitation = new Invitation(await invitationClass.classInvitationExistingAccount(invitedId, profileInvitor, profileInvited, invitorId, email, comId))
@@ -85,20 +72,20 @@ saveInvitationExistingUser = (invitorId, profileInvitor, profileInvited, invited
     })
 }
 
-inviteExistingContactToCommunity = (data, existingUser, userId) => {
+inviteExistingContactToCommunityQrCode = (data, existingUser, userId) => {
 
     return new Promise((resolve, reject) => {
-        invitationIfExist(data, userId, existingUser[0].userId)
+        invitationIfExistQrCode(data, userId, existingUser[0].userId)
             .then(results => {
                 if (results.communities.length > 0) {
                     data = results;
-                    getUserInformation(userId)
+                    getUserInformationQrcode(userId)
                         .then(profileInvitedInfo => {
                             let profileInvited = profileInvitedInfo.profile;
                             let invitedEmail = profileInvitedInfo.email;
-                            getInvitedUserInformation(existingUser)
+                            getInvitedUserInformationQrCode(existingUser)
                                 .then(profileInvitor => {
-                                    saveInvitationExistingUser(existingUser[0].userId, profileInvitor, profileInvited, userId, invitedEmail, data.communities)
+                                    saveInvitationExistingUserQrCode(existingUser[0].userId, profileInvitor, profileInvited, userId, invitedEmail, data.communities)
                                         .then(invitedEmail => {
                                             emailRes = {
                                                 communities: data.communities,
@@ -124,7 +111,7 @@ inviteExistingContactToCommunity = (data, existingUser, userId) => {
     })
 }
 
-async function checkUser(email, com) {
+async function checkUserQrCode(email, com) {
 
     return new Promise((resolve, reject) => {
         User.find({
@@ -142,12 +129,12 @@ async function checkUser(email, com) {
     })
 }
 
-async function getComm(allCommunities, email) {
+async function getCommQrCode(allCommunities, email) {
     let communities = [];
     let i = 0;
 
     while (i < allCommunities.length) {
-        communities.push(await checkUser(email, allCommunities[i]));
+        communities.push(await checkUserQrCode(email, allCommunities[i]));
         i++;
     }
     return new Promise((resolve, reject) => {
@@ -156,15 +143,15 @@ async function getComm(allCommunities, email) {
 }
 
 
-async function checkIfCommunityExist(email, allCommunities) {
-    let data = await getComm(allCommunities, email)
+async function checkIfCommunityExistQrCode(email, allCommunities) {
+    let data = await getCommQrCode(allCommunities, email)
 
     return new Promise((resolve, reject) => {
         resolve(data)
     })
 }
 
-emailExist = (email, userId) => {
+emailExistQrCode = (email, userId) => {
     return new Promise((resolve, reject) => {
         User.find({
             "credentials.email": email.value
@@ -187,7 +174,7 @@ emailExist = (email, userId) => {
                     }
                     resolve(newEmail)
                 } else {
-                    checkIfCommunityExist(email.value, email.communities)
+                    checkIfCommunityExistQrCode(email.value, email.communities)
                         .then(results => {
                             if (results.length === 0) {
                                 let newEmail = {
@@ -197,7 +184,7 @@ emailExist = (email, userId) => {
                                 }
                                 resolve(newEmail)
                             } else if (results.length >= 1) {
-                                inviteExistingContactToCommunity(email, usr, userId)
+                                inviteExistingContactToCommunityQrCode(email, usr, userId)
                                     .then(email => {
                                         resolve(email)
                                     })
@@ -210,11 +197,11 @@ emailExist = (email, userId) => {
 
 
 // This is the main function 
-addContacts = (emails, userId) => {
+addContactsQrCode = (emails, userId) => {
     let emailsList = [];
     return new Promise((resolve, reject) => {
         emails.map(email => {
-            emailExist(email, userId)
+            emailExistQrCode(email, userId)
                 .then(response => {
                     emailsList.push(response)
                     if (emails.length === emailsList.length) {
@@ -226,32 +213,6 @@ addContacts = (emails, userId) => {
     })
 }
 
-checkIfEmailExist = (email) => {
-
-    return new Promise((resolve, reject) => {
-        User.find({
-            "credentials.email": email
-        }).exec()
-            .then(usr => {
-                if (usr.length === 0)
-                    resolve(true)
-                else
-                    resolve(false)
-            }).catch(err => utils.defaultError(res, err))
-
-    })
-}
-
-
 module.exports = {
-    inviteExistingContactToCommunity,
-    invitationIfExist,
-    saveInvitation,
-    checkIfCommunityExist,
-    emailExist,
-    getUserInformation,
-    addContacts,
-    checkIfEmailExist,
-    getComm,
-    checkUser,
+    addContactsQrCode,
 }

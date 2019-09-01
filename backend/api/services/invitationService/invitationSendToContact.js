@@ -120,6 +120,7 @@ saveInvitationExistingUser = (invitedId, profileInvitor, profileInvited, userId,
 
 inviteExistingContactToCommunity = (data, existingUser, userId) => {
 
+    console.log("here ==============>")
     return new Promise((resolve, reject) => {
         invitationIfExist(data, userId)
             .then(results => {

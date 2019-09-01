@@ -246,7 +246,7 @@ exports.postInvitedContacts = (req, res, next) => {
 exports.getInvitedByQrCode = (req, res, next) => {
     let userId = req.params.userId;
 
-    invitationQrCodeService.addContacts(req.body, userId)
+    invitationQrCodeService.addContactsQrCode(req.body, userId)
         .then(email => {
             res.status(200).json({
                 code: 200,
