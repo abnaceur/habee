@@ -95,8 +95,8 @@ export class UtilsProvider {
           let error = "Error"
           resolve(error);
         })
-        loader.dismiss();
-      })
+      loader.dismiss();
+    })
   }
 
   inihttpHeaderWIthToken(token) {

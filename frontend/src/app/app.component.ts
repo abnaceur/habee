@@ -228,7 +228,9 @@ export class MyApp {
         if (nav.canGoBack()) {
           nav.pop();
         } else {
-          this.nav.setRoot('LoginPage', "logout");
+          this.nav.setRoot("LoginPage", {
+            "logout": true
+          })
           this.platform.exitApp();
         }
       }

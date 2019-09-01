@@ -100,7 +100,7 @@ export class EventsPage {
     public menu: MenuController,
     public nav: NavController
   ) {
-    this.menu.enable(true, "left");
+    this.menu.enable(true);
     this.tabParams = {
       userId: this.navParams.get("userId"),
       token: this.navParams.get("token"),
@@ -125,10 +125,9 @@ export class EventsPage {
       "Novembre",
       "Decembre"
     ];
-    this.getAllEvents();
   }
 
-  ionViewWillEnter() {
+  ionViewWillEnter() {  
     let loader = this.loadingCTRL.create({
       spinner: 'dots',
     });
