@@ -37,10 +37,10 @@ export class CameraProvider {
     };
 
     // If set to crop, restricts the image to a square of 600 by 600
-    if (crop === false) {
-      options['targetWidth'] = 800;
-      options['targetHeight'] = 800;
-    }
+    // if (crop) {
+    //   options['targetWidth'] = 800;
+    //   options['targetHeight'] = 800;
+    // }
 
 
     return this.camera.getPicture(options).then(imageData => {

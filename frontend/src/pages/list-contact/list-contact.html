@@ -31,8 +31,8 @@
 
         <h2>{{user.profileUsername}}</h2>
         <span *ngFor='let community of user.communities'>
-          <img style="width: 12%;
-                height: 12%; border-radius: 100%" [src]='url + "/" + community.communityLogo'>
+          <img style="width: 23px;
+                height: 23px; border-radius: 100%" [src]='url + "/" + community.communityLogo'>
         </span>
 
         <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
