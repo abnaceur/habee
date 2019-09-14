@@ -4,6 +4,7 @@ const User = require('../../models/user');
 const deleteEventEmail = require('../../services/emailServices/deleteEventEmailService')
 
 //TODO EVENT DELTE EMAIL
+//TODO REMOVE COMMUNITY FROM EVENT
 notifyParticipants = (event) => {
     let participants = event.participants;
 

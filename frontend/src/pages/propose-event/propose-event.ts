@@ -228,7 +228,7 @@ export class ProposeEventPage {
               )
               .subscribe(response => {
                 if (response.results == true) {
-                  this.utils.notification("Event cree avec succes !", "top");
+                  this.utils.notification("Event créé avec succès", "top");
                   this.proposeEventProvider.emitnewCreatedEvent(response.Event);
                 } else this.utils.notification("Une erreur est apparus !", "top");
               });
@@ -238,7 +238,7 @@ export class ProposeEventPage {
             .addEventByCommunity(value, this.tabParams, this.chosenPicture, this.listCommunity)
             .subscribe(response => {
               if (response.results == true) {
-                this.utils.notification("Event cree avec succes !", "top");
+                this.utils.notification("Event créé avec succès", "top");
                 this.proposeEventProvider.emitnewCreatedEvent(response.Event);
                 //this.viewCtrl.dismiss();
               } else this.utils.notification("Une erreur est apparus !", "top");

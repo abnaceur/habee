@@ -36,7 +36,7 @@
         </span>
 
         <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
-          <ion-badge class="pull-right" style="background-color:#e0236f; color:white">moi</ion-badge>
+          <ion-badge style="background-color:#e0236f; color:white" item-right>moi</ion-badge>
         </button>
         <ion-icon *ngIf="user.userId != tabParams.userId" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft"
           item-right></ion-icon>
@@ -82,7 +82,7 @@
 
     <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
           && invit.status == 'pending'">
-      <p style="color: black"><b>Invitations envoyée</b> </p>
+      <p style="color: black"><b>Invitation envoyée</b> </p>
       <p style="color: black">a {{invit.invitedFullname}} </p>
       <p style="color: black">pour {{invit.InvitationCommunitName}}</p>
       <p>{{transform(invit.dateOfCreation)}}</p>

@@ -25,7 +25,7 @@
       Mes Habee'Team
     </ion-col>
     <ion-col (click)="selectCommunitiesByInvte()" [ngStyle]="{'border-bottom': communitiesByInvteBorder}" col-6>
-        Habee'Team Membre
+      Habee'Team Membre
     </ion-col>
   </div>
 
@@ -33,19 +33,22 @@
 
   <ion-list [ngStyle]="{'display': myCommunitiesBorderDisplay}">
     <span>
-      <ion-item-sliding *ngFor='let community of comListByCreator'>
+      <ion-item-sliding *ngFor='let community of comListByCreator; let i = index'>
         <ion-item (click)="showComDatails(community.communityId, false)" no-lines>
           <ion-avatar item-left>
             <img [src]='url + "/" + community.communityLogo'>
           </ion-avatar>
           <h2>{{community.communityName}}</h2>
           <p>{{community.communityMembers.length}} Membres</p>
-          <ion-icon style="color:#48d7e4; font-size: 42px" name="arrow-dropleft" item-right></ion-icon>
+          <ion-icon *ngIf="i != 0" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft" item-right></ion-icon>
+          <button *ngIf="i == 0" ion-button clear item-end>
+            <ion-badge style="background-color:#e0236f; color:white" item-right>moi</ion-badge>
+          </button>
         </ion-item>
 
 
-        <ion-item-options side="right">
-          <button ion-button style="position: relative; width: 100px; background-color: #e0236f" 
+        <ion-item-options *ngIf="i != 0" side="right">
+          <button ion-button style="position: relative; width: 100px; background-color: #e0236f"
             (click)="deleteCommunity(community.communityId)">
             <ion-icon name="trash"></ion-icon>
             Supprimer
@@ -77,7 +80,8 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <ion-infinite-scroll (ionInfinite)="  doInfiniteComParticipation($event)" *ngIf="pageComParticipation < totalPageComParticipation">
+  <ion-infinite-scroll (ionInfinite)="  doInfiniteComParticipation($event)"
+    *ngIf="pageComParticipation < totalPageComParticipation">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

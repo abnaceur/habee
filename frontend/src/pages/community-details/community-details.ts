@@ -9,6 +9,8 @@ import {
 
 import { UtilsProvider } from "../../providers/utils/utils";
 
+import { EventProvider } from "../../providers/event/event";
+
 import { CommunityProvider } from "../../providers/community/community";
 
 import { environment as ENV } from "../../environments/environment";
@@ -45,6 +47,7 @@ export class CommunityDetailsPage {
     private alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams,
+    public eventProvider: EventProvider,
     private communityProvider: CommunityProvider,
     public modalCtrl: ModalController,
     private removeCommunityFromContactProvider: RemoveCommunityFromContactProvider,
@@ -171,4 +174,43 @@ export class CommunityDetailsPage {
     });
     alert.present();
   }
+
+  expand(event) {
+
+    let navInfo = {
+      userInfo: this.tabParams,
+      event: event
+    };
+  
+    this.expandPopModal("PopupEditModalPage", navInfo);
+  }
+
+  expandPopModal(popPage, navInfo) {
+    setTimeout(() => {
+      const modal = this.modalCtrl.create(popPage, navInfo);
+      modal.onDidDismiss(data => {
+        this.page = 0;
+        this.getCommunityDetails();
+      });
+      modal.present();
+    }, 200);
+  }
+
+  deleteEventResponse(response) {
+    if (response.message == "success") {
+      this.getCommunityDetails();
+      this.utils.notification("Event Supprimer avec succes", "top");
+    } else {
+      this.utils.notification("Une erreur est survenu !", "top");
+    }
+  }
+
+  deleteEvent(event) {
+    this.eventProvider
+      .deleteTheiEvent(event, this.tabParams)
+      .subscribe(response => {
+        this.deleteEventResponse(response);
+      });
+  }
+
 }
