@@ -213,4 +213,10 @@ export class CommunityDetailsPage {
       });
   }
 
+  invitContact() {
+    const modal = this.modalCtrl.create("AddContactPage", this.tabParams);
+    modal.onDidDismiss(data => {
+    });
+    modal.present();
+  }
 }

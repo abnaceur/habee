@@ -122,12 +122,12 @@ export class ProposeEventPage {
     this.communityProvider
       .getCommunitiesbyCreator(this.tabParams)
       .subscribe(dataCreator => {
-        this.communityProvider
-          .getCommunitiesByParticipation(this.tabParams)
-          .subscribe(dataParticipation => {
-            dataCreator.communities = dataCreator.communities.concat(dataParticipation);
+        //this.communityProvider
+        //  .getCommunitiesByParticipation(this.tabParams)
+         // .subscribe(dataParticipation => {
+            //dataCreator.communities = dataCreator.communities.concat(dataParticipation);
             this.initListCommunity(dataCreator.communities);
-          });
+          //});
       });
   }
 

@@ -54,12 +54,12 @@ export class CommunityEventListPage {
       this.communityProvider
         .getCommunitiesbyCreator(this.tabParams)
         .subscribe(dataCreator => {
-          this.communityProvider
-            .getCommunitiesByParticipation(this.tabParams)
-            .subscribe(dataParticipation => {
-              dataCreator.communities = dataCreator.communities.concat(dataParticipation);
-                this.allCommunities = dataCreator.communities
-            });
+        //  this.communityProvider
+          //  .getCommunitiesByParticipation(this.tabParams)
+          //  .subscribe(dataParticipation => {
+          //    dataCreator.communities = dataCreator.communities.concat(dataParticipation);
+              this.allCommunities = dataCreator.communities
+          //  });
         });
     }
   }
@@ -69,10 +69,10 @@ export class CommunityEventListPage {
   }
 
   creatNewCommunity() {
-    const modal = this.modalCtrl.create("AddCommunityPage", this.tabParams,       { cssClass: "comAdd-modal" });
+    const modal = this.modalCtrl.create("AddCommunityPage", this.tabParams, { cssClass: "comAdd-modal" });
     modal.onDidDismiss(data => {
       // this.updatCommunityList();
-    this.getAllCommunities()
+      this.getAllCommunities()
     });
     modal.present();
   }
@@ -85,7 +85,7 @@ export class CommunityEventListPage {
     let i = 0;
     let tmp = [];
 
-    while(i < this.comSelected.length) {
+    while (i < this.comSelected.length) {
       if (this.comSelected[i] != comId)
         tmp.push(this.comSelected[i].communityId)
       i++;
@@ -95,12 +95,12 @@ export class CommunityEventListPage {
   }
 
   checkCommunity(com, ev) {
-    if (ev.checked == true) 
+    if (ev.checked == true)
       this.comSelected.push(com.communityId)
-     else  if (ev.checked == true) {
+    else if (ev.checked == true) {
       this.comSelected = this.popComId(com)
-     }
- 
+    }
+
   }
 
 }

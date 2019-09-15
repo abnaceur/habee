@@ -63,7 +63,7 @@
       <p>
 
 
-          <ion-list *ngFor="let event of communityEvents" >
+        <ion-list *ngFor="let event of communityEvents">
 
           <ion-item-sliding>
 
@@ -79,7 +79,8 @@
                 {{event.eventEndHour}}
               </p>
               <span class="styleParticipants">{{event.participants.length}}/{{event.nbrParticipants}}</span>
-              <ion-icon *ngIf="participation == false" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft" item-right></ion-icon>
+              <ion-icon *ngIf="participation == false" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft"
+                item-right></ion-icon>
             </ion-item>
 
             <ion-item-options *ngIf="participation == false" side="right">
@@ -119,4 +120,11 @@
       </button>
     </div>
   </div>
+
+  <ion-fab (click)="invitContact()" style="margin-bottom: 16vw" bottom right mini #fab>
+      <button ion-fab style="background-color: #48d7e4;" mini>
+        <ion-icon style="color:white; font-size: 25px" name="person-add"></ion-icon>
+      </button>
+    </ion-fab>
+
 </ion-footer>

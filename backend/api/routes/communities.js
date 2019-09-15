@@ -58,20 +58,20 @@ router.post('/selected/:communityId/:userId', authCkeck, communityController.upd
 
 
 /*
- ** API routes [GET] [PATCH] for /communities/id
+ ** API routes [GET]  for /communities/id
  */
 
 router.get('/:id', authCkeck, communityController.get_community_by_id);
 
 /*
- ** API routes [PUT] [PATCH] for /communities/id [USED]
+ ** API routes [PUT] for /communities/id [USED]
  */
 
 router.put('/:communityId', authCkeck, communityController.put_community_by_id);
 
 
 /*
- ** API routes [PUT] [PATCH] for /communities/delete/:communityId [USED]
+ ** API routes [PUT]  for /communities/delete/:communityId [USED]
  */
 
 router.put('/delete/:communityId', authCkeck, communityController.putDeleteCommunity)
