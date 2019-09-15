@@ -133,14 +133,14 @@ exports.checkIfNameExist = (res, community, communityInfo, communityPhoto) => {
         communityIsDeleted: false
     }).exec()
         .then(com => {
-            if (com.length != 0) {
-                res.status(200).json({
-                    code: 202,
-                    msg: "This name exist!"
-                })
-            } else {
-                this.updateThis(res, community, communityInfo, communityPhoto)
-            }
+            //      if (com.length != 0) {
+            //        res.status(200).json({
+            //            code: 202,
+            //            msg: "This name exist!"
+            //        })
+            //    } else {
+            this.updateThis(res, community, communityInfo, communityPhoto)
+            //    }
         })
 }
 
@@ -150,7 +150,8 @@ exports.updateCommunity = (res, communityInfo, communityId, communityPhoto) => {
         communityIsDeleted: false
     }).exec()
         .then(community => {
-            if (community[0].communityName != communityInfo.communityName) {
+            //      if (community[0].communityName != communityInfo.communityName) {
+            if (community.length > 0) {
                 this.checkIfNameExist(res, community, communityInfo, communityPhoto)
             } else {
                 res.status(200).json({
