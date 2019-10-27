@@ -224,14 +224,39 @@ export class MyApp {
       let nav = this.app.getActiveNavs()[0];
       let activeView = nav.getActive();
       // Checks if can go back before show up the alert
-      if (activeView.name === 'HomePage') {
+      if (activeView.name === 'HomePage' 
+      || activeView.name === 'CommunityDetailsPage' ||
+      activeView.name === 'AppInfoPage' ||
+      activeView.name === 'CommunityPage' || 
+      activeView.name === 'CommunityEventListPage' ||
+      activeView.name === 'ConatctListFilterPage' || 
+      activeView.name === 'DeleteMyAccountPage' || 
+      activeView.name === 'EditAccountPage' || 
+      activeView.name === 'EditCommunityModalPage' || 
+      activeView.name === 'EditPasswordPage' ||
+      activeView.name === 'EditProfilePage' ||
+      activeView.name === 'EventDetailsPage' ||
+      activeView.name === 'PopupUserDetailModalPage' ||
+      activeView.name === 'EventsPage' ||
+      activeView.name === 'ForgotPasswordPage' ||
+      activeView.name === 'InvitationListPage' ||
+      activeView.name === 'ListContactPage' ||
+      activeView.name === 'MyEventsPage' ||
+      activeView.name === 'ProfilePage' ||
+      activeView.name === 'ProposeEventPage' ||
+      activeView.name === 'RegisterCommunityUserPage' ||
+      activeView.name === 'TermsOfServicePage' ||
+      activeView.name === 'TermsOfServiceScriptPage'
+      ) {
         if (nav.canGoBack()) {
           nav.pop();
         } else {
-          this.nav.setRoot("LoginPage", {
-            "logout": true
-          })
-          this.platform.exitApp();
+          let menuData = ["HomePage", this.userData];
+          this.nav.setRoot('TabsPage', menuData);
+          // this.nav.setRoot("LoginPage", {
+          //   "logout": true
+          // })
+         // this.platform.exitApp();
         }
       }
     })

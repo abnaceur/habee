@@ -24,7 +24,8 @@ async function getEventsInfo(comId, page) {
             eventCommunity: {
                 "$in": [comId]
             },
-            eventIsDeleted: false
+            eventIsDeleted: false,
+            eventIsOver: false,
         })
             .exec()
             .then(allEvents => {
@@ -32,7 +33,8 @@ async function getEventsInfo(comId, page) {
                     eventCommunity: {
                         "$in": [comId]
                     },
-                    eventIsDeleted: false
+                    eventIsDeleted: false,
+                    eventIsOver: false,
                 })
                     .sort('eventStartDate')
                     .skip(Number(page * 10))
