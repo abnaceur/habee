@@ -18,4 +18,4 @@ RUN apt-get update \
     && npm rebuild node-sass --force
 
 EXPOSE 8100
-CMD ionic serve --browser
+CMD ionic serve

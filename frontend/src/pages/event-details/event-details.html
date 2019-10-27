@@ -90,15 +90,15 @@
 
       <ion-item style="text-align: left" text-wrap>
         <span style="color: #1aa6d0">Les commentaires </span>
-        <span (click)="showComments = !showComments" style="color:#1aa6d0"> Voir tout</span>
+        <!-- <span (click)="showComments = !showComments" style="color:#1aa6d0"> Voir tout</span> -->
       </ion-item>
     </ion-grid>
   </section>
-  <section>
+  <section class="main-content" style="margin-bottom: 30%">
     <div style="text-align: left">
       <span *ngIf="allComments.length != 0">
         <div *ngFor="let comment of allComments;">
-          <div *ngIf="showComments == true" class="message-wrapper">
+          <div class="message-wrapper">
             <div>
               <img class="profile-pic left" [src]="url + '/' + comment.photo" />
               <div class="chat-bubble left slide-left">
@@ -114,7 +114,7 @@
           </div>
         </div>
       </span>
-    </div>w
+    </div>
   </section>
 
   <!-- <h1 style="position: absolute; z-index: 1111;  left:15rem; font-weight:bolder; color: white">
@@ -220,11 +220,11 @@
   <div>
     <ion-toolbar>
       <ion-item>
-        <ion-input type="text" autocorrect clearInput inputmode="full-width-latin" spellcheck="true"
-          [(ngModel)]="commentText" placeholder="Laissez un commentaire..."></ion-input>
-        <button ion-button clear (click)="onSubmit()" item-end>
-          <ion-icon class="footer-btn" name="send"></ion-icon>
-        </button>
+        <input id="input" class="Input-text" type="text" autocorrect inputmode="full-width-latin" spellcheck="true"
+          [(ngModel)]="commentText" placeholder="Laissez un commentaire..."/>
+        <label for="input" (click)="onSubmit()" item-end>
+          <ion-icon class="footer-btn" style="color: blue" name="send"></ion-icon>
+        </label>
       </ion-item>
     </ion-toolbar>
   </div>

@@ -57,8 +57,8 @@ import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { environment } from '../environments/environment.prod';
 import { InvitationProvider } from '../providers/invitation/invitation';
 //const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
-const config: SocketIoConfig = { url: "http://3.14.71.156", options: {} };
-//const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} };
+//const config: SocketIoConfig = { url: "http://18.188.2.58", options: {} };
+const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} };
 //const config: SocketIoConfig = { url: "http://10.18.187.205:3000", options: {} };
 //const config: SocketIoConfig = { url: "https://aqueous-citadel-42524.herokuapp.com", options: {} };
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -72,7 +72,7 @@ import { AppInfoPageModule } from '../pages/app-info/app-info.module';
 import { CommunityDetailsPageModule } from "../pages/community-details/community-details.module";
 import { IonicStorageModule } from '@ionic/storage';
 import { CalendarModule } from "ion2-calendar";
-
+import { Keyboard } from "@ionic-native/keyboard";
 
 
 @NgModule({
@@ -112,7 +112,12 @@ import { CalendarModule } from "ion2-calendar";
     ForgotPasswordPageModule,
     CommunityEventListPageModule,
     SocketIoModule.forRoot(config),
-    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true }),
+    IonicModule.forRoot(MyApp, {
+      scrollPadding: false,
+      scrollAssist: false,
+      autoFocusAssist: false,
+      tabsHideOnSubPages: true
+    }),
     IonicStorageModule.forRoot(),
     CalendarModule,
     SharedModule,
@@ -123,7 +128,7 @@ import { CalendarModule } from "ion2-calendar";
   ],
   providers: [
     BarcodeScanner,
-    Contacts, 
+    Contacts,
     SocialSharing,
     StatusBar,
     SplashScreen,

@@ -31,7 +31,6 @@ services:
       - "3000:3000"
     links:
       - mongo
-      - maildev
   
   mongo:
     container_name: habee_mongo_dev
@@ -49,7 +48,7 @@ services:
     environment:
       - VIRTUAL_HOST=app.habee.local
     ports:
-      - "8100:8100"
+      - "3333:8100"
     
   
   mongoclient:
@@ -85,35 +84,35 @@ services:
   #     - 993:993
   #     - '7025:25'
 
-  imap:
-    environment:
-      - MAIL_PASS=debug
-    expose:
-      - '25'
-    image: antespi/docker-imap-devel:latest
-    ports:
-      - 993:993
-      - '7025:25'
-    links:
-      - maildev
+  # imap:
+  #   environment:
+  #     - MAIL_PASS=debug
+  #   expose:
+  #     - '25'
+  #   image: antespi/docker-imap-devel:latest
+  #   ports:
+  #     - 993:993
+  #     - '7025:25'
+  #   links:
+  #     - maildev
 
-  maildev:
-    command:
-      - bin/maildev
-      - --web
-      - '80'
-      - --smtp
-      - '25'
-    environment:
-      - MAIL_DRIVER=smtp
-      - MAIL_HOST=maildev
-      - MAIL_PORT=25
-      - MAIL_USERNAME=null
-      - MAIL_PASSWORD=null
-      - MAIL_ENCRYPTION=null
-    expose:
-      - 25
-    image: djfarrelly/maildev
-    ports:
-    - '1025:25'
-    - 1080:80
+  # maildev:
+  #   command:
+  #     - bin/maildev
+  #     - --web
+  #     - '80'
+  #     - --smtp
+  #     - '25'
+  #   environment:
+  #     - MAIL_DRIVER=smtp
+  #     - MAIL_HOST=maildev
+  #     - MAIL_PORT=25
+  #     - MAIL_USERNAME=null
+  #     - MAIL_PASSWORD=null
+  #     - MAIL_ENCRYPTION=null
+  #   expose:
+  #     - 25
+  #   image: djfarrelly/maildev
+  #   ports:
+  #   - '1025:25'
+  #   - 1080:80
