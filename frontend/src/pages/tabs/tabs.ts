@@ -24,6 +24,7 @@ export class TabsPage {
     public navParams: NavParams,
     private backgroundMode: BackgroundMode,
   ) {
+    console.log("this.navParams :", this.navParams);
     if (this.navParams.data.length == 2) {
       this.tabParams = {
         userId: this.navParams.data[1]["userId"],

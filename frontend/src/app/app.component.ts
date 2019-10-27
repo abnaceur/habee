@@ -108,9 +108,11 @@ export class MyApp {
 
     this.storage.get('response').then((response) => {
       if (response != undefined) {
+        console.log("response : ", response);
         this.userData = response;
       } else {
         events.subscribe("user:info", userData => {
+          console.log("response : ", userData);
           this.userData = userData;
         });
       }
@@ -167,14 +169,13 @@ export class MyApp {
   pushLocalNotification(data) {
     this.localNotifications.schedule({
       id: Math.floor(Math.random() * 10000),
-      text: "Vous avez un nouveau événement : " + data.eventName + " dans votre communauté : " + data.cpmmunityName,
+      text: "Vous avez un nouveau événement : " + data.eventName + " dans votre communauté : " + data.communityName,
       badge: 1
     });
   }
 
   initializeApp() {
 
-    let events = [];
 
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -182,26 +183,46 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
+
       this.platform.pause.subscribe(() => {
         console.log("[INFO] App paused");
         //TODO ADD NOTIFICATION STATUS VALIDATION
-        setTimeout(() => {
-          this.socket.connect();
-          if (this.userData && this.userData.notificationStatus == true) {
-            this.backgroundMode.on("activate").subscribe(data => {
-              this.socket.emit("join", this.userData.userId);
-              this.socket.on("broad-event", data => {
-                if (data != "") {
-                  this.pushLocalNotification(data);
-                }
-              });
-            });
-          }
-        }, 200);
+        this.socket.connect();
+        this.socket.emit("join", this.userData.userId);
+
+        //TODO FIX NOTIFICATIONS
+        // this.storage.get('response').then((response) => {
+        //   if (response != undefined) {
+        //     this.userData = response;
+        //     if (this.userData && this.userData.notificationStatus == true) {
+        //       this.backgroundMode.on("activate").subscribe(data => {
+        //         this.socket.on("broad-event", data => {
+        //           console.log("data :", data)
+        //           if (data != "") {
+        //             //this.pushLocalNotification(data);
+        //           }
+        //         });
+        //       });
+        //     }
+        //   } else {
+        //     if (this.userData && this.userData.notificationStatus == true) {
+        //       this.backgroundMode.on("activate").subscribe(data => {
+        //         this.socket.on("broad-event", data => {
+        //           console.log("data :", data)
+        //           if (data != "") {
+        //             this.pushLocalNotification(data);
+        //             data = "";
+        //           }
+        //         });
+        //       });
+        //     }
+        //   }
+        // });
+
+
       });
 
       this.platform.resume.subscribe(() => {
-        events = [];
         console.log("[INFO] App resumed");
         this.backgroundMode.on("deactivate").subscribe(data => {
           this.socket.disconnect(true);
@@ -224,29 +245,29 @@ export class MyApp {
       let nav = this.app.getActiveNavs()[0];
       let activeView = nav.getActive();
       // Checks if can go back before show up the alert
-      if (activeView.name === 'HomePage' 
-      || activeView.name === 'CommunityDetailsPage' ||
-      activeView.name === 'AppInfoPage' ||
-      activeView.name === 'CommunityPage' || 
-      activeView.name === 'CommunityEventListPage' ||
-      activeView.name === 'ConatctListFilterPage' || 
-      activeView.name === 'DeleteMyAccountPage' || 
-      activeView.name === 'EditAccountPage' || 
-      activeView.name === 'EditCommunityModalPage' || 
-      activeView.name === 'EditPasswordPage' ||
-      activeView.name === 'EditProfilePage' ||
-      activeView.name === 'EventDetailsPage' ||
-      activeView.name === 'PopupUserDetailModalPage' ||
-      activeView.name === 'EventsPage' ||
-      activeView.name === 'ForgotPasswordPage' ||
-      activeView.name === 'InvitationListPage' ||
-      activeView.name === 'ListContactPage' ||
-      activeView.name === 'MyEventsPage' ||
-      activeView.name === 'ProfilePage' ||
-      activeView.name === 'ProposeEventPage' ||
-      activeView.name === 'RegisterCommunityUserPage' ||
-      activeView.name === 'TermsOfServicePage' ||
-      activeView.name === 'TermsOfServiceScriptPage'
+      if (activeView.name === 'HomePage'
+        || activeView.name === 'CommunityDetailsPage' ||
+        activeView.name === 'AppInfoPage' ||
+        activeView.name === 'CommunityPage' ||
+        activeView.name === 'CommunityEventListPage' ||
+        activeView.name === 'ConatctListFilterPage' ||
+        activeView.name === 'DeleteMyAccountPage' ||
+        activeView.name === 'EditAccountPage' ||
+        activeView.name === 'EditCommunityModalPage' ||
+        activeView.name === 'EditPasswordPage' ||
+        activeView.name === 'EditProfilePage' ||
+        activeView.name === 'EventDetailsPage' ||
+        activeView.name === 'PopupUserDetailModalPage' ||
+        activeView.name === 'EventsPage' ||
+        activeView.name === 'ForgotPasswordPage' ||
+        activeView.name === 'InvitationListPage' ||
+        activeView.name === 'ListContactPage' ||
+        activeView.name === 'MyEventsPage' ||
+        activeView.name === 'ProfilePage' ||
+        activeView.name === 'ProposeEventPage' ||
+        activeView.name === 'RegisterCommunityUserPage' ||
+        activeView.name === 'TermsOfServicePage' ||
+        activeView.name === 'TermsOfServiceScriptPage'
       ) {
         if (nav.canGoBack()) {
           nav.pop();
@@ -256,7 +277,7 @@ export class MyApp {
           // this.nav.setRoot("LoginPage", {
           //   "logout": true
           // })
-         // this.platform.exitApp();
+          // this.platform.exitApp();
         }
       }
     })

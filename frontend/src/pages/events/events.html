@@ -114,12 +114,11 @@ background-color: #fcfcfc;">
       </p>
       <ion-scroll scrollX="true" style="white-space: nowrap; height: 24px; width: 100%;
       min-height: 38px;">
-      <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-   <a *ngFor="let coms of eventComsNames[idx]">
-          <ion-badge
-            [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
+        <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+        <!-- <a *ngFor="let coms of eventComsNames[idx]">
+          <ion-badge [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
             {{coms}}</ion-badge>
-        </a>
+        </a> -->
       </ion-scroll>
     </ion-item>
   </ion-list>
@@ -150,7 +149,8 @@ background-color: #fcfcfc;">
           <span *ngIf="event.eventIsPublic == false && event.eventCreator == tabParams.userId" class="ribbon sale">
             <span>PRIVÉ-Moi</span>
           </span>
-          <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId" class=" ribbon javascript">
+          <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId"
+            class=" ribbon javascript">
             <span>Public-Moi</span>
           </span>
           <img [src]='url + "/" + event.eventPhoto'>
@@ -162,10 +162,9 @@ background-color: #fcfcfc;">
         </p>
         <ion-scroll scrollX="true" style="white-space: nowrap; height: 24px; width: 100%;
         min-height: 24px;">
-        <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-     <a *ngFor="let coms of eventComsNames[idx]">
-            <ion-badge
-              [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
+          <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+          <a *ngFor="let coms of eventComsNames[idx]">
+            <ion-badge [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
               {{coms}}</ion-badge>
           </a>
         </ion-scroll>

@@ -76,26 +76,30 @@ feedbackEvent = (io) => {
             }
         });
 
-        client.on('new-event', async function (event) {
+        client.on('new-event', function (event) {
             let i = 0;
             let userIds = [];
 
             while (i < comConnectedClient.length) {
                 if (Object.keys(comConnectedClient[i]) != null && Object.keys(comConnectedClient[i]) != undefined) {
                     let a = Object.values(comConnectedClient[i]);
-                    userIds.push(a[0]);
+                    if (!Array.isArray(a[0]))
+                        userIds.push(a[0]);
                 }
                 i++;
             }
-            
-            userIds.map(async userId => {
-                let userComs = await communityService.getUserCreatedComsTotalEntitites(userId);
-                let userPartComs = await communityService.getUserParticipatedComsTotalEntities(userId);
-                let i = 0;
-                let z = 0;
-                let check = 0;
 
-                userComs.concat(userPartComs);
+            i = 0;
+            let z = 0;
+            let check = 0;
+            let userComs = [];
+            let userPartComs = [];
+
+            userIds.map(async userId => {
+                userComs = await communityService.getUserCreatedComsTotalEntitites(userId);
+                userPartComs = await communityService.getUserParticipatedComsTotalEntities(userId);
+
+                userComs = userComs.concat(userPartComs);
                 if (userComs.length > 0) {
                     while (i < event.eventCommunity.length) {
                         while (z < userComs.length) {
@@ -110,10 +114,16 @@ feedbackEvent = (io) => {
                         i++;
                     }
                     if (check === 1) {
-                        client.to(userId).emit('broad-event', {cpmmunityName: userComs[z].communityName, eventName: event.eventName});
+                        console.log('=================')
+                        client.to(userId).emit('broad-event', { communityName: userComs[z].communityName, eventName: event.eventName });
                     }
                     check = 0;
                 }
+                check = 0;
+                userComs = [];
+                z = 0;
+                i = 0;
+                userPartComs = [];
             })
         });
 
@@ -122,8 +132,7 @@ feedbackEvent = (io) => {
             client.to(data.eventId).emit('broad-participants', data.participants);
         });
 
-
-        client.on('disconnect', function (data) {
+        client.on('disconnect', function () {
             let i = 0;
             let eventId;
 

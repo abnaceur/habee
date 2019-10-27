@@ -56,7 +56,7 @@ export class AccountProvider {
         { notifStatus },
         { headers: header }
       )
-      .map(response => response.json().code);
+      .map(response => response.json());
   }
 
   getUserNotificationStatus (userInfo) {

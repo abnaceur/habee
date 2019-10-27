@@ -1,22 +1,24 @@
-import { 
-  Component 
+import {
+  Component
 } from '@angular/core';
 
-import { 
+import {
   ModalController,
-  IonicPage, 
-  NavController, 
-  NavParams } from 'ionic-angular';
+  IonicPage,
+  NavController,
+  NavParams
+} from 'ionic-angular';
+
+import { Storage } from '@ionic/storage';
+
+import {
+  UtilsProvider
+} from "../../providers/utils/utils"
 
 
-  import {
-    UtilsProvider
-  } from "../../providers/utils/utils"
-
-
-  import { 
-    AccountProvider
-  } from "../../providers/account/account"
+import {
+  AccountProvider
+} from "../../providers/account/account"
 
 /**
  * Generated class for the GoodPlansPage page.
@@ -37,37 +39,38 @@ export class GoodPlansPage {
   constructor(
     private accountProvider: AccountProvider,
     private utils: UtilsProvider,
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
+    private storage: Storage,
     public modalCtrl: ModalController,
-    ) {
+  ) {
 
-      this.tabParams = {
-        userId: this.navParams.get("userId"),
-        token: this.navParams.get("token"),
-        activeCommunity: this.navParams.get('activeCommunity'),
-        notificationStatus: this.navParams.get("notificationStatus")
-      };
+    this.tabParams = {
+      userId: this.navParams.get("userId"),
+      token: this.navParams.get("token"),
+      activeCommunity: this.navParams.get('activeCommunity'),
+      notificationStatus: this.navParams.get("notificationStatus")
+    };
   }
 
   ionViewWillEnter() {
     this.accountProvider.getUserNotificationStatus(this.tabParams)
-    .subscribe(notifStatus => {
-      this.notifStatus = notifStatus
-    })
+      .subscribe(notifStatus => {
+        this.notifStatus = notifStatus
+      })
   }
 
   executeModal(page) {
     const modal = this.modalCtrl.create(page, this.tabParams, { cssClass: '' });
-		modal.onDidDismiss(data => {
+    modal.onDidDismiss(data => {
       data = [];
     });
-		modal.present();
+    modal.present();
   }
 
   modifyProfileModal() {
     const modal = this.modalCtrl.create("EditProfilePage", this.tabParams);
-		modal.present();
+    modal.present();
   }
 
   modifyPasswordModal() {
@@ -80,16 +83,17 @@ export class GoodPlansPage {
 
   modifyAccountModal() {
     const modal = this.modalCtrl.create("EditAccountPage", this.tabParams);
-		modal.present();
+    modal.present();
   }
 
-  updateNotificationStatus () {
+  updateNotificationStatus() {
     this.accountProvider.updateNotifiacationStatus(this.tabParams, this.notifStatus)
-    .subscribe(data => {
-      if (data != 200) {
-        this.utils.notification("Un problem est survenu", "bottomn");
-      } 
-    })
+      .subscribe(data => {
+        if (data.code === 200) {
+          this.tabParams.notificationStatus = data.status;
+          this.storage.set('response', this.tabParams);
+        } else this.utils.notification("Un problem est survenu", "bottomn");
+      })
   }
-  
+
 }

@@ -8,6 +8,7 @@ updateThisUserNotification = (res, userId, notifStatus) => {
         userId: userId
     }).exec()
     .then(usr => {
+        console.log("notifStatus :", notifStatus);
         usr[0].notificationStatus = notifStatus;  
         User.findByIdAndUpdate(usr[0]._id,
             usr[0], {
@@ -17,6 +18,7 @@ updateThisUserNotification = (res, userId, notifStatus) => {
                 if (err) return res.status(500).json(err);
                 res.status(200).json({
                     code: 200,
+                    status: notifStatus,
                     msg: "Notification updated successefully"
                 })
             });
