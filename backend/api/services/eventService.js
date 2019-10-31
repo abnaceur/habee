@@ -42,6 +42,7 @@ eventModal = (event) => {
         eventIsPublic: event.eventIsPublic,
         eventCommunity: event.eventCommunity,
         eventName: event.eventName,
+        eventComNames: event.eventComNames,
         eventCreator: event.eventCreator,
         eventDescription: event.eventDescription,
         eventStartDate: event.eventStartDate,

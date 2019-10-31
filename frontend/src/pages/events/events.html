@@ -115,10 +115,10 @@ background-color: #fcfcfc;">
       <ion-scroll scrollX="true" style="white-space: nowrap; height: 24px; width: 100%;
       min-height: 38px;">
         <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-        <!-- <a *ngFor="let coms of eventComsNames[idx]">
+        <a *ngFor="let coms of event.eventComNames">
           <ion-badge [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
             {{coms}}</ion-badge>
-        </a> -->
+        </a>
       </ion-scroll>
     </ion-item>
   </ion-list>
@@ -163,7 +163,7 @@ background-color: #fcfcfc;">
         <ion-scroll scrollX="true" style="white-space: nowrap; height: 24px; width: 100%;
         min-height: 24px;">
           <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
-          <a *ngFor="let coms of eventComsNames[idx]">
+          <a *ngFor="let coms of event.eventComNames">
             <ion-badge [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
               {{coms}}</ion-badge>
           </a>

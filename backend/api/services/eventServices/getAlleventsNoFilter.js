@@ -103,16 +103,13 @@ async function getAllUserEvents(userId, res, page) {
         updateEventIsOver(event)
     })
 
-    events = await allMyEventsNoFilter(communities, res, page);
-
     let i = 0;
     let eventCommunitiesName = [];
 
     await events.map(async event => {
-        await eventCommunitiesName.push(await getEventComNames(event.eventCommunity));
+        event.eventComNames = await getEventComNames(event.eventCommunity);
         i++;
-
-        if (i === events.length)
+        if (i === events.length) {
             res.status(200).json({
                 code: 200,
                 Count: totalEvents,
@@ -124,7 +121,11 @@ async function getAllUserEvents(userId, res, page) {
                     return eventService.eventModal(event)
                 })
             })
+        }
     })
+
+
+
 }
 
 updateEventIsOver = (event) => {

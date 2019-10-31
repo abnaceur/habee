@@ -12,6 +12,10 @@ let eventSchema = mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+	eventComNames: {
+		type: Array,
+		default: [],
+	},
 	eventCategory: String,
 	eventPhoto: String,
 	eventCommunity: [],
