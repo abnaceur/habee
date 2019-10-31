@@ -34,7 +34,7 @@ export class InvitationListPage {
   public url = ENV.BASE_URL;
   public tabParams;
 
-  public listCommunity; 
+  public listCommunity;
   public contact;
   public notificationCount = 0;
 
@@ -73,9 +73,12 @@ export class InvitationListPage {
 
   getListContact() {
     this.invitationProvider
-      .getAllUserInvitations(this.tabParams)
-      .subscribe(data => {
-        this.invitationList = data;
+      .getAllUserInvitations(this.tabParams, this.page)
+      .subscribe(response => {
+        this.invitationList = response.invitations;
+        this.perPage = response.per_page;
+        this.totalData = response.total;
+        this.totalPage = response.total_pages;
       });
   }
 
@@ -112,6 +115,7 @@ export class InvitationListPage {
     modal.onDidDismiss(data => {
       this.expanded = false;
       this.contracted = !this.expanded;
+      this.page = 0;
       this.getListContact();
       this.selectInvitationList();
       setTimeout(() => (this.showIcon = true), 330);
@@ -132,34 +136,22 @@ export class InvitationListPage {
 
   doInfinite(infiniteScroll) {
     this.page = this.page + 1;
-
     setTimeout(() => {
-      if (this.tabParams.activeCommunity != "") {
-        this.communityProvider
-          .getCommunitiesbyCreator(this.tabParams)
-          .subscribe(dataCreator => {
-            this.communityProvider
-              .getCommunitiesByParticipation(this.tabParams)
-              .subscribe(dataParticipation => {
-                dataCreator.communities = dataCreator.communities.concat(
-                  dataParticipation
-                );
-                this.allCommunities = dataCreator.communities;
-                this.tabParams.page = this.page;
-                this.userProvider
-                  .getAllUserByCommunityId(this.tabParams, this.allCommunities)
-                  .subscribe(response => {
-                    this.contact = response.users;
-                    this.perPage = response.per_page;
-                    this.totalData = response.total;
-                    this.totalPage = response.total_pages;
-                  });
-              });
-          });
-      }
+      this.invitationProvider
+        .getAllUserInvitations(this.tabParams, this.page)
+        .subscribe(response => {
+          this.invitationList = this.invitationList.concat(response.invitations);
+          this.perPage = response.per_page;
+          this.totalData = response.total;
+          this.totalPage = response.total_pages;
+        });
       console.log("Async operation has ended");
       infiniteScroll.complete();
     }, 1000);
+  }
+
+  ionViewWillLeave() {
+    this.page = 0;
   }
 
   acceptInvitation(invit) {
@@ -167,15 +159,12 @@ export class InvitationListPage {
       .acceptedInvitatioo(invit, this.tabParams)
       .subscribe(data => {
         if (data == 200) {
-          this.invitationProvider
-            .getAllUserInvitations(this.tabParams)
-            .subscribe(data => {
-              this.invitationList = data;
-              this.utils.notification(
-                "Adhesion prise en compte",
-                "top"
-              );
-            });
+          this.page = 0;
+          this.getListContact();
+          this.utils.notification(
+            "Adhesion prise en compte",
+            "top"
+          );
         } else {
           this.utils.notification("Sorry, something went wrong!", "top");
         }
@@ -187,12 +176,9 @@ export class InvitationListPage {
       .rejectedInvitation(invit, this.tabParams)
       .subscribe(data => {
         if (data == 200) {
-          this.invitationProvider
-            .getAllUserInvitations(this.tabParams)
-            .subscribe(data => {
-              this.invitationList = data;
-              this.utils.notification("Annulation envoyée", "top");
-            });
+          this.page = 0;
+          this.getListContact();
+          this.utils.notification("Annulation envoyée", "top");
         } else {
           this.utils.notification("Sorry, something went wrong!", "top");
         }
@@ -211,6 +197,7 @@ export class InvitationListPage {
       .subscribe(data => {
         if (data == 200) {
           this.utils.notification("Invitation viens d'etre re-envoyer !", "top");
+          this.page = 0;
           this.getListContact();
         }
         else
@@ -223,6 +210,7 @@ export class InvitationListPage {
       .subscribe(data => {
         if (data == 200) {
           this.utils.notification("Invitation viens d'etre annuler !", "top");
+          this.page = 0;
           this.getListContact();
         }
         else

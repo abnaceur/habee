@@ -185,7 +185,7 @@ router.put('/account/info/:userId' , authCkeck, userController.updateAccountInfo
  ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]
  */
 
-router.get('/list/invitation/:userId/community/:communityId', userController.getListInvitationn);
+router.get('/list/invitation/:userId/community/:communityId/:page', userController.getListInvitationn);
 
 /*
  ** API [GET] for route /users/list/invitation/:userId/community/:communityId [USED]

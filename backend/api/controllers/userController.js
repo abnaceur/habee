@@ -363,8 +363,9 @@ exports.updateAccountInfo = (req, res, next) => {
 exports.getListInvitationn = (req, res, next) => {
     let userId = req.params.userId;
     let communityId = req.params.communityId;
+    let page = req.params.page;
 
-    userInvitationService.listAllUserInvitation(res, userId, communityId)
+    userInvitationService.listAllUserInvitation(res, userId, communityId, page)
 }
 
 exports.updateInvitationNotification = (req, res, next) => {

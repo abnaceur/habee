@@ -111,7 +111,7 @@ export class ListContactPage {
 
   getListContact() {
     this.invitationProvider
-      .getAllUserInvitations(this.tabParams)
+      .getAllUserInvitations(this.tabParams, this.page)
       .subscribe(data => {
         this.invitationList = data;
       });
@@ -123,7 +123,7 @@ export class ListContactPage {
     });
     loader.present();
     this.getAllUserContacts();
-    this.getListContact();
+    //this.getListContact();
     loader.dismiss();
   }
 
@@ -314,7 +314,7 @@ export class ListContactPage {
       .subscribe(data => {
         if (data == 200) {
           this.invitationProvider
-            .getAllUserInvitations(this.tabParams)
+            .getAllUserInvitations(this.tabParams, this.page)
             .subscribe(data => {
               this.invitationList = data;
               this.utils.notification(
@@ -334,7 +334,7 @@ export class ListContactPage {
       .subscribe(data => {
         if (data == 200) {
           this.invitationProvider
-            .getAllUserInvitations(this.tabParams)
+            .getAllUserInvitations(this.tabParams, this.page)
             .subscribe(data => {
               this.invitationList = data;
               this.utils.notification("Annulation envoyée", "top");

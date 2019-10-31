@@ -19,7 +19,7 @@ export class InvitationProvider {
   constructor(public http: Http, public utils: UtilsProvider) {
   }
 
-  getAllUserInvitations(userInfo) {
+  getAllUserInvitations(userInfo, page) {
     const header = this.utils.inihttpHeaderWIthToken(userInfo.token);
 
     return this.http
@@ -28,10 +28,10 @@ export class InvitationProvider {
           "/users/list/invitation/" +
           userInfo.userId +
           "/community/" +
-          userInfo.activeCommunity,
+          userInfo.activeCommunity + "/" + page,
         { headers: header }
       )
-      .map(response => response.json().data);
+      .map(response => response.json());
   }
 
   updateNotification(userInfo) {

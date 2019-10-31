@@ -5,30 +5,40 @@ const User = require('../../models/user')
 getMyInvitations = (userId) => {
     return new Promise((resolve, reject) => {
         Invitation.find({
-            invitedId: userId,
+            $or: [
+                { invitatorId: userId },
+                { invitedId: userId }
+            ],
         }).exec()
             .then(invitation => {
-                resolve(invitation);
+                resolve(invitation.count);
             }).catch(err => console.log("getMyInvitations Err : ", err))
     })
 
 }
 
 
-listAllUserInvitation = (res, userId, communityId) => {
+listAllUserInvitation = (res, userId, communityId, page) => {
     Invitation.find({
-        invitatorId: userId,
-    }).exec()
-        .then(invitation => {
-            getMyInvitations(userId)
-                .then(myInvitations => {
-                    let allInvit = myInvitations.concat(invitation)
-                    console.log("==========| TEST |========", invitation.length);
-                    res.status(200).json({
-                        data: allInvit
-                    })
-                })
-                .catch(err => console.log("listAllUserInvitation Err: ", err))
+        $or: [
+            { invitatorId: userId },
+            { invitedId: userId }
+        ],
+    })
+        .sort({'dateOfCreation': -1})
+        .skip(Number(page * 10))
+        .limit(Number(10))
+        .exec()
+        .then(async invitations => {
+            let total = await getMyInvitations(userId);
+            res.status(200).json({
+                invitations: invitations,
+                code: 200,
+                Count: total,
+                per_page: 10,
+                total: total,
+                total_pages: Math.floor(total / 10),
+            })
         }).catch(err => {
             res.status(500).json({
                 Error: err

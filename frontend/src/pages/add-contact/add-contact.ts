@@ -115,7 +115,6 @@ export class AddContactPage {
       this.contactArray,
       this.tabParams
     );
-    console.log("emailsList :", emailsList);
     this.contactArray = emailsList;
     
     if (this.contactArray[0].value != "" && this.contactArray[0].communities.length != 0) {
