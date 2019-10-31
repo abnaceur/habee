@@ -291,8 +291,9 @@ export class MyApp {
       this.nav.push("GoodPlansPage", this.userData)
     } else if (page.title == "À propos") {
       this.nav.push("AppInfoPage", this.userData)
-    }
-    else {
+    } else if (page.title == "Profil") {
+      this.nav.push("ProfilePage", this.userData)
+    } else {
       let menuData = [page.title, this.userData];
       this.nav.setRoot(page.component, menuData);
     }

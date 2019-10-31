@@ -6,7 +6,8 @@ import {
   ModalController,
   ViewController,
   ToastController,
-  NavParams
+  NavParams,
+  LoadingController
 } from "ionic-angular";
 
 import moment from "moment";
@@ -32,6 +33,23 @@ import { InvitationProvider } from "../../providers/invitation/invitation";
 export class InvitationListPage {
   public url = ENV.BASE_URL;
   public tabParams;
+
+  public listCommunity; 
+  public contact;
+  public notificationCount = 0;
+
+  page = 0;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
+
+
+  // Moadal declaration
+  expanded: any;
+  contracted: any;
+  showIcon = true;
+  preload = true;
+
   public invitationList: any;
 
   constructor(
@@ -41,6 +59,7 @@ export class InvitationListPage {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     public viewCtrl: ViewController,
+    private loadingCTRL: LoadingController,
     private toastController: ToastController
   ) {
     this.tabParams = {
@@ -51,7 +70,8 @@ export class InvitationListPage {
     };
   }
 
-  ionViewWillEnter() {
+
+  getListContact() {
     this.invitationProvider
       .getAllUserInvitations(this.tabParams)
       .subscribe(data => {
@@ -59,14 +79,87 @@ export class InvitationListPage {
       });
   }
 
-  dismiss() {
+  ionViewWillEnter() {
+    let loader = this.loadingCTRL.create({
+      spinner: 'dots',
+    });
+    loader.present();
+    this.getListContact();
+    loader.dismiss();
+  }
+
+  getCountinvitation() {
+    this.invitationProvider
+      .getCountNotification(this.tabParams)
+      .subscribe(count => {
+        setTimeout(() => {
+          // this.notificationCount = count;
+          // localStorage.setItem("invitNotif", count)
+        }, 500);
+      });
+  }
+
+  ionViewDidEnter() {
+    this.getCountinvitation();
+  }
+
+  expand() {
+    this.expanded = true;
+    this.contracted = !this.expanded;
+    this.showIcon = false;
+
+    const modal = this.modalCtrl.create("AddContactPage", this.tabParams);
+    modal.onDidDismiss(data => {
+      this.expanded = false;
+      this.contracted = !this.expanded;
+      this.getListContact();
+      this.selectInvitationList();
+      setTimeout(() => (this.showIcon = true), 330);
+    });
+    modal.present();
+  }
+
+
+  selectInvitationList() {
     if (this.tabParams.countNotification != 0) {
       this.invitationProvider
         .updateNotification(this.tabParams)
         .subscribe(data => {
-          this.viewCtrl.dismiss();
+          this.notificationCount = 0;
         });
-    } else this.viewCtrl.dismiss();
+    }
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page = this.page + 1;
+
+    setTimeout(() => {
+      if (this.tabParams.activeCommunity != "") {
+        this.communityProvider
+          .getCommunitiesbyCreator(this.tabParams)
+          .subscribe(dataCreator => {
+            this.communityProvider
+              .getCommunitiesByParticipation(this.tabParams)
+              .subscribe(dataParticipation => {
+                dataCreator.communities = dataCreator.communities.concat(
+                  dataParticipation
+                );
+                this.allCommunities = dataCreator.communities;
+                this.tabParams.page = this.page;
+                this.userProvider
+                  .getAllUserByCommunityId(this.tabParams, this.allCommunities)
+                  .subscribe(response => {
+                    this.contact = response.users;
+                    this.perPage = response.per_page;
+                    this.totalData = response.total;
+                    this.totalPage = response.total_pages;
+                  });
+              });
+          });
+      }
+      console.log("Async operation has ended");
+      infiniteScroll.complete();
+    }, 1000);
   }
 
   acceptInvitation(invit) {
@@ -78,7 +171,10 @@ export class InvitationListPage {
             .getAllUserInvitations(this.tabParams)
             .subscribe(data => {
               this.invitationList = data;
-              this.utils.notification("Votre nouvel communauté est bien ajouté!", "top");
+              this.utils.notification(
+                "Adhesion prise en compte",
+                "top"
+              );
             });
         } else {
           this.utils.notification("Sorry, something went wrong!", "top");
@@ -95,6 +191,7 @@ export class InvitationListPage {
             .getAllUserInvitations(this.tabParams)
             .subscribe(data => {
               this.invitationList = data;
+              this.utils.notification("Annulation envoyée", "top");
             });
         } else {
           this.utils.notification("Sorry, something went wrong!", "top");
@@ -107,4 +204,30 @@ export class InvitationListPage {
     let a = moment(value).fromNow();
     return a;
   }
+
+
+  resendInvitation(invit) {
+    this.invitationProvider.resendInvitation(this.tabParams, invit)
+      .subscribe(data => {
+        if (data == 200) {
+          this.utils.notification("Invitation viens d'etre re-envoyer !", "top");
+          this.getListContact();
+        }
+        else
+          this.utils.notification("Desole, une erreur est survenu !", "top");
+      })
+  }
+
+  cancelInviatation(invit) {
+    this.invitationProvider.cancelInvitation(this.tabParams, invit)
+      .subscribe(data => {
+        if (data == 200) {
+          this.utils.notification("Invitation viens d'etre annuler !", "top");
+          this.getListContact();
+        }
+        else
+          this.utils.notification("Desole, une erreur est survenu !", "top");
+      })
+  }
+
 }

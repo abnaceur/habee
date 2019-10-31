@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
+  <!-- <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
     <ion-col (click)="selectContactList()" [ngStyle]="{'border-bottom': myContactBorder}" col-6>
       Mes Habeenautes
     </ion-col>
@@ -17,11 +17,12 @@
         <ion-badge class="icon-badge">{{notificationCount}}</ion-badge>
       </span>
     </ion-col>
-  </div>
+  </div> -->
 
 
 
-  <ion-list [ngStyle]="{'display': myContactBorderDisplay}">
+  <!-- <ion-list [ngStyle]="{'display': myContactBorderDisplay}"> -->
+    <ion-list>
     <ion-item-sliding *ngFor='let user of contact'>
 
       <ion-item no-lines>
@@ -67,7 +68,7 @@
   </ion-list>
 
 
-  <ion-list [ngStyle]="{'display': listInvitBorderDisplay}" *ngFor="let invit of invitationList">
+  <!-- <ion-list [ngStyle]="{'display': listInvitBorderDisplay}" *ngFor="let invit of invitationList">
 
     <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false
           && invit.status == 'pending'">
@@ -163,7 +164,7 @@
       </span>
 
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">

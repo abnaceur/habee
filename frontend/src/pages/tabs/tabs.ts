@@ -12,9 +12,10 @@ export class TabsPage {
   @ViewChild("myTabs") tabRef: Tabs;
   public tabParams;
 
+  notifInvit : any;
   tab1Root = "EventsPage";
   tab2Root = "MyEventsPage";
-  tab3Root = "ProfilePage";
+  tab3Root = "InvitationListPage";
   tab4Root = "ListContactPage";
   tab5Root = "CommunityPage";
 
@@ -24,7 +25,7 @@ export class TabsPage {
     public navParams: NavParams,
     private backgroundMode: BackgroundMode,
   ) {
-    console.log("this.navParams :", this.navParams);
+    this.notifInvit = localStorage.getItem("invitNotif"); 
     if (this.navParams.data.length == 2) {
       this.tabParams = {
         userId: this.navParams.data[1]["userId"],

@@ -46,7 +46,7 @@ import { Subscriber } from "rxjs/Subscriber";
 export class ListContactPage {
   allCommunities = [];
   public url = ENV.BASE_URL;
-  public listCommunity;
+  public listCommunity; 
   public contact;
   public tabParams;
   public notificationCount = 0;
@@ -132,7 +132,7 @@ export class ListContactPage {
       .getCountNotification(this.tabParams)
       .subscribe(count => {
         setTimeout(() => {
-          this.notificationCount = count;
+        //  this.notificationCount = count;
         }, 500);
       });
   }
