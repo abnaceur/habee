@@ -7,8 +7,6 @@ Habee is a hybrid plateform for enterprise to leverage the human wellbeing
 and make the professional environement a pleasnat place to be in.
 
 ## Team 
- - Marie
- - Amelie
  - Abdeljalil : http://naceur-abdeljalil.com
 
 ## Project's Goals and objectives

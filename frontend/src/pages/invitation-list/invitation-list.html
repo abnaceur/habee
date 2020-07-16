@@ -12,7 +12,7 @@
   background-color: #fcfcfc;">
   <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
   <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
-    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Mes invitations AA</span>
+    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Mes invitations</span>
   </ion-title>
 </ion-header>
 
@@ -112,6 +112,12 @@
         <p>rejetée</p>
       </span>
 
+    </ion-item>
+  </ion-list>
+
+  <ion-list >
+    <ion-item text-wrap *ngIf="invitationList && invitationList.length == 0">
+      <p style="color: black">Vous avez aucune invitation pour le moment</p>
     </ion-item>
   </ion-list>
 

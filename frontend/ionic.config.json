@@ -4,13 +4,11 @@
     "cordova": {}
   },
   "type": "ionic-angular",
-  "pro_id": "f2139f2a",
   "proxies": [
     {
       "path": "/users/login",
       "proxyUrl": "localhost:3000/"
     }
   ],
-  "id": "f2139f2a",
-  "app_id": ""
+  "id": "f2139f2a"
 }

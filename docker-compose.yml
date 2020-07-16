@@ -47,8 +47,9 @@ services:
       - ./frontend/:/usr/src/app:rw
     environment:
       - VIRTUAL_HOST=app.habee.local
+    command: npm start
     ports:
-      - "3333:8100"
+      - "8100:8100"
     
   
   mongoclient:
