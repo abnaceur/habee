@@ -1,7 +1,5 @@
 version: '2'
 
-networks:
-
 services:
   backend_dev:
     container_name: habee_backend_dev
