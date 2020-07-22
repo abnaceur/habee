@@ -132,7 +132,7 @@ export class EventsPage {
       spinner: 'dots',
     });
     loader.present();
-    this.countActiveFilters();
+    // this.countActiveFilters();
     this.getAllEvents();
     loader.dismiss();
   }

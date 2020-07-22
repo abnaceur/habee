@@ -177,12 +177,12 @@ Commands and plagins to install
 npm i -g ionic cordova
 sudo ionic cordova platform add android --save
 sudo npm install @ionic-native/social-sharing
-ionic cordova plugin add cordova-plugin-camera
-ionic cordova plugin add cordova-plugin-file-transfer
-ionic cordova plugin add cordova-plugin-file
-ionic cordova plugin add cordova-plugin-x-socialsharing
-ionic cordova plugin add phonegap-plugin-barcodescanner
-sudo chown $whoami:$whoami -R .
+sudo ionic cordova plugin add cordova-plugin-camera;
+sudo ionic cordova plugin add cordova-plugin-file-transfer;
+sudo ionic cordova plugin add cordova-plugin-file;
+sudo ionic cordova plugin add cordova-plugin-x-socialsharing;
+sudo ionic cordova plugin add phonegap-plugin-barcodescanner;
+sudo chown $whoami:$whoami -R .;
 sudo chmod 755 -R .
 ```
 

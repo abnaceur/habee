@@ -40,16 +40,16 @@ services:
     ports:
       - "27017:27017"
 
-  frontend_dev:
-    container_name: habee_frontend_dev
-    build: frontend/
-    volumes :
-      - ./frontend/:/usr/src/app:rw
-    environment:
-      - VIRTUAL_HOST=app.habee.local
-    command: npm start
-    ports:
-      - "8100:8100"
+  # frontend_dev:
+  #   container_name: habee_frontend_dev
+  #   build: frontend/
+  #   volumes :
+  #     - ./frontend/:/usr/src/app:rw
+  #   environment:
+  #     - VIRTUAL_HOST=app.habee.local
+  #   command: npm start
+  #   ports:
+  #     - "8100:8100"
     
   
   mongoclient:

@@ -157,7 +157,7 @@ background-color: #fcfcfc;">
 </ion-content>
 
 <ion-footer>
-  <ion-fab [ngStyle]="{'display': orgnizeEvBorderDisplay}" (click)="expand('this')" style="margin-bottom: 16vw" bottom right mini #fab>
+  <ion-fab (click)="expand('this')" style="margin-bottom: 16vw" bottom right mini #fab>
     <button ion-fab style="background-color: #48d7e4;" mini>
       <ion-icon  [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
        style="color:white; font-size: 32px" name="add"></ion-icon>

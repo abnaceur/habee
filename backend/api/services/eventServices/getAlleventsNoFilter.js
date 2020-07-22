@@ -106,26 +106,36 @@ async function getAllUserEvents(userId, res, page) {
     let i = 0;
     let eventCommunitiesName = [];
 
-    await events.map(async event => {
-        event.eventComNames = await getEventComNames(event.eventCommunity);
-        i++;
-        if (i === events.length) {
-            res.status(200).json({
-                code: 200,
-                Count: totalEvents,
-                per_page: 10,
-                total: totalEvents,
-                total_pages: Math.floor(totalEvents / 10),
-                comNames: eventCommunitiesName,
-                events: events.map(event => {
-                    return eventService.eventModal(event)
+    console.log("events :", events);
+    if (events.length > 0) {
+        await events.map(async event => {
+            event.eventComNames = await getEventComNames(event.eventCommunity);
+            i++;
+            if (i === events.length) {
+                res.status(200).json({
+                    code: 200,
+                    Count: totalEvents,
+                    per_page: 10,
+                    total: totalEvents,
+                    total_pages: Math.floor(totalEvents / 10),
+                    comNames: eventCommunitiesName,
+                    events: events.map(event => {
+                        return eventService.eventModal(event)
+                    })
                 })
-            })
-        }
-    })
-
-
-
+            }
+        })
+    } else {
+        res.status(200).json({
+            code: 200,
+            Count: 0,
+            per_page: 10,
+            total: 0,
+            total_pages: 0,
+            comNames: [],
+            events: []
+        })
+    }
 }
 
 updateEventIsOver = (event) => {
@@ -136,8 +146,8 @@ updateEventIsOver = (event) => {
         event.eventIsOver = true;
         Event.findByIdAndUpdate(event._id,
             event, {
-                new: false,
-            },
+            new: false,
+        },
             function (err, results) {
                 if (err) return res.status(500).json(err);
                 console.log("EVENT IS OVER")
