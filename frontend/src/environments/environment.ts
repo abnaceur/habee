@@ -1,6 +1,6 @@
 export var environment = {
    // Local machine
-   BASE_URL: "http://localhost:3000",
+  //  BASE_URL: "http://localhost:3000",
 
    // AWS servere
    //BASE_URL: "http://18.188.2.58",
@@ -12,7 +12,7 @@ export var environment = {
    // BASE_URL: "http://10.0.2.2:3000",
    
    // Hotspot Connection
-   //BASE_URL: "http://10.18.187.205:3000",
+   BASE_URL: "http://ec2-18-216-16-195.us-east-2.compute.amazonaws.com",
   
    // Hotspot Connection
    //BASE_URL: "http://192.168.0.105:3000",

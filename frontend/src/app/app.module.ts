@@ -56,7 +56,7 @@ import { AccountProvider } from '../providers/account/account';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { environment } from '../environments/environment.prod';
 import { InvitationProvider } from '../providers/invitation/invitation';
-const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
+const config: SocketIoConfig = { url: "http://ec2-18-216-16-195.us-east-2.compute.amazonaws.com", options: {} };
 //const config: SocketIoConfig = { url: "http://18.188.2.58", options: {} };
 // const config: SocketIoConfig = { url: "http://192.168.42.140:3000", options: {} };
 //const config: SocketIoConfig = { url: "http://10.18.187.205:3000", options: {} };

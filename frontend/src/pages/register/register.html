@@ -18,7 +18,7 @@
 
   </ion-row>
 
-  <ion-grid style="position:relative; top: 15%">
+  <ion-grid style="position:relative; top: 10%; min-height: 100%;">
     <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
 
 
@@ -117,13 +117,13 @@
 <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
   <div style="z-index:111; position: absolute; background-color: transparent; bottom: 0px; width: 100%">
     <div class="row">
-      <button type="button" ion-button (click)="goTologinPage()" style="color: #45D8E5; background-color:#FFFFFF;"
+      <button type="button" ion-button (click)="goTologinPage()" style="color: #45D8E5; height: 45px; background-color:#FFFFFF;"
         class="col col-50 button button-block">
         <ion-icon style="color: #45D8E5;" name='arrow-backward'></ion-icon> RETOUR
       </button>
 
       <button type="submit" ion-button
-        style="color:wite; background-color:rgb(31, 199, 214);" class="col col-50 button button-block">CRÉER</button>
+        style="color:wite; background-color:rgb(31, 199, 214); height: 45px" class="col col-50 button button-block">CRÉER</button>
     </div>
   </div>
 </form>
