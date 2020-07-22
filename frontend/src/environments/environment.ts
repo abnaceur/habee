@@ -12,7 +12,7 @@ export var environment = {
    // BASE_URL: "http://10.0.2.2:3000",
    
    // Hotspot Connection
-   BASE_URL: "http://ec2-18-216-16-195.us-east-2.compute.amazonaws.com",
+   BASE_URL: "http://ec2-3-22-186-142.us-east-2.compute.amazonaws.com",
   
    // Hotspot Connection
    //BASE_URL: "http://192.168.0.105:3000",
