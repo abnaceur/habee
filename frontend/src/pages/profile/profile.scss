@@ -145,6 +145,11 @@ page-profile {
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.7);
   }
 
+  #profile-image img {
+    width: 128px;
+    height: 12px;
+  }
+
   .custom-spinner-container {
     background-color: #000;
     color: blue

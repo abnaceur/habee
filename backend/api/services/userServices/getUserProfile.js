@@ -36,10 +36,10 @@ async function sendProfileInfo(res, user, communities) {
     })
 
     User.find({
-            communities: {
-                "$in": communities
-            }
-        })
+        communities: {
+            "$in": communities
+        }
+    })
         .exec()
         .then(users => {
             res.status(200).json({
@@ -57,57 +57,65 @@ getUserProfileInfo = (req, res, page, userId) => {
     let communitiesId = [];
     let pageTmp = 0;
     let communities = [];
+    let userIds = [];
 
     if (page != undefined)
         pageTmp = page;
 
+    // console.log("req.body :, ", req.body);
+
     req.body.map(com => {
+        userIds = userIds.concat(com.communityMembers)
         communitiesId.push(com.communityId);
         communities.push(com);
     })
 
-    Invitation.find({
-            invitationCommunityId: {
-                "$in": communitiesId
-            },
-            invitatorId: userId,
-            status: "accepted"
-        })
+    // console.log("communitiesId :", communitiesId);
+    // Invitation.find({
+    //         invitationCommunityId: {
+    //             "$in": communitiesId
+    //         },
+    //         invitatorId: userId,
+    //         status: "accepted"
+    //     })
+    //     .skip(Number(pageTmp * 10))
+    //     .limit(Number(10))
+    //     .exec()
+    //     .then(invits => {
+    //         console.log("invits :", invits);
+    //         let usrIds = [];
+
+    //         invits.map(usrId => {
+    //             usrIds.push(usrId.invitedId)
+    //         })
+
+    let uniqIds = [...new Set(userIds)];
+    console.log("uniqIds ", uniqIds);
+
+    uniqIds.push(userId)
+
+    User.find({
+        userId: {
+            "$in": uniqIds,
+        },
+        communities: {
+            "$in": communitiesId
+        }
+    })
         .skip(Number(pageTmp * 10))
         .limit(Number(10))
         .exec()
-        .then(invits => {
-            let usrIds = [];
-
-            invits.map(usrId => {
-                usrIds.push(usrId.invitedId)
-            })
-
-            let uniqIds = [...new Set(usrIds)];
-            uniqIds.push(userId)
-
-            User.find({
-                    userId: {
-                        "$in": uniqIds,
-                    },
-                    communities: {
-                        "$in": communitiesId
-                    }
+        .then(users => {
+            if (users.length === 0) {
+                return res.status(404).json({
+                    message: "There are no users !"
                 })
-                .skip(Number(pageTmp * 10))
-                .limit(Number(10))
-                .exec()
-                .then(users => {
-                    if (users.length === 0) {
-                        return res.status(404).json({
-                            message: "There are no users !"
-                        })
-                    } else {
-                        sendProfileInfo(res, users, communities)
-                    }
-                })
-                .catch(err => utils.defaultError(res, err))
-        }).catch(err => utils.defaultError(res, err))
+            } else {
+                sendProfileInfo(res, users, communities)
+            }
+        })
+        .catch(err => utils.defaultError(res, err))
+    // }).catch(err => utils.defaultError(res, err))
 
 }
 

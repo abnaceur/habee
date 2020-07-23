@@ -295,7 +295,7 @@ export class ListContactPage {
                 this.userProvider
                   .getAllUserByCommunityId(this.tabParams, this.allCommunities)
                   .subscribe(response => {
-                    this.contact = response.users;
+                    this.contact = this.contact.concat(response.users);
                     this.perPage = response.per_page;
                     this.totalData = response.total;
                     this.totalPage = response.total_pages;
