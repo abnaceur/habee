@@ -1,53 +1,192 @@
-<ion-header style="height: 50px;">
-    <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 38px; font-weight: bold; color: floralwhite"
-    menuToggle name="more"></ion-icon>
+<ion-header style="height: 50px;
+background-color: #fcfcfc;">
+
+  <ion-icon class="menuStyle" menuToggle name="menu">
+  </ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
+    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Event à l’affiche</span>
+  </ion-title>
+
+  <!-- <ion-icon style="color: #3b3b3b;" class="optionsStyle" (click)='presentFilter()' name="options">
+
+    <span *ngIf="activeAllFilters != 0">
+      <ion-badge class="pull-right" id="badg-notif">{{activeAllFilters}}</ion-badge>
+    </span>
+  </ion-icon> -->
+
+
+  <ion-icon style="margin-right: 8px; color: #3b3b3b;" class="optionsStyle" (click)='showsearchbar()' name="search">
+  </ion-icon>
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
+    <span style="font-size: 17px;color: white; font-weight: bold"></span>
+  </ion-title>
+
+  <expandable-header [ngStyle]="{'display': searchBar}" [scrollArea]="myContent" headerHeight="125">
+    <ion-toolbar style="position: relative; top:1vw; overflow: hidden;  ">
+      <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateEventlistRequest()" placeholder="Rechercher...">
+      </ion-searchbar>
+    </ion-toolbar>
+  </expandable-header>
 
 </ion-header>
 
 
-<ion-content class="myview_events" padding>
+<ion-content class="myview_events" fullscreen #myContent>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-card>
-          <p>Sport</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Musique</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Cuisine</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-card>
-          <p>Détente</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Afterwork</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card>
-          <p>Title</p>
-          <img src="">
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
+  <!-- TODO REFRESH ALL EVENTS-->
+  <ion-refresher style="z-index: 1112; position:relative; top: 150px" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="bubbles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <!-- END OF THE TEMPLATE-->
+
+
+  <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
+    <ion-col (click)="selectWeeklyEvent()" [ngStyle]="{'border-bottom': weeklyEvBorder}" col-6>
+      Cette semaine
+    </ion-col>
+    <ion-col (click)="selectAllEvent()" [ngStyle]="{'border-bottom': allEvBorder}" col-6>
+      Tout
+    </ion-col>
+  </div>
+
+  <!-- <ion-slides #slider pager="false" autoplay="false">
+
+    <ion-slide>  -->
+
+
+  <ion-list [ngStyle]="{'margin-top': topList, 'display': allEvBorderDisplay}">
+    <ion-item *ngIf="allEvents.length == 0" text-wrap>
+      Aucun événement pour le moment, n'hésitez pas à en proposer un.
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngFor="let event of allEvents, let idx = index" [ngStyle]="{'display': allEvBorderDisplay}">
+
+    <span *ngIf="listMonths.length > 0">
+      <ion-item *ngIf="idx == 0">
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(event.eventStartDate).format('MMM').charAt(0).toUpperCase()
+                      + dateFormat(event.eventStartDate).format('MMM').toString().substring(1,
+                      dateFormat(event.eventStartDate).format('MMM').toString().length)
+                      }} </p>
+      </ion-item>
+    </span>
+
+    <span *ngIf="listMonths.length > 0">
+      <ion-item *ngIf="idx >= 1 && listMonths[idx]">
+        <p style="color: #64B3D7;
+        font-size: inherit;
+        font-weight: bold;">{{dateFormat(listMonths[idx]).format('MMM').charAt(0).toUpperCase()
+                          + dateFormat(listMonths[idx]).format('MMM').toString().substring(1,
+                          dateFormat(listMonths[idx]).format('MMM').toString().length)
+                          }} </p>
+      </ion-item>
+    </span>
+
+
+    <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
+      <ion-thumbnail item-left class="item-ribbon">
+        <span *ngIf="event.eventIsPublic == true && event.eventCreator != tabParams.userId" class=" ribbon cruzeiro">
+          <span>Public</span>
+        </span>
+        <span *ngIf="event.eventIsPublic == false && event.eventCreator != tabParams.userId" class="ribbon atletico">
+          <span>Invite</span>
+        </span>
+        <span *ngIf="event.eventIsPublic == false && event.eventCreator == tabParams.userId" class="ribbon sale">
+          <span>PRIVÉ-Moi</span>
+        </span>
+        <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId" class=" ribbon javascript">
+          <span>Public-Moi</span>
+        </span>
+        <img [src]='url + "/" + event.eventPhoto'>
+      </ion-thumbnail>
+      <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+      <p>{{event.eventLocation}} •
+        {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+            7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
+      </p>
+      <ion-scroll scrollX="true" style="white-space: nowrap; height: 24px; width: 100%;
+      min-height: 38px;">
+        <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+        <a *ngFor="let coms of event.eventComNames">
+          <ion-badge [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
+            {{coms}}</ion-badge>
+        </a>
+      </ion-scroll>
+    </ion-item>
+  </ion-list>
+
+  <!-- </ion-slide>
+
+    <ion-slide> -->
+
+  <ion-list [ngStyle]="{'margin-top': topList, 'display': weeklyEvBorderDisplay}">
+    <ion-item *ngIf="weeklyEvents.length == 0">
+      Aucun évent cette semaine, n'hésitez pas à en proposer un
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="weeklyEvents.length > 0" [ngStyle]="{'margin-top': topList, 'display': weeklyEvBorderDisplay}">
+
+
+    <ion-item-sliding *ngFor="let event of weeklyEvents; let i of index">
+
+      <ion-item (click)='goToEventDetail(event)' style="margin-top: 10px" no-lines>
+        <ion-thumbnail item-left class="item-ribbon">
+          <span *ngIf="event.eventIsPublic == true && event.eventCreator != tabParams.userId" class=" ribbon cruzeiro">
+            <span>Public</span>
+          </span>
+          <span *ngIf="event.eventIsPublic == false && event.eventCreator != tabParams.userId" class="ribbon atletico">
+            <span>Invite</span>
+          </span>
+          <span *ngIf="event.eventIsPublic == false && event.eventCreator == tabParams.userId" class="ribbon sale">
+            <span>PRIVÉ-Moi</span>
+          </span>
+          <span *ngIf="event.eventIsPublic == true && event.eventCreator == tabParams.userId"
+            class=" ribbon javascript">
+            <span>Public-Moi</span>
+          </span>
+          <img [src]='url + "/" + event.eventPhoto'>
+        </ion-thumbnail>
+        <h2 style="font-weight: bolder;">{{event.eventName}}</h2>
+        <p>{{event.eventLocation}} •
+          {{event.eventStartDate.substring(8,10)}}.{{event.eventStartDate.substring(5,
+                    7)}}.{{event.eventStartDate.substring(0, 4)}} {{event.eventStartHour}}
+        </p>
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 24px; width: 100%;
+        min-height: 24px;">
+          <span class="styleParticipants">{{event.nbrSubscribedParticipants}}/{{event.nbrParticipants}}</span>
+          <a *ngFor="let coms of event.eventComNames">
+            <ion-badge [ngStyle]='{"background-color" : "limegreen", "color" : "white"}'>
+              {{coms}}</ion-badge>
+          </a>
+        </ion-scroll>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- </ion-slide>
+
+
+  </ion-slides> -->
+
+
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfinite($event)"
+    *ngIf="page <= totalPage && queryText == ''">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-infinite-scroll style="margin-bottom: 50px" (ionInfinite)="doInfiniteSearch($event)"
+    *ngIf="pageSearch <= totalPageSearch && queryText != ''">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Chargement de données recherché...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

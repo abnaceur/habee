@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar style="color: black">
+    <ion-title>Conditions générales</ion-title>
+    <ion-buttons end (click)="dismiss()">
+      <button ion-button icon-only>
+        <ion-icon color="primary" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list text-wrap>
+    <ion-item no-lines>
+      En utilisant l’application, vous acceptez nos règles de confidentialité disponibles
+      <b (click)="showtermsScripts()">ici</b>
+    </ion-item>
+    <ion-item no-lines>
+      <div (click)="declineTerms()" class="pull-right" style="float: right; margin-right: 8px">
+        <p style="font-size: 12px">Je n’accepte pas</p>
+      </div>
+    </ion-item>
+
+    <ion-row>
+      <ion-col col-12 text-center>
+        <div class="center">
+          <button ion-button (click)="termsAccepted()" style="background-color: #45D8E5">
+            J’accepte
+          </button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

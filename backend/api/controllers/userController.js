@@ -1,56 +1,161 @@
-const express = require('express');
 const User = require('../models/user');
 const Community = require('../models/community');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const Event = require('../models/event');
+const utils = require('../services/utils');
+const userService = require('../services/userServices');
+const eventService = require('../services/eventService')
+const userClass = require('../classes/userClass')
+const userEmailsTemplate = require('../emailsTemplate/userEmails');
+const getUserByCommunityIdService = require('../services/userServices/getUserbyCommunityIdService')
+const pswService = require("../services/userServices/pswService");
+const userAccountService = require('../services/userServices/userAccount')
+const userInvitationService = require('../services/userServices/userInvitationService');
+const userProfileService = require('../services/userServices/getUserProfile')
+const pswReset = require('../services/userServices/resetPassword')
+const deleteUserAccount = require("../services/userServices/deleteAccount")
+const updateNotificationAccount = require("../services/userServices/updateNotification")
+const getNotificationStatus = require("../services/userServices/getNotificationStatus")
+const getUsrService = require('../services/userServices/getUserById')
+const allusersCommunityConcat = require("../services/userServices/allusersCommunityConcatService")
+const removeCommunityService = require("../services/userServices/removeCommunityService")
+const cancelInvitationService = require("../services/userServices/cancelInvitationService")
+const invitationService = require('../services/invitationService/invitationSendToContact');
+const invitationQrCodeService = require('../services/invitationService/invitationQrCodeService');
 
 exports.login_user = (req, res, next) => {
+    userService.loginUser(req, res);
+};
+
+exports.updateUserByfirstConnection = (req, res, next) => {
+    userService.updateFirstConnection(req, res);
+}
+
+exports.getAllusersByCommunityId = (req, res, next) => {
+    let communityId = req.params.communityId;
     User.find({
-            "credentials.email": req.body.credentials.email
+            "profile.profileCummunityId": communityId,
+            "profile.profileUserIsDeleted": false,
         })
         .exec()
         .then(users => {
-
             if (users.length === 0) {
-                return res.status(200).json({
-                    message: "Auth failed",
-                    code: "404"
+                return res.status(404).json({
+                    message: "There are no users !"
                 })
             } else {
-                if (bcrypt.compareSync(req.body.credentials.password, users[0].credentials.password) == true) {
-                    const token = jwt.sign({
-                        id: req.body.userId,
-                        email: req.body.credentials.email
-                    }, process.env.JWT_KEY, {
-                        expiresIn: process.env.TOKEN_DURATION
+                res.status(200).json({
+                    users: users.map(usr => {
+                        return {
+                            userId: usr.userId,
+                            firstname: usr.credentials.firstname,
+                            lastname: usr.credentials.lastname,
+                            email: usr.credentials.email,
+                            profileIsActive: usr.profile[0].profileUserIsActive,
+                            profileRole: usr.profile[0].profileIsAdmin,
+                        }
                     })
-                    res.status(200).json({
-                        message: "Auth success",
-                        code: "200",
-                        userId: users[0].userId,
-                        activeCommunity: users[0].activeCommunity,
-                        token: token
-                    })
-                } else {
-                    res.status(200).json({
-                        message: "Auth failed",
-                        code: "409",
-                    })
-                }
+                });
             }
         })
         .catch(err => {
-            res.status(404).json({
-                Error: err
+            res.status(500).json({
+                error: err
             })
         })
-};
+}
 
-exports.post_user = (req, res, next) => {
-    // Get community id
+
+exports.getAllusersByCommunityIdMobile = (req, res, next) => {
+    let page = req.params.page;
+    let userId = req.params.userId
+
+    userProfileService.getUserProfileInfo(req, res, page, userId)
+}
+
+
+exports.post_userMobile = (req, res, next) => {
+
+    let imagePathprofilePhoto = userService.getImagePath(req, req.body.profilePhoto);
+    let imagePathcommunityLogo = userService.getImagePath(req, req.body.communityLogocommunityLogo);
+
     User.find({
-            "credentials.email": req.body.credentials.email
+            "credentials.email": req.body.email
+        })
+        .exec()
+        .then(usr => {
+            if (usr.length > 0) {
+                return res.status(200).json({
+                    Message: "Email exists!"
+                })
+            } else {
+                Community.find({
+                    communityId: req.body.activeCommunity
+                }).then(com => {
+                    if (com.length > 0) {
+                        return res.status(200).json({
+                            Message: "Community exists!"
+                        })
+                    } else {
+                        //TODO RANDOM UNIQUE ID
+                        const community = new Community({
+                            _id: new mongoose.Types.ObjectId,
+                            communityId: req.body.activeCommunity,
+                            communityName: req.body.activeCommunity,
+                            communityLogo: imagePathcommunityLogo,
+                            communityDescripton: req.body.communityDescripton,
+                            communityCreator: req.body.userId,
+                            communityMembers: req.body.userId,
+                            communityIsActive: true,
+                            communityIsDeleted: false
+                        });
+
+                        community
+                            .save()
+                            .then(com => {
+                                let pass = req.body.password;
+                                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                                    if (err) {
+                                        return res.status(500).json({
+                                            Error: err
+                                        })
+                                    } else {
+                                        const user = new User(userClass.userClassPost(req, hash, imagePathprofilePhoto));
+                                        user
+                                            .save()
+                                            .then(result => {
+                                                let msg = userEmailsTemplate.accountCreated(result.credentials.email, pass)
+                                                utils.sendEmail("Habee TEAM", result.credentials.email, "Bienvenu nouveau Habeebebois !", msg);
+
+                                                res.status(200).json({
+                                                    results: "success",
+                                                    message: "User added with success!"
+                                                    // Resulta: result
+                                                })
+                                            })
+                                            .catch(err => {
+                                                this.utils.defaultError(err)
+                                            });
+                                    }
+                                });
+                            })
+                            .catch(err => {
+                                this.utils.defaultError(err)
+                            });
+                    }
+                })
+            }
+        })
+}
+
+
+
+// This is useed for posting from a web applicationn
+exports.post_user = (req, res, next) => {
+
+    User.find({
+            "credentials.email": req.body.email
         })
         .exec()
         .then(usr => {
@@ -59,55 +164,27 @@ exports.post_user = (req, res, next) => {
                     Message: "Email exists!"
                 })
             } else {
-                bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
+                let pass = req.body.password;
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
                         return res.status(500).json({
                             Error: err
                         })
                     } else {
-                        const user = new User({
-                            _id: new mongoose.Types.ObjectId,
-                            userId: req.body.userId,
-                            activeCommunity: req.body.activeCommunity,
-                            credentials: req.body.credentials,
-                            "credentials.username": req.body.username,
-                            "credentials.firstname": req.body.firstname,
-                            "credentials.birthDate": req.body.birthDate,
-                            "credentials.address": req.body.address,
-                            "credentials.email": req.body.mail,
-                            "credentials.phone": req.body.phone,
-                            "credentials.password": hash,
-
-                            communities: req.body.communities,
-                            profile: req.body.profile,
-                            "profile.profileCummunityId": req.body.profileCummunityId,
-                            //  "profile.profilePhoto": req.file.path,
-                            "profile.profileUsername": req.body.profileUsername,
-                            "profile.profileIsAdmin": req.body.profileIsAdmin,
-                            "profile.profileUserIsActive": req.body.profileUserIsActove,
-
-                            passions: req.body.passions,
-                            skills: req.body.skills,
-                            currentEvents: req.body.currentEvents,
-                            "currentEvents.eventsICreated": req.body.eventsICreated,
-                            "currentEvents.eventsIParticipate": req.body.eventsIParticipate,
-                            parameters: req.body.parameters,
-                            passedEvents: req.body.passedEvents,
-                            "passedEvents.PassedevenementsICreated": req.body.passedEvents,
-                            "passedEvents.PassedEvenementsParticipated": req.body.PassedEvenementsParticipated,
-                        });
+                        const user = new User(userClass.userClassPost(req, hash, req.file == undefined ? "uplaods/" : req.file.path));
                         user
                             .save()
                             .then(result => {
+                                let msg = userEmailsTemplate.accountCreated(result.credentials.email, pass)
+                                utils.sendEmail("Habee TEAM", result.credentials.email, "Bienvenu nouveau Habeebebois !", msg);
+
                                 res.status(200).json({
-                                    message: "User added with success!",
-                                    Resulta: result
+                                    message: "User added with success!"
+                                    // Resulta: result
                                 })
                             })
                             .catch(err => {
-                                res.status(500).json({
-                                    Error: err
-                                })
+                                this.utils.defaultError(err)
                             });
                     }
                 });
@@ -127,7 +204,6 @@ exports.get_all_users = (req, res, next) => {
             nb = count;
         });
     User.find()
-        .select("userId dateOfCreaton communities skills passions")
         .exec()
         .then(users => {
             if (users.length === 0) {
@@ -148,490 +224,222 @@ exports.get_all_users = (req, res, next) => {
         })
 };
 
-exports.get_all_active_users = (req, res, next) => {
-    let nb = 0;
-
-    User.count().exec()
-        .then(count => {
-            nb = count;
-        });
-    User.find({
-            "profile.profileUserIsActive": true
-        })
-        .select("userId dateOfCreaton communities skills passions")
-        .exec()
-        .then(users => {
-            if (users.length === 0) {
-                return res.status(404).json({
-                    message: "There are no active users !"
-                })
-            } else {
-                res.status(200).json({
-                    nbrUsers: nb,
-                    Users: users
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
-exports.get_all_notActive_users = (req, res, next) => {
-    let nb = 0;
-
-    User.count().exec()
-        .then(count => {
-            nb = count;
-        });
-    User.find({
-            "profile.profileUserIsActive": false
-        })
-        .select("userId dateOfCreaton communities skills passions")
-        .exec()
-        .then(users => {
-            if (users.length === 0) {
-                return res.status(404).json({
-                    message: "There are no deactive users !"
-                })
-            } else {
-                res.status(200).json({
-                    nbrUsers: nb,
-                    Users: users
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
-exports.get_all_admins = (req, res, next) => {
-    let nb = 0;
-
-    User.count().exec()
-        .then(count => {
-            nb = count;
-        });
-    User.find({
-            "profile.profileIsAdmin": 1
-        })
-        .select("userId dateOfCreaton communities skills passions")
-        .exec()
-        .then(users => {
-            if (users.length === 0) {
-                return res.status(404).json({
-                    message: "There are no administrators !"
-                })
-            } else {
-                res.status(200).json({
-                    nbrUsers: nb,
-                    Users: users
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
-exports.get_all_notAdmins = (req, res, next) => {
-    let nb = 0;
-
-    User.count().exec()
-        .then(count => {
-            nb = count;
-        });
-    User.find({
-            "profile.profileIsAdmin": 0
-        })
-        .select("userId dateOfCreaton communities skills passions")
-        .exec()
-        .then(users => {
-            if (users.length === 0) {
-                return res.status(404).json({
-                    message: "There are no none admin users !"
-                })
-            } else {
-                res.status(200).json({
-                    nbrUsers: nb,
-                    Users: users
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
-};
-
 exports.get_user_by_id = (req, res, next) => {
     const id = req.params.id;
-    User.find({
-            userId: id
-        })
-        .exec()
-        .then(usr => {
-            if (usr.length === 0) {
-                return res.status(404).json({
-                    message: "User not found or id not valid!"
-                })
-            } else {
-                res.status(200).json({
-                    User: usr
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
+    
+    getUsrService.getUserById(id, res)   
 };
 
-exports.patch_user_by_id = (req, res, next) => {
-    const id = req.params.id;
-    if (req.body.credentials.password === undefined) {
-        User.find({
-                userId: id
+
+exports.postInvitedContacts = (req, res, next) => {
+    let userId = req.params.userId;
+
+    invitationService.addContacts(req.body, userId)
+        .then(email => {
+            res.status(200).json({
+                code: 200,
+                msg: email
             })
-            .update(req.body)
-            .exec()
-            .then(updatedUser => {
-                res.status(200).json({
-                    Success: updatedUser
-                })
-            })
-            .catch(err => {
-                res.status(500).json({
-                    Error: err
-                })
-            });
-
-    } else {
-        bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
-            if (err) {
-                return res.status(500).json({
-                    Error: err
-                })
-            } else {
-                if (req.body.credentials.password)
-                    req.body.credentials.password = hash;
-                User.find({
-                        userId: id
-                    })
-                    .update(req.body)
-                    .exec()
-                    .then(updatedUser => {
-                        res.status(200).json({
-                            Success: updatedUser
-                        })
-                    })
-                    .catch(err => {
-                        res.status(500).json({
-                            Error: err
-                        })
-                    });
-            }
-        });
-    }
-};
-
-exports.get_credentials_by_id = (req, res, next) => {
-    const id = req.params.id;
-    User.find({
-            userId: id
         })
-        .select("userId dateOfCreaton dateOfLastUpdate dateOfCreation credentials ")
-        .exec()
-        .then(usr => {
-            if (usr.length === 0) {
-                return res.status(404).json({
-                    message: "User not found or id not valid!"
-                })
-            } else {
-                res.status(200).json({
-                    User: usr
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
-};
+}
 
-exports.patch_credentials_by_id = (req, res, next) => {
-    const id = req.params.id;
+exports.getInvitedByQrCode = (req, res, next) => {
+    let userId = req.params.userId;
 
-    bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
-        if (err) {
-            return res.status(500).json({
-                Error: err
+    invitationQrCodeService.addContactsQrCode(req.body, userId)
+        .then(email => {
+            res.status(200).json({
+                code: 200,
+                msg: email
             })
-        } else {
-            if (req.body.credentials.password)
-                req.body.credentials.password = hash;
-            User.find({
-                    userId: id
-                })
-                .update(req.body)
-                .exec()
-                .then(updatedUser => {
-                    res.status(200).json({
-                        Success: updatedUser
-                    })
-                })
-                .catch(err => {
-                    res.status(500).json({
-                        Error: err
-                    })
-                });
-        }
-    });
-
-};
+        })
+}
 
 exports.get_userId_communityId = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
-    let nbProfile = 0;
 
-    Community.count().exec()
-        .then(count => {
-            nbProfile = count;
-        });
-
-    User.find({
-            userId: id,
-
-        })
-        .select("userId passions firstname dateOfCreation dateOfLastUpdate skills profile")
-        .exec()
-        .then(usrs => {
-            if (usrs.length === 0) {
-                return res.status(404).json({
-                    message: "User not found or id not valid!"
-                })
-            } else {
-                Object.entries(usrs).forEach(
-                    ([key, value]) => {
-                        nbProfile = value.profile.length - 1;
-                        while (nbProfile >= 0) {
-                            if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
-                                delete value.profile[nbProfile];
-                            }
-                            nbProfile--;
-                        }
-                    }
-                );
-                res.status(200).json({
-                    Users: usrs
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                Error: err
-            });
-        });
+    getUserByCommunityIdService.getUserInfo(req, res, id, communityId);
 };
 
 
-exports.patch_userId_communityId = (req, res, next) => {
+exports.put_userId_communityId_EditUser = (req, res, next) => {
     const id = req.params.id;
     const communityId = req.params.communityId;
     User.find({
-        userId: id,
-        "profile.profileCummunityId": communityId
-    })
-
-    bcrypt.hash(req.body.credentials.password, 10, (err, hash) => {
-        if (err) {
-            return res.status(500).json({
+            userId: id,
+            "profile.profileCummunityId": communityId
+        }).exec()
+        .then(usr => {
+            req.body.credentials.password = usr[0].credentials.password;
+            req.body.credentials.birthDate = usr[0].credentials.birthDate,
+                req.body.credentials.address = usr[0].credentials.address,
+                req.body.credentials.phone = usr[0].credentials.phone,
+                User.findByIdAndUpdate(usr[0]._id,
+                    req.body, {
+                        new: false,
+                    },
+                    function (err, results) {
+                        if (err) return res.status(500).json(err);
+                        res.send(results);
+                    });
+        })
+        .catch(err => {
+            res.status(500).json({
                 Error: err
             })
-        } else {
-            if (req.body.crsedentials.password)
-                req.body.credentials.password = hash;
+        });
 
-            User.update(req.body)
-                .exec()
-                .then(updatedUser => {
-                    res.status(200).json({
-                        Success: updatedUser
-                    })
-                })
-                .catch(err => {
-                    res.status(500).json({
-                        Error: err
-                    })
-                });
-        }
-    });
 };
 
-exports.get_skills_by_userId_communityId = (req, res, next) => {
-    const id = req.params.userId;
+
+exports.put_userId_communityId_DeleteUser = (req, res, next) => {
+    const id = req.params.id;
     const communityId = req.params.communityId;
-
-    User.count({
-        userId: id
-    }, function (err, count) {
-        if (count > 0) {
-            Skill.find({
-                    skillForCommunity: communityId
-                })
-                .exec()
-                .then(skl => {
-                    if (skl.length === 0) {
-                        return res.status(404).json({
-                            message: "Skill not found or communityId not valid!"
-                        })
-                    } else {
-
-                        User.find({
-                                userId: id,
-
-                            })
-                            .select("userId dateOfCreation dateOfLastUpdate skills profile")
-                            .exec()
-                            .then(usrs => {
-                                if (usrs.length === 0) {
-                                    return res.status(404).json({
-                                        message: "User not found or id not valid!"
-                                    })
-                                } else {
-                                    Object.entries(usrs).forEach(
-                                        ([key, value]) => {
-                                            nbProfile = value.profile.length - 1;
-                                            while (nbProfile >= 0) {
-                                                if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
-                                                    delete value.profile[nbProfile];
-                                                }
-                                                nbProfile--;
-                                            }
-                                        }
-                                    );
-                                    let nbSkills = skl.length;
-                                    let skills = [];
-                                    while (nbSkills > 0) {
-                                        skills.push(skl[nbSkills - 1]['skillId']);
-                                        nbSkills--;
-                                    }
-                                    usrs[0]['skills'] = skills;
-                                    res.status(200).json({
-                                        User: usrs
-                                    });
-                                }
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                res.status(500).json({
-                                    Error: err
-                                });
-                            });
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        Error: err
-                    });
+    User.find({
+            userId: id,
+            "profile.profileCummunityId": communityId
+        }).exec()
+        .then(usr => {
+            User.findByIdAndUpdate(usr[0]._id,
+                req.body, {
+                    new: false,
+                },
+                function (err, results) {
+                    if (err) return res.status(500).json(err);
+                    res.send(results);
                 });
-        } else {
-            res.status(404).json({
-                Error: "User does not exist!"
+        })
+        .catch(err => {
+            res.status(500).json({
+                Error: err
             })
-        }
+        });
 
-    });
 };
 
-exports.get_passions_by_userId_communityId = (req, res, next) => {
-    const id = req.params.userId;
-    const communityId = req.params.communityId;
-
-    User.count({
-        userId: id
-    }, function (err, count) {
-        if (count > 0) {
-            Passion.find({
-                    passionForCommunity: communityId
+exports.creatAnewAccount = (req, res, next) => {
+    userService.checkIfEmailExist(req.body.email)
+        .then(data => {
+            if (data === false) {
+                res.status(200).json({
+                    code: 201,
+                    msg: "Email exist."
                 })
-                .exec()
-                .then(pass => {
-                    if (pass.length === 0) {
-                        return res.status(404).json({
-                            message: "Passion not found or communityId not valid!"
-                        })
-                    } else {
+            } else {
+                userService.createNewAccount(req.body, res)
+            }
+        })
+}
 
-                        User.find({
-                                userId: id,
+exports.editProfile = (req, res, next) => {
+    let userId = req.params.userId;
+    let imagePath = utils.getImagePath(req, req.body.profileImage);
+    userService.updateProfile(res, imagePath, req.body, userId)
+}
 
-                            })
-                            .select("userId dateOfCreation dateOfLastUpdate passions profile")
-                            .exec()
-                            .then(usrs => {
-                                if (usrs.length === 0) {
-                                    return res.status(404).json({
-                                        message: "User not found or id not valid!"
-                                    })
-                                } else {
-                                    Object.entries(usrs).forEach(
-                                        ([key, value]) => {
-                                            nbProfile = value.profile.length - 1;
-                                            while (nbProfile >= 0) {
-                                                if (value.profile[nbProfile]['profileCummunityId'] !== communityId) {
-                                                    delete value.profile[nbProfile];
-                                                }
-                                                nbProfile--;
-                                            }
-                                        }
-                                    );
-                                    let nbPassions = pass.length;
-                                    let passions = [];
-                                    while (nbPassions > 0) {
-                                        passions.push(pass[nbPassions - 1]['passionId']);
-                                        nbPassions--;
-                                    }
-                                    usrs[0]['passions'] = passions;
-                                    res.status(200).json({
-                                        User: usrs
-                                    });
-                                }
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                res.status(500).json({
-                                    Error: err
-                                });
-                            });
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        Error: err
-                    });
-                });
-        } else {
-            res.status(404).json({
-                Error: "User does not exist!"
-            })
-        }
+exports.checkPsw = (req, res, next) => {
+    let userId = req.params.userId;
+    pswService.verfiyPsw(res, req.body.oldPassword, userId)
+}
 
-    });
-};
+exports.updatePsw = (req, res, next) => {
+    let userId = req.params.userId;
+    pswService.updateThisPsw(res, req.body.newPassword, userId)
+}
+
+exports.getAccountInfo = (req, res, next) => {
+    let userId = req.params.userId;
+    userAccountService.getThisAccountInfo(res, userId)
+}
+
+exports.updateAccountInfo = (req, res, next) => {
+    let userId = req.params.userId;
+
+    userAccountService.updateThisUserAccount(res, req.body, userId);
+}
+
+
+exports.getListInvitationn = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+    let page = req.params.page;
+
+    userInvitationService.listAllUserInvitation(res, userId, communityId, page)
+}
+
+exports.updateInvitationNotification = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    userInvitationService.updateNotification(res, userId, communityId)
+}
+
+exports.countNotificationbyUserId = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    userInvitationService.updateNotification(res, userId, communityId)
+}
+
+exports.statusAccepetedInvitation = (req, res, next) => {
+    let userId = req.params.userId;
+    let communityId = req.params.communityId;
+
+    userInvitationService.updateInvitationStatus(req.body, userId, res)
+}
+
+exports.statusRejectedInvitation = (req, res, next) => {
+    let userId = req.params.userId;
+   
+    userInvitationService.updateInvitationStatus(req.body, userId, res)
+}
+
+exports.resetPassword = (req, res, next) => {
+    let email = req.params.email;
+    pswReset.resetPsw(email, res)
+}
+
+exports.deleteUserAccount = (req, res, next) => {
+    let userId = req.params.userId;
+    deleteUserAccount.deleteThisUserAccount(res, userId)
+}
+
+exports.updateNotificationStatus = (req, res, next) => {
+    let userId = req.params.userId;
+    let notifStatus = req.body.notifStatus;
+    
+    updateNotificationAccount.updateThisUserNotification(res, userId, notifStatus)
+}
+
+
+exports.getNotificationStatus = (req, res, next) => {
+    let userId = req.params.userId;
+
+    getNotificationStatus.getNotificationStatusThisUser(res, userId)
+}
+
+exports.getAllusersCommunityConcat = (req, res, next) => {
+    let userId = req.params.userId;
+    
+    allusersCommunityConcat.AllusersCommunityConcat(res, userId)
+}
+
+exports.removeCommunityFromContact = (req, res, next) => {
+    let contactId = req.params.contactId;
+    let communityId = req.params.communityId;
+
+    removeCommunityService.removeCommunity(res, contactId, communityId)
+}
+
+exports.statusResendInvitation = (req, res, next) => {
+    let userId = req.params.userId;
+
+    userInvitationService.resendInvitation(res, userId, req.body);   
+}
+
+exports.cancelInvitationBySender = (req, res, next) => {
+    let userId = req.params.userId;
+    
+    cancelInvitationService.cancelInvitation(req.body, res, userId);   
+}

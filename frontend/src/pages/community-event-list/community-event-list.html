@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar style="color: black">
+    <ion-title>List des communaute</ion-title>
+    <ion-buttons end (click)="dismiss()">
+      <button ion-button icon-only>
+        <ion-icon color="primary" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding fullscreen>
+
+
+  <ion-list class="no-margin">
+    <!-- 
+  <ion-item *ngIf="allCommunities.length > 1">
+    <ion-avatar item-start (click)="getFilterContact('all')">
+      <img ion-img style="border-radius: 12%;" [src]='url + "/uploads/defaultEventImage.jpeg"' />
+    </ion-avatar>
+    <span ion-text (click)="getFilterContact('all')">
+      Afficher tout
+    </span>
+  </ion-item> -->
+
+    <!--   
+  <ion-item (click)="creatNewCommunity()" text-wrap>
+    <ion-icon class="pull-left" style="margin-right: 10px; z-index: 111; color:blueviolet; font-size: 22px" name="add"></ion-icon>
+    Ajouter communauté
+  </ion-item> -->
+
+    <ion-item *ngIf="allCommunities.length == 0" text-wrap>
+      <!-- <ion-avatar item-start>
+      <img ion-img style="border-radius: 12%;" [src]='url + "/uploads/defaultEventImage.jpeg"' />
+    </ion-avatar> -->
+      <ion-label>
+        Vous avec une seul communauté
+      </ion-label>
+    </ion-item>
+
+    <ion-list class="no-margin" no-padding>
+
+      <!-- <ion-item>
+        <span slot="start" class="dot"></span>
+        <ion-label> Tout
+        </ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="selectAll" color="success"></ion-checkbox>
+      </ion-item> -->
+
+      <span *ngFor="let community of allCommunities">
+        <ion-item>
+          <span slot="start" class="dot"></span>
+          <ion-label> {{community.communityName}}
+          </ion-label>
+          <ion-checkbox slot="end" (ionChange)="checkCommunity(community, $event)" color="success"></ion-checkbox>
+        </ion-item>
+      </span>
+
+
+    </ion-list>
+  </ion-list>
+</ion-content>
+
+
+<ion-footer>
+  <div class="row" (click)="getActiveCom()">
+    <button ion-button style="color: wite; background-color:deeppink;"
+      class="col col-50 button button-block">
+      Valider
+    </button>
+  </div>
+
+</ion-footer>

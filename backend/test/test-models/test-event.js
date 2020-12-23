@@ -14,4 +14,5 @@
     "nbrParticipants": 122,
     "participantsId": "userId_01",
     "eventIsOver": false,
+    "eventIsDeleted": false,
 }

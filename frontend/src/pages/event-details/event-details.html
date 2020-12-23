@@ -1,0 +1,261 @@
+<!--
+  Generated template for the EventDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar transparent style="z-index: 111;background-color: #1b2026;">
+    <!-- <ion-title>{{eventDetails.eventName}}</ion-title> -->
+    <ion-icon style="color: white;
+    float: right;
+    margin-right: 14px;
+    font-size: x-large;" (click)="presentActionSheet()" name="share"></ion-icon>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content fullscreen #content>
+  <section class="housing-image" [ngStyle]="{ 'background-size' : 'cover', 'background-image': 'url(' + url + '/' + eventDetails.eventPhoto + ')'}">
+    <section class="housing-banner" padding>
+      <span class="housing-title"></span>
+      <span class="price">{{eventDetails.eventName}}</span>
+    </section>
+  </section>
+
+  <section class="main-content">
+    <ion-grid class="main-features">
+      <ion-row text-wrap>
+        <ion-col text-center>
+          <ion-icon name="">{{eventDetails.nbrParticipants - eventDetails.participants.length}}</ion-icon>
+          <span *ngIf="eventDetails.nbrParticipants - eventDetails.participants.length <= 1" class="item-block">Place libre</span>
+          <span *ngIf="eventDetails.nbrParticipants - eventDetails.participants.length > 1" class="item-block">Places libres</span>
+        </ion-col>
+        <ion-col text-center>
+          <ion-icon name="">{{eventDetails.participants.length}}</ion-icon>
+          <span *ngIf="eventDetails.participants.length <= 1" class="item-block">Participant</span>
+          <span *ngIf="eventDetails.participants.length > 1" class="item-block">Participants</span>
+        </ion-col>
+        <ion-col text-center (click)="showComments = !showComments">
+          <ion-icon name="">{{allComments.length}}</ion-icon>
+          <span *ngIf="allComments.length <= 1" class="item-block">Commentaire</span>
+          <span *ngIf="allComments.length > 1" class="item-block">Commentaires</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="listing-details">
+      <ion-item style="text-align: justify">
+        <p> <span style="color: #1aa6d0">Commence le </span>
+          <b>
+            {{eventDetails.eventStartDate.substring(8,10)}}/{{eventDetails.eventStartDate.substring(5,
+                  7)}}/{{eventDetails.eventStartDate.substring(0, 4)}} a {{eventDetails.eventStartHour}}
+          </b></p>
+      </ion-item>
+      <ion-item style="text-align: justify">
+        <p><span style="color: #1aa6d0">Fini le </span>
+          <b>{{eventDetails.eventEndDate.substring(8,10)}}/{{eventDetails.eventEndDate.substring(5,7)}}/{{eventDetails.eventEndDate.substring(0, 4)}}
+            a {{eventDetails.eventEndHour}}</b></p>
+      </ion-item>
+
+      <ion-item style="text-align: justify" text-wrap>
+        <p><span style="color: #1aa6d0">Organisé par </span>
+          <b>{{this.userName}}</b></p>
+      </ion-item>
+
+      <ion-item style="text-align: justify" text-wrap>
+        <span style="color: #1aa6d0">Adresse du rendez-vous </span>
+        <p>
+          <b> {{eventDetails.eventLocation}}</b></p>
+      </ion-item>
+
+      <ion-item style="text-align: justify" text-wrap>
+        <span style="color: #1aa6d0">Description </span>
+        <p><b>{{eventDetails.eventDescription}}</b></p>
+      </ion-item>
+
+      <ion-item style="text-align: justify" text-wrap>
+        <span style="color: #1aa6d0">Les participants </span>
+        <p>
+          <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 100%;
+            min-height: 100px;">
+            <a *ngFor="let participant of eventDetails.participants">
+              <img *ngIf='participant != null' class="img-scroll"
+                [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/01.png"'
+                (click)="openUserDetailsModal(participant)">
+            </a>
+          </ion-scroll>
+        </p>
+
+      </ion-item>
+
+      <ion-item style="text-align: left" text-wrap>
+        <span style="color: #1aa6d0">Les commentaires </span>
+        <!-- <span (click)="showComments = !showComments" style="color:#1aa6d0"> Voir tout</span> -->
+      </ion-item>
+    </ion-grid>
+  </section>
+  <section class="main-content" style="margin-bottom: 30%">
+    <div style="text-align: left">
+      <span *ngIf="allComments.length != 0">
+        <div *ngFor="let comment of allComments;">
+          <div class="message-wrapper">
+            <div>
+              <img class="profile-pic left" [src]="url + '/' + comment.photo" />
+              <div class="chat-bubble left slide-left">
+                <div class="message-detail">
+                  <span class="bold">{{comment.username}}</span>,
+                  <span>{{transform(comment.date)}}</span>
+                </div>
+                <div class="message" [innerHTML]="comment.comment" autolinker>
+                </div>
+              </div>
+            </div>
+            <div class="cf"></div>
+          </div>
+        </div>
+      </span>
+    </div>
+  </section>
+
+  <!-- <h1 style="position: absolute; z-index: 1111;  left:15rem; font-weight:bolder; color: white">
+    {{eventDetails.eventName}}</h1>
+
+  <ion-item style="background-color: darkslategray; padding: 42px 20px;" no-lines>
+
+    <ion-thumbnail item-start>
+      <img [src]='url + "/" + eventDetails.eventPhoto'>
+    </ion-thumbnail>
+    <br><br>
+    <p style="color: white">
+      <ion-icon style=" color: white;" name="calendar"></ion-icon>
+      {{eventDetails.eventStartDate.substring(8,10)}}.{{eventDetails.eventStartDate.substring(5,
+      7)}}.{{eventDetails.eventStartDate.substring(0, 4)}} {{eventDetails.eventStartHour}}
+    </p>
+    <p style="color: white">
+      <ion-icon style=" color: white;" name="calendar"></ion-icon>
+      {{eventDetails.eventEndDate.substring(8,10)}}.{{eventDetails.eventEndDate.substring(5,
+      7)}}.{{eventDetails.eventEndDate.substring(0, 4)}} {{eventDetails.eventEndHour}}
+    </p>
+    <p style="color: white">
+      <ion-icon style=" color: white;" name="pin"></ion-icon>
+      {{eventDetails.eventLocation}}
+    </p><br>
+    <p style="color: white">
+      <span class="styleParticipants">{{eventDetails.participants.length}}/{{eventDetails.nbrParticipants}}</span>
+      Participants
+    </p>
+    <p style="color: white">
+      <span class="styleParticipants">{{allComments.length}}</span>
+      Commentaires
+    </p>
+  </ion-item>
+ -->
+
+  <!-- <ion-item no-lines text-wrap>
+    <span style="position: relative;margin-bottom: 5px">
+      <b>Organisé par </b>{{this.userName}}</span>
+  </ion-item>
+
+
+  <ion-item no-lines text-wrap>
+    <p style="position: relative;margin-bottom: 5px">
+      <b>Detail</b></p>
+
+    <p>
+      {{eventDetails.eventDescription}}
+    </p>
+  </ion-item>
+
+
+  <ion-item no-lines>
+    <p style="position: relative;margin-bottom: 5px">
+
+      <b>Participants </b>
+
+      <p>
+        <ion-scroll scrollX="true" style="white-space: nowrap; height: 70px; width: 100%;
+              min-height: 100px;">
+          <a *ngFor="let participant of eventDetails.participants">
+            <img *ngIf='participant != null' class="img-scroll"
+              [src]='participant.participantPhoto != undefined ? url + "/" + participant.participantPhoto : "../assets/imgs/01.png"'
+              (click)="openUserDetailsModal(participant)">
+          </a>
+        </ion-scroll>
+  </ion-item> -->
+
+  <!-- <ion-item no-line><b>Commentaire</b> -
+    <span (click)="showComments = !showComments" style="color:blueviolet"> Voir tout</span>
+  </ion-item>
+
+  <span *ngIf="allComments.length != 0">
+    <div *ngFor="let comment of allComments;">
+      <div *ngIf="showComments == true" class="message-wrapper">
+        <div>
+          <img class="profile-pic left" [src]="url + '/' + comment.photo" />
+          <div class="chat-bubble left slide-left">
+
+            <div class="message-detail">
+              <span class="bold">{{comment.username}}</span>,
+              <span>{{transform(comment.date)}}</span>
+            </div>
+
+            <div class="message" [innerHTML]="comment.comment" autolinker>
+            </div>
+
+          </div>
+        </div>
+        <div class="cf"></div>
+      </div>
+
+    </div>
+
+  </span>
+ -->
+
+
+</ion-content>
+
+
+<ion-footer>
+  <div>
+    <ion-toolbar>
+      <ion-item>
+        <input id="input" class="Input-text" type="text" autocorrect inputmode="full-width-latin" spellcheck="true"
+          [(ngModel)]="commentText" placeholder="Laissez un commentaire..."/>
+        <label for="input" (click)="onSubmit()" item-end>
+          <ion-icon class="footer-btn" style="color: blue" name="send"></ion-icon>
+        </label>
+      </ion-item>
+    </ion-toolbar>
+  </div>
+  <div *ngIf="eventDetails.participants.length < eventDetails.nbrParticipants"
+    style="background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)'
+        [ngStyle]="{'color': 'white', 'backgroundColor': subColor}" class="col col-50 button button-block">
+        {{isSubscribed}}
+      </button>
+    </div>
+  </div>
+
+
+  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed == 'ME DÉSINSCRIRE'"
+    style="background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button (click)='subscribeToEvent(eventDetails.eventId)'
+        [ngStyle]="{'color': 'white', 'backgroundColor': subColor}" class="col col-50 button button-block">
+        {{isSubscribed}}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="eventDetails.participants.length == eventDetails.nbrParticipants && isSubscribed != 'ME DÉSINSCRIRE'"
+    style="background-color: transparent; bottom: 0px; width: 100%">
+    <div class="row">
+      <button ion-button style="color: wite; background-color:deeppink;" class="col col-50 button button-block">
+        Cet Événement est complet
+      </button>
+    </div>
+  </div>
+
+</ion-footer>

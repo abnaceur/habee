@@ -81,12 +81,10 @@ exports.get_subPassion_by_communityId = (req, res, next) => {
         }
     })
     .catch(err => {
-        console.log(err);
         res.status(500).json({
             Error: err
         });
     });
-    console.log('test request');
 }
 
 
@@ -112,7 +110,6 @@ exports.get_passion_by_communityId = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({
                 Error: err
             });
@@ -137,7 +134,6 @@ exports.get_passion_by_id = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({
                 Error: err
             });

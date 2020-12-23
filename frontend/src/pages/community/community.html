@@ -1,0 +1,97 @@
+<!--
+  Generated template for the CommunityPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header style="height: 50px;
+  background-color: #fcfcfc;">
+
+
+  <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
+    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Habee'Teams (Mes groupes)</span>
+  </ion-title>
+</ion-header>
+
+
+<ion-content padding>
+
+  <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
+    <ion-col (click)="selectMyCommunities()" [ngStyle]="{'border-bottom': myCommunitiesBorder}" col-6>
+      Mes Habee'Team
+    </ion-col>
+    <ion-col (click)="selectCommunitiesByInvte()" [ngStyle]="{'border-bottom': communitiesByInvteBorder}" col-6>
+      Habee'Team Membre
+    </ion-col>
+  </div>
+
+
+
+  <ion-list [ngStyle]="{'display': myCommunitiesBorderDisplay}">
+    <span>
+      <ion-item-sliding *ngFor='let community of comListByCreator; let i = index'>
+        <ion-item (click)="showComDatails(community.communityId, false)" no-lines>
+          <ion-avatar item-left>
+            <img [src]='url + "/" + community.communityLogo'>
+          </ion-avatar>
+          <h2>{{community.communityName}}</h2>
+          <p>{{community.communityMembers.length}} Membres</p>
+          <ion-icon *ngIf="i != 0" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft" item-right></ion-icon>
+          <button *ngIf="i == 0" ion-button clear item-end>
+            <ion-badge style="background-color:#e0236f; color:white" item-right>moi</ion-badge>
+          </button>
+        </ion-item>
+
+
+        <ion-item-options *ngIf="i != 0" side="right">
+          <button ion-button style="position: relative; width: 100px; background-color: #e0236f"
+            (click)="deleteCommunity(community.communityId)">
+            <ion-icon name="trash"></ion-icon>
+            Supprimer
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </span>
+  </ion-list>
+
+
+  <ion-list [ngStyle]="{'display': communitiesByInvteBorderDisplay}">
+
+    <span>
+      <ion-item-sliding *ngFor='let community of comListByParticipation'>
+        <ion-item no-lines (click)="showComDatails(community.communityId, true)">
+          <ion-avatar item-left>
+            <img [src]='url + "/" + community.communityLogo'>
+          </ion-avatar>
+          <h2>{{community.communityName}}</h2>
+          <p>{{community.communityMembers.length}} Contacts</p>
+        </ion-item>
+      </ion-item-sliding>
+    </span>
+  </ion-list>
+
+
+  <ion-infinite-scroll (ionInfinite)="doInfiniteComCreated($event)" *ngIf="pageComCreated < totalPageComCreated">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-infinite-scroll (ionInfinite)="  doInfiniteComParticipation($event)"
+    *ngIf="pageComParticipation < totalPageComParticipation">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+
+<ion-footer>
+  <ion-fab (click)="addCommunity()" style="margin-bottom: 16vw" bottom right mini #fab>
+    <button ion-fab style="background-color: #48d7e4;" mini>
+      <ion-icon style="color:white; font-size: 32px" name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-footer>

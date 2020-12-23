@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Event = require('../models/event');
-const mongoose = require('mongoose');
 const multer = require('multer');
 const authCkeck = require('../middleware/check-auth');
 const eventController = require('../controllers/eventController');
@@ -40,19 +38,73 @@ const upload = multer({
 router.get('/', eventController.get_all_events);
 
 
+/*
+ * API [GET] for route /events/:eventId/community/:communitId [USED]
+ */
+
+router.get('/:eventId/community/:communityId', authCkeck, eventController.eventByCommunityId)
+
+/*
+ * API [GET] for route /events/community/:communitId [USED]
+ */
+
+router.get('/community/:communityId', authCkeck,  eventController.get_all_events_byCommunityId);
+
+
+/*
+ * API [GET] for route /events/filtered/user/:userId/community/:communityId/page/:page [USED]
+ */
+
+router.get('/filtered/user/:userId/community/:communityId/page/:page', eventController.getAllEventsNofilter);
+
+
+/*
+ * API [GET] for route /events/filter/:userId/community/:communityId [USED]
+ */
+
+router.get('/filter/:userId/community/:communityId', authCkeck, eventController.getEventFilter);
+
+
+/*
+ * API [POST] for route /events/filter/:userId/community/:communityId [USED]
+ */
+
+router.post('/filter/:userId/community/:communityId', authCkeck, eventController.postEventFilter);
+
+
+/*
+ * API [GET] for route /events/user/:userId/community/ [TOBE USED]
+ */
+
+router.get('/user/:userId/community', authCkeck, eventController.getNoevent)
+
+
+
+/*
+ * API [GET] for route /events/user/:userId/page/:page [TOBE USED]
+ */
+
+router.get('/user/:userId/page/:page', eventController.getEvntByUserIdAndCommunityId)
+
 /**
- * API [POST] for route /events
+ * API [POST] for route /events/mobile/photo/upload [USED]
+ */
+
+router.post('/mobile/photo/upload', upload.any(), eventController.upload_mobile_photo);
+
+
+/**
+ * API [POST] for route /events [USED]
  */
 
 
-router.post('/', upload.any(), eventController.post_event);
-
+router.post('/', upload.any(), authCkeck, eventController.post_event);
 
 /**
- * API [GET] for route /events/community/eventCommunity
+ * API [POST] for route /events/:eventId/user/:userId [USED]
  */
 
-router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_community);
+router.get('/:eventId/issubscribed/:userId/community/:communityId', authCkeck, eventController.get_userEventSubscribed)
 
 
 /**
@@ -61,65 +113,37 @@ router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by
 
 router.get('/:eventId', authCkeck, eventController.get_event_by_id);
 
+/**
+ * API [PUT] foor route /events/edit/:eventId/community/:communityId [USED]
+ */
+
+router.put('/edit/:eventId/community/:communityId', authCkeck, eventController.deleteEventByCommunityId)
+
 
 /**
- *  API [PATCH] for route /events/eventId
+ * API [PUT] foor route /events/:eventId/user/:userId/community/:communityId [USED]
  */
 
-
-router.patch('/:eventId', authCkeck, upload.any(), eventController.patch_event);
+router.put('/:eventId/user/:userId/community/:communityId', authCkeck, eventController.put_eventByUserId);
 
 
 /*
- ** API route [GET] for /events/all/isOver
+ ** API route [PUT] for /events/all/isOver [USED]
  */
 
-router.get('/all/isover', authCkeck, eventController.get_all_events_isOver);
+router.put('/all/isover/:userId/:communityId', authCkeck, eventController.put_all_events_isOver);
 
 
 /*
- ** API route [GET] for /events/all/isNotOver
+ ** API route [GET] for /events/comments [USED]
  */
 
-router.get('/all/isnotover', authCkeck, eventController.get_all_events_isNotOver);
-
+router.get('/comments/:eventId/community/:communityId', authCkeck, eventController.getCommentByEventId);
 
 /*
- ** API [GET] for route /events/community/communityId
+ ** API route [POST] for /events//search [USED]
  */
 
- // TODO THERE ARE A REPETITION
-router.get('/community/:eventCommunity', authCkeck, eventController.get_event_by_communityId);
-
-
-/*
- ** API [GET] for route /events/communityId/isOver   
- */
-
-router.get('/:eventCommunity/isover', authCkeck, eventController.get_eventIsOver_by_communiyId);
-
-
-/*
- ** API [PATC] for route /events/communityId/isOver   
- */
-
-router.patch('/:eventCommunity/isover', authCkeck, eventController.patch_eventIsOver_by_communiyId);
-
-
-
-/*
- ** API [GET] for route /events/communityId/isNotOver   
- */
-
-router.get('/:eventCommunity/isnotover', authCkeck, eventController.get_eventIsNotOver_by_communiyId);
-
-
-/*
- ** API [PATC] for route /events/communityId/isNotOver   
- */
-
-router.patch('/:eventCommunity/isnotover', authCkeck, eventController.patch_eventIsOver_by_communiyId);
-
-
+router.post('/search/:userId/:page', authCkeck, eventController.searchEventByInput);
 
 module.exports = router;

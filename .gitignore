@@ -3,6 +3,8 @@ data/
 *.vim
 commit_msg_template
 backend/package-lock.json
+backend/docker
+frontend/docker
 frontend/package-lock.json
 backend/node_modules/
 backend/uploads/

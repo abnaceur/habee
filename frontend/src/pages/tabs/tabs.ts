@@ -1,27 +1,77 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { Component, ViewChild } from "@angular/core";
+
+import { IonicPage, NavController, NavParams, Nav, Tabs, Events } from "ionic-angular";
+
+import { BackgroundMode } from "@ionic-native/background-mode";
 
 @IonicPage()
 @Component({
-	templateUrl: 'tabs.html'
+  templateUrl: "tabs.html"
 })
 export class TabsPage {
-	public tabParams;
+  @ViewChild("myTabs") tabRef: Tabs;
+  public tabParams;
 
-	tab1Root = "EventsPage";
-	tab2Root = "MyEventsPage";
-	tab3Root = "ProfilePage";
-	tab4Root = "ProposeEventPage";
-	tab5Root = "GoodPlansPage";
+  notifInvit : any;
+  tab1Root = "EventsPage";
+  tab2Root = "MyEventsPage";
+  tab3Root = "InvitationListPage";
+  tab4Root = "ListContactPage";
+  tab5Root = "CommunityPage";
 
-	constructor(public navCtrl: NavController, public navParams: NavParams) {
-		this.tabParams = {
-			userId: this.navParams.get("userId"), 
-			token: this.navParams.get("token"),
-			activeCommunity: this.navParams.get('activeCommunity')
-		};
-		console.log("UserID12: ", this.tabParams);
-	}
+  constructor(
+    public navCtrl: NavController,
+    public events: Events,
+    public navParams: NavParams,
+    private backgroundMode: BackgroundMode,
+  ) {
+    this.notifInvit = localStorage.getItem("invitNotif"); 
+    if (this.navParams.data.length == 2) {
+      this.tabParams = {
+        userId: this.navParams.data[1]["userId"],
+        token: this.navParams.data[1]["token"],
+        activeCommunity: this.navParams.data[1]["activeCommunity"],
+        notificationStatus: this.navParams.data[1]["notificationStatus"],
+        userFullname: this.navParams.data[1]["userFullname"],
+        userImage: this.navParams.data[1]["userImage"]
+      };
+    } else {
+      this.tabParams = {
+        userId: this.navParams.get("userId"),
+        token: this.navParams.get("token"),
+        activeCommunity: this.navParams.get("activeCommunity"),
+        notificationStatus: this.navParams.get("notificationStatus"),
+        userFullname: this.navParams.get("userFullname"),
+        userImage: this.navParams.get("userImage")
+      };
+    }
+    this.events.publish("user:info", this.tabParams);
+  }
 
+  ionViewWillEnter() {
+    if (this.navParams.data.length == 2) {
+      if (this.navParams.data[0] == "Events à l'affiche") this.tabRef.select(0);
+      if (this.navParams.data[0] == "Profil") this.tabRef.select(4);
+      if (this.navParams.data[0] == "listContact") this.tabRef.select(2);
+      if (this.navParams.data[0] == "Déconnexion") {
+        this.backgroundMode.disable();
+        this.tabParams = [];
+        this.navCtrl.setRoot("LoginPage", {
+          "logout": true
+        })
+      };
+    } else {
+      if (this.navParams[0] == "Events à l'affiche") this.tabRef.select(0);
+      if (this.navParams[0] == "Profil") this.tabRef.select(4);
+      if (this.navParams[0] == "listContact") this.tabRef.select(2);
+      if (this.navParams[0] == "Déconnexion") {
+        this.backgroundMode.disable();
+        this.tabParams = [];
+        this.navCtrl.setRoot("LoginPage", {
+          "logout": true
+        })
+      };
 
+    }
+  }
 }

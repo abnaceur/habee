@@ -7,9 +7,6 @@ Habee is a hybrid plateform for enterprise to leverage the human wellbeing
 and make the professional environement a pleasnat place to be in.
 
 ## Team 
- - Marie
- - Amelie
- - Jerome
  - Abdeljalil : http://naceur-abdeljalil.com
 
 ## Project's Goals and objectives
@@ -172,13 +169,53 @@ app.habeedb.local:3300 -> mongoclient
 	- Host/Port : 192.168.213.1
 	- Database name : habeedb
 
+## Frontend :
 
+Commands and plagins to install
 
+```bash
+npm i -g ionic cordova
+sudo ionic cordova platform add android --save
+sudo npm install @ionic-native/social-sharing
+sudo ionic cordova plugin add cordova-plugin-camera;
+sudo ionic cordova plugin add cordova-plugin-file-transfer;
+sudo ionic cordova plugin add cordova-plugin-file;
+sudo ionic cordova plugin add cordova-plugin-x-socialsharing;
+sudo ionic cordova plugin add phonegap-plugin-barcodescanner;
+sudo chown $whoami:$whoami -R .;
+sudo chmod 755 -R .
+```
+
+## Backend 
+
+Added a folder uploads
+
+```bash
+mkdir backend/uploads
+```
+
+## Setup a test environemnt in Android
+
+1 - Install android.
+2 - Install Java.
+3 - Download Jdk package.
+4 - Setup the environement variables.
+5 - Start android studio and open frontend/platforme/android
+	help : if it can not open check files permission.
+6 - connect your mobile by USB and activate developer mode (USB debuging on)
+7 - Build the project in your mobile phone.
+
+```bash
+sudo ionic cordova run android --device
+```
 
 ### Contributors
  - Mathias -> 	- Data model v0.0.
 				- API documentation v0.0.
-				- Base tab navigation in frontend. 
+				- Base tab navigation in frontend.
+	
+ - Jerome -> 	- Team building.
+				- Marketing strategy beta version.
 
 ### Help
 

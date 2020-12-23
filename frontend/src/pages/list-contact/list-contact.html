@@ -1,0 +1,202 @@
+<ion-header style="height: 50px;
+  background-color: #fcfcfc;">
+  <ion-icon class="menuStyle" menuToggle name="menu"></ion-icon>
+  <ion-title style="width: 66vw; position: relative; top: 20px; left: 10vw;">
+    <span style="font-size: 17px;color: #3b3b3b; font-weight: bold">Mes contacts</span>
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+  <!-- <div class="row" [ngStyle]="{'margin-top': topList, 'text-align': 'center'}">
+    <ion-col (click)="selectContactList()" [ngStyle]="{'border-bottom': myContactBorder}" col-6>
+      Mes Habeenautes
+    </ion-col>
+    <ion-col (click)="selectInvitationList()" [ngStyle]="{'border-bottom': listInvitBorder}" col-6>
+      Mes invitations
+      <span *ngIf="notificationCount != 0">
+        <ion-badge class="icon-badge">{{notificationCount}}</ion-badge>
+      </span>
+    </ion-col>
+  </div> -->
+
+
+
+  <!-- <ion-list [ngStyle]="{'display': myContactBorderDisplay}"> -->
+    <ion-list>
+    <ion-item-sliding *ngFor='let user of contact'>
+
+      <ion-item no-lines>
+        <ion-avatar item-left>
+          <img [src]='url + "/" + user.profilePhoto'>
+        </ion-avatar>
+
+        <h2>{{user.profileUsername}}</h2>
+        <span *ngFor='let community of user.communities'>
+          <img style="width: 23px;
+                height: 23px; border-radius: 100%" [src]='url + "/" + community.communityLogo'>
+        </span>
+
+        <button *ngIf="user.userId == tabParams.userId" ion-button clear item-end>
+          <ion-badge style="background-color:#e0236f; color:white" item-right>moi</ion-badge>
+        </button>
+        <ion-icon *ngIf="user.userId != tabParams.userId" style="color:#48d7e4; font-size: 42px" name="arrow-dropleft"
+          item-right></ion-icon>
+      </ion-item>
+
+      <ion-item-options *ngIf="user.userId != tabParams.userId" side="right">
+        <!-- <button style="position: relative; width: 100px" ion-button color="primary" (click)="viewEventDetails(item)">
+                    <ion-icon name="eye"></ion-icon>
+                    Voir
+                  </button> -->
+
+        <button (click)="removeComFromContact($event, user.communities, user)" class="pop-in"
+          [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+          style="position: relative; width: 50px; background-color: #e11d6f;" ion-button>
+          <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="remove">
+          </ion-icon>
+        </button>
+
+        <button (click)="addComToContact($event, user.communities, user)" class="pop-in"
+          [ngClass]="{ 'expand' : expanded, 'contract': contracted }"
+          style="position: relative; width: 50px; background-color: #77ad35;" ion-button>
+          <ion-icon style="font-size: 32px;font-weight: bold; color: white; border-radius: 100%" name="add"></ion-icon>
+        </button>
+
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+
+
+  <!-- <ion-list [ngStyle]="{'display': listInvitBorderDisplay}" *ngFor="let invit of invitationList">
+
+    <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == false
+          && invit.status == 'pending'">
+      <p style="color: black"><b>Invitation envoyée</b> </p>
+      <p style="color: black">a {{invit.invitedEmail}}</p>
+      <p style="color: black">pour {{invit.InvitationCommunitName}}</p>
+      <p>{{transform(invit.dateOfCreation)}}</p>
+
+      <button ion-button (click)="cancelInviatation(invit)" style="background-color: #45D8E5;
+        position: absolute; right: 6%; top: 25%; font-size: 16px;" slot="end">Annuler</button>
+    </ion-item>
+
+    <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
+          && invit.status == 'pending'">
+      <p style="color: black"><b>Invitation envoyée</b> </p>
+      <p style="color: black">a {{invit.invitedFullname}} </p>
+      <p style="color: black">pour {{invit.InvitationCommunitName}}</p>
+      <p>{{transform(invit.dateOfCreation)}}</p>
+      <button ion-button (click)="cancelInviatation(invit)" style="background-color: #45D8E5;
+        position: absolute; right: 6%; top: 25%; font-size: 16px;" slot="end">Annuler</button>
+    </ion-item>
+
+    <ion-item text-wrap *ngIf="invit.invitatorId != tabParams.userId && invit.invitedId == tabParams.userId
+          && invit.contactExist == true && invit.status == 'pending'">
+      <p style="color: black"><b>Invitation reçue </b></p>
+      <p style="color: black">De {{invit.invitorFullname}}</p>
+      <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
+      <p>{{transform(invit.dateOfCreation)}}</p>
+
+      <ion-icon (click)="acceptInvitation(invit)"
+        style="z-index: 1111; color: #6ec84f; font-size: 34px; margin-left: 2%; float: right;" item-right
+        name="thumbs-up">
+      </ion-icon>
+      <ion-icon (click)="rejectInvitation(invit)"
+        style="z-index: 1111; color: #de509e; font-size: 34px; margin-left: 2%; float: right;" item-right name="trash">
+      </ion-icon>
+    </ion-item>
+
+    <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true 
+          && invit.status == 'accepted' ">
+
+      <p style="color: black">Invitation acceptée</p>
+      <p style="color: black">Par {{invit.invitedFullname}}</p>
+      <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
+      <p>{{transform(invit.dateOfCreation)}}</p>
+
+      <span style="color:#9bd289; position: absolute; right: 6%; top: 30%;">
+        <p>Invitation</p>
+        <p>acceptée</p>
+      </span>
+
+    </ion-item>
+
+    <ion-item text-wrap *ngIf="invit.invitedId == tabParams.userId && invit.contactExist == true 
+    && invit.status == 'accepted' ">
+      <p style="color: black">Invitation acceptée</p>
+      <p style="color: black">Par vous</p>
+      <p style="color: black">De {{invit.invitorFullname}}</p>
+      <p style="color: black">Pour <b>{{invit.InvitationCommunitName}}</b></p>
+      <p>{{transform(invit.dateOfCreation)}}</p>
+
+      <span style="color:#9bd289; position: absolute; right: 6%; top: 30%;">
+        <p>Invitation</p>
+        <p>acceptée</p>
+      </span>
+    </ion-item>
+
+
+    <ion-item text-wrap *ngIf="invit.invitatorId == tabParams.userId && invit.contactExist == true
+          && invit.status == 'rejected' ">
+      <p style="color: black">Invitation rejetée</p>
+      <p style="color: black">Par {{invit.invitedFullname}}</p>
+      <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
+      <p>{{transform(invit.dateOfCreation)}}</p>
+
+      <ion-icon (click)="resendInvitation(invit)" style="z-index: 1111; color: #6ec84f; font-size: 32px; float: right;"
+        item-right name="refresh-circle">
+      </ion-icon>
+    </ion-item>
+
+    <ion-item text-wrap *ngIf="invit.invitedId == tabParams.userId && invit.contactExist == true
+    && invit.status == 'rejected' ">
+
+      <p style="color: black">Invitation rejetée</p>
+      <p style="color: black">Par vous</p>
+      <p style="color: black">De {{invit.invitorFullname}}</p>
+      <p style="color: black">Pour {{invit.InvitationCommunitName}}</p>
+      <p>{{transform(invit.dateOfCreation)}}</p>
+
+      <span style="color:#e088bc; position: absolute; right: 6%; top: 30%;">
+        <p>Invitation</p>
+        <p>rejetée</p>
+      </span>
+
+    </ion-item>
+  </ion-list> -->
+
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+
+<ion-footer>
+  <!-- <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
+    <button style="background-color: #48d7e4;" ion-fab mini (click)="expand()">
+      <ion-icon name="person-add"></ion-icon>
+    </button>
+  </ion-fab> -->
+  <ion-fab style="margin-bottom: 16vw" bottom right mini #fab>
+    <button ion-fab style="background-color: #48d7e4;" mini>
+      <ion-icon style="color:white; font-size: 32px" name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab mini (click)="scanBrCode()">
+        <ion-icon name="qr-scanner"></ion-icon>
+      </button>
+      <button ion-fab mini (click)="encodeData()">
+        <ion-icon name="barcode"></ion-icon>
+      </button>
+      <!-- <button ion-fab mini (click)="invitContactfromGmail()">
+        <ion-icon name="mail"></ion-icon>
+      </button> -->
+      <button ion-fab mini (click)="expand()">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-footer>

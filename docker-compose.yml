@@ -1,9 +1,5 @@
 version: '2'
 
-services:
-
-  version: '2'
-
 networks:
   mongodb_net:
     driver: bridge
@@ -44,15 +40,17 @@ services:
     ports:
       - "27017:27017"
 
-  frontend_dev:
-    container_name: habee_frontend_dev
-    build: frontend/
-    volumes :
-      - ./frontend/:/usr/src/app:rw
-    environment:
-      - VIRTUAL_HOST=app.habee.local
-    ports:
-      - "8100:8100"
+  # frontend_dev:
+  #   container_name: habee_frontend_dev
+  #   build: frontend/
+  #   volumes :
+  #     - ./frontend/:/usr/src/app:rw
+  #   environment:
+  #     - VIRTUAL_HOST=app.habee.local
+  #   command: npm start
+  #   ports:
+  #     - "8100:8100"
+    
   
   mongoclient:
     image: mongoclient/mongoclient:latest
@@ -66,3 +64,56 @@ services:
       - mongodb_net
     ports:
       - 3300:3000
+  
+  # maildev:
+  #   container_name: mailCatcher_habee
+  #   build: ./mailDev/
+  #   environment:
+  #     - VIRTUAL_HOST=mail.habeedb.local
+  #   ports:
+  #       - 1080:80
+  #       - 1025:4444
+  #   command: "maildev --web 80 --smtp 4444"
+
+  # imap:
+  #   environment:
+  #     - MAIL_PASS=debug
+  #   expose:
+  #     - '25'
+  #   image: antespi/docker-imap-devel
+  #   ports:
+  #     - 993:993
+  #     - '7025:25'
+
+  # imap:
+  #   environment:
+  #     - MAIL_PASS=debug
+  #   expose:
+  #     - '25'
+  #   image: antespi/docker-imap-devel:latest
+  #   ports:
+  #     - 993:993
+  #     - '7025:25'
+  #   links:
+  #     - maildev
+
+  # maildev:
+  #   command:
+  #     - bin/maildev
+  #     - --web
+  #     - '80'
+  #     - --smtp
+  #     - '25'
+  #   environment:
+  #     - MAIL_DRIVER=smtp
+  #     - MAIL_HOST=maildev
+  #     - MAIL_PORT=25
+  #     - MAIL_USERNAME=null
+  #     - MAIL_PASSWORD=null
+  #     - MAIL_ENCRYPTION=null
+  #   expose:
+  #     - 25
+  #   image: djfarrelly/maildev
+  #   ports:
+  #   - '1025:25'
+  #   - 1080:80

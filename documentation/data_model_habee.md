@@ -121,12 +121,12 @@
 
 ## Commentaries
 Les champs passionForCommunity permettent de specifier des passions differentes
-pour des communautes differentes. Ainsi, on limite les duplicats de donnes pour
+pour des Communautés differentes. Ainsi, on limite les duplicats de donnes pour
 l'utilisateur tout en lui permettant d'avoir un profile different pour chaque 
-communaute.
+Communauté.
 
 Le champ eventId permet d'avoir un compte utilisateur pour l'ensemble des
-communautes, tout en ayant des evenements differents pour les communautes.
+Communautés, tout en ayant des evenements differents pour les Communautés.
 
 Dans user, on distingue eventICreated et eventIParticipate, car on peut participer
 a un evenement qu'on a pas creer et ne pas participer a un evenement qu'on a pas

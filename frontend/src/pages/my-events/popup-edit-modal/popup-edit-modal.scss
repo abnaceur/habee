@@ -1,0 +1,334 @@
+page-popup-edit-modal {
+
+  .myview_events {
+    background-image: url('../assets/imgs/MainBackground_1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .card-background-page {
+  
+    ion-card {
+      position: relative;
+      text-align: center;
+    }
+  
+    .card-title {
+      position: absolute;
+      top: 47%;
+      font-size: 2.0em;
+      width: 100%;
+      font-weight: bold;
+      color: #fff;
+      left: -2px;
+    }
+  
+    .card-subtitle {
+      font-size: 1.0em;
+      position: absolute;
+      bottom: 10%;
+      left: 25%;
+      width: 100%;
+      color: #fff;
+    }
+  
+  }
+  
+  .timeStyle {
+    font-size: 1.4em;
+    position: absolute;
+    display: inline-block;
+    color: #3594cb;
+    top: 15%;
+    left: 67%;
+  }
+  
+  .eventFooter {
+    position: relative;
+    height: 65px;
+  }
+  
+  .menuStyle {
+    position: relative;
+    float: left;
+    top: 6px;
+    left: 4%;
+    font-size: 40px;
+    color: floralwhite
+  }
+  
+  .comLogo {
+    position: absolute;
+    display: inline;
+    left: 54px;
+    height: 64%;
+    top: 19%;
+  }
+  
+  .item ion-thumbnail {
+    min-width: 5rem;    
+    min-height: 5rem;
+    img {
+        max-width: 6rem;    
+        min-width: 5rem;
+    }
+  }
+  
+  
+  .styleParticipants {
+    margin-top: 11px;
+    color: deeppink;
+    font-weight: bolder;
+    font-size: small;
+    font-family: sans-serif;
+  }
+  
+  .commName {
+    position: absolute;
+    display: inline-flex;
+    left: 27%;
+    top: 37%;
+    color: aliceblue;
+    font-weight: bolder;
+    font-size: 19px;
+    font-family: sans-serif;
+  }
+  
+  .optionsStyle {
+    position: relative;
+    float: right;
+    top: 12px;
+    right: 4%;
+    font-size: 30px;
+    color: floralwhite
+  }
+  
+  .toolbar-background-md {
+    background-color: #5cbcc1;
+    ;
+  }
+  
+  
+  #notifications-badge {
+    background-color: #7683ab;
+    position: absolute;
+   // display: inline-table;
+    width: 18px;
+    height: 18px;
+    top: 6px;
+    z-index: 11;
+    right: 5px;
+    border-radius: 100%;
+  }
+  
+  #badg-notif {
+    position: absolute;
+    z-index: 11;
+    right: -10px;
+    font-size: 12px;
+    /* height: 16px; */
+    top: -8px;
+    border-radius: 100%;
+  }
+
+//     animation: fade-in .8s ease-in-out;
+//     @keyframes fade-in {
+//       0%   { opacity: 0; }
+//       100% { opacity: 1; }
+//     }
+  
+//     .scroll-content {
+//       background: #00ccb2;
+//     }
+  
+//     ion-icon, div {
+//         color: white;
+//         font-weight: bold;
+//     }
+//     .datetime-text{
+//       color: gray;
+//     }
+//     ion-content {
+//       background: linear-gradient(0deg, #eeeef1 0%, white 80%, white 100%);
+//     }
+//     button,
+//     ion-button,
+//     .button-md,
+//     .button-ios {
+//       text-transform: none !important;
+//     }
+//     p {
+//       color: #444;
+//     }
+//     // Cover image
+//     #profile-bg {
+//       position: absolute;
+//       left: 0;
+//       width: 100%;
+//       margin-top: -16px;
+//       height: 160px;
+//       background-size: cover;
+//       background-repeat: no-repeat;
+//       background-position: center;
+//       text-align: center;
+//     }
+//     // Profile content
+//     #content {
+//       position: relative;
+//       margin-top: 150px;
+//       padding-top: 200px;
+//       text-align: center;
+//     }
+//     #profile-image {
+//       display: block;
+//       border-radius: 50%;
+//       width: auto;
+//       height: 100px;
+//       margin: 0 auto 0;
+//       box-shadow: 0px 11px 20px -3px rgba(142, 136, 146, 0.75);
+//     }
+//     #profile-info {
+//       position: absolute;
+//       top: -95px;
+//       width: 100%;
+//       z-index: 2;
+//       text-align: center;
+//     }
+//     #profile-name {
+//       color: #444;
+//       font-size: 26px;
+//     }
+//     .profile-description {
+//       font-size: 15px;
+//       color: #888;
+//     }
+//     .follow-button {
+//       text-transform: none;
+//       border-radius: 3px !important;
+//       ion-icon {
+//         font-weight: bold;
+//         padding-left: 5px;
+//         font-size: 2.5rem;
+//       }
+//     }
+//     // Following, Followers and all..
+//     .profile-numbers {
+//       p {
+//         color: #444;
+//         font-size: medium;
+//         margin-bottom: 3px;
+//       }
+//       span {
+//         font-weight: bold;
+//         font-size: 2.4rem;
+//         color: #34354c;
+//       }
+//     }
+//     hr {
+//       border: 0;
+//       height: 1px;
+//       background: #444;
+//       background: -webkit-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, rgb(188, 198, 214) 50%, hsla(0, 0%, 0%, 0) 100%);
+//     }
+//     // Posts feed
+//     #posts {
+//       text-align: justify;
+//     }
+// }
+
+
+// .buttons {
+//   width: 100px;
+//   height: 22px;
+//   font-size: 10px;
+// }
+
+// .myview_profile {
+//   background-image: url('../assets/imgs/MainBackground_1.png');
+//   background-repeat: no-repeat;
+//   background-size: cover;
+// }
+
+// .edit-icon {
+//   float: right;
+//   right: -8px;
+//   border: 0.3px solid blue;
+//   z-index: 12;
+//   top: 20px;
+//   position: relative;
+//   cursor: pointer;
+// }
+
+// .img-avatar {
+//   top: 21px;
+//   width: 148px;
+//   height: 148px;
+//   position: relative;
+//   z-index: -12;
+// }
+
+// .img-scroll {
+//   height: 63px;
+//   width: 57px;
+//   position: relative;
+//   bottom: 10px;
+// }
+
+// .img-scroll-add {
+//   height: 33px;
+//   width: 27px;
+//   position: relative;
+//   bottom: 20px;
+// }
+
+// .scroll-zoom-wrapper {
+//   margin-top: 19px;
+// }
+
+// .editName {
+//   cursor: pointer;
+ }
+
+
+
+ .comEvent-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  padding: 50px !important;
+}
+
+// .md .modal-wrapper {
+//   height: 74%;
+// }
+
+  .toolbar-background {
+  color: red !important;
+}
+
+.comEvent-modal .modal-wrapper {
+  z-index: 10;
+  height: 89%;
+  contain: strict;
+}
+.comEvent-modal ion-modal.modal-wrapper {
+  transform: translateY(30%) !important;
+}
+.comEvent-modal ion-page.modal {
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.comEvent-modal .modal-backdrop-bg {
+  background-color: #000;
+  opacity: 0;
+}
+.comEvent-modal .active .modal-backdrop-bg {
+  opacity: 0.5;
+}
+
+.comEvent-modal ion-modal.inset-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  transition: opacity .25s ease-in-out;
+  padding: 20vh 10vw;
+}
+

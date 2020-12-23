@@ -9,7 +9,7 @@ COPY . /usr/src/app/
 #BASIC STUFF
 RUN apt-get update \
     && apt-get install -y python-software-properties software-properties-common build-essential git wget curl unzip ruby \
-    && curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh \
+    && curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh \
     && bash nodesource_setup.sh \
     && apt-get install -y nodejs \
     && npm install -g npm \
@@ -17,4 +17,5 @@ RUN apt-get update \
     && npm install -g ionic \
     && npm rebuild node-sass --force
 
+EXPOSE 8100
 CMD ionic serve

@@ -1,0 +1,41 @@
+<!--
+  Generated template for the PopupUserDetailModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content fullscreen>
+
+  <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + imageUrl +')'}">
+  </div>
+  <div id="content">
+    <div id="profile-info">
+      <span *ngIf="tabParams.check == 1">
+        <img id="profile-image" [src]='url + "/" + user.participantPhoto'>
+      </span>
+      <span *ngIf="tabParams.check == 0">
+        <img id="profile-image" [src]='url + "/" + user.profilePhoto'>
+      </span>
+
+      <span *ngIf="tabParams.check == 1">
+        <h3 id="profile-name">{{user.participantname}}</h3>
+      </span>
+      <span *ngIf="tabParams.check == 0">
+        <h3 id="profile-name">{{user.profileLastname}} {{user.profileFirstname}}</h3>
+      </span>
+    </div>
+  </div>
+
+
+</ion-content>
+
+
+<ion-footer>
+  <div class="row">
+    <button (click)="dismiss()" ion-button style="color: wite; background-color:#48d7e4;"
+      class="col col-50 button button-block">
+      Okay
+    </button>
+  </div>
+</ion-footer>

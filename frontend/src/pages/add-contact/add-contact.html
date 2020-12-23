@@ -1,0 +1,144 @@
+<ion-header style="height: 50px;
+  background-color: #48d7e4;">
+
+  <ion-icon item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 11px;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Ajouter un Habeenaute</span>
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-fab bottom right mini #fab>
+    <ion-icon ion-fab (click)="AddContact()" style="font-size: 22px" name="add"></ion-icon>
+  </ion-fab> -->
+
+
+  <ion-item-sliding #item *ngIf="contactArrayLenght == 0">
+    
+    <ion-item style="border-radius: 6%; background-color: #48d7e4; color: white; font-weight: bold" text-center (click)="invitContactfromMyContactList()" no-lines>
+      <ion-label>Invite depuis mes contact</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Email du contact" (click)="contactArray[0].check = ''" type="email" text-right
+        [(ngModel)]="contactArray[0].value"></ion-input>
+
+    </ion-item>
+
+    <ion-item text-wrap no-lines>
+      <ion-label>
+          Dans quelle(s) Team(s) voulez-vous l'inviter ?
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="allCommunities.length == 1">
+      <ion-label>{{allCommunities[0].communityName}}</ion-label>
+      <ion-checkbox slot="end" checked disabled></ion-checkbox>
+    </ion-item>
+
+    <ion-item *ngFor="let community of allCommunities">
+      <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
+      <ion-checkbox (ionChange)="getCommunity($event, community, 0)" *ngIf="allCommunities.length != 1" slot="end">
+      </ion-checkbox>
+    </ion-item>
+
+    <ion-item *ngIf="contactArray[0].check != '' && contactArray[0].status == ''">
+      <p>{{contactArray[0].check}}</p>
+    </ion-item>
+
+    <ion-item *ngIf="contactArray[0].status == 500">
+      <p text-right>Ce contact exist !</p>
+    </ion-item>
+
+    <ion-item *ngIf="contactArray[0].status == 204">
+      <p text-right>Ce contact est deja invite</p>
+    </ion-item>
+
+
+
+
+    <ion-item *ngIf="contactArray[0].status == 202">
+      <p text-right>Contact ajouter avec succes</p>
+    </ion-item>
+
+
+    <ion-item *ngIf="contactArray[0].status == 200">
+      <p text-right>Invitation envoyée</p>
+    </ion-item>
+
+
+
+
+    <ion-item-options side="right">
+      <button ion-button color="danger" (click)="DelItem(idx)">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-item-options>
+
+  </ion-item-sliding>
+
+
+  <ion-list *ngFor="let att of contactArray; let idx = index">
+    <ion-item-sliding #item *ngIf="contactArrayLenght != 0">
+
+      <ion-item>
+        <ion-label color="primary">Ajouter {{idx+1}}</ion-label>
+        <ion-input placeholder="Email" (click)="contactArray[idx].check = ''" type="email" text-right
+          [(ngModel)]="contactArray[idx].value"></ion-input>
+      </ion-item>
+
+
+      <ion-item *ngFor="let community of allCommunities">
+        <ion-label *ngIf="allCommunities.length != 1">{{community.communityName}}</ion-label>
+        <ion-checkbox (ionChange)="getCommunity($event, community, idx)" *ngIf="allCommunities.length != 1" slot="end">
+        </ion-checkbox>
+      </ion-item>
+
+      <ion-item *ngIf="contactArray[idx].check != '' && contactArray[idx].status == ''">
+        <p>{{contactArray[idx].check}}</p>
+      </ion-item>
+
+
+      <ion-item *ngIf="contactArray[idx].status == 500">
+        <p text-right>Ce contact exist !</p>
+      </ion-item>
+
+
+      <ion-item *ngIf="contactArray[idx].status == 204">
+        <p text-right>Ce contact est deja invite</p>
+      </ion-item>
+
+      <ion-item *ngIf="contactArray[idx].status == 202">
+        <p text-right>Contact ajouter avec succes</p>
+      </ion-item>
+
+
+      <ion-item *ngIf="contactArray[idx].status == 200">
+        <p text-right style="color:green">Invitation envoyée</p>
+      </ion-item>
+
+
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="DelItem(idx)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
+
+  <ion-row>
+    <ion-col col-12 text-center>
+      <div class="center">
+        <button ion-button (click)="invitContacts()" style="background-color: #48d7e4;">
+          Envoyer
+        </button>
+      </div>
+    </ion-col>
+
+  </ion-row>
+
+
+</ion-content>

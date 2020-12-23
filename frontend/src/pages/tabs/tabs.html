@@ -1,7 +1,7 @@
-<ion-tabs selectedIndex="0" tabsPlacement="top">
+<ion-tabs selectedIndex="0" tabsPlacement="bottomn" #myTabs>
   <ion-tab [root]="tab1Root" [rootParams]="tabParams" tabIcon="events"></ion-tab>
   <ion-tab [root]="tab2Root" [rootParams]="tabParams"  tabIcon="myEvents"></ion-tab>
   <ion-tab [root]="tab4Root" [rootParams]="tabParams"  tabIcon="proposeEv"></ion-tab>
-  <ion-tab [root]="tab3Root" [rootParams]="tabParams"  tabIcon="profile"></ion-tab>
   <ion-tab [root]="tab5Root" [rootParams]="tabParams"  tabIcon="bonsplans"></ion-tab>
+  <ion-tab [root]="tab3Root" [tabBadge]="notifInvit > 0 ? notifInvit : ''" [rootParams]="tabParams"  tabIcon="profile"></ion-tab>
 </ion-tabs>

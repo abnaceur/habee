@@ -6,18 +6,39 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var db = require('./config/dbConnection');
 var bodyParser = require('body-parser');
+const rateLimiter = require('express-rate-limit-middleware').rateLimit
+const helmet = require('helmet');
+const fakeData = require("./api/fakeData/index")
+let mongoose = require('mongoose');
+
 
 // Main app
 var app = express();
 
+//Use hamlet 
+app.use(helmet())
 
 // Logs
 app.use(logger('dev'));
+
+// important if behind a proxy to ensure client IP is passed to req.ip
+//app.enable('trust proxy'); 
+ 
+
+//Map global promise
+mongoose.Promise = global.Promise;
+
 
 // Body parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
+// Limit request per ip address
+// app.use(rateLimiter({
+//   limit: 1000, 
+//   reset: '1 hour'
+// }))
 
 // Fix CORS errors
 app.use((req, res, next) => {
@@ -37,8 +58,6 @@ app.use((req, res, next) => {
 var indexRouter = require('./api/routes/index');
 var usersRouter = require('./api/routes/users');
 var communitiesRouter = require('./api/routes/communities');
-var passionsRouter = require('./api/routes/passions');
-var skillsRouter = require('./api/routes/skills');
 var eventsRouter = require('./api/routes/events');
 
 // Open connection to the database
@@ -50,6 +69,13 @@ db.once('open', function() {
 db.on('error', function(err){
   console.log('Error while connecting to database: ', err)
 });
+
+// Generate data
+// fakeData.generateUserData();
+// setTimeout(() => {
+//   fakeData.generateEventData();
+// }, 2500)
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -66,8 +92,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/communities', communitiesRouter);
-app.use('/passions', passionsRouter);
-app.use('/skills', skillsRouter);
 app.use('/events', eventsRouter);
 
 // catch 404 and forward to error handler

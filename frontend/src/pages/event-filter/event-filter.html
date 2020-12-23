@@ -1,0 +1,62 @@
+<ion-header style="height: 50px;
+background-color: #48d7e4;">
+
+  <ion-icon style="z-index: 2222" class="closeStyle" (click)='closeFilterModal()' name="close-circle"></ion-icon>
+
+  <ion-icon class="vlidateStyle" (click)="closeConfirmModal()" name="checkmark-circle"></ion-icon>
+
+  <ion-title style="width: 49vw; position: relative; top: 15px; left: 19vw;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Liste des filtres</span>
+  </ion-title>
+
+</ion-header>
+
+<ion-content class="outer-content" fullscreen>
+
+
+
+  <ion-list style="position: relative; top: 20px">
+    <ion-list-header>
+      <ion-label>Tri par communauté</ion-label>
+    </ion-list-header>
+    <ion-item *ngIf="allCommunities.length > 1">
+      <ion-label>Tout selectionné</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="selectAllCommunitiesFilters" (ionChange)="selectAllCommunitiesFiltesFunc()">
+      </ion-checkbox>
+    </ion-item>
+
+    <span *ngFor="let community of allCommunities">
+      <ion-item>
+        <ion-label>{{community.communityName}}</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="community.value" color="success"></ion-checkbox>
+      </ion-item>
+    </span>
+
+  </ion-list>
+
+  <ion-list style="position: relative; top: 20px">
+    <ion-list-header>
+      <ion-label>Tri par catégorie</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <span slot="start" class="dot"></span>
+      <ion-label>Tout selectionné</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="selectAllFilters" (ionChange)="selectAllFiltersFunc()" color="success">
+      </ion-checkbox>
+    </ion-item>
+
+    <span *ngFor="let filter of allfilters">
+      <ion-item style="background-color: blanchedalmond;" *ngIf="filter.name == 'Publique'">
+          <ion-label>Combiner les Filtres avec {{filter.name}}</ion-label>
+          <ion-checkbox slot="end" [(ngModel)]="filter.value" color="success"></ion-checkbox>
+      </ion-item>
+      <ion-item *ngIf="filter.name != 'Publique'">
+        <ion-label>{{filter.name}}</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="filter.value" color="success"></ion-checkbox>
+      </ion-item>
+    </span>
+
+  </ion-list>
+
+</ion-content>

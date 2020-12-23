@@ -1,26 +1,152 @@
 page-login {
 
-}
 
-.myview{
-    background-image: url('../assets/imgs/loginPage.png');
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-height: 750px) {
+  .myview {
+    background-image: url('../assets/imgs/loginPage2.png');
     background-repeat: no-repeat;
     background-size: cover;
-}
+    position: relative;
+  }
 
-.form-login {
+  .formLogin-email {
+    margin-bottom: 20px;
+  }
+
+  .authFailedClass {
+    >div {
+      background-color: goldenrod !important;
+    }
+  }
+
+  .form-login {
     position: relative;
     height: 300px;
-    top: 210px;
+    top: 87vw;
     background: transparent;
+  }
 }
 
-.formLogin-email {
-    margin-bottom: 20px;
-}
-
-.authFailedClass {
-    > div{
-        background-color:goldenrod!important;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-height: 751px) {
+    .myview {
+      background-image: url('../assets/imgs/loginPage2.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
     }
+  
+    .formLogin-email {
+      margin-bottom: 20px;
+    }
+  
+    .authFailedClass {
+      >div {
+        background-color: goldenrod !important;
+      }
+    }
+  
+    .form-login {
+      position: relative;
+      height: 300px;
+      top: 97vw;
+      background: transparent;
+    }
+  }
+
+  /* Extra small devices (phones, 600px and down) */
+@media only screen and (min-height: 800px) {
+    .myview {
+      background-image: url('../assets/imgs/loginPage2.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+  
+    .formLogin-email {
+      margin-bottom: 20px;
+    }
+  
+    .authFailedClass {
+      >div {
+        background-color: goldenrod !important;
+      }
+    }
+  
+    .form-login {
+      position: relative;
+      height: 300px;
+      top: 107vw;
+      background: transparent;
+    }
+  }
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  
 }
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 411px) {
+ 
+
+}
+
+
+  .toast-success {
+    > div{
+         background-color: red !important;
+     }
+  }
+ 
+}
+
+.terms-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  padding: 50px !important;
+}
+
+// .md .modal-wrapper {
+//   height: 74%;
+// }
+
+  .toolbar-background {
+  color: red !important;
+}
+
+.terms-modal .modal-wrapper {
+  z-index: 10;
+  height: 39%;
+  contain: strict;
+}
+.terms-modal ion-modal.modal-wrapper {
+  transform: translateY(30%) !important;
+}
+.terms-modal ion-page.modal {
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.terms-modal .modal-backdrop-bg {
+  background-color: #000;
+  opacity: 0;
+}
+.terms-modal .active .modal-backdrop-bg {
+  opacity: 0.5;
+}
+
+.terms-modal ion-modal.inset-modal {
+  // transparent black background overlay
+  background-color: rgba(0, 0, 0, .5) !important;
+  transition: opacity .25s ease-in-out;
+  padding: 20vh 10vw;
+}
+
+ 

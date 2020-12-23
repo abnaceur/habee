@@ -5,9 +5,10 @@ let communitySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     communityId: String,
 	communityName: String,
-	communityLogo: String,
-	communityAdmin: [],
-	communityMembers: [],
+    communityLogo: String,
+    communityCreator: String,
+    communityMembers: [],
+    communityDescripton: String,
 	dateOfCreation: {
         type: Date,
         default: Date.now,
@@ -16,14 +17,14 @@ let communitySchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-	companyName: String,
-	clientId: String,
     communityIsActive: {
         type: Boolean,
         default: true,
-	},
-	communityCurrentEvents: [],
-	communityPassedEvents: []
+    },
+    communityIsDeleted: {
+        type: Boolean,
+        default: false,
+	}
 });
 
 module.exports = mongoose.model('Community', communitySchema);

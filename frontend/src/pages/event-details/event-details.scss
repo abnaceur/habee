@@ -1,0 +1,532 @@
+page-event-details {
+  $black-overlay: rgba(0, 0, 0, .5);
+  $text-color: #666;
+  $banner-text-color: white;
+  $content-color: whitesmoke;
+  $detail-background: rgba(236, 236, 236, .8);
+
+  @import url('https://fonts.googleapis.com/css?family=Dosis');
+
+  :root {
+    /* generic */
+    --gutterSm: 0.4rem;
+    --gutterMd: 0.8rem;
+    --gutterLg: 1.6rem;
+    --gutterXl: 2.4rem;
+    --gutterXx: 7.2rem;
+    --colorPrimary400: #7e57c2;
+    --colorPrimary600: #5e35b1;
+    --colorPrimary800: #4527a0;
+    --fontFamily: "Dosis", sans-serif;
+    --fontSizeSm: 1.2rem;
+    --fontSizeMd: 1.6rem;
+    --fontSizeLg: 2.1rem;
+    --fontSizeXl: 2.8rem;
+    --fontSizeXx: 3.6rem;
+    --lineHeightSm: 1.1;
+    --lineHeightMd: 1.8;
+    --transitionDuration: 300ms;
+    --transitionTF: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    /* floated labels */
+    --inputPaddingV: var(--gutterMd);
+    --inputPaddingH: var(--gutterLg);
+    --inputFontSize: var(--fontSizeLg);
+    --inputLineHeight: var(--lineHeightMd);
+    --labelScaleFactor: 0.8;
+    --labelDefaultPosY: 50%;
+    --labelTransformedPosY: calc((var(--labelDefaultPosY)) - (var(--inputPaddingV) * var(--labelScaleFactor)) - (var(--inputFontSize) * var(--inputLineHeight)));
+    --inputTransitionDuration: var(--transitionDuration);
+    --inputTransitionTF: var(--transitionTF);
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 10px;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    color: #455A64;
+    background-color: #7E57C2;
+    font-family: var(--fontFamily);
+    font-size: var(--fontSizeMd);
+    line-height: var(--lineHeightMd);
+  }
+
+  .Wrapper {
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
+
+  .Title {
+    margin: 0 0 var(--gutterXx) 0;
+    padding: 0;
+    color: #fff;
+    font-size: var(--fontSizeXx);
+    font-weight: 400;
+    line-height: var(--lineHeightSm);
+    text-align: center;
+    text-shadow: -0.1rem 0.1rem 0.2rem var(--colorPrimary800);
+  }
+
+  .Input {
+    position: relative;
+  }
+
+  .Input-text {
+    display: block;
+    margin: 0;
+    padding: var(--inputPaddingV) var(--inputPaddingH);
+    color: inherit;
+    width: 100%;
+    font-family: inherit;
+    font-size: var(--inputFontSize);
+    font-weight: inherit;
+    line-height: var(--inputLineHeight);
+    border: none;
+    border-radius: 0.4rem;
+    transition: box-shadow var(--transitionDuration);
+  }
+
+  .Input-text::placeholder {
+    color: #B0BEC5;
+  }
+
+  .Input-text:focus {
+    outline: none;
+    box-shadow: 0.2rem 0.8rem 1.6rem var(--colorPrimary600);
+  }
+
+  .Input-label {
+    display: block;
+    position: absolute;
+    bottom: 50%;
+    left: 1rem;
+    color: #fff;
+    font-family: inherit;
+    font-size: var(--inputFontSize);
+    font-weight: inherit;
+    line-height: var(--inputLineHeight);
+    opacity: 0;
+    transform:
+      translate3d(0, var(--labelDefaultPosY), 0) scale(1);
+    transform-origin: 0 0;
+    transition:
+      opacity var(--inputTransitionDuration) var(--inputTransitionTF),
+      transform var(--inputTransitionDuration) var(--inputTransitionTF),
+      visibility 0ms var(--inputTransitionDuration) var(--inputTransitionTF),
+      z-index 0ms var(--inputTransitionDuration) var(--inputTransitionTF);
+  }
+
+  .Input-text:placeholder-shown+.Input-label {
+    visibility: hidden;
+    z-index: -1;
+  }
+
+  .Input-text:not(:placeholder-shown)+.Input-label,
+  .Input-text:focus:not(:placeholder-shown)+.Input-label {
+    visibility: visible;
+    z-index: 1;
+    opacity: 1;
+    transform:
+      translate3d(0, var(--labelTransformedPosY), 0) scale(var(--labelScaleFactor));
+    transition:
+      transform var(--inputTransitionDuration),
+      visibility 0ms,
+      z-index 0ms;
+  }
+
+  /* Header */
+  .toolbar-background {
+    border-color: transparent;
+    background: $black-overlay;
+  }
+
+  .bar-button,
+  .toolbar-title {
+    color: $banner-text-color;
+  }
+
+  /* Image */
+  .housing-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 50vh;
+    position: relative;
+  }
+
+  .toolbar-md {
+    padding: 4px;
+    min-height: 0px;
+  }
+
+  .housing-banner {
+    color: $banner-text-color;
+    background: $black-overlay;
+    height: 10vh;
+    width: 100vw;
+    position: absolute;
+    bottom: -1px;
+
+    .housing-title {
+      display: block;
+      font-size: 1.2rem;
+    }
+
+    .price {
+      font-size: 3rem;
+    }
+  }
+
+  /* Content */
+  .content {
+    background: $content-color;
+  }
+
+  .scroll-content {
+    padding-top: 0 !important;
+  }
+
+  .main-content {
+    color: $text-color;
+  }
+
+  .listing-details ion-col {
+    padding: 1rem;
+    margin: 0.45rem;
+    background: $detail-background;
+
+    ion-icon {
+      margin-right: .5rem;
+    }
+  }
+
+  .main-features {
+    color: #1aa6d0;
+    background-color: white;
+
+    ion-icon {
+      font-size: 3.8rem !important;
+    }
+  }
+
+  .item-block {
+    text-align: center;
+    display: block;
+  }
+
+  .img-scroll {
+    height: 63px;
+    width: 57px;
+    position: relative;
+    bottom: 10px;
+    border-radius: 100%;
+  }
+
+  .item-md ion-avatar[item-left],
+  .item-md ion-thumbnail[item-left],
+  .item-md ion-avatar[item-start],
+  .item-md ion-thumbnail[item-start] {
+    margin: -38px 26px 9px 0;
+  }
+
+  .item ion-thumbnail {
+    width: 10rem;
+    height: 10rem;
+
+    img {
+      width: 10rem;
+      height: 15rem;
+    }
+  }
+
+
+  .bar-sep {}
+
+  .subscribedClass {
+    >div {
+      background-color: black !important;
+    }
+  }
+
+
+  .toolbar-title-md {
+    padding: 0 12px;
+    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .bar-button-default-md,
+  .bar-button-clear-md-default,
+  .bar-button-md-default {
+    color: white;
+    background-color: transparent;
+  }
+
+
+  .styleParticipants {
+    margin-top: 11px;
+    color: rgb(204, 162, 184);
+    font-weight: bolder;
+    font-size: 17px;
+    font-family: sans-serif;
+  }
+
+
+
+
+  .img-scroll-add {
+    height: 33px;
+    width: 27px;
+    position: relative;
+    bottom: 20px;
+  }
+
+  .scroll-zoom-wrapper {
+    margin-top: 19px;
+  }
+
+  page-popup-modal {
+
+    ion-modal,
+    .show-page {
+      // transparent black background overlay
+      background-color: rgba(0, 0, 0, .5) !important;
+      padding: 50px !important;
+    }
+
+    .toolbar-background {
+      color: red !important;
+    }
+
+    ion-modal.modal-wrapper {
+      transform: translateY(30%) !important;
+    }
+
+    ion-page.modal {
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-backdrop-bg {
+      background-color: #000;
+      opacity: 0;
+    }
+
+    .active .modal-backdrop-bg {
+      opacity: 0.5;
+    }
+  }
+
+  ion-modal.inset-modal {
+    // transparent black background overlay
+    background-color: rgba(0, 0, 0, .5) !important;
+    transition: opacity .25s ease-in-out;
+    padding: 20vh 10vw;
+  }
+
+  * allows the bar-footer to be elastic
+
+  /*
+/* optionally set a max-height */
+  /* maxlength on the textarea will prevent /*
+/* it from getting too large also */
+  .bar-footer {
+    overflow: visible !important;
+  }
+
+  .bar-footer textarea {
+    resize: none;
+    height: 25px;
+  }
+
+  /* fixes an ios bug bear */
+  button.ion-android-send {
+    padding-top: 2px;
+  }
+
+  .footer-btn {
+    font-size: x-large;
+  }
+
+  img.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10px;
+  }
+
+  img.profile-pic.left {
+    left: 10px;
+  }
+
+  img.profile-pic.right {
+    right: 10px;
+  }
+
+  .ion-email {
+    float: right;
+    font-size: 32px;
+    vertical-align: middle;
+  }
+
+  .message {
+    font-size: 14px;
+    color: black
+  }
+
+  .message-detail {
+    white-space: nowrap;
+    font-size: 14px;
+    color: black;
+  }
+
+  .bar.item-input-inset .item-input-wrapper input {
+    width: 100% !important;
+  }
+
+  .message-wrapper {
+    position: relative;
+  }
+
+  .message-wrapper:last-child {
+    margin-bottom: 0%;
+  }
+
+  .chat-bubble {
+    border-radius: 5px;
+    display: inline-block;
+    padding: 10px 18px;
+    position: relative;
+    margin: 10px;
+    max-width: 80%;
+  }
+
+  .chat-bubble:before {
+    content: "\00a0";
+    display: block;
+    height: 16px;
+    width: 9px;
+    position: absolute;
+    bottom: -7.5px;
+  }
+
+  .chat-bubble.left {
+    background-color: #e6e5eb;
+    float: left;
+    margin-left: 55px;
+    width: 70%;
+  }
+
+  .chat-bubble.left:before {
+    background-color: #e6e5eb;
+    left: 10px;
+    -webkit-transform: rotate(70deg) skew(5deg);
+  }
+
+  .chat-bubble.right {
+    background-color: #158ffe;
+    color: #fff;
+    float: right;
+    margin-right: 55px;
+  }
+
+  .chat-bubble.right:before {
+    background-color: #158ffe;
+    right: 10px;
+    -webkit-transform: rotate(118deg) skew(-5deg);
+  }
+
+  .chat-bubble.right a.autolinker {
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .user-messages-top-icon {
+    font-size: 28px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -3px;
+    right: 5px;
+  }
+
+  .msg-header-username {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -3px;
+  }
+
+  input,
+  textarea,
+  .item-input,
+  .item-input-wrapper {
+    background-color: #f4f4f4 !important;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .cf {
+    clear: both !important;
+  }
+
+  a.autolinker {
+    color: #3b88c3;
+    text-decoration: none;
+  }
+
+  /* loading */
+  .loader-center {
+    height: 100%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  .loader .ion-loading-c {
+    font-size: 64px;
+  }
+
+
+}

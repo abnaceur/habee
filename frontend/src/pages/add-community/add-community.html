@@ -1,0 +1,60 @@
+<ion-header style="height: 50px;
+  background-color: #48d7e4;">
+
+  <ion-icon style="z-index: 1111;" item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+
+
+  <ion-title style="position: relative; top: 13px;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Créer une Team</span>
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-list>
+      <form [formGroup]="addCommunityForm" (ngSubmit)="onSubmit(addCommunityForm.value)">
+
+
+
+        <ion-item>
+          <!--   <ion-label floating>E-mail</ion-label> -->
+          <ion-input style="color:black" placeholder="Nom" (ionChange)="inputValidation = ''"  formControlName="communityTitle" type="text"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <!--   <ion-label floating>E-mail</ion-label> -->
+          <ion-textarea style="color:black" placeholder="Description" formControlName="communityDescription"
+            type="text"></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngIf="inputValidation != ''">
+          <p>{{inputValidation}}</p> 
+        </ion-item>
+
+        <ion-item>
+          <ion-label style="color: gray">
+            Ajouter une image &nbsp; &nbsp;
+            <ion-fab>
+              <ion-icon style="color: gray" (click)="changePicture()" name="camera"></ion-icon>
+            </ion-fab>
+          </ion-label>
+
+        </ion-item>
+
+
+        <ion-row>
+          <ion-col col-12 text-center>
+            <div class="center">
+              <button ion-button type="submit" style="background-color: #48d7e4;">
+                Ajouter
+              </button>
+            </div>
+          </ion-col>
+
+        </ion-row>
+
+      </form>
+    </ion-list>
+  </ion-grid>
+</ion-content>

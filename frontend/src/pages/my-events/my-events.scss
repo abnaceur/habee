@@ -1,9 +1,157 @@
 page-my-events {
 
-}
+  ion-slides {
+    height: 100%;
+ }
 
-.myview_myevents{
+  img {
+    max-width: 10.6rem !important;
+    max-height: 10.6rem !important;
+  }
+
+  .myview_events {
     background-image: url('../assets/imgs/MainBackground_1.png');
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .styleParticipants {
+    margin-top: 11px;
+    background-color: #48d7e4;
+    color: white;
+    padding: 0vw 10px;
+    border-radius: 20%;
+    font-weight: bolder;
+    font-size: 15px;
+    font-family: monospace;
+  }
+
+  .card-background-page {
+
+    ion-card {
+      position: relative;
+      text-align: center;
+    }
+
+    .card-title {
+      position: absolute;
+      top: 47%;
+      font-size: 2.0em;
+      width: 100%;
+      font-weight: bold;
+      color: #fff;
+      left: -2px;
+    }
+
+    .card-subtitle {
+      font-size: 1.0em;
+      position: absolute;
+      bottom: 10%;
+      left: 25%;
+      width: 100%;
+      color: #fff;
+    }
+
+  }
+
+  .timeStyle {
+    font-size: 1.4em;
+    position: absolute;
+    display: inline-block;
+    color: #3594cb;
+    top: 15%;
+    left: 67%;
+  }
+
+  .eventFooter {
+    position: relative;
+    height: 65px;
+  }
+
+  .menuStyle {
+    position: relative;
+    float: left;
+    top: 6px;
+    left: 4%;
+    font-size: 40px;
+    color: #3b3b3b
+  }
+
+  .comLogo {
+    position: absolute;
+    display: inline;
+    left: 54px;
+    height: 64%;
+    top: 19%;
+  }
+
+  .item ion-thumbnail {
+    min-width: 5rem;
+    min-height: 5rem;
+
+    img {
+      max-width: 6rem;
+      min-width: 5rem;
+    }
+  }
+
+
+  .commName {
+    position: absolute;
+    display: inline-flex;
+    left: 27%;
+    top: 37%;
+    color: aliceblue;
+    font-weight: bolder;
+    font-size: 19px;
+    font-family: sans-serif;
+  }
+
+  .optionsStyle {
+    position: relative;
+    float: right;
+    top: 12px;
+    right: 4%;
+    font-size: 30px;
+    color: floralwhite
+  }
+
+  .toolbar-background-md {
+    background-color: #5cbcc1;
+    ;
+  }
+
+
+  #notifications-badge {
+    background-color: #7683ab;
+    position: absolute;
+    // display: inline-table;
+    width: 18px;
+    height: 18px;
+    top: 6px;
+    z-index: 11;
+    right: 5px;
+    border-radius: 100%;
+  }
+
+  #badg-notif {
+    position: absolute;
+    z-index: 11;
+    right: -10px;
+    font-size: 12px;
+    /* height: 16px; */
+    top: -8px;
+    border-radius: 100%;
+  }
+
+  .scroll-content {
+    bottom: 56px;
+  }
+
+  ion-content.has-refresher > .scroll-content {
+    padding-bottom: 61px;
+    background-color: inherit;
+  }
+  
 }
+

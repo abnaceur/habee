@@ -1,0 +1,52 @@
+<ion-header style="height: 50px;
+  background-color: #48d7e4;">
+
+  <ion-icon item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 11px;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Modifier mon profil</span>
+  </ion-title>
+</ion-header>
+  
+<ion-content padding>
+  <ion-grid>
+    <ion-list>
+      <form [formGroup]="modifierProfileForm" (ngSubmit)="onSubmit(modifierProfileForm.value)">
+  
+        <ion-item>
+          <!--   <ion-label floating>E-mail</ion-label> -->
+          <ion-input style="color:silver" placeholder={{currentUser.profileLastname}} formControlName="profileLastname" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <!--   <ion-label floating>E-mail</ion-label> -->
+            <ion-input style="color:silver" placeholder={{currentUser.profileFirstname}} formControlName="profileFirstname" type="text"></ion-input>
+          </ion-item>
+
+        <ion-item text-wrap>
+          <ion-label style="color: gray">
+            Uploader une photo &nbsp; &nbsp;
+            <ion-fab>
+              <ion-icon style="color: gray" (click)="changePicture()" name="camera"></ion-icon>
+            </ion-fab>
+          </ion-label>
+  
+        </ion-item>
+        
+        <ion-row>
+          <ion-col col-12 text-center>
+            <div class="center">
+              <button ion-button type="submit" style="background-color: #48d7e4;">
+                Modifier
+              </button>
+            </div>
+          </ion-col>
+    
+        </ion-row>
+
+      </form>
+    </ion-list>
+  </ion-grid>   
+  </ion-content>
+  

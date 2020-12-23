@@ -1,7 +1,34 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+
+import {
+  Http,
+  Headers
+} from '@angular/http';
+
 import "rxjs/add/operator/map";
-import { environment as ENV } from '../../environments/environment';
+
+import {
+  environment as ENV
+} from '../../environments/environment';
+
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ToastController,
+  LoadingController,
+  ModalController
+} from 'ionic-angular';
+
+import {
+  FileTransfer,
+  FileTransferObject,
+  FileUploadOptions
+} from '@ionic-native/file-transfer';
+
+import {
+  File
+} from '@ionic-native/file';
 
 
 /*
@@ -13,8 +40,13 @@ import { environment as ENV } from '../../environments/environment';
 @Injectable()
 export class UtilsProvider {
 
-  constructor(public http: Http) {
-    console.log('Hello UtilsProvider Provider');
+  constructor(
+    public http: Http,
+    private file: File,
+    private transfer: FileTransfer,
+    private loadingCTRL: LoadingController,
+    private toastController: ToastController,
+  ) {
   }
 
   filter_array(arrayIn) {
@@ -33,6 +65,40 @@ export class UtilsProvider {
     return result;
   }
 
+  uploadPhoto(currentImage) {
+    return new Promise((resolve, reject) => {
+      let loader = this.loadingCTRL.create({
+        content: "uploading..."
+      });
+
+      loader.present();
+
+      const fileTransfer: FileTransferObject = this.transfer.create();
+
+      var random = Math.floor(Math.random() * 100);
+
+      let options: FileUploadOptions = {
+        fileKey: "file",
+        fileName: 'uploadedImage' + random + '.jpg',
+        chunkedMode: false,
+        httpMethod: "post",
+        mimeType: "image/jpeg",
+        headers: {}
+      }
+
+      fileTransfer.upload(currentImage, ENV.BASE_URL + '/events/mobile/photo/upload', options)
+        .then(data => {
+          resolve(data.response);
+          // success
+        }, (err) => {
+          // error
+          let error = "Error"
+          resolve(error);
+        })
+      loader.dismiss();
+    })
+  }
+
   inihttpHeaderWIthToken(token) {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
@@ -41,4 +107,40 @@ export class UtilsProvider {
 
     return header;
   }
+
+  notification(msg, side) {
+    let subscribedToast = this.toastController.create({
+      message: msg,
+      duration: 2000,
+      dismissOnPageChange: true,
+      position: side,
+      cssClass: "toast-success"
+    });
+    subscribedToast.present()
+  }
+
+  checkStringExist(str, needle) {
+    let i = 0;
+    let a = 0;
+    let t = 0;
+    let z = needle.length;
+
+    while (str[i]) {
+      t = i;
+      while (str[t] == needle[a]) {
+        z--;
+        t++;
+        a++;
+        if (z == 0)
+          return true;
+      }
+
+      a = 0;
+      t = 0;
+      z = needle.length;
+      i++;
+    }
+    return false;
+  }
+
 }

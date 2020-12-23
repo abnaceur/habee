@@ -4,13 +4,209 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header style="height: 50px;">
-    <ion-icon style="position:relative; float: right; top:10px; left: -10px; font-size: 38px; font-weight: bold; color: floralwhite"
-    menuToggle name="more"></ion-icon>
 
+<ion-header style="height: 50px;
+  background-color: #45D8E5;">
+
+  <ion-icon item-right class="optionsStyle pop-in" (click)="dismiss()" name="close"></ion-icon>
+
+
+  <ion-title style="width: 66vw; position: relative; top: 11px;">
+    <span style="font-size: 17px;color: white; font-weight: bold">Proposer
+      un événement</span>
+  </ion-title>
 </ion-header>
 
-
 <ion-content class="myview_proposedEvent" padding>
+
+  <ion-list>
+    <form [formGroup]="proposeEventForm" (ngSubmit)="onSubmit(proposeEventForm.value)">
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input placeholder="Nom de l'événement" formControlName="eventTitle" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventTitle.hasError('required') && proposeEventForm.controls.eventTitle.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+      <ion-item (click)="openCalendar()" text-wrap>
+        <ion-icon name="calendar" item-left></ion-icon>
+
+        <ion-label style="color: black">
+          {{dateLabel}}
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="validateStartEndData != ''">
+        <p>{{validateStartEndData}}</p>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-icon style="color: black" name="time" item-left>
+        </ion-icon>
+        <ion-label style="color: black">
+          Heure de début
+        </ion-label>
+
+        <ion-datetime style="position: relative;float: left; color: black" name="eventStartHour" type="time"
+          placeholder="Heur de début" displayFormat="HH:mm" formControlName="eventStartHour"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon style="color: black" name="time" item-left>
+        </ion-icon>
+
+        <ion-label style="color: black">
+          Heure de fin
+        </ion-label>
+
+        <ion-datetime style="position: relative;float: right; color: black" name="eventEndHour" type="time"
+          placeholder="Heur de fin" displayFormat="HH:mm" formControlName="eventEndHour"></ion-datetime>
+      </ion-item>
+
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventStartHour.hasError('required') && proposeEventForm.controls.eventStartHour.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+
+
+      <ion-item>
+        <ion-label style="color: black">Catégorie</ion-label>
+        <ion-select formControlName="eventCategory" multiple="false">
+          <ion-option *ngFor="let filter of allfilters">{{filter.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventCategory.hasError('required') && proposeEventForm.controls.eventCategory.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+
+      <ion-item no-lines>
+        <ion-label>
+          Lieu du rendez-vous &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon name=""></ion-icon>
+          </ion-fab>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-input placeholder="Entrez votre lieu" formControlName="eventLocation" type="text"></ion-input>
+      </ion-item>
+
+
+      <!-- <ion-item
+        *ngIf="proposeEventForm.controls.eventLocation.hasError('required') && proposeEventForm.controls.eventLocation.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item> -->
+
+      <ion-item no-lines>
+        <ion-label>
+          Nombre de participants requis/attendus &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon name=""></ion-icon>
+          </ion-fab>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-input placeholder="Nombre participants" formControlName="eventNbrParticipants" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item
+        *ngIf="proposeEventForm.controls.eventNbrParticipants.hasError('required') && proposeEventForm.controls.eventNbrParticipants.touched">
+        <p>Ce champs est obligatoire!</p>
+      </ion-item>
+
+
+      <ion-item no-lines>
+        <ion-label>
+          Description &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon name=""></ion-icon>
+          </ion-fab>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <!--   <ion-label floating>E-mail</ion-label> -->
+        <ion-textarea placeholder="Entrez une description" formControlName="eventDescription" type="text">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label>
+          Avec quelle(s) team(s) partager l'event ? &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon name=""></ion-icon>
+          </ion-fab>
+        </ion-label>
+      </ion-item>
+
+      <ion-scroll scrollX="true" style="white-space: nowrap; height: 55px; width: 100%;
+      min-height: 40px;">
+        <a *ngFor="let com of allCommunities">
+          <ion-badge (click)="com.selected = !com.selected; selectedCommunityList(com)"
+            [ngStyle]='{"background-color" : com.selected == false ? "silver" : "#45D8E5", "color" : com.selected == false ? "white": "white"}'>
+            {{com.value}}</ion-badge>
+        </a>
+      </ion-scroll>
+
+      <ion-item *ngIf="validateCommunities != ''">
+        <p>{{validateCommunities}}</p>
+      </ion-item>
+
+
+      <ion-item no-lines>
+        <ion-label>
+            Visibilité de l'evènement en publique &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon name=""></ion-icon>
+          </ion-fab>
+        </ion-label>
+      </ion-item>
+
+      <ion-item no-padding>
+        <ion-label no-padding text-wrap>Public</ion-label>
+        <ion-toggle formControlName="eventIsPublic" color="success"></ion-toggle>
+      </ion-item>
+
+
+
+      <ion-item>
+        <ion-label>
+          Ajouter une image &nbsp; &nbsp;
+          <ion-fab>
+            <ion-icon (click)="changePicture()" name="camera"></ion-icon>
+          </ion-fab>
+        </ion-label>
+
+      </ion-item>
+
+      <!-- <ion-item>
+        <img class="avatarPicture" [src]="chosenPicture || placeholder"
+          onerror="this.src='assets/img/defaultsEvent.png'" />
+      </ion-item> -->
+
+
+      <ion-row>
+        <ion-col col-12 text-center>
+          <div class="center">
+            <button ion-button [disabled]="!proposeEventForm.valid" type="submit" style="background-color: #45D8E5;">
+              Cree
+            </button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-list>
 
 </ion-content>

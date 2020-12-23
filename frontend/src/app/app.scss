@@ -14,3 +14,185 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+// Material Design Sidemenu
+
+// Setup custom icons 
+ion-icon {
+  &[class*="custom-"] {
+    mask-size: contain;
+    mask-position: 50% 50%;
+    mask-repeat: no-repeat;
+    background: currentColor;
+    width: 1em;
+    height: 1em;
+  }
+
+  &[class*="custom-profile"] {
+    mask-image: url(../assets/icon/profile.svg);
+  }
+}
+
+#profile-image-menu {
+  position: absolute;
+  top: -9px;
+  left: 10px;
+  width: 28%;
+  height: 13%;
+  display: block;
+  border-radius: 100px;
+  border: 1px solid #fff;
+  margin: 30px auto 0;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.7);
+}
+
+#profile-icon-menu {
+  width: 11%;
+  left: 12px;
+}
+
+#profile-name-menu {
+  position: absolute;
+  top: 144px;
+  left: 20px;
+  color: black;
+  font-family: cursive;
+  font-size: 17px;
+}
+
+.menu-head {
+  position: relative;
+  width: 400px;
+}
+
+#menu-community {
+  .menu-header {
+    padding: 5px 15px;
+    background-image: url('../assets/img/misc/material-design-background.jpg');
+    background-size: cover;
+    color: white;
+
+    .name {
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .e-mail {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+  }
+
+  .user-avatar {
+    padding: .5em;
+    height: 12vh;
+  }
+
+  h3,
+  .label,
+    {
+    color: #999;
+    font-weight: 400;
+  }
+
+  ion-icon {
+    color: #777;
+  }
+}
+
+#menu-material {
+  .menu-header {
+    padding: 5px 15px;
+    background-image: url('../assets/img/misc/material-design-background.jpg');
+    background-size: cover;
+    color: white;
+
+    .name {
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .e-mail {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+  }
+
+  .user-avatar {
+    padding: .5em;
+    height: 12vh;
+  }
+
+  h3,
+  .label,
+    {
+    color: #999;
+    font-weight: 400;
+  }
+
+  ion-icon {
+    color: #777;
+  }
+}
+
+#menu-avatar {
+  .user-avatar {
+    display: block;
+    border-radius: 50%;
+    width: auto;
+    height: 100px;
+    margin: 0 auto 0;
+    box-shadow: 0px 11px 20px -3px rgba(142, 136, 146, 0.75);
+    padding: .5em;
+  }
+
+  h3,
+  .label {
+    color: white;
+    font-weight: bold;
+  }
+
+  .item {
+    background: transparent;
+  }
+
+  ion-content {
+    //background: linear-gradient(48deg, rgba(157, 72, 173, 0.8) 0%, rgba(157, 72, 173, 0.86) 28%, rgba(0, 168, 168, 0.98) 93%, rgba(0, 168, 168, 1) 100%);
+    background: linear-gradient(#e66465, #9198e5);
+  }
+
+  .menu-inner {
+    background: rgba(255, 255, 255, .3);
+  }
+}
+
+#menu-community1 {
+  .user-avatar {
+    display: block;
+    border-radius: 50%;
+    width: auto;
+    height: 100px;
+    margin: 0 auto 0;
+    box-shadow: 0px 11px 20px -3px rgba(142, 136, 146, 0.75);
+    padding: .5em;
+  }
+
+  h3,
+  .label {
+    color: white;
+    font-weight: bold;
+  }
+
+  .item {
+    background: transparent;
+  }
+
+  ion-content {
+    //background: linear-gradient(48deg, rgba(157, 72, 173, 0.8) 0%, rgba(157, 72, 173, 0.86) 28%, rgba(0, 168, 168, 0.98) 93%, rgba(0, 168, 168, 1) 100%);
+    background: linear-gradient(#e66465, #9198e5);
+  }
+
+  .menu-inner {
+    background: rgba(255, 255, 255, .3);
+  }
+}

@@ -1,9 +1,265 @@
 page-events {
-}
+  @mixin ribbonize ($ribbon-color, $text-color: white, $border-width: 3px) {
+    span {
+      color: $text-color;
+      background: $ribbon-color;
+
+      &::before {
+        border-left: $border-width solid $ribbon-color;
+        border-top: $border-width solid $ribbon-color;
+      }
+
+      &::after {
+        border-right: $border-width solid $ribbon-color;
+        border-top: $border-width solid $ribbon-color;
+      }
+    }
+  }
+
+  $default: #f53d3d;
+  $cruzeiro: #387ef5;
+  $atletico: darken(#f4f4f4, 45%);
+  $javascript: #f7e023;
+
+  .item-ribbon {
+    background-color: #fff;
+    position: relative;
+    filter: none;
+    opacity: 1;
+
+    .ribbon {
+      position: absolute;
+      right: -5px;
+      top: -5px;
+      z-index: 2;
+      overflow: hidden;
+      width: 75px;
+      height: 75px;
+      text-align: right;
+
+      span {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #fff;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 20px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        width: 100px;
+        display: block;
+        background: $default;
+        position: absolute;
+        top: 19px;
+        right: -21px;
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 100%;
+          z-index: -1;
+          border-left: 3px solid $default;
+          border-right: 3px solid transparent;
+          border-bottom: 3px solid transparent;
+          border-top: 3px solid $default;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          right: 0;
+          top: 100%;
+          z-index: -1;
+          border-left: 3px solid transparent;
+          border-right: 3px solid $default;
+          border-bottom: 3px solid transparent;
+          border-top: 3px solid $default;
+        }
+      }
+    }
+  }
+
+  .ribbon.cruzeiro {
+    @include ribbonize($cruzeiro);
+  }
+
+  .ribbon.atletico {
+    @include ribbonize($atletico);
+  }
+
+  .ribbon.javascript {
+    @include ribbonize($javascript, black);
+  }
+
+  .swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 90%;
+  }
 
 
-.myview_events{
-    background-image: url('../assets/imgs/MainBackground_1.png');
+  ion-slides {
+    height: initial;
+  }
+
+  .myview_events {
+   // background-image: url('../assets/imgs/MainBackground_1.png');
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .card-background-page {
+
+    ion-card {
+      position: relative;
+      text-align: center;
+    }
+
+    .card-title {
+      position: absolute;
+      top: 47%;
+      font-size: 2.0em;
+      width: 100%;
+      font-weight: bold;
+      color: #fff;
+      left: -2px;
+    }
+
+    .card-subtitle {
+      font-size: 1.0em;
+      position: absolute;
+      bottom: 10%;
+      left: 25%;
+      width: 100%;
+      color: #fff;
+    }
+
+  }
+
+  .timeStyle {
+    font-size: 1.4em;
+    position: absolute;
+    display: inline-block;
+    color: #3594cb;
+    top: 15%;
+    left: 67%;
+  }
+
+  .eventFooter {
+    position: relative;
+    height: 65px;
+  }
+
+  .menuStyle {
+    position: relative;
+    float: left;
+    top: 6px;
+    left: 4%;
+    font-size: 40px;
+    color: #3b3b3b
+  }
+
+  .comLogo {
+    position: absolute;
+    display: inline;
+    left: 54px;
+    height: 64%;
+    border-radius: 16%;
+    width: 10%;
+    top: 19%;
+  }
+
+  // .item ion-thumbnail {
+  //   min-width: 5rem;
+  //   min-height: 5rem;
+
+  //   img {
+  //     max-width: 6rem;
+  //     min-width: 5rem;
+  //   }
+  // }
+
+
+  .styleParticipants {
+    margin-top: 11px;
+    background-color: #48d7e4;
+    color: white;
+    padding: 0vw 10px;
+    border-radius: 20%;
+    font-weight: bolder;
+    font-size: 15px;
+    font-family: monospace;
+  }
+
+  .commName {
+    position: absolute;
+    display: inline-flex;
+    left: 27%;
+    top: 37%;
+    color: #3b3b3b;
+    font-weight: bolder;
+    font-size: 19px;
+    font-family: sans-serif;
+  }
+
+  .optionsStyle {
+    position: relative;
+    float: right;
+    top: -11px;
+    right: 4%;
+    font-size: 30px;
+    color: #3b3b3b
+  }
+
+  .optionsStyle1 {
+    z-index: 1111;
+    position: initial;
+    top: 14px;
+    margin-left: 10px;
+    font-size: 30px;
+    color: floralwhite
+  }
+
+  .toolbar-background-md {
+    background-color: #48d7e4;
+    ;
+  }
+
+
+  #notifications-badge {
+    background-color: #7683ab;
+    position: absolute;
+    // display: inline-table;
+    width: 18px;
+    height: 18px;
+    top: 6px;
+    z-index: 11;
+    right: 5px;
+    border-radius: 100%;
+  }
+
+  #badg-notif {
+    position: absolute;
+    z-index: 11;
+    right: -10px;
+    font-size: 12px;
+    /* height: 16px; */
+    top: -8px;
+    border-radius: 100%;
+  }
+}
+
+ion-content.has-refresher>.scroll-content {
+  padding-bottom: 61px;
+  background-color: inherit;
 }

@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Confirmation</ion-title>
+    <ion-buttons (click)="dismiss()" end>
+      <button ion-button icon-only>
+        <ion-icon color="primary" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div text-wrap no-padding>
+    <img src="../../assets/img/deleteAccount.png" alt="" />
+    <ion-item>
+      Êtes-vous sûr de vouloir supprimer votre compte définitivement ?
+    </ion-item>
+  </div>
+
+  <ion-row>
+    <ion-col col-12 text-center>
+      <div class="center">
+        <button ion-button color="danger" (click)="deleteAccount()">
+          Confirmer
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+
+
+
+</ion-content>
