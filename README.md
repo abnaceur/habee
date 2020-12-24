@@ -6,6 +6,27 @@ HABEE PROJECT
 Habee is a hybrid plateform for enterprise to leverage the human wellbeing
 and make the professional environement a pleasnat place to be in.
 
+## Screenshots
+
+Download the application : https://play.google.com/store/apps/details?id=io.habee.starter
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee1.png?raw=true)
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee2.png?raw=true)
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee3.png?raw=true)
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee4.png?raw=true)
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee5.png?raw=true)
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee6.png?raw=true)
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee7.png?raw=true)
+
+![](https://github.com/abnaceur/habee/blob/develop/documentation/habee8.png?raw=true)
+
+
 ## Team 
  - Abdeljalil : http://naceur-abdeljalil.com
 
@@ -64,7 +85,7 @@ A template ready for usage is also avaible in the *misc* floder, at the root of 
 Get the source:
 
 ```bash
-git clone https://me-me@bitbucket.org/habee2/habee.git
+git clone https://github.com/abnaceur/habee.git
 ```
 
 Edit your `/etc/hosts` file:
